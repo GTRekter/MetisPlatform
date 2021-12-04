@@ -16,61 +16,61 @@
         {
             "Korean":"일 번",
             "English":"1st",
-            "Roman":"ilbon",
+            "Roman":"il-bon",
             "Example":""
         },
         {
             "Korean":"이 번",
             "English":"2nd",
-            "Roman":"ibon",
+            "Roman":"i-bon",
             "Example":""
         },
         {
             "Korean":"삼 번",
             "English":"3rd",
-            "Roman":"sambon",
+            "Roman":"sam-bon",
             "Example":""
         },
         {
             "Korean":"사 번",
             "English":"4th",
-            "Roman":"yabon",
+            "Roman":"ya-bon",
             "Example":""
         },
         {
             "Korean":"오 번",
             "English":"5th",
-            "Roman":"obon",
+            "Roman":"o-bon",
             "Example":""
         },
         {
             "Korean":"육 번",
             "English":"6th",
-            "Roman":"yubon",
+            "Roman":"yug-beon",
             "Example":""
         },
         {
             "Korean":"칠 번",
             "English":"7th",
-            "Roman":"chilbon",
+            "Roman":"chil-bon",
             "Example":""
         },
         {
             "Korean":"팔 번",
             "English":"8th",
-            "Roman":"palbon",
+            "Roman":"pal-bon",
             "Example":""
         },
         {
             "Korean":"구 번",
             "English":"9th",
-            "Roman":"gubon",
+            "Roman":"gu-bon",
             "Example":""
         },
         {
             "Korean":"십 번",
             "English":"10th",
-            "Roman":"sibbon",
+            "Roman":"sib-bon",
             "Example":""
         },
         {
@@ -154,7 +154,7 @@
         {
             "Korean":"의자 가게",
             "English":"Chair Store",
-            "Roman":"",
+            "Roman":"uija gage",
             "Example":""
         },
         {
@@ -177,7 +177,7 @@
         },
         {
             "Korean":"응, 어",
-            "English":"Yes (casual) ",
+            "English":"Yes (casual)",
             "Roman":"eung, eo",
             "Example":""
         },
@@ -231,7 +231,7 @@
         },
         {
             "Korean":"괜찮아요",
-            "English":"It's fine(casual)",
+            "English":"It's fine (casual)",
             "Roman":"gwaenchanhayo",
             "Example":""
         }
