@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import { Row, Col, Card, CardTitle, CardText } from 'reactstrap';
+import { Row, Col, Card, CardTitle, CardText, CardFooter } from 'reactstrap';
+import { FileTrayFullOutline, AlertCircleOutline, LibraryOutline } from 'react-ionicons'
 
 export default class ScoreBoard extends Component {
     constructor(props) {
@@ -15,32 +16,47 @@ export default class ScoreBoard extends Component {
             <div>
                 <Row>
                     <Col sm="4">
-                        <Card body>
-                            <CardTitle tag="h5">
-                                Words 
-                            </CardTitle>
+                        <Card className='bg-primary text-white h-100' body>
                             <CardText>
-                                {this.props.wordsCount}
+                                <Row>
+                                    <Col md="3">
+                                        <FileTrayFullOutline color={'#FFFFFF'} width="100%" height="100%" />
+                                    </Col>
+                                    <Col md="9">
+                                        <p className='h3'>{this.props.wordsCount}</p>
+                                        <p>Total Words</p>
+                                    </Col>
+                                </Row>
                             </CardText>
                         </Card>
                     </Col>
                     <Col sm="4">
-                        <Card body>
-                            <CardTitle tag="h5">
-                                Errors
-                            </CardTitle>
+                        <Card className='bg-warning text-white h-100' body>
                             <CardText>
-                                {this.props.errorsCount}
+                                <Row>
+                                    <Col md="3">
+                                        <LibraryOutline color={'#FFFFFF'} width="100%" height="100%" />
+                                    </Col>
+                                    <Col md="9">
+                                        <p className='h3'>{this.props.wordsCount - (this.props.errorsCount + this.props.correctCount)}</p>
+                                        <p>Words remanining</p>
+                                    </Col>
+                                </Row>
                             </CardText>
                         </Card>
                     </Col>
                     <Col sm="4">
-                        <Card body>
-                            <CardTitle tag="h5">
-                                Words remanining
-                            </CardTitle>
+                        <Card className='bg-danger text-white h-100' body>
                             <CardText>
-                                {this.props.wordsCount - (this.props.errorsCount + this.props.correctCount)}
+                                <Row>
+                                    <Col md="3">
+                                        <AlertCircleOutline color={'#FFFFFF'} width="100%" height="100%" />
+                                    </Col>
+                                    <Col md="9">
+                                        <p className='h3'>{this.props.errorsCount}</p>
+                                        <p>Errors</p>
+                                    </Col>
+                                </Row>
                             </CardText>
                         </Card>
                     </Col>

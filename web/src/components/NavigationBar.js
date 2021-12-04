@@ -30,7 +30,7 @@ export default class NavigationBar extends Component {
               </DropdownToggle>
               <DropdownMenu>
                 <DropdownItem>    
-                  <Link className="nav-link" to='/words'>List</Link>
+                  <Link className="nav-link" to='/wordlist'>List</Link>
                 </DropdownItem>
               </DropdownMenu>
             </UncontrolledDropdown>
@@ -42,9 +42,9 @@ export default class NavigationBar extends Component {
                 <DropdownItem>
                   <Link className="nav-link" to='/reading-exercise'>Reading</Link>
                 </DropdownItem>
-                <DropdownItem>
+                {/* <DropdownItem>
                   <Link className="nav-link" to='/writing-exercise'>Writing</Link>
-                </DropdownItem>
+                </DropdownItem> */}
               </DropdownMenu>
             </UncontrolledDropdown>
           </Nav>

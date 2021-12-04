@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { Table, Button } from 'reactstrap';
-// import ProductsService from '../services/ProductsServices'
+
+import data from '../data/lesson01.json';
 
 export default class WordList extends Component {
     constructor(props) {
@@ -8,48 +9,40 @@ export default class WordList extends Component {
         this.state = {
             words: []
         }
-        this.onClickDelete = this.onClickDelete.bind(this);
     }
     componentDidMount() {
-        // ProductsService.getAllProducts()
-        //     .then((data) => {
-        //         this.setState({ products: data })
-        //         console.log(this.state.data)
-        //     })
-        //     .catch(function (ex) {
-        //         console.log('Response parsing failed. Error: ', ex);
-        //     });;
+        this.loadDictionaryFromFile();
     }
-    onClickDelete = (id) => {
-        console.log(id);
-        // ProductsService.deleteProduct(id)
-        //     .then(() => {
-        //         console.log('Product succesfully deleted');
-        //         const products = this.state.products.filter(prod => prod.id !== id)
-        //         this.setState({products})
-        //     })
-        //     .catch(function (ex) {
-        //         console.log('Response parsing failed. Error: ', ex);
-        //     });
+    loadDictionaryFromFile = () => {
+        const mappedJson = data.words.map(item => {
+            return {
+                korean: item.korean,
+                english: item.english,
+                roman: item.roman
+            }
+        });
+        this.setState({ 
+            words: mappedJson
+        });
     };
     render() {
         return (
-            <Table dark data-element-id="words">
+            <Table data-element-id="words">
                 <thead>
                     <tr>
-                        <th>ID</th>
-                        <th>Name</th>
-                        <th>Price</th>
+                        <th>Korean</th>
+                        <th>English</th>
+                        <th>Roman</th>
                         <th></th>
                     </tr>
                 </thead>
                 <tbody>
                     {
-                        this.state.words.map(product =>
-                            <tr key={product.id}>
-                                <td>{product.id}</td>
-                                <td>{product.name}</td>
-                                <td><Button onClick={(e) => { this.onClickDelete(product.id); }}>Delete</Button></td>
+                        this.state.words.map(word =>
+                            <tr>
+                                <td>{word.korean}</td>
+                                <td>{word.english}</td>
+                                <td>{word.roman}</td>
                             </tr>
                         )
                     }
