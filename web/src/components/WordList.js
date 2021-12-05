@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
-import { Table, Button } from 'reactstrap';
-
-import data from '../data/lesson01.json';
+import LessonsService from '../services/LessonsService';
+import { Table } from 'reactstrap';
 
 export default class WordList extends Component {
     constructor(props) {
@@ -11,20 +10,11 @@ export default class WordList extends Component {
         }
     }
     componentDidMount() {
-        this.loadDictionaryFromFile();
-    }
-    loadDictionaryFromFile = () => {
-        const mappedJson = data.words.map(item => {
-            return {
-                korean: item.korean,
-                english: item.english,
-                roman: item.roman
-            }
-        });
+        const mappedJson = LessonsService.getAllWords();
         this.setState({ 
             words: mappedJson
         });
-    };
+    }
     render() {
         return (
             <Table data-element-id="words">

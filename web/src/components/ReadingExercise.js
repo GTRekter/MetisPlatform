@@ -1,9 +1,8 @@
 import React, { Component } from 'react';
 import ScoreBoard from './ScoreBoard';
-import { Card, CardBody, CardTitle, CardSubtitle, CardText, Button, Row, Col } from 'reactstrap';
+import LessonsService from '../services/LessonsService';
+import { Button, Row, Col } from 'reactstrap';
 import { HappyOutline, SadOutline, EyeOutline, EyeOffOutline, RefreshOutline } from 'react-ionicons'
-
-import data from '../data/lesson01.json';
 
 export default class ReadingExercise extends Component {
     constructor(props) {
@@ -12,15 +11,26 @@ export default class ReadingExercise extends Component {
             words: [],
             errors: [],
             correct: [],
+            lessonsCount: 0,
             currentWord: null,
             viewTranslation: false
         }
         this.onClickAddError = this.onClickAddError.bind(this);
         this.onClickAddCorrect = this.onClickAddCorrect.bind(this);
         this.onClickViewTranslation = this.onClickViewTranslation.bind(this);
+        this.onClickUpdateWordsByLessonId = this.onClickUpdateWordsByLessonId.bind(this);
+        this.onClickUpdateWordsByAll = this.onClickUpdateWordsByAll.bind(this);
     }
     componentDidMount() {
-        this.loadDictionaryFromFile();
+        const lessonsCount = LessonsService.getLessonsCount();
+        const mappedJson = LessonsService.getAllWords();
+        this.setState({
+            words: this.shuffle(mappedJson),
+            currentWord: mappedJson[0],
+            errors: [],
+            correct: [],
+            lessonsCount: lessonsCount
+        });
     }
     onClickAddError = () => {
         var self = this;
@@ -29,7 +39,7 @@ export default class ReadingExercise extends Component {
         })
         setTimeout(function () {
             self.updateCounters(true);
-        }, 3000);
+        }, 2000);
     };
     onClickAddCorrect = () => {
         var self = this;
@@ -37,8 +47,8 @@ export default class ReadingExercise extends Component {
             viewTranslation: true
         })
         setTimeout(function () {
-           self.updateCounters(false);
-        }, 3000);
+            self.updateCounters(false);
+        }, 2000);
     };
     onClickViewTranslation = () => {
         this.setState({
@@ -46,11 +56,36 @@ export default class ReadingExercise extends Component {
         })
     };
     onClickReset = () => {
-        this.loadDictionaryFromFile();
+        const mappedJson = LessonsService.getAllWords();
+        this.setState({
+            words: this.shuffle(mappedJson),
+            currentWord: mappedJson[0],
+            errors: [],
+            correct: []
+        });
+    };
+    onClickUpdateWordsByLessonId = (element) => {
+        var lessonId = element.target.getAttribute("data-index")
+        const mappedJson = LessonsService.getAllWordsFromLessonId(lessonId);
+        this.setState({
+            words: this.shuffle(mappedJson),
+            currentWord: mappedJson[0],
+            errors: [],
+            correct: []
+        });
+    };
+    onClickUpdateWordsByAll = () => {
+        const mappedJson = LessonsService.getAllWords();
+        this.setState({
+            words: this.shuffle(mappedJson),
+            currentWord: mappedJson[0],
+            errors: [],
+            correct: []
+        });
     };
     updateCounters(isError) {
         if (this.state.words.length > (this.state.errors.length + this.state.correct.length)) {
-            if(isError){
+            if (isError) {
                 this.setState({
                     errors: [...this.state.errors, this.state.currentWord],
                     currentWord: this.state.words[this.state.errors.length + this.state.correct.length],
@@ -74,38 +109,33 @@ export default class ReadingExercise extends Component {
             })
         }
     }
-    loadDictionaryFromFile = () => {
-        const mappedJson = data.words.map(item => {
-            return {
-                korean: item.korean,
-                english: item.english,
-                roman: item.roman
-            }
-        });
-        this.setState({
-            words: this.shuffle(mappedJson),
-            currentWord: mappedJson[0],
-            errors: [],
-            correct: []
-        });
-    };
     shuffle = (array) => {
         return array.sort(() => Math.random() - 0.5);
     };
     render() {
         if (this.state.viewTranslation) {
-            var transation = <CardText> {this.state.currentWord.korean} ({this.state.currentWord.roman}) </CardText>
+            var transation = <span>{this.state.currentWord.korean} ({this.state.currentWord.roman})</span>
             var translationIcon = <EyeOffOutline color={'#616161'} width="100px" height="100%" />
         } else {
             var translationIcon = <EyeOutline color={'#616161'} width="100px" height="100%" />
         }
+        var lessonsOptions = [];
+        lessonsOptions.push(<Button className='mx-1' color="primary" onClick={() => this.onClickUpdateWordsByAll()}>All</Button>);
+        for (var index = 0; index < this.state.lessonsCount; index++) {
+            lessonsOptions.push(<Button key={index} className='mx-1' color="primary" data-index={index} onClick={(element) => this.onClickUpdateWordsByLessonId(element)}>{index}</Button>);
+        }
         return (
             <div>
+                <Row className='mb-5'>
+                    <Col md='12' className='text-center'>
+                        {lessonsOptions}
+                    </Col>
+                </Row>
                 <ScoreBoard wordsCount={this.state.words.length + 1} errorsCount={this.state.errors.length} correctCount={this.state.correct.length} />
                 <Row className='position-absolute top-50 start-50 translate-middle'>
                     <Col className='text-center my-5'>
                         <p className='h1'>{this.state.currentWord != null ? this.state.currentWord.english : ""}</p>
-                        {transation}
+                        <p className='h2'>{transation}</p>
                     </Col>
                 </Row>
                 <Row className='position-absolute bottom-0 start-50 translate-middle-x pb-5'>

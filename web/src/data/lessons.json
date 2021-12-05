@@ -1,0 +1,460 @@
+[
+    {
+        "words": [
+            {
+                "korean": "모음",
+                "english": "vowel",
+                "roman": "mueum",
+                "example": ""
+            },
+            {
+                "korean": "자음",
+                "english": "consonant",
+                "roman": "jaeum",
+                "example": ""
+            },
+            {
+                "korean": "일 번",
+                "english": "1st",
+                "roman": "il-bon",
+                "example": ""
+            },
+            {
+                "korean": "이 번",
+                "english": "2nd",
+                "roman": "i-bon",
+                "example": ""
+            },
+            {
+                "korean": "삼 번",
+                "english": "3rd",
+                "roman": "sam-bon",
+                "example": ""
+            },
+            {
+                "korean": "사 번",
+                "english": "4th",
+                "roman": "ya-bon",
+                "example": ""
+            },
+            {
+                "korean": "오 번",
+                "english": "5th",
+                "roman": "o-bon",
+                "example": ""
+            },
+            {
+                "korean": "육 번",
+                "english": "6th",
+                "roman": "yug-beon",
+                "example": ""
+            },
+            {
+                "korean": "칠 번",
+                "english": "7th",
+                "roman": "chil-bon",
+                "example": ""
+            },
+            {
+                "korean": "팔 번",
+                "english": "8th",
+                "roman": "pal-bon",
+                "example": ""
+            },
+            {
+                "korean": "구 번",
+                "english": "9th",
+                "roman": "gu-bon",
+                "example": ""
+            },
+            {
+                "korean": "십 번",
+                "english": "10th",
+                "roman": "sib-bon",
+                "example": ""
+            },
+            {
+                "korean": "컴퓨터 게임 해요? 네, 해요",
+                "english": "Do you do computer game? yes, I do",
+                "roman": "kompyuteo geim haeyo ne, haeyo",
+                "example": ""
+            },
+            {
+                "korean": "한국",
+                "english": "Korea",
+                "roman": "hangug",
+                "example": ""
+            },
+            {
+                "korean": "한국어",
+                "english": "korean",
+                "roman": "hangug-o",
+                "example": ""
+            },
+            {
+                "korean": "중국",
+                "english": "China",
+                "roman": "jungug",
+                "example": ""
+            },
+            {
+                "korean": "중국어",
+                "english": "Chinese",
+                "roman": "jungug-o",
+                "example": ""
+            },
+            {
+                "korean": "영국",
+                "english": "England",
+                "roman": "yonggug",
+                "example": ""
+            },
+            {
+                "korean": "영어",
+                "english": "english",
+                "roman": "youngg-o",
+                "example": ""
+            },
+            {
+                "korean": "미국",
+                "english": "USA",
+                "roman": "migug",
+                "example": ""
+            },
+            {
+                "korean": "위",
+                "english": "Top",
+                "roman": "wi",
+                "example": ""
+            },
+            {
+                "korean": "아래",
+                "english": "Bottom",
+                "roman": "alae",
+                "example": ""
+            },
+            {
+                "korean": "만나서",
+                "english": "Both",
+                "roman": "mannaseo",
+                "example": ""
+            },
+            {
+                "korean": "반갑습니다",
+                "english": "Nice to Meet You",
+                "roman": "bangabswubnida",
+                "example": ""
+            },
+            {
+                "korean": "가게",
+                "english": "Store",
+                "roman": "gage",
+                "example": ""
+            },
+            {
+                "korean": "의자 가게",
+                "english": "Chair Store",
+                "roman": "uija gage",
+                "example": ""
+            },
+            {
+                "korean": "모자 가게",
+                "english": "Hat Store",
+                "roman": "moja gage",
+                "example": ""
+            },
+            {
+                "korean": "맞아요",
+                "english": "That's right",
+                "roman": "najayo",
+                "example": ""
+            },
+            {
+                "korean": "네, 예",
+                "english": "Yes (formal)",
+                "roman": "ne, ye",
+                "example": ""
+            },
+            {
+                "korean": "응, 어",
+                "english": "Yes (casual)",
+                "roman": "eung, eo",
+                "example": ""
+            },
+            {
+                "korean": "왜요?",
+                "english": "Why?",
+                "roman": "waeyo?",
+                "example": ""
+            },
+            {
+                "korean": "우유",
+                "english": "Milk",
+                "roman": "uyu",
+                "example": ""
+            },
+            {
+                "korean": "두유",
+                "english": "Soymilk",
+                "roman": "duyu",
+                "example": ""
+            },
+            {
+                "korean": "감사하다",
+                "english": "To thank",
+                "roman": "gamsahada",
+                "example": ""
+            },
+            {
+                "korean": "감사합니다",
+                "english": "Thank you (formal)",
+                "roman": "gamsahabnida",
+                "example": ""
+            },
+            {
+                "korean": "감사해요",
+                "english": "Thank you (casual)",
+                "roman": "gamsahayo",
+                "example": ""
+            },
+            {
+                "korean": "괜찮다",
+                "english": "Fine",
+                "roman": "gwaenchanhda",
+                "example": ""
+            },
+            {
+                "korean": "괜찮습니다",
+                "english": "It's fine (casual)",
+                "roman": "gwaenchanhseubnida",
+                "example": ""
+            },
+            {
+                "korean": "괜찮아요",
+                "english": "It's fine (casual)",
+                "roman": "gwaenchanhayo",
+                "example": ""
+            }
+        ]
+    },
+    {
+        "words": [
+            {
+                "korean": "또",
+                "english": "In addition, and",
+                "roman": "tto",
+                "example": ""
+            },
+            {
+                "korean": "아프다",
+                "english": "hurt",
+                "roman": "apeuda",
+                "example": ""
+            },
+            {
+                "korean": "아픕니다",
+                "english": "It hurts",
+                "roman": "apeubnida",
+                "example": ""
+            },
+            {
+                "korean": "아파요",
+                "english": "Sick",
+                "roman": "apayo",
+                "example": ""
+            },
+            {
+                "korean": "-아/어 보세요",
+                "english": "Try [VERB]-ing, please [VERB]",
+                "roman": "-a/eo boseyo",
+                "example": ""
+            },
+            {
+                "korean": "읽어 보세요",
+                "english": "Try reading this please",
+                "roman": "ilg-eo boseyo",
+                "example": ""
+            },
+            {
+                "korean": "들어 보세요",
+                "english": "Listen",
+                "roman": "deul-eo boseyo",
+                "example": ""
+            },
+            {
+                "korean": "-(으)세요",
+                "english": "(Please) [VERB]",
+                "roman": "-(eu)seyo",
+                "example": ""
+            },
+            {
+                "korean": "읽으세요",
+                "english": "Please read",
+                "roman": "ilg-euseyo",
+                "example": ""
+            },
+            {
+                "korean": "들으세요",
+                "english": "Please listen",
+                "roman": "deul-euseyo",
+                "example": ""
+            },
+            {
+                "korean": "미안하다",
+                "english": "Sorry",
+                "roman": "mianhada",
+                "example": ""
+            },
+            {
+                "korean": "미안합니다",
+                "english": "Sorry",
+                "roman": "mianhabnida",
+                "example": ""
+            },
+            {
+                "korean": "미안해요",
+                "english": "Sorry",
+                "roman": "mianhaeyo",
+                "example": ""
+            },
+            {
+                "korean": "자다",
+                "english": "Sleep",
+                "roman": "jada",
+                "example": ""
+            },
+            {
+                "korean": "잘 자요!",
+                "english": "Sleep well!",
+                "roman": "jal jayo!",
+                "example": ""
+            },
+            {
+                "korean": "잘 잤어요? 네, 저는 잘 잤어요",
+                "english": "Did you sleep well? Yes, I slept well",
+                "roman": "jal jass-eoyo? ne, jeoneun jal jass-eoyo",
+                "example": ""
+            },
+            {
+                "korean": "-동-",
+                "english": "-move-",
+                "roman": "",
+                "example": ""
+            },
+            {
+                "korean": "자동차",
+                "english": "automobile",
+                "roman": "-dong-",
+                "example": ""
+            },
+            {
+                "korean": "동사",
+                "english": "move (verb)",
+                "roman": "dongsa",
+                "example": ""
+            },
+            {
+                "korean": "짜파게티를 먹었어요",
+                "english": "I ate spaghetti",
+                "roman": "jjapagetileul meog-eoss-eoyo",
+                "example": ""
+            },
+            {
+                "korean": "오토바이가 있어요? 네, 있어요",
+                "english": "do you have a motorcycle? yes, I have it",
+                "roman": "otobaiga iss-eoyo? ne, iss-eoyo",
+                "example": ""
+            },
+            {
+                "korean": "회",
+                "english": "raw fish",
+                "roman": "hoe",
+                "example": ""
+            },
+            {
+                "korean": "저는 회를 좋아해요 / 저는 회가 좋아요",
+                "english": "I like raw fish",
+                "roman": "jeoneun hoeleul joh-ahaeyo / jeoneun hoega joh-ayo",
+                "example": ""
+            },
+            {
+                "korean": "영화",
+                "english": "Movies",
+                "roman": "yeonghwa",
+                "example": ""
+            },
+            {
+                "korean": "영화를 좋아했어요? 네, 좋아했어요",
+                "english": "Did you like movies? Yes, I liked it",
+                "roman": "yeonghwaleul joh-ahaess-eoyo? ne, joh-ahaess-eoyo",
+                "example": ""
+            },
+            {
+                "korean": "눈",
+                "english": "Eyes / Snow",
+                "roman": "nun",
+                "example": ""
+            },
+            {
+                "korean": "눈이 예뻐요",
+                "english": "Your eyes are pretty",
+                "roman": "nun-i yeppeoyo",
+                "example": ""
+            },
+            {
+                "korean": "저는 눈을 좋아해요",
+                "english": "I like snow",
+                "roman": "jeoneun nun-eul joh-ahaeyo",
+                "example": ""
+            },
+            {
+                "korean": "좋다",
+                "english": "Good",
+                "roman": "johda",
+                "example": ""
+            },
+            {
+                "korean": "좋은 저녁!",
+                "english": "Good evening!",
+                "roman": "joh-eun jeonyeog!",
+                "example": ""
+            },
+            {
+                "korean": "좋아요!",
+                "english": "Good!",
+                "roman": "joh-ayo!",
+                "example": ""
+            },
+            {
+                "korean": "맞다",
+                "english": "right",
+                "roman": "majda",
+                "example": ""
+            },
+            {
+                "korean": "맞아요?",
+                "english": "right?",
+                "roman": "maj-ayo?",
+                "example": ""
+            },
+            {
+                "korean": "네, 맞아요",
+                "english": "Yes that's right",
+                "roman": "ne, maj-ayo",
+                "example": ""
+            },
+            {
+                "korean": "안녕하다",
+                "english": "-hello(lit: be happy well)-",
+                "roman": "annyeonghada",
+                "example": ""
+            },
+            {
+                "korean": "안녕하십니까? / 안녕하세요?",
+                "english": "hello?",
+                "roman": "annyeonghasibnikka? / annyeonghaseyo?",
+                "example": ""
+            }
+        ]
+    }
+]
