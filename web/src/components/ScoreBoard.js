@@ -15,46 +15,46 @@ export default class ScoreBoard extends Component {
         return (
             <div>
                 <Row>
-                    <Col sm="4">
+                    <Col xs="4">
                         <Card className='bg-primary text-white h-100'>
                             <CardBody>
                                 <Row>
-                                    <Col md="3">
+                                    <Col xs="6" md="3">
                                         <FileTrayFullOutline color={'#FFFFFF'} width="100%" height="100%" />
                                     </Col>
-                                    <Col md="9">
+                                    <Col xs="6" md="9">
                                         <p className='h3'>{this.props.wordsCount}</p>
-                                        <p>Total Words</p>
+                                        <p className="d-none d-md-block">Total Words</p>
                                     </Col>
                                 </Row>
                             </CardBody>
                         </Card>
                     </Col>
-                    <Col sm="4">
+                    <Col xs="4">
                         <Card className='bg-warning text-white h-100'>
                             <CardBody>
                                 <Row>
-                                    <Col md="3">
+                                    <Col xs="6" md="3">
                                         <LibraryOutline color={'#FFFFFF'} width="100%" height="100%" />
                                     </Col>
-                                    <Col md="9">
+                                    <Col xs="6" md="9">
                                         <p className='h3'>{this.props.wordsCount - (this.props.errorsCount + this.props.correctCount)}</p>
-                                        <p>Words remanining</p>
+                                        <p className="d-none d-md-block">Words remanining</p>
                                     </Col>
                                 </Row>
                             </CardBody>
                         </Card>
                     </Col>
-                    <Col sm="4">
+                    <Col xs="4">
                         <Card className='bg-danger text-white h-100'>
                             <CardBody>
                                 <Row>
-                                    <Col md="3">
+                                    <Col xs="6" md="3">
                                         <AlertCircleOutline color={'#FFFFFF'} width="100%" height="100%" />
                                     </Col>
-                                    <Col md="9">
+                                    <Col xs="6" md="9">
                                         <p className='h3'>{this.props.errorsCount}</p>
-                                        <p>Errors</p>
+                                        <p className="d-none d-md-block">Errors</p>
                                     </Col>
                                 </Row>
                             </CardBody>

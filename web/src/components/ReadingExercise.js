@@ -39,7 +39,7 @@ export default class ReadingExercise extends Component {
         })
         setTimeout(function () {
             self.updateCounters(true);
-        }, 2000);
+        }, 1000);
     };
     onClickAddCorrect = () => {
         var self = this;
@@ -48,7 +48,7 @@ export default class ReadingExercise extends Component {
         })
         setTimeout(function () {
             self.updateCounters(false);
-        }, 2000);
+        }, 1000);
     };
     onClickViewTranslation = () => {
         this.setState({
@@ -113,11 +113,12 @@ export default class ReadingExercise extends Component {
         return array.sort(() => Math.random() - 0.5);
     };
     render() {
+        var translationIcon = null;
         if (this.state.viewTranslation) {
             var transation = <span>{this.state.currentWord.korean} ({this.state.currentWord.roman})</span>
-            var translationIcon = <EyeOffOutline color={'#616161'} width="100px" height="100%" />
+            translationIcon = <EyeOffOutline color={'#616161'} width="100%" height="100%" />
         } else {
-            var translationIcon = <EyeOutline color={'#616161'} width="100px" height="100%" />
+            translationIcon = <EyeOutline color={'#616161'} width="100%" height="100%" />
         }
         var lessonsOptions = [];
         lessonsOptions.push(<Button className='mx-1' color="primary" onClick={() => this.onClickUpdateWordsByAll()}>All</Button>);
@@ -132,31 +133,31 @@ export default class ReadingExercise extends Component {
                     </Col>
                 </Row>
                 <ScoreBoard wordsCount={this.state.words.length + 1} errorsCount={this.state.errors.length} correctCount={this.state.correct.length} />
-                <Row className='position-absolute top-50 start-50 translate-middle'>
+                <Row className='py-400'>
                     <Col className='text-center my-5'>
                         <p className='h1'>{this.state.currentWord != null ? this.state.currentWord.english : ""}</p>
                         <p className='h2'>{transation}</p>
                     </Col>
                 </Row>
-                <Row className='position-absolute bottom-0 start-50 translate-middle-x pb-5'>
-                    <Col md='3' className='text-center'>
-                        <Button className="bg-light p-5 rounded-circle" onClick={() => this.onClickAddCorrect()}>
-                            <HappyOutline color={'#616161'} width="100px" height="100%" />
+                <Row>
+                    <Col xs="6" md="3" className='text-center px-5 py-2'>
+                        <Button className="bg-light p-3 rounded-circle" onClick={() => this.onClickAddCorrect()}>
+                            <HappyOutline color={'#616161'} width="100%" height="100%" />
                         </Button>
                     </Col>
-                    <Col md='3' className='text-center'>
-                        <Button className="bg-light p-5 rounded-circle" onClick={() => this.onClickAddError()}>
-                            <SadOutline color={'#616161'} width="100px" height="100%" />
+                    <Col xs="6" md="3" className='text-center px-5 py-2'>
+                        <Button className="bg-light p-3 rounded-circle" onClick={() => this.onClickAddError()}>
+                            <SadOutline color={'#616161'} width="100%" height="100%" />
                         </Button>
                     </Col>
-                    <Col md='3' className='text-center'>
-                        <Button className="bg-light p-5 rounded-circle" onClick={() => this.onClickViewTranslation()}>
+                    <Col xs="6" md="3" className='text-center px-5 py-2'>
+                        <Button className="bg-light p-3 rounded-circle" onClick={() => this.onClickViewTranslation()}>
                             {translationIcon}
                         </Button>
                     </Col>
-                    <Col md='3' className='text-center'>
-                        <Button className="bg-light p-5 rounded-circle" onClick={() => this.onClickReset()}>
-                            <RefreshOutline color={'#616161'} width="100px" height="100%" />
+                    <Col xs="6" md="3" className='text-center px-5 py-2'>
+                        <Button className="bg-light p-3 rounded-circle" onClick={() => this.onClickReset()}>
+                            <RefreshOutline color={'#616161'} width="100%" height="100%" />
                         </Button>
                     </Col>
                 </Row>
