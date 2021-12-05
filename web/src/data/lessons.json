@@ -254,13 +254,13 @@
             {
                 "korean": "아픕니다",
                 "english": "It hurts",
-                "roman": "apeubnida",
+                "roman": "apeub-nida",
                 "example": ""
             },
             {
                 "korean": "아파요",
                 "english": "Sick",
-                "roman": "apayo",
+                "roman": "apa-yo",
                 "example": ""
             },
             {
@@ -272,13 +272,13 @@
             {
                 "korean": "읽어 보세요",
                 "english": "Try reading this please",
-                "roman": "ilg-eo boseyo",
+                "roman": "ilg-eo bose-yo",
                 "example": ""
             },
             {
                 "korean": "들어 보세요",
                 "english": "Listen",
-                "roman": "deul-eo boseyo",
+                "roman": "deul-eo bose-yo",
                 "example": ""
             },
             {
@@ -302,49 +302,49 @@
             {
                 "korean": "미안하다",
                 "english": "Sorry",
-                "roman": "mianhada",
+                "roman": "mianha-da",
                 "example": ""
             },
             {
                 "korean": "미안합니다",
                 "english": "Sorry",
-                "roman": "mianhabnida",
+                "roman": "mianhab-nida",
                 "example": ""
             },
             {
                 "korean": "미안해요",
                 "english": "Sorry",
-                "roman": "mianhaeyo",
+                "roman": "mian-haeyo",
                 "example": ""
             },
             {
                 "korean": "자다",
                 "english": "Sleep",
-                "roman": "jada",
+                "roman": "ja-da",
                 "example": ""
             },
             {
                 "korean": "잘 자요!",
                 "english": "Sleep well!",
-                "roman": "jal jayo!",
+                "roman": "jal ja-yo!",
                 "example": ""
             },
             {
                 "korean": "잘 잤어요? 네, 저는 잘 잤어요",
                 "english": "Did you sleep well? Yes, I slept well",
-                "roman": "jal jass-eoyo? ne, jeoneun jal jass-eoyo",
+                "roman": "jal jass-eoyo? ne, jeo-neun jal jass-eoyo",
                 "example": ""
             },
             {
                 "korean": "-동-",
                 "english": "-move-",
-                "roman": "",
+                "roman": "-dong-",
                 "example": ""
             },
             {
                 "korean": "자동차",
                 "english": "automobile",
-                "roman": "-dong-",
+                "roman": "ja-dong-cha",
                 "example": ""
             },
             {
@@ -356,7 +356,7 @@
             {
                 "korean": "짜파게티를 먹었어요",
                 "english": "I ate spaghetti",
-                "roman": "jjapagetileul meog-eoss-eoyo",
+                "roman": "jjapageti-leul meog-eoss-eoyo",
                 "example": ""
             },
             {
@@ -374,7 +374,7 @@
             {
                 "korean": "저는 회를 좋아해요 / 저는 회가 좋아요",
                 "english": "I like raw fish",
-                "roman": "jeoneun hoeleul joh-ahaeyo / jeoneun hoega joh-ayo",
+                "roman": "jeo-neun hoe-leul joh-ahaeyo / jeo-neun hoe-ga joh-ayo",
                 "example": ""
             },
             {
@@ -386,7 +386,7 @@
             {
                 "korean": "영화를 좋아했어요? 네, 좋아했어요",
                 "english": "Did you like movies? Yes, I liked it",
-                "roman": "yeonghwaleul joh-ahaess-eoyo? ne, joh-ahaess-eoyo",
+                "roman": "yeonghwa-leul joh-ahaess-eoyo? ne, joh-ahaess-eoyo",
                 "example": ""
             },
             {
@@ -398,19 +398,19 @@
             {
                 "korean": "눈이 예뻐요",
                 "english": "Your eyes are pretty",
-                "roman": "nun-i yeppeoyo",
+                "roman": "nun-i yeppeo-yo",
                 "example": ""
             },
             {
                 "korean": "저는 눈을 좋아해요",
                 "english": "I like snow",
-                "roman": "jeoneun nun-eul joh-ahaeyo",
+                "roman": "jeo-neun nun-eul joh-ahaeyo",
                 "example": ""
             },
             {
                 "korean": "좋다",
                 "english": "Good",
-                "roman": "johda",
+                "roman": "joh-da",
                 "example": ""
             },
             {
@@ -428,7 +428,7 @@
             {
                 "korean": "맞다",
                 "english": "right",
-                "roman": "majda",
+                "roman": "maj-da",
                 "example": ""
             },
             {
@@ -446,13 +446,13 @@
             {
                 "korean": "안녕하다",
                 "english": "-hello(lit: be happy well)-",
-                "roman": "annyeonghada",
+                "roman": "annyeong-hada",
                 "example": ""
             },
             {
                 "korean": "안녕하십니까? / 안녕하세요?",
                 "english": "hello?",
-                "roman": "annyeonghasibnikka? / annyeonghaseyo?",
+                "roman": "annyeonghasibnikka? / annyeonghase-yo?",
                 "example": ""
             }
         ]
