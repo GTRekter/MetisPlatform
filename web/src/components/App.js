@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Route } from 'react-router';
 import { Layout } from './Layout';
-import Home from './Home';
+// import Home from './Home';
 // import Login from './Login';
 import WordList from './WordList';
 import ReadingExercise from './ReadingExercise';
