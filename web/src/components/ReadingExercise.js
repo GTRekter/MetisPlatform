@@ -121,7 +121,7 @@ export default class ReadingExercise extends Component {
             translationIcon = <EyeOutline color={'#616161'} width="100%" height="100%" />
         }
         var lessonsOptions = [];
-        lessonsOptions.push(<Button className='mx-1' color="primary" onClick={() => this.onClickUpdateWordsByAll()}>All</Button>);
+        lessonsOptions.push(<Button key={null} className='mx-1' color="primary" onClick={() => this.onClickUpdateWordsByAll()}>All</Button>);
         for (var index = 0; index < this.state.lessonsCount; index++) {
             lessonsOptions.push(<Button key={index} className='mx-1' color="primary" data-index={index} onClick={(element) => this.onClickUpdateWordsByLessonId(element)}>{index}</Button>);
         }
