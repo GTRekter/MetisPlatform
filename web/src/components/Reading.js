@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import LessonsService from '../services/LessonsService';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faEye, faEyeSlash, faExclamationTriangle, faFlag, faThumbsUp, faThumbsDown, faChalkboardTeacher } from '@fortawesome/free-solid-svg-icons'
+import { faEye, faEyeSlash, faExclamationTriangle, faFlag, faThumbsUp, faThumbsDown, faChalkboardTeacher, faSync } from '@fortawesome/free-solid-svg-icons'
 import './Reading.css';
 
 export default class Reading extends Component {
@@ -117,9 +117,9 @@ export default class Reading extends Component {
         var translationIcon = null;
         if (this.state.viewTranslation) {
             transation = <h2>{this.state.currentWord.korean} ({this.state.currentWord.roman})</h2>
-            translationIcon = <FontAwesomeIcon className="link-light" icon={faEye} />
-        } else {
             translationIcon = <FontAwesomeIcon className="link-light" icon={faEyeSlash} />
+        } else {
+            translationIcon = <FontAwesomeIcon className="link-light" icon={faEye} />
         }
         var lessonsOptions = [];
         lessonsOptions.push(<li key="0"><span className="dropdown-item pointer" onClick={() => this.onClickUpdateWordsByAll()}>All</span></li>);
@@ -131,32 +131,35 @@ export default class Reading extends Component {
                 <div className="mx-n1 main-text">
                     <div className="py-2 px-4 text-end">
                         <ul className="list-inline">
-                            <div className="list-inline-item pointer" onClick={() => this.onClickViewTranslation()}>
+                            <div className="list-inline-item pointer px-2 d-none d-sm-inline" onClick={() => this.onClickViewTranslation()}>
                                 {translationIcon}
                             </div>
-                            <li className="list-inline-item px-4">
-                                <FontAwesomeIcon icon={faExclamationTriangle} />
-                                <span className="px-1">       
-                                    {this.state.errors.length}
-                                </span>
-                            </li>
-                            <li className="list-inline-item">
-                                <FontAwesomeIcon icon={faFlag} />
-                                <span className="px-1">     
-                                {this.state.errors.length + this.state.correct.length}  / {this.state.words.length} 
-                                </span>
-                            </li>
-                            <li className="list-inline-item">                 
+                            <li className="list-inline-item px-2">                 
                                 <div className="dropdown">
-                                    <FontAwesomeIcon icon={faChalkboardTeacher} />
-                                    <span className="dropdown-toggle pointer px-1" data-bs-toggle="dropdown" aria-expanded="false"> 
-                                        Lesson
-                                    </span>
+                                    <div className="dropdown-toggle pointer " data-bs-toggle="dropdown" aria-expanded="false"> 
+                                        <FontAwesomeIcon icon={faChalkboardTeacher} />
+                                        {/* <span className="d-sm-none d-md-inline px-1">Lesson</span> */}
+                                    </div>
                                     <ul className="dropdown-menu">
                                         {lessonsOptions}
                                     </ul>
                                 </div>
                             </li>
+                            <li className="list-inline-item px-2">
+                                <FontAwesomeIcon icon={faExclamationTriangle} />
+                                <span className="px-1">       
+                                    {this.state.errors.length}
+                                </span>
+                            </li>
+                            <li className="list-inline-item px-2">
+                                <FontAwesomeIcon icon={faFlag} />
+                                <span className="px-1">     
+                                    {this.state.errors.length + this.state.correct.length}  / {this.state.words.length} 
+                                </span>
+                            </li>
+                            <div className="list-inline-item px-2 pointer" onClick={() => this.onClickReset()}>
+                                <FontAwesomeIcon className="link-light" icon={faSync} />
+                            </div>
                         </ul>
                     </div>
                     <div className="py-5 text-center">
@@ -183,10 +186,13 @@ export default class Reading extends Component {
                 </div>
                 <div className="row mt-5 actions">
                     <div className="col-12 text-center">
-                        <button className="btn btn-success mx-5 text-white p-3 rounded-circle" onClick={() => this.onClickAddCorrect()}>
+                        <button className="btn btn-success mx-3 text-white rounded-circle" onClick={() => this.onClickAddCorrect()}>
                             <FontAwesomeIcon icon={faThumbsUp} />
                         </button>
-                        <button className="btn btn-danger mx-5 text-white p-3 rounded-circle" onClick={() => this.onClickAddError()}>
+                        <button className="btn btn-secondary mx-3 text-white rounded-circle d-inline d-sm-none" onClick={() => this.onClickViewTranslation()}>
+                            {translationIcon}
+                        </button>
+                        <button className="btn btn-danger mx-3 text-white rounded-circle" onClick={() => this.onClickAddError()}>
                             <FontAwesomeIcon icon={faThumbsDown} />
                         </button>
                     </div>

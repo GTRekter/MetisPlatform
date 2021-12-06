@@ -61,7 +61,7 @@ export default class Dictionary extends Component {
                 <div className="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
                     <h1 className="h2">Dictionary</h1>
                     <div className="btn-toolbar mb-2 mb-md-0">
-                        <div className="dropdown">
+                        <div className="dropdown px-2 py-2">
                             <span className="btn btn-secondary dropdown-toggle pointer" role="button" id="lessonFilterDropdown" data-bs-toggle="dropdown" aria-expanded="false">
                                 Lesson
                             </span>
@@ -69,9 +69,9 @@ export default class Dictionary extends Component {
                                 {lessonsOptions}
                             </ul>
                         </div>
-                        <div className="input-group mb-3 px-2">
+                        <div className="input-group mb-3 px-2 py-2">
                             <input type="text" className="form-control" placeholder="Word" aria-label="Word" />
-                            <button className="btn btn-outline-secondary" type="button" id="button-addon2">Search</button>
+                            <button className="btn btn-secondary" type="button" id="button-addon2">Search</button>
                         </div>
                     </div>
                 </div>

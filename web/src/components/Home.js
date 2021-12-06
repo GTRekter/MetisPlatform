@@ -14,10 +14,6 @@ export default class Home extends Component {
                         </div>
                     </div>
                 </div>
-                <div className="text-center text-white">
-                    <h1>Welcome to this Demo</h1>
-                    <p className="lead">Cypress</p>
-                </div>
             </div>
         )
     }
