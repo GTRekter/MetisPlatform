@@ -21,8 +21,6 @@ class LessonsService {
         return words; 
     }
     getAllWordsFromLessonId(lessonID){
-        console.log(lessonID);
-        console.log(data[lessonID]);
         return data[lessonID].words.map(item => {
             return {
                 korean: item.korean,
@@ -30,6 +28,31 @@ class LessonsService {
                 roman: item.roman
             }
         })      
+    }
+    getAllWordsFromString(wordString){
+        console.log(wordString);
+        var wordArrays = data.map(lesson => {
+            return lesson.words.map(item => {
+                return {
+                    korean: item.korean,
+                    english: item.english,
+                    roman: item.roman
+                }     
+            })
+        });   
+        console.log(wordArrays);
+        var words = [];
+        for(var i = 0; i < wordArrays.length; i++) {
+            console.log(wordArrays[i]);
+            for(var k = 0; k < wordArrays[i].length; k++) {
+                if(wordArrays[i][k].korean.includes(wordString) 
+                || wordArrays[i][k].english.includes(wordString)
+                || wordArrays[i][k].roman.includes(wordString)){
+                    words.push(wordArrays[i][k]);
+                }  
+            }
+        }
+        return words;         
     }
 //     addProduct(name, price){
 //         return fetch(process.env.REACT_APP_API_BASEURL + "Product/AddProduct",{ 
