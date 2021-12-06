@@ -142,7 +142,7 @@
             {
                 "korean": "반갑습니다",
                 "english": "Nice to Meet You",
-                "roman": "bangabswubnida",
+                "roman": "bangabswub-nida",
                 "example": ""
             },
             {
@@ -208,31 +208,31 @@
             {
                 "korean": "감사합니다",
                 "english": "Thank you (formal)",
-                "roman": "gamsahabnida",
+                "roman": "gamsaha-bnida",
                 "example": ""
             },
             {
                 "korean": "감사해요",
                 "english": "Thank you (casual)",
-                "roman": "gamsahayo",
+                "roman": "gamsaha-yo",
                 "example": ""
             },
             {
                 "korean": "괜찮다",
                 "english": "Fine",
-                "roman": "gwaenchanhda",
+                "roman": "gwaenchanh-da",
                 "example": ""
             },
             {
                 "korean": "괜찮습니다",
-                "english": "It's fine (casual)",
-                "roman": "gwaenchanhseubnida",
+                "english": "It's fine (formal)",
+                "roman": "gwaenchanh-seubnida",
                 "example": ""
             },
             {
                 "korean": "괜찮아요",
                 "english": "It's fine (casual)",
-                "roman": "gwaenchanhayo",
+                "roman": "gwaenchanh-a-yo",
                 "example": ""
             }
         ]
