@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import LessonsService from '../services/LessonsService';
+import * as sdk from "microsoft-cognitiveservices-speech-sdk";
 
 export default class Dictionary extends Component {
     constructor(props) {
@@ -22,12 +23,33 @@ export default class Dictionary extends Component {
         this.setState({
             words: LessonsService.getAllWordsFromLessonId(lessonId)
         });
+        // this.synthesizeSpeech();
     };
     onClickUpdateWordsByAll = () => {
         this.setState({
             words: LessonsService.getAllWords()
         });
     };
+    // synthesizeSpeech = () => {
+    //     console.log(process.env.REACT_APP_AZURE_CS_SPEECH_KEY)
+
+    //     const speechConfig = sdk.SpeechConfig.fromSubscription(process.env.REACT_APP_AZURE_CS_SPEECH_KEY, process.env.REACT_APP_AZURE_CS_SPEECH_REGION);
+    //     const audioConfig = sdk.AudioConfig.fromDefaultSpeakerOutput();
+
+    //     const synthesizer = new sdk.SpeechSynthesizer(speechConfig, audioConfig);
+    //     synthesizer.speakTextAsync(
+    //         "Synthesizing directly to speaker output.",
+    //         result => {
+    //             if (result) {
+    //                 synthesizer.close();
+    //                 return result.audioData;
+    //             }
+    //         },
+    //         error => {
+    //             console.log(error);
+    //             synthesizer.close();
+    //         });
+    // }
     render() {
         var lessonsOptions = [];
         lessonsOptions.push(<li key="0"><span className="dropdown-item pointer" onClick={() => this.onClickUpdateWordsByAll()}>All</span></li>);

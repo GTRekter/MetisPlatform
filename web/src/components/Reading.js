@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import LessonsService from '../services/LessonsService';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faEye, faEyeSlash, faExclamationTriangle, faFlag, faThumbsUp, faThumbsDown } from '@fortawesome/free-solid-svg-icons'
+import { faEye, faEyeSlash, faExclamationTriangle, faFlag, faThumbsUp, faThumbsDown, faChalkboardTeacher } from '@fortawesome/free-solid-svg-icons'
 import './Reading.css';
 
 export default class Reading extends Component {
@@ -121,6 +121,11 @@ export default class Reading extends Component {
         } else {
             translationIcon = <FontAwesomeIcon className="link-light" icon={faEyeSlash} />
         }
+        var lessonsOptions = [];
+        lessonsOptions.push(<li key="0"><span className="dropdown-item pointer" onClick={() => this.onClickUpdateWordsByAll()}>All</span></li>);
+        for (var index = 1; index <= this.state.lessonsCount; index++) {
+            lessonsOptions.push(<li key={index}><span className="dropdown-item pointer" data-index={index-1} onClick={(element) => this.onClickUpdateWordsByLessonId(element)}>{index}</span></li>);
+        }
         return (
             <div className="reading-block">
                 <div className="mx-n1 main-text">
@@ -140,6 +145,17 @@ export default class Reading extends Component {
                                 <span className="px-1">     
                                 {this.state.errors.length + this.state.correct.length}  / {this.state.words.length} 
                                 </span>
+                            </li>
+                            <li className="list-inline-item">                 
+                                <div className="dropdown">
+                                    <FontAwesomeIcon icon={faChalkboardTeacher} />
+                                    <span className="dropdown-toggle pointer px-1" data-bs-toggle="dropdown" aria-expanded="false"> 
+                                        Lesson
+                                    </span>
+                                    <ul className="dropdown-menu">
+                                        {lessonsOptions}
+                                    </ul>
+                                </div>
                             </li>
                         </ul>
                     </div>
