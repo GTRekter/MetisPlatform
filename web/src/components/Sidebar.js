@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faBook, faSpellCheck, faGlasses } from '@fortawesome/free-solid-svg-icons'
+import { faBook, faSpellCheck, faGlasses, faHome } from '@fortawesome/free-solid-svg-icons'
 import './Sidebar.css';
 
 export default class Sidebar extends Component {
@@ -10,6 +10,12 @@ export default class Sidebar extends Component {
             <div>
                 <div className="position-sticky pt-3">
                     <ul className="nav flex-column mb-2">
+                        <li className="nav-item">
+                            <Link className="nav-link" to='/'>
+                                <FontAwesomeIcon icon={faHome} />
+                                <span className="px-1 d-none d-md-inline">Home</span>
+                            </Link>
+                        </li>
                         <li className="nav-item">
                             <Link className="nav-link" to='/dictionary'>
                                 <FontAwesomeIcon icon={faBook} />

@@ -113,29 +113,29 @@ export default class Reading extends Component {
         return array.sort(() => Math.random() - 0.5);
     };
     render() {
+        var transation = <h2>&nbsp;</h2>;
         var translationIcon = null;
         if (this.state.viewTranslation) {
-            var transation = <h2>{this.state.currentWord.korean} ({this.state.currentWord.roman})</h2>
+            transation = <h2>{this.state.currentWord.korean} ({this.state.currentWord.roman})</h2>
             translationIcon = <FontAwesomeIcon className="link-light" icon={faEye} />
         } else {
-            var transation = <h2>&nbsp;</h2>
             translationIcon = <FontAwesomeIcon className="link-light" icon={faEyeSlash} />
         }
         return (
             <div className="reading-block">
-                <div class="mx-n1 main-text">
-                    <div class="py-2 px-4 text-end">
-                        <ul class="list-inline">
+                <div className="mx-n1 main-text">
+                    <div className="py-2 px-4 text-end">
+                        <ul className="list-inline">
                             <div className="list-inline-item pointer" onClick={() => this.onClickViewTranslation()}>
                                 {translationIcon}
                             </div>
-                            <li class="list-inline-item px-4">
+                            <li className="list-inline-item px-4">
                                 <FontAwesomeIcon icon={faExclamationTriangle} />
                                 <span className="px-1">       
                                     {this.state.errors.length}
                                 </span>
                             </li>
-                            <li class="list-inline-item">
+                            <li className="list-inline-item">
                                 <FontAwesomeIcon icon={faFlag} />
                                 <span className="px-1">     
                                 {this.state.errors.length + this.state.correct.length}  / {this.state.words.length} 
@@ -143,25 +143,25 @@ export default class Reading extends Component {
                             </li>
                         </ul>
                     </div>
-                    <div class="py-5 text-center">
-                        <h1 class="display-4 fst-italic">{this.state.currentWord != null ? this.state.currentWord.english : ""}</h1>
+                    <div className="py-5 text-center">
+                        <h1 className="display-4 fst-italic">{this.state.currentWord != null ? this.state.currentWord.english : ""}</h1>
                         {transation}
                     </div>
                 </div>
-                <ul class="nav nav-tabs mx-n1 nav justify-content-center py-3" role="tablist">
-                    <li class="nav-item" role="presentation"> 
-                        <p class="active nav-link link-light pointer" data-bs-toggle="tab" data-bs-target="#name" role="tab" aria-controls="name" aria-selected="true"> Name </p> 
+                <ul className="nav nav-tabs mx-n1 nav justify-content-center py-3" role="tablist">
+                    <li className="nav-item" role="presentation"> 
+                        <p className="active nav-link link-light pointer" data-bs-toggle="tab" data-bs-target="#name" role="tab" aria-controls="name" aria-selected="true"> Name </p> 
                     </li>
-                    <li class="nav-item" role="presentation"> 
-                        <p class="nav-link link-light pointer" data-bs-toggle="tab" data-bs-target="#examples" role="tab" aria-controls="examples" aria-selected="false"> Examples </p> 
+                    <li className="nav-item" role="presentation"> 
+                        <p className="nav-link link-light pointer" data-bs-toggle="tab" data-bs-target="#examples" role="tab" aria-controls="examples" aria-selected="false"> Examples </p> 
                     </li>
                 </ul>
-                <div class="border-grey bg-white p-3 tab-content">
-                    <div class="tab-pane active" id="name" role="tabpanel" aria-labelledby="name-tab">
+                <div className="border-grey bg-white p-3 tab-content">
+                    <div className="tab-pane active" id="name" role="tabpanel" aria-labelledby="name-tab">
                         <h3>Post title</h3>
-                        <p class="mb-auto">This is a wider card with supporting text below as a natural lead-in to additional content.</p>
+                        <p className="mb-auto">This is a wider card with supporting text below as a natural lead-in to additional content.</p>
                     </div>
-                    <div class="tab-pane" id="examples" role="tabpanel" aria-labelledby="examples-tab">
+                    <div className="tab-pane" id="examples" role="tabpanel" aria-labelledby="examples-tab">
                         <p> Luctor nisl. Nulla facilisi. Integer imperdiet faucibus ante. In eget sem non ex consectetur pharetra. Fusce sollicitudin purus sit amet dolor pulvinar congue. Donec luctus facilisis malesuada. Duis lobortis neque vel tortor aliquet sollicitudin. Donec sit amet dui mauris. Morbi in mattis libero, in sagittis nisl. Suspendisse tempor, mi pellentesque dictum venenatis, ipsum nisi lobortis risus, non finibus nisi ex vitae dolor. Duis augue nulla, finibus ut turpis ac, dictum laoreet sapien. Morbi vel ullamcorper dolor. Ut tempus sed metus quis consequat. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Aenean tempor pharetra nisi ut aliquet. Phasellus sit amet justo enim. </p>
                     </div>
                 </div>
