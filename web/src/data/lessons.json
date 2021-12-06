@@ -3,14 +3,14 @@
         "words": [
             {
                 "korean": "모음",
-                "english": "vowel",
+                "english": "Vowel",
                 "roman": "mueum",
                 "description": "",
                 "example": ""
             },
             {
                 "korean": "자음",
-                "english": "consonant",
+                "english": "Consonant",
                 "roman": "jaeum",
                 "description": "",
                 "example": ""
@@ -19,70 +19,70 @@
                 "korean": "일 번",
                 "english": "1st",
                 "roman": "il-bon",
-                "description": "",
+                "description": "일 [one] 번 [time/number]",
                 "example": ""
             },
             {
                 "korean": "이 번",
                 "english": "2nd",
                 "roman": "i-bon",
-                "description": "",
+                "description": "이 [two] 번 [time/number]",
                 "example": ""
             },
             {
                 "korean": "삼 번",
                 "english": "3rd",
                 "roman": "sam-bon",
-                "description": "",
+                "description": "삼 [three] 번 [time/number]",
                 "example": ""
             },
             {
                 "korean": "사 번",
                 "english": "4th",
-                "roman": "ya-bon",
-                "description": "",
+                "roman": "sa-bon",
+                "description": "사 [four] 번 [time/number]",
                 "example": ""
             },
             {
                 "korean": "오 번",
                 "english": "5th",
                 "roman": "o-bon",
-                "description": "",
+                "description": "오 [five] 번 [time/number]",
                 "example": ""
             },
             {
                 "korean": "육 번",
                 "english": "6th",
                 "roman": "yug-beon",
-                "description": "",
+                "description": "육 [six] 번 [time/number]",
                 "example": ""
             },
             {
                 "korean": "칠 번",
                 "english": "7th",
                 "roman": "chil-bon",
-                "description": "",
+                "description": "칠 [seven] 번 [time/number]",
                 "example": ""
             },
             {
                 "korean": "팔 번",
                 "english": "8th",
                 "roman": "pal-bon",
-                "description": "",
+                "description": "팔 [pal] 번 [time/number]",
                 "example": ""
             },
             {
                 "korean": "구 번",
                 "english": "9th",
                 "roman": "gu-bon",
-                "description": "",
+                "description": "구 [nine] 번 [time/number]",
                 "example": ""
             },
             {
                 "korean": "십 번",
                 "english": "10th",
                 "roman": "sib-bon",
-                "description": "",
+                "description": "십 [ten] 번 [time/number]",
                 "example": ""
             },
             {
@@ -101,7 +101,7 @@
             },
             {
                 "korean": "한국어",
-                "english": "korean",
+                "english": "Korean",
                 "roman": "hangug-o",
                 "description": "",
                 "example": ""
@@ -129,7 +129,7 @@
             },
             {
                 "korean": "영어",
-                "english": "english",
+                "english": "English",
                 "roman": "youngg-o",
                 "description": "",
                 "example": ""
@@ -180,21 +180,21 @@
                 "korean": "의자 가게",
                 "english": "Chair Store",
                 "roman": "uija gage",
-                "description": "",
+                "description": "의자 [chair] 가게 [store]",
                 "example": ""
             },
             {
                 "korean": "모자 가게",
                 "english": "Hat Store",
                 "roman": "moja gage",
-                "description": "",
+                "description": "모자 [hat] 가게 [store]",
                 "example": ""
             },
             {
                 "korean": "맞아요",
                 "english": "That's right",
-                "roman": "najayo",
-                "description": "",
+                "roman": "maja-yo",
+                "description": "맞다 [right]",
                 "example": ""
             },
             {
@@ -214,7 +214,7 @@
             {
                 "korean": "왜요?",
                 "english": "Why?",
-                "roman": "waeyo?",
+                "roman": "wae-yo?",
                 "description": "",
                 "example": ""
             },
@@ -235,7 +235,7 @@
             {
                 "korean": "감사하다",
                 "english": "To thank",
-                "roman": "gamsahada",
+                "roman": "gamsaha-da",
                 "description": "",
                 "example": ""
             },
@@ -243,19 +243,19 @@
                 "korean": "감사합니다",
                 "english": "Thank you (formal)",
                 "roman": "gamsaha-bnida",
-                "description": "",
+                "description": "Present (formal) form of 감사하다 [to thank]",
                 "example": ""
             },
             {
                 "korean": "감사해요",
                 "english": "Thank you (casual)",
                 "roman": "gamsaha-yo",
-                "description": "",
+                "description": "Present (casual) form of 감사하다 [to thank]",
                 "example": ""
             },
             {
                 "korean": "괜찮다",
-                "english": "Fine",
+                "english": "To be fine",
                 "roman": "gwaenchanh-da",
                 "description": "",
                 "example": ""
@@ -264,14 +264,14 @@
                 "korean": "괜찮습니다",
                 "english": "It's fine (formal)",
                 "roman": "gwaenchanh-seubnida",
-                "description": "",
+                "description": "Present (formal) form of 괜찮다 [to be fine]",
                 "example": ""
             },
             {
                 "korean": "괜찮아요",
                 "english": "It's fine (casual)",
                 "roman": "gwaenchanh-a-yo",
-                "description": "",
+                "description": "Present (casual) form of 괜찮다 [to be fine]",
                 "example": ""
             }
         ]
@@ -287,7 +287,7 @@
             },
             {
                 "korean": "아프다",
-                "english": "to be sick",
+                "english": "To be sick",
                 "roman": "apeu-da",
                 "description": "",
                 "example": ""
@@ -296,14 +296,14 @@
                 "korean": "아픕니다",
                 "english": "It hurts",
                 "roman": "apeub-nida",
-                "description": "Present (casual) form of 아프다 (to be sick)",
+                "description": "Present (formal) form of 아프다 [to be sick]",
                 "example": ""
             },
             {
                 "korean": "아파요",
                 "english": "It hurts / I'm sick",
                 "roman": "apa-yo",
-                "description": "Present (formal) form of 아프다 (to be sick)",
+                "description": "Present (casual) form of 아프다 (to be sick)",
                 "example": ""
             },
             {
@@ -359,14 +359,14 @@
                 "korean": "미안합니다",
                 "english": "I'm sorry (formal)",
                 "roman": "mianhab-nida",
-                "description": "미안하다 (sorry) <br/> 미안해요 (sorry [causal])",
+                "description": "Present (formal) form 미안하다 [to be sorry]",
                 "example": ""
             },
             {
                 "korean": "미안해요",
                 "english": "I'm sorry (casual)",
                 "roman": "mian-haeyo",
-                "description": "미안하다 (sorry) <br/> 미안합니다 (sorry [formal])",
+                "description": "Present (casual) form 미안하다 [to be sorry]",
                 "example": ""
             },
             {
@@ -380,14 +380,14 @@
                 "korean": "잘 자요!",
                 "english": "Sleep well!",
                 "roman": "jal ja-yo!",
-                "description": "잘 (well) 자다 (to sleep) <br/> 잘 자요 (sleep well)",
+                "description": "잘 [well] 자다 [to sleep]",
                 "example": ""
             },
             {
                 "korean": "잘 잤어요? 네, 저는 잘 잤어요",
                 "english": "Did you sleep well? Yes, I slept well",
                 "roman": "jal jass-eoyo? ne, jeo-neun jal jass-eoyo",
-                "description": "",
+                "description": "저 [I] 잘 [well] 자다 [to sleep] ",
                 "example": ""
             },
             {
@@ -408,7 +408,7 @@
                 "korean": "동사",
                 "english": "move (verb)",
                 "roman": "dongsa",
-                "description": "",
+                "description": "TO CHECK",
                 "example": ""
             },
             {
@@ -420,14 +420,14 @@
             },
             {
                 "korean": "오토바이가 있어요? 네, 있어요",
-                "english": "do you have a motorcycle? yes, I have it",
+                "english": "Do you have a motorcycle? yes, I have it",
                 "roman": "otobaiga iss-eoyo? ne, iss-eoyo",
-                "description": "",
+                "description": "오토바이 [Motorcycle] 있어요 [There is, Do you have]",
                 "example": ""
             },
             {
                 "korean": "회",
-                "english": "raw fish",
+                "english": "Raw fish",
                 "roman": "hoe",
                 "description": "",
                 "example": ""
@@ -436,7 +436,7 @@
                 "korean": "저는 회를 좋아해요 / 저는 회가 좋아요",
                 "english": "I like raw fish",
                 "roman": "jeo-neun hoe-leul joh-ahaeyo / jeo-neun hoe-ga joh-ayo",
-                "description": "",
+                "description": "회 [Raw fish] 좋아해요 [I like] <br/> 회 [Raw fish] 좋아요 [I like]",
                 "example": ""
             },
             {
@@ -464,14 +464,14 @@
                 "korean": "눈이 예뻐요",
                 "english": "Your eyes are pretty",
                 "roman": "nun-i yeppeo-yo",
-                "description": "",
+                "description": "눈 [eye] 예쁜 [pretty]",
                 "example": ""
             },
             {
                 "korean": "저는 눈을 좋아해요",
                 "english": "I like snow",
                 "roman": "jeo-neun nun-eul joh-ahaeyo",
-                "description": "",
+                "description": "눈 [eye] 좋아해요 [I like]",
                 "example": ""
             },
             {
@@ -504,7 +504,7 @@
             },
             {
                 "korean": "맞아요?",
-                "english": "right?",
+                "english": "Right?",
                 "roman": "maj-ayo?",
                 "description": "",
                 "example": ""
@@ -518,8 +518,8 @@
             },
             {
                 "korean": "안녕하다",
-                "english": "-hello(lit: be happy well)-",
-                "roman": "annyeong-hada",
+                "english": "To be happy / well",
+                "roman": "annyeongha-da",
                 "description": "",
                 "example": ""
             },

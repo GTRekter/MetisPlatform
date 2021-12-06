@@ -88,13 +88,13 @@ export default class Reading extends Component {
             if (isError) {
                 this.setState({
                     errors: [...this.state.errors, this.state.currentWord],
-                    currentWord: this.state.words[this.state.errors.length + this.state.correct.length],
+                    currentWord: this.state.words[this.state.errors.length + this.state.correct.length + 1],
                     viewTranslation: false
                 })
             } else {
                 this.setState({
                     correct: [...this.state.correct, this.state.currentWord],
-                    currentWord: this.state.words[this.state.errors.length + this.state.correct.length],
+                    currentWord: this.state.words[this.state.errors.length + this.state.correct.length + 1],
                     viewTranslation: false
                 })
             }
@@ -113,10 +113,10 @@ export default class Reading extends Component {
         return array.sort(() => Math.random() - 0.5);
     };
     render() {
-        var transation = <h2>&nbsp;</h2>;
+        var transation = <h2>&nbsp;<br/>&nbsp;</h2>;
         var translationIcon = null;
         if (this.state.viewTranslation) {
-            transation = <h2>{this.state.currentWord.korean} ({this.state.currentWord.roman})</h2>
+            transation = <h2>{this.state.currentWord.korean} <br/>({this.state.currentWord.roman})</h2>
             translationIcon = <FontAwesomeIcon className="link-light" icon={faEyeSlash} />
         } else {
             translationIcon = <FontAwesomeIcon className="link-light" icon={faEye} />
@@ -138,7 +138,6 @@ export default class Reading extends Component {
                                 <div className="dropdown">
                                     <div className="dropdown-toggle pointer " data-bs-toggle="dropdown" aria-expanded="false"> 
                                         <FontAwesomeIcon icon={faChalkboardTeacher} />
-                                        {/* <span className="d-sm-none d-md-inline px-1">Lesson</span> */}
                                     </div>
                                     <ul className="dropdown-menu">
                                         {lessonsOptions}
@@ -169,20 +168,18 @@ export default class Reading extends Component {
                 </div>
                 <ul className="nav nav-tabs mx-n1 nav justify-content-center py-3" role="tablist">
                     <li className="nav-item" role="presentation"> 
-                        <p className="active nav-link link-light pointer" data-bs-toggle="tab" data-bs-target="#name" role="tab" aria-controls="name" aria-selected="true"> Name </p> 
+                        <p className="active nav-link link-light pointer" data-bs-toggle="tab" data-bs-target="#examples" role="tab" aria-controls="examples" aria-selected="false"> Examples </p> 
                     </li>
                     <li className="nav-item" role="presentation"> 
-                        <p className="nav-link link-light pointer" data-bs-toggle="tab" data-bs-target="#examples" role="tab" aria-controls="examples" aria-selected="false"> Examples </p> 
+                        <p className="nav-link link-light pointer" data-bs-toggle="tab" data-bs-target="#description" role="tab" aria-controls="description" aria-selected="true"> Description </p> 
                     </li>
                 </ul>
                 <div className="border-grey bg-white p-3 tab-content">
-                    <div className="tab-pane active" id="name" role="tabpanel" aria-labelledby="name-tab">
-                        {/* <h3>Post title</h3> */}
-                        <p className="mb-auto">{this.state.currentWord.description}</p>
+                    <div className="tab-pane active" id="examples" role="tabpanel" aria-labelledby="examples-tab">
+                        <p>{this.state.currentWord != null ? this.state.currentWord.example : ""}</p>
                     </div>
-                    <div className="tab-pane" id="examples" role="tabpanel" aria-labelledby="examples-tab">
-                        <p>{this.state.currentWord.example}</p>
-                        <p> Luctor nisl. Nulla facilisi. Integer imperdiet faucibus ante. In eget sem non ex consectetur pharetra. Fusce sollicitudin purus sit amet dolor pulvinar congue. Donec luctus facilisis malesuada. Duis lobortis neque vel tortor aliquet sollicitudin. Donec sit amet dui mauris. Morbi in mattis libero, in sagittis nisl. Suspendisse tempor, mi pellentesque dictum venenatis, ipsum nisi lobortis risus, non finibus nisi ex vitae dolor. Duis augue nulla, finibus ut turpis ac, dictum laoreet sapien. Morbi vel ullamcorper dolor. Ut tempus sed metus quis consequat. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Aenean tempor pharetra nisi ut aliquet. Phasellus sit amet justo enim. </p>
+                    <div className="tab-pane" id="description" role="tabpanel" aria-labelledby="description-tab">
+                        <p>{this.state.currentWord != null ? this.state.currentWord.description : ""}</p>
                     </div>
                 </div>
                 <div className="row mt-5 actions">
