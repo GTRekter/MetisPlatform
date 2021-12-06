@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import LessonsService from '../services/LessonsService';
-import * as sdk from "microsoft-cognitiveservices-speech-sdk";
+// import * as sdk from "microsoft-cognitiveservices-speech-sdk";
 
 export default class Dictionary extends Component {
     constructor(props) {
