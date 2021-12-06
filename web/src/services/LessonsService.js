@@ -10,7 +10,9 @@ class LessonsService {
                 return {
                     korean: item.korean,
                     english: item.english,
-                    roman: item.roman
+                    roman: item.roman,
+                    description: item.description,
+                    example: item.example
                 }
             })
         });      
@@ -25,7 +27,9 @@ class LessonsService {
             return {
                 korean: item.korean,
                 english: item.english,
-                roman: item.roman
+                roman: item.roman,
+                description: item.description,
+                example: item.example
             }
         })      
     }
