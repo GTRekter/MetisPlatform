@@ -40,5 +40,11 @@
       margin-top: 0.75rem;
       margin-bottom: 0.75rem;
     }
+    .sidebar .nav .nav-item {
+      /* text-align: center; */
+      padding-top: 1rem;
+      padding-bottom: 1rem;
+      border-bottom: 1px solid #dee2e6;
+    }
   }
   

@@ -10,13 +10,13 @@ export default class Sidebar extends Component {
             <div>
                 <div className="position-sticky pt-3">
                     <ul className="nav flex-column mb-2">
-                        <li className="nav-item">
+                        <li className="nav-item mt-0">
                             <Link className="nav-link" to='/'>
                                 <FontAwesomeIcon icon={faHome} />
                                 <span className="px-1 d-none d-md-inline">Home</span>
                             </Link>
                         </li>
-                        <li className="nav-item">
+                        <li className="nav-item mt-0">
                             <Link className="nav-link" to='/dictionary'>
                                 <FontAwesomeIcon icon={faBook} />
                                 <span className="px-1 d-none d-md-inline">Dictionary</span>
@@ -27,13 +27,13 @@ export default class Sidebar extends Component {
                         <span className="">Exercises</span>
                     </h6>
                     <ul className="nav flex-column mb-2">
-                        <li className="nav-item">
+                        <li className="nav-item mt-0">
                             <Link className="nav-link" to='/reading'>
                                 <FontAwesomeIcon icon={faGlasses} />
                                 <span className="px-1 d-none d-md-inline">Reading</span>
                             </Link>
                         </li>
-                        <li className="nav-item">
+                        <li className="nav-item mt-0">
                             <Link className="nav-link" to='/wordlist'>
                                 <FontAwesomeIcon icon={faSpellCheck} />
                                 <span className="px-1 d-none d-md-inline">Writing</span>
