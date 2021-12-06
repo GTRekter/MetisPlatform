@@ -129,7 +129,7 @@ export default class Reading extends Component {
         return (
             <div className="reading-block">
                 <div className="mx-n1 main-text">
-                    <div className="py-2 px-4 text-end">
+                    <div className="py-3 px-4 text-end">
                         <ul className="list-inline">
                             <div className="list-inline-item pointer px-2 d-none d-sm-inline" onClick={() => this.onClickViewTranslation()}>
                                 {translationIcon}
