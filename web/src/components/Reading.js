@@ -84,7 +84,7 @@ export default class Reading extends Component {
         });
     };
     updateCounters(isError) {
-        if (this.state.words.length > (this.state.errors.length + this.state.correct.length)) {
+        if (this.state.words.length > (this.state.errors.length + this.state.correct.length) + 1) {
             if (isError) {
                 this.setState({
                     errors: [...this.state.errors, this.state.currentWord],
@@ -176,10 +176,10 @@ export default class Reading extends Component {
                 </ul>
                 <div className="border-grey bg-white p-3 tab-content">
                     <div className="tab-pane active" id="examples" role="tabpanel" aria-labelledby="examples-tab">
-                        <p>{this.state.currentWord != null ? this.state.currentWord.example : ""}</p>
+                        <p className="h5 text-center">{this.state.currentWord != null ? this.state.currentWord.example : ""}</p>
                     </div>
                     <div className="tab-pane" id="description" role="tabpanel" aria-labelledby="description-tab">
-                        <p>{this.state.currentWord != null ? this.state.currentWord.description : ""}</p>
+                        <p className="h5 text-center">{this.state.currentWord != null ? this.state.currentWord.description : ""}</p>
                     </div>
                 </div>
                 <div className="row mt-5 actions">
