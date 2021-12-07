@@ -9,7 +9,7 @@ export default class Home extends Component {
             <div>
                 <div className="row">
                     <div className="col-10 col-offset-2">
-                        <div class="position-absolute top-50 start-50 translate-middle">
+                        <div className="position-absolute top-50 start-50 translate-middle">
                             <img src={korea} id="korea-img" className="img-fluid" alt="korea" />
                         </div>
                     </div>

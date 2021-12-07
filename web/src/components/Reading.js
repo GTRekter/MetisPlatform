@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import LessonsService from '../services/LessonsService';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faEye, faEyeSlash, faExclamationTriangle, faFlag, faThumbsUp, faThumbsDown, faChalkboardTeacher, faSync } from '@fortawesome/free-solid-svg-icons'
+import * as sdk from "microsoft-cognitiveservices-speech-sdk";
 import './Reading.css';
 
 export default class Reading extends Component {
@@ -37,18 +38,20 @@ export default class Reading extends Component {
         this.setState({
             viewTranslation: true
         })
+        this.synthesizeSpeech(this.state.currentWord.korean);
         setTimeout(function () {
             self.updateCounters(true);
-        }, 1000);
+        }, 3000);
     };
     onClickAddCorrect = () => {
         var self = this;
         this.setState({
             viewTranslation: true
         })
+        this.synthesizeSpeech(this.state.currentWord.korean);
         setTimeout(function () {
             self.updateCounters(false);
-        }, 1000);
+        }, 3000);      
     };
     onClickViewTranslation = () => {
         this.setState({
@@ -108,7 +111,26 @@ export default class Reading extends Component {
                 viewTranslation: false
             })
         }
-    }
+    };
+    synthesizeSpeech = (string) => {
+        const speechConfig = sdk.SpeechConfig.fromSubscription(process.env.REACT_APP_AZURE_CS_SPEECH_KEY, process.env.REACT_APP_AZURE_CS_SPEECH_REGION);
+        speechConfig.speechRecognitionLanguage = "ko-KR";
+        speechConfig.speechSynthesisLanguage = "ko-KR";
+        const audioConfig = sdk.AudioConfig.fromDefaultSpeakerOutput();
+        const synthesizer = new sdk.SpeechSynthesizer(speechConfig, audioConfig);
+        synthesizer.speakTextAsync(
+            string,
+            result => {
+                if (result) {
+                    synthesizer.close();
+                    return result.audioData;
+                }
+            },
+            error => {
+                console.log(error);
+                synthesizer.close();
+            });
+    };
     shuffle = (array) => {
         return array.sort(() => Math.random() - 0.5);
     };
