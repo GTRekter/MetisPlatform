@@ -1,4 +1,5 @@
 import data from '../data/lessons.json';
+import dataAlphabet from '../data/alphabet.json';
 
 class LessonsService {    
     getLessonsCount(){
@@ -21,6 +22,19 @@ class LessonsService {
             words = words.concat(wordArrays[i]);
         }
         return words; 
+    }
+    getAlphabet(){
+        return dataAlphabet.map(lesson => {
+            return lesson.words.map(item => {
+                return {
+                    korean: item.korean,
+                    english: "",
+                    roman: item.roman,
+                    description: item.description,
+                    example: ""
+                }
+            })
+        });      
     }
     getAllWordsFromLessonId(lessonID){
         return data[lessonID].words.map(item => {

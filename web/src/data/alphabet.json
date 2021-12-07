@@ -1,0 +1,206 @@
+[
+    {
+        "words": [
+            {
+                "korean": "ㄱ",
+                "roman": "g/k",
+                "description": "Pronounced as in gold/kit"
+            },
+            {
+                "korean": "ㄴ",
+                "roman": "g/k",
+                "description": "Pronounced as in near"
+            },
+            {
+                "korean": "ㄷ",
+                "roman": "d/t",
+                "description": "Pronounced as in day/hat"
+            },
+            {
+                "korean": "ㄹ",
+                "roman": "r/l",
+                "description": "Pronounced as in rabbit/ball"
+            },
+            {
+                "korean": "ㅁ",
+                "roman": "m",
+                "description": "Pronounced as in moon"
+            },
+            {
+                "korean": "ㅂ",
+                "roman": "b/p",
+                "description": "Pronounced as in boy/map"
+            },
+            {
+                "korean": "ㅅ",
+                "roman": "s/t",
+                "description": "Pronounced as in smile/rat"
+            },
+            {
+                "korean": "ㅇ",
+                "roman": "silent/ng",
+                "description": "Pronounced as in kingdom"
+            },
+            {
+                "korean": "ㅈ",
+                "roman": "j/t",
+                "description": "Pronounced as in joy/hat"
+            },
+            {
+                "korean": "ㅊ",
+                "roman": "ch/t",
+                "description": "Pronounced as in chin/kit"
+            },
+            {
+                "korean": "ㅋ",
+                "roman": "k",
+                "description": "Pronounced as in kid"
+            },
+            {
+                "korean": "ㅌ",
+                "roman": "t",
+                "description": "Pronounced as in toy"
+            },
+            {
+                "korean": "ㅍ",
+                "roman": "p",
+                "description": "Pronounced as in play"
+            },
+            {
+                "korean": "ㅎ",
+                "roman": "h/t",
+                "description": "Pronounced as in hand/rat"
+            },
+            {
+                "korean": "ㄲ",
+                "roman": "gg/k",
+                "description": "Pronounced as in great/back"
+            },
+            {
+                "korean": "ㄸ",
+                "roman": "dd/t",
+                "description": "Pronounced as in desk/bat"
+            },
+            {
+                "korean": "ㅃ",
+                "roman": "bb/pp",
+                "description": "Pronounced as in brain/snap"
+            },
+            {
+                "korean": "ㅆ",
+                "roman": "ss/t",
+                "description": "Pronounced as in smile/rat"
+            },
+            {
+                "korean": "ㅉ",
+                "roman": "jj/t",
+                "description": "Pronounced as in joy/hat"
+            },
+            {
+                "korean": "ㅏ",
+                "roman": "a",
+                "description": "Pronounced as in gold/kit"
+            },
+            {
+                "korean": "ㅐ",
+                "roman": "ae",
+                "description": "Pronounced as in near"
+            },
+            {
+                "korean": "ㅑ",
+                "roman": "ya",
+                "description": "Pronounced as in day/hat"
+            },
+            {
+                "korean": "ㅒ",
+                "roman": "yae",
+                "description": "Pronounced as in rabbit/ball"
+            },
+            {
+                "korean": "ㅓ",
+                "roman": "eo",
+                "description": "Pronounced as in moon"
+            },
+            {
+                "korean": "ㅔ",
+                "roman": "e",
+                "description": "Pronounced as in boy/map"
+            },
+            {
+                "korean": "ㅕ",
+                "roman": "yeo",
+                "description": "Pronounced as in smile/rat"
+            },
+            {
+                "korean": "ㅖ",
+                "roman": "ye",
+                "description": "Pronounced as in kingdom"
+            },
+            {
+                "korean": "ㅗ",
+                "roman": "o",
+                "description": "Pronounced as in joy/hat"
+            },
+            {
+                "korean": "ㅘ",
+                "roman": "wa",
+                "description": "Pronounced as in chin/kit"
+            },
+            {
+                "korean": "ㅙ",
+                "roman": "wae",
+                "description": "Pronounced as in kid"
+            },
+            {
+                "korean": "ㅚ",
+                "roman": "oi",
+                "description": "Pronounced as in toy"
+            },
+            {
+                "korean": "ㅛ",
+                "roman": "yo",
+                "description": "Pronounced as in play"
+            },
+            {
+                "korean": "ㅜ",
+                "roman": "u",
+                "description": "Pronounced as in hand/rat"
+            },
+            {
+                "korean": "ㅝ",
+                "roman": "weo",
+                "description": "Pronounced as in great/back"
+            },
+            {
+                "korean": "ㅞ",
+                "roman": "we",
+                "description": "Pronounced as in desk/bat"
+            },
+            {
+                "korean": "ㅟ",
+                "roman": "ui",
+                "description": "Pronounced as in brain/snap"
+            },
+            {
+                "korean": "ㅠ",
+                "roman": "yu",
+                "description": "Pronounced as in smile/rat"
+            },
+            {
+                "korean": "ㅡ",
+                "roman": "u",
+                "description": "Pronounced as in joy/hat"
+            },
+            {
+                "korean": "ㅢ",
+                "roman": "ui",
+                "description": "Pronounced as in joy/hat"
+            },
+            {
+                "korean": "ㅣ",
+                "roman": "i",
+                "description": "Pronounced as in joy/hat"
+            }
+        ]
+    }
+]

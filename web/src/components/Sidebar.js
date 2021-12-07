@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faBook, faSpellCheck, faGlasses, faHome } from '@fortawesome/free-solid-svg-icons'
+import { faBook, faSpellCheck, faGlasses, faHome, faFont } from '@fortawesome/free-solid-svg-icons'
 import './Sidebar.css';
 
 export default class Sidebar extends Component {
@@ -16,8 +16,14 @@ export default class Sidebar extends Component {
                                 <span className="px-1 d-none d-md-inline">Home</span>
                             </Link>
                         </li>
+                        {/* <li className="nav-item mt-0">
+                            <Link className="nav-link" to='/dictionary/alphabet'>
+                                <FontAwesomeIcon icon={faFont} />
+                                <span className="px-1 d-none d-md-inline">Alphabet</span>
+                            </Link>
+                        </li> */}
                         <li className="nav-item mt-0">
-                            <Link className="nav-link" to='/dictionary'>
+                            <Link className="nav-link" to='/dictionary/lessons'>
                                 <FontAwesomeIcon icon={faBook} />
                                 <span className="px-1 d-none d-md-inline">Dictionary</span>
                             </Link>
@@ -33,12 +39,12 @@ export default class Sidebar extends Component {
                                 <span className="px-1 d-none d-md-inline">Reading</span>
                             </Link>
                         </li>
-                        <li className="nav-item mt-0">
+                        {/* <li className="nav-item mt-0">
                             <Link className="nav-link" to='/wordlist'>
                                 <FontAwesomeIcon icon={faSpellCheck} />
                                 <span className="px-1 d-none d-md-inline">Writing</span>
                             </Link>
-                        </li>
+                        </li> */}
                     </ul>
                 </div>
             </div>
