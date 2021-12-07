@@ -1,5 +1,8 @@
 import React, { Component } from 'react'
 import LessonsService from '../services/LessonsService';
+import SpeechService from '../services/SpeechService';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faVolumeUp } from '@fortawesome/free-solid-svg-icons'
 
 export default class Dictionary extends Component {
     constructor(props) {
@@ -9,6 +12,7 @@ export default class Dictionary extends Component {
             lessonsCount: 0
         }
         this.onChangeQueryString = this.onChangeQueryString.bind(this);
+        this.onClickPronounceWords = this.onClickPronounceWords.bind(this);
         this.onClickUpdateWordsByLessonId = this.onClickUpdateWordsByLessonId.bind(this);
         this.onClickUpdateWordsByAll = this.onClickUpdateWordsByAll.bind(this);
     }
@@ -33,6 +37,9 @@ export default class Dictionary extends Component {
         this.setState({
             words: LessonsService.getAllWordsFromString(event.target.value)
         });
+    }
+    onClickPronounceWords = (string) => {
+        SpeechService.synthesizeSpeech(string);
     }
     render() {
         var lessonsOptions = [];
@@ -61,6 +68,7 @@ export default class Dictionary extends Component {
                 <table className="table table-striped">
                     <thead>
                         <tr>
+                            <th></th>
                             <th>Korean</th>
                             <th>English</th>
                             <th>Roman</th>
@@ -69,7 +77,12 @@ export default class Dictionary extends Component {
                     <tbody>
                         {
                             this.state.words.map((word,index) =>
-                                <tr key={index}>
+                                <tr key={index} className='align-middle'>
+                                    <td>
+                                        <button className="btn btn-link mx-1 link-dark" onClick={() => this.onClickPronounceWords(word.korean)}>
+                                            <FontAwesomeIcon icon={faVolumeUp} />
+                                        </button>
+                                    </td>
                                     <td>{word.korean}</td>
                                     <td>{word.english}</td>
                                     <td>{word.roman}</td>
