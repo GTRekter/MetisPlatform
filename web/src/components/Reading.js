@@ -86,7 +86,7 @@ export default class Reading extends Component {
             correct: []
         });
     };
-    updateCounters(isError) {
+    updateCounters = (isError) => {
         if (this.state.words.length > (this.state.errors.length + this.state.correct.length) + 1) {
             if (isError) {
                 this.setState({
@@ -113,6 +113,8 @@ export default class Reading extends Component {
         }
     };
     synthesizeSpeech = (string) => {
+        console.log(string);
+        console.log(process.env.REACT_APP_AZURE_CS_SPEECH_KEY);
         const speechConfig = sdk.SpeechConfig.fromSubscription(process.env.REACT_APP_AZURE_CS_SPEECH_KEY, process.env.REACT_APP_AZURE_CS_SPEECH_REGION);
         speechConfig.speechRecognitionLanguage = "ko-KR";
         speechConfig.speechSynthesisLanguage = "ko-KR";
