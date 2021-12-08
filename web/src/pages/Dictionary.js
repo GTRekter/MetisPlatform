@@ -1,8 +1,6 @@
 import React, { Component } from 'react'
 import LessonsService from '../services/LessonsService';
-import SpeechService from '../services/SpeechService';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faVolumeUp } from '@fortawesome/free-solid-svg-icons'
+import WordList from '../components/WordList';
 
 export default class Dictionary extends Component {
     constructor(props) {
@@ -12,7 +10,6 @@ export default class Dictionary extends Component {
             lessonsCount: 0
         }
         this.onChangeQueryString = this.onChangeQueryString.bind(this);
-        this.onClickPronounceWords = this.onClickPronounceWords.bind(this);
         this.onClickUpdateWordsByLessonId = this.onClickUpdateWordsByLessonId.bind(this);
         this.onClickUpdateWordsByAll = this.onClickUpdateWordsByAll.bind(this);
     }
@@ -38,9 +35,6 @@ export default class Dictionary extends Component {
             words: LessonsService.getAllWordsFromString(event.target.value)
         });
     }
-    onClickPronounceWords = (string) => {
-        SpeechService.synthesizeSpeech(string);
-    }
     render() {
         var lessonsOptions = [];
         lessonsOptions.push(<li key="0"><span className="dropdown-item pointer" onClick={() => this.onClickUpdateWordsByAll()}>All</span></li>);
@@ -65,32 +59,7 @@ export default class Dictionary extends Component {
                         </div>
                     </div>
                 </div>
-                <table className="table table-striped">
-                    <thead>
-                        <tr>
-                            <th></th>
-                            <th>Korean</th>
-                            <th>English</th>
-                            <th>Roman</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {
-                            this.state.words.map((word,index) =>
-                                <tr key={index} className='align-middle'>
-                                    <td>
-                                        <button className="btn btn-link mx-1 link-dark" onClick={() => this.onClickPronounceWords(word.korean)}>
-                                            <FontAwesomeIcon icon={faVolumeUp} />
-                                        </button>
-                                    </td>
-                                    <td>{word.korean}</td>
-                                    <td>{word.english}</td>
-                                    <td>{word.roman}</td>
-                                </tr>
-                            )
-                        }
-                    </tbody>
-                </table>
+                <WordList words={this.state.words} />
             </div>
         )
     }

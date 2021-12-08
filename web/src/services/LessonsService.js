@@ -16,25 +16,25 @@ class LessonsService {
                     example: item.example
                 }
             })
-        });      
+        });    
+        console.log(wordArrays);  
         var words = [];
         for(var i = 0; i < wordArrays.length; i++) {
             words = words.concat(wordArrays[i]);
         }
+        console.log(words);
         return words; 
     }
     getAlphabet(){
-        return dataAlphabet.map(lesson => {
-            return lesson.words.map(item => {
-                return {
-                    korean: item.korean,
-                    english: "",
-                    roman: item.roman,
-                    description: item.description,
-                    example: ""
-                }
-            })
-        });      
+        return dataAlphabet.words.map(item => {
+            return {
+                korean: item.korean,
+                english: item.english,
+                roman: item.roman,
+                description: item.description,
+                example: ""
+            }
+        });
     }
     getAllWordsFromLessonId(lessonID){
         return data[lessonID].words.map(item => {

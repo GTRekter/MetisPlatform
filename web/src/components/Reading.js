@@ -18,7 +18,7 @@ export default class Reading extends Component {
         }
         this.onClickAddError = this.onClickAddError.bind(this);
         this.onClickAddCorrect = this.onClickAddCorrect.bind(this);
-        // this.onClickUpdateWordsByAlphabet = this.onClickUpdateWordsByAlphabet.bind(this);
+        this.onClickUpdateWordsByAlphabet = this.onClickUpdateWordsByAlphabet.bind(this);
         this.onClickViewTranslation = this.onClickViewTranslation.bind(this);
         this.onClickUpdateWordsByLessonId = this.onClickUpdateWordsByLessonId.bind(this);
         this.onClickUpdateWordsByAll = this.onClickUpdateWordsByAll.bind(this);
@@ -87,15 +87,15 @@ export default class Reading extends Component {
             correct: []
         });
     };
-    // onClickUpdateWordsByAlphabet = () => {
-    //     var mappedJson = LessonsService.getAlphabet();
-    //     this.setState({
-    //         words: this.shuffle(mappedJson),
-    //         currentWord: mappedJson[0],
-    //         errors: [],
-    //         correct: []
-    //     });
-    // };
+    onClickUpdateWordsByAlphabet = () => {
+        var mappedJson = LessonsService.getAlphabet();
+        this.setState({
+            words: this.shuffle(mappedJson),
+            currentWord: mappedJson[0],
+            errors: [],
+            correct: []
+        });
+    };
     updateCounters = (isError) => {
         if (this.state.words.length > (this.state.errors.length + this.state.correct.length) + 1) {
             if (isError) {
@@ -136,7 +136,7 @@ export default class Reading extends Component {
         }
         var lessonsOptions = [];
         lessonsOptions.push(<li key="0"><span className="dropdown-item pointer" onClick={() => this.onClickUpdateWordsByAll()}>All</span></li>);
-        // lessonsOptions.push(<li key="1"><span className="dropdown-item pointer" onClick={() => this.onClickUpdateWordsByAlphabet()}>Alphabet</span></li>);
+        lessonsOptions.push(<li key="1"><span className="dropdown-item pointer" onClick={() => this.onClickUpdateWordsByAlphabet()}>Alphabet</span></li>);
         for (var index = 0; index < this.state.lessonsCount; index++) {
             lessonsOptions.push(<li key={index+2}><span className="dropdown-item pointer" data-index={index} onClick={(element) => this.onClickUpdateWordsByLessonId(element)}>{index}</span></li>);
         }

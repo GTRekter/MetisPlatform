@@ -3,7 +3,8 @@ import { Route } from 'react-router';
 import { Layout } from './Layout';
 import Home from './Home';
 // import Login from './Login';
-import Dictionary from './Dictionary';
+import Dictionary from '../pages/Dictionary';
+import Alphabet from '../pages/Alphabet';
 import Reading from './Reading';
 // import ProductCreationForm from './ProductCreationForm';
 
@@ -13,6 +14,7 @@ export default class App extends Component {
             <Layout>
               <Route exact path='/' component={Home} />
               {/* <Route exact path='/login' component={Login} /> */}
+              <Route exact path='/alphabet' component={Alphabet} />
               <Route exact path='/dictionary' component={Dictionary} />
               <Route exact path='/reading' component={Reading} />
               {/* <Route exact path='/addproduct' component={ProductCreationForm} /> */}

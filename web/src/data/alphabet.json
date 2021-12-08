@@ -1,206 +1,244 @@
-[
-    {
-        "words": [
-            {
-                "korean": "ㄱ",
-                "roman": "g/k",
-                "description": "Pronounced as in gold/kit"
-            },
-            {
-                "korean": "ㄴ",
-                "roman": "g/k",
-                "description": "Pronounced as in near"
-            },
-            {
-                "korean": "ㄷ",
-                "roman": "d/t",
-                "description": "Pronounced as in day/hat"
-            },
-            {
-                "korean": "ㄹ",
-                "roman": "r/l",
-                "description": "Pronounced as in rabbit/ball"
-            },
-            {
-                "korean": "ㅁ",
-                "roman": "m",
-                "description": "Pronounced as in moon"
-            },
-            {
-                "korean": "ㅂ",
-                "roman": "b/p",
-                "description": "Pronounced as in boy/map"
-            },
-            {
-                "korean": "ㅅ",
-                "roman": "s/t",
-                "description": "Pronounced as in smile/rat"
-            },
-            {
-                "korean": "ㅇ",
-                "roman": "silent/ng",
-                "description": "Pronounced as in kingdom"
-            },
-            {
-                "korean": "ㅈ",
-                "roman": "j/t",
-                "description": "Pronounced as in joy/hat"
-            },
-            {
-                "korean": "ㅊ",
-                "roman": "ch/t",
-                "description": "Pronounced as in chin/kit"
-            },
-            {
-                "korean": "ㅋ",
-                "roman": "k",
-                "description": "Pronounced as in kid"
-            },
-            {
-                "korean": "ㅌ",
-                "roman": "t",
-                "description": "Pronounced as in toy"
-            },
-            {
-                "korean": "ㅍ",
-                "roman": "p",
-                "description": "Pronounced as in play"
-            },
-            {
-                "korean": "ㅎ",
-                "roman": "h/t",
-                "description": "Pronounced as in hand/rat"
-            },
-            {
-                "korean": "ㄲ",
-                "roman": "gg/k",
-                "description": "Pronounced as in great/back"
-            },
-            {
-                "korean": "ㄸ",
-                "roman": "dd/t",
-                "description": "Pronounced as in desk/bat"
-            },
-            {
-                "korean": "ㅃ",
-                "roman": "bb/pp",
-                "description": "Pronounced as in brain/snap"
-            },
-            {
-                "korean": "ㅆ",
-                "roman": "ss/t",
-                "description": "Pronounced as in smile/rat"
-            },
-            {
-                "korean": "ㅉ",
-                "roman": "jj/t",
-                "description": "Pronounced as in joy/hat"
-            },
-            {
-                "korean": "ㅏ",
-                "roman": "a",
-                "description": "Pronounced as in gold/kit"
-            },
-            {
-                "korean": "ㅐ",
-                "roman": "ae",
-                "description": "Pronounced as in near"
-            },
-            {
-                "korean": "ㅑ",
-                "roman": "ya",
-                "description": "Pronounced as in day/hat"
-            },
-            {
-                "korean": "ㅒ",
-                "roman": "yae",
-                "description": "Pronounced as in rabbit/ball"
-            },
-            {
-                "korean": "ㅓ",
-                "roman": "eo",
-                "description": "Pronounced as in moon"
-            },
-            {
-                "korean": "ㅔ",
-                "roman": "e",
-                "description": "Pronounced as in boy/map"
-            },
-            {
-                "korean": "ㅕ",
-                "roman": "yeo",
-                "description": "Pronounced as in smile/rat"
-            },
-            {
-                "korean": "ㅖ",
-                "roman": "ye",
-                "description": "Pronounced as in kingdom"
-            },
-            {
-                "korean": "ㅗ",
-                "roman": "o",
-                "description": "Pronounced as in joy/hat"
-            },
-            {
-                "korean": "ㅘ",
-                "roman": "wa",
-                "description": "Pronounced as in chin/kit"
-            },
-            {
-                "korean": "ㅙ",
-                "roman": "wae",
-                "description": "Pronounced as in kid"
-            },
-            {
-                "korean": "ㅚ",
-                "roman": "oi",
-                "description": "Pronounced as in toy"
-            },
-            {
-                "korean": "ㅛ",
-                "roman": "yo",
-                "description": "Pronounced as in play"
-            },
-            {
-                "korean": "ㅜ",
-                "roman": "u",
-                "description": "Pronounced as in hand/rat"
-            },
-            {
-                "korean": "ㅝ",
-                "roman": "weo",
-                "description": "Pronounced as in great/back"
-            },
-            {
-                "korean": "ㅞ",
-                "roman": "we",
-                "description": "Pronounced as in desk/bat"
-            },
-            {
-                "korean": "ㅟ",
-                "roman": "ui",
-                "description": "Pronounced as in brain/snap"
-            },
-            {
-                "korean": "ㅠ",
-                "roman": "yu",
-                "description": "Pronounced as in smile/rat"
-            },
-            {
-                "korean": "ㅡ",
-                "roman": "u",
-                "description": "Pronounced as in joy/hat"
-            },
-            {
-                "korean": "ㅢ",
-                "roman": "ui",
-                "description": "Pronounced as in joy/hat"
-            },
-            {
-                "korean": "ㅣ",
-                "roman": "i",
-                "description": "Pronounced as in joy/hat"
-            }
-        ]
-    }
-]
+{
+    "words": [
+        {
+            "korean": "ㄱ",
+            "english": "g/k",
+            "roman": "g/k",
+            "description": "Pronounced as in gold/kit"
+        },
+        {
+            "korean": "ㄴ",
+            "english": "n",
+            "roman": "n",
+            "description": "Pronounced as in near"
+        },
+        {
+            "korean": "ㄷ",
+            "english": "d/t",
+            "roman": "d/t",
+            "description": "Pronounced as in day/hat"
+        },
+        {
+            "korean": "ㄹ",
+            "english": "r/l",
+            "roman": "r/l",
+            "description": "Pronounced as in rabbit/ball"
+        },
+        {
+            "korean": "ㅁ",
+            "english": "m",
+            "roman": "m",
+            "description": "Pronounced as in moon"
+        },
+        {
+            "korean": "ㅂ",
+            "english": "b/p",
+            "roman": "b/p",
+            "description": "Pronounced as in boy/map"
+        },
+        {
+            "korean": "ㅅ",
+            "english": "s/t",
+            "roman": "s/t",
+            "description": "Pronounced as in smile/rat"
+        },
+        {
+            "korean": "ㅇ",
+            "english": "silent/ng",
+            "roman": "silent/ng",
+            "description": "Pronounced as in kingdom"
+        },
+        {
+            "korean": "ㅈ",
+            "english": "j/t",
+            "roman": "j/t",
+            "description": "Pronounced as in joy/hat"
+        },
+        {
+            "korean": "ㅊ",
+            "english": "ch/t",
+            "roman": "ch/t",
+            "description": "Pronounced as in chin/kit"
+        },
+        {
+            "korean": "ㅋ",
+            "english": "k",
+            "roman": "k",
+            "description": "Pronounced as in kid"
+        },
+        {
+            "korean": "ㅌ",
+            "english": "t",
+            "roman": "t",
+            "description": "Pronounced as in toy"
+        },
+        {
+            "korean": "ㅍ",
+            "english": "p",
+            "roman": "p",
+            "description": "Pronounced as in play"
+        },
+        {
+            "korean": "ㅎ",
+            "english": "h/t",
+            "roman": "h/t",
+            "description": "Pronounced as in hand/rat"
+        },
+        {
+            "korean": "ㄲ",
+            "english": "gg/k",
+            "roman": "gg/k",
+            "description": "Pronounced as in great/back"
+        },
+        {
+            "korean": "ㄸ",
+            "english": "dd/t",
+            "roman": "dd/t",
+            "description": "Pronounced as in desk/bat"
+        },
+        {
+            "korean": "ㅃ",
+            "english": "bb/pp",
+            "roman": "bb/pp",
+            "description": "Pronounced as in brain/snap"
+        },
+        {
+            "korean": "ㅆ",
+            "english": "ss/t",
+            "roman": "ss/t",
+            "description": "Pronounced as in smile/rat"
+        },
+        {
+            "korean": "ㅉ",
+            "english": "jj/t",
+            "roman": "jj/t",
+            "description": "Pronounced as in joy/hat"
+        },
+        {
+            "korean": "ㅏ",
+            "english": "a",
+            "roman": "a",
+            "description": "Pronounced as in father"
+        },
+        {
+            "korean": "ㅐ",
+            "english": "ae",
+            "roman": "ae",
+            "description": "Pronounced as in pay"
+        },
+        {
+            "korean": "ㅑ",
+            "english": "ya",
+            "roman": "ya",
+            "description": "Pronounced as in yacht"
+        },
+        {
+            "korean": "ㅒ",
+            "english": "yae",
+            "roman": "yae",
+            "description": "Pronounced as in yea!"
+        },
+        {
+            "korean": "ㅓ",
+            "english": "eo",
+            "roman": "eo",
+            "description": "Pronounced as in young"
+        },
+        {
+            "korean": "ㅔ",
+            "english": "e",
+            "roman": "e",
+            "description": "Pronounced as in set"
+        },
+        {
+            "korean": "ㅕ",
+            "english": "yeo",
+            "roman": "yeo",
+            "description": "Pronounced as in young"
+        },
+        {
+            "korean": "ㅖ",
+            "english": "ye",
+            "roman": "ye",
+            "description": "Pronounced as in yet"
+        },
+        {
+            "korean": "ㅗ",
+            "english": "o",
+            "roman": "o",
+            "description": "Pronounced as in yo yo"
+        },
+        {
+            "korean": "ㅘ",
+            "english": "wa",
+            "roman": "wa",
+            "description": "Pronounced as in water"
+        },
+        {
+            "korean": "ㅙ",
+            "english": "wae",
+            "roman": "wae",
+            "description": "Pronounced as in waiter"
+        },
+        {
+            "korean": "ㅚ",
+            "english": "oi",
+            "roman": "oi",
+            "description": "Pronounced as in wait"
+        },
+        {
+            "korean": "ㅛ",
+            "english": "yo",
+            "roman": "yo",
+            "description": "Pronounced as in yo yo"
+        },
+        {
+            "korean": "ㅜ",
+            "english": "u",
+            "roman": "u",
+            "description": "Pronounced as in cool"
+        },
+        {
+            "korean": "ㅝ",
+            "english": "weo",
+            "roman": "weo",
+            "description": "Pronounced as in won"
+        },
+        {
+            "korean": "ㅞ",
+            "english": "we",
+            "roman": "we",
+            "description": "Pronounced as in wet"
+        },
+        {
+            "korean": "ㅟ",
+            "english": "ui",
+            "roman": "ui",
+            "description": "Pronounced as in we"
+        },
+        {
+            "korean": "ㅠ",
+            "english": "yu",
+            "roman": "yu",
+            "description": "Pronounced as in you"
+        },
+        {
+            "korean": "ㅡ",
+            "english": "u",
+            "roman": "u",
+            "description": "Pronounced as in good"
+        },
+        {
+            "korean": "ㅢ",
+            "english": "ui",
+            "roman": "ui",
+            "description": "Pronounced as in wisdom"
+        },
+        {
+            "korean": "ㅣ",
+            "english": "i",
+            "roman": "i",
+            "description": "Pronounced as in sheep"
+        }
+    ]
+}
