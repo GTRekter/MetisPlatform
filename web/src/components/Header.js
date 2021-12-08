@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faBook, faSpellCheck, faGlasses, faHome } from '@fortawesome/free-solid-svg-icons'
+import { faBook, faFont, faGlasses, faHome } from '@fortawesome/free-solid-svg-icons'
 
 export default class Header extends Component {
     render() {
@@ -24,8 +24,11 @@ export default class Header extends Component {
                         </Link>
                     </div>
                     <div className="col text-center py-2">
-                        <Link className="nav-link text-white" to='/wordlist'>
+                        {/* <Link className="nav-link text-white" to='/wordlist'>
                             <FontAwesomeIcon icon={faSpellCheck} />
+                        </Link> */}
+                        <Link className="nav-link" to='/alphabet'>
+                            <FontAwesomeIcon icon={faFont} />
                         </Link>
                     </div>
                 </div>

@@ -310,26 +310,26 @@
                 "korean": "-아/어 보세요",
                 "english": "Try [VERB]-ing, please [VERB]",
                 "roman": "-a/eo boseyo",
-                "description": "TO CHECK",
+                "description": "",
                 "example": ""
             },
             {
                 "korean": "읽어 보세요",
                 "english": "Try reading this please",
                 "roman": "ilg-eo bose-yo",
-                "description": "TO CHECK",
+                "description": "",
                 "example": ""
             },
             {
                 "korean": "들어 보세요",
-                "english": "Listen",
+                "english": "Try listen this please",
                 "roman": "deul-eo bose-yo",
                 "description": "",
                 "example": ""
             },
             {
                 "korean": "-(으)세요",
-                "english": "[Verb] Please",
+                "english": "Please [Verb]",
                 "roman": "-(eu)seyo",
                 "description": "",
                 "example": ""

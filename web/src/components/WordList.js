@@ -6,7 +6,6 @@ import { faVolumeUp } from '@fortawesome/free-solid-svg-icons'
 export default class WordList extends Component {
     constructor(props) {
         super(props)
-        // console.log(props)
         this.onClickPronounceWords = this.onClickPronounceWords.bind(this);
     }
     onClickPronounceWords = (string) => {
