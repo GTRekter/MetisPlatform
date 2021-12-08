@@ -6,7 +6,7 @@ import Home from './Home';
 import Dictionary from '../pages/Dictionary';
 import Alphabet from '../pages/Alphabet';
 import Reading from './Reading';
-// import ProductCreationForm from './ProductCreationForm';
+// import Writing from './Writing';
 
 export default class App extends Component {
     render () {
@@ -17,7 +17,7 @@ export default class App extends Component {
               <Route exact path='/alphabet' component={Alphabet} />
               <Route exact path='/dictionary' component={Dictionary} />
               <Route exact path='/reading' component={Reading} />
-              {/* <Route exact path='/addproduct' component={ProductCreationForm} /> */}
+              {/* <Route exact path='/writing' component={Writing} /> */}
             </Layout>
         );
     }

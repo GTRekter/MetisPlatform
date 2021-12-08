@@ -27,7 +27,7 @@ export default class Header extends Component {
                         {/* <Link className="nav-link text-white" to='/wordlist'>
                             <FontAwesomeIcon icon={faSpellCheck} />
                         </Link> */}
-                        <Link className="nav-link" to='/alphabet'>
+                        <Link className="nav-link text-white" to='/alphabet'>
                             <FontAwesomeIcon icon={faFont} />
                         </Link>
                     </div>

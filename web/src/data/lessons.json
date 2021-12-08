@@ -415,7 +415,7 @@
                 "korean": "짜파게티를 먹었어요",
                 "english": "I ate spaghetti",
                 "roman": "jjapageti-leul meog-eoss-eoyo",
-                "description": "",
+                "description": "짜파게티 [spaghetti] 먹다 [to eat]",
                 "example": ""
             },
             {
@@ -476,7 +476,7 @@
             },
             {
                 "korean": "좋다",
-                "english": "Good",
+                "english": "To be good",
                 "roman": "joh-da",
                 "description": "",
                 "example": ""
@@ -492,7 +492,7 @@
                 "korean": "좋아요!",
                 "english": "Good!",
                 "roman": "joh-ayo!",
-                "description": "",
+                "description": "좋다 [to be good]",
                 "example": ""
             },
             {
@@ -513,7 +513,7 @@
                 "korean": "네, 맞아요",
                 "english": "Yes, that's right",
                 "roman": "ne, maj-ayo",
-                "description": "네 [yes] 맞아요 [to be right]",
+                "description": "네 [yes] 맞다 [to be right] <br/> <b>Conjugation Rule:</b> The last vowel in a verb stem is ㅏ or ㅗ, then you add 아요",
                 "example": ""
             },
             {

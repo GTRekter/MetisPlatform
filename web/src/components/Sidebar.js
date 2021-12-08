@@ -40,7 +40,7 @@ export default class Sidebar extends Component {
                             </Link>
                         </li>
                         {/* <li className="nav-item mt-0">
-                            <Link className="nav-link" to='/wordlist'>
+                            <Link className="nav-link" to='/writing'>
                                 <FontAwesomeIcon icon={faSpellCheck} />
                                 <span className="px-1 d-none d-md-inline">Writing</span>
                             </Link>
