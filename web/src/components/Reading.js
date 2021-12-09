@@ -12,26 +12,25 @@ export default class Reading extends Component {
             words: [],
             errors: [],
             correct: [],
-            lessonsCount: 0,
+            topics: [],
+            topic: "",
             currentWord: null,
             viewTranslation: false
         }
         this.onClickAddError = this.onClickAddError.bind(this);
         this.onClickAddCorrect = this.onClickAddCorrect.bind(this);
-        this.onClickUpdateWordsByAlphabet = this.onClickUpdateWordsByAlphabet.bind(this);
         this.onClickViewTranslation = this.onClickViewTranslation.bind(this);
-        this.onClickUpdateWordsByLessonId = this.onClickUpdateWordsByLessonId.bind(this);
+        this.onClickUpdateWordsByTopic = this.onClickUpdateWordsByTopic.bind(this);
         this.onClickUpdateWordsByAll = this.onClickUpdateWordsByAll.bind(this);
     }
     componentDidMount() {
-        var lessonsCount = DictionaryService.getLessonsCount();
         var mappedJson = DictionaryService.getAllWords();
         this.setState({
             words: this.shuffle(mappedJson),
             currentWord: mappedJson[0],
             errors: [],
             correct: [],
-            lessonsCount: lessonsCount
+            topics: DictionaryService.getAllTopics(),
         });
     }
     onClickAddError = () => {
@@ -61,7 +60,7 @@ export default class Reading extends Component {
         SpeechService.synthesizeSpeech(this.state.currentWord.korean);
     };
     onClickReset = () => {
-        var mappedJson = LessonsService.getAllWords();
+        var mappedJson = DictionaryService.getAllWords();
         this.setState({
             words: this.shuffle(mappedJson),
             currentWord: mappedJson[0],
@@ -69,10 +68,11 @@ export default class Reading extends Component {
             correct: []
         });
     };
-    onClickUpdateWordsByLessonId = (element) => {
-        var lessonId = element.target.getAttribute("data-index")
-        var mappedJson = DictionaryService.getAllWordsFromLessonId(lessonId);
+    onClickUpdateWordsByTopic = (element) => {
+        var topic = element.target.getAttribute("data-topic");
+        var mappedJson = DictionaryService.getAllWordsByTopic(topic);
         this.setState({
+            ...this.state,
             words: this.shuffle(mappedJson),
             currentWord: mappedJson[0],
             errors: [],
@@ -85,16 +85,8 @@ export default class Reading extends Component {
             words: this.shuffle(mappedJson),
             currentWord: mappedJson[0],
             errors: [],
-            correct: []
-        });
-    };
-    onClickUpdateWordsByAlphabet = () => {
-        var mappedJson = DictionaryService.getAlphabet();
-        this.setState({
-            words: this.shuffle(mappedJson),
-            currentWord: mappedJson[0],
-            errors: [],
-            correct: []
+            correct: [],
+            topic: ""
         });
     };
     updateCounters = (isError) => {
@@ -126,6 +118,11 @@ export default class Reading extends Component {
     shuffle = (array) => {
         return array.sort(() => Math.random() - 0.5);
     };
+    capitalizeFirstLetter = (string) => { 
+        if(string !== undefined && string.length > 0) {
+            return string.replace(/^\w/, (c) => c.toUpperCase());
+        }
+    }
     render() {
         var translationIcon = null;
         var transation = <h2>&nbsp;<br/>&nbsp;</h2>;
@@ -135,11 +132,10 @@ export default class Reading extends Component {
         } else {
             translationIcon = <FontAwesomeIcon className="link-light" icon={faEye} />
         }
-        var lessonsOptions = [];
-        lessonsOptions.push(<li key="0"><span className="dropdown-item pointer" onClick={() => this.onClickUpdateWordsByAll()}>All</span></li>);
-        lessonsOptions.push(<li key="1"><span className="dropdown-item pointer" onClick={() => this.onClickUpdateWordsByAlphabet()}>Alphabet</span></li>);
-        for (var index = 0; index < this.state.lessonsCount; index++) {
-            lessonsOptions.push(<li key={index+2}><span className="dropdown-item pointer" data-index={index} onClick={(element) => this.onClickUpdateWordsByLessonId(element)}>{index}</span></li>);
+        var topicOptions = [];
+        topicOptions.push(<li key="0"><span className="dropdown-item pointer" onClick={() => this.onClickUpdateWordsByAll()}>All</span></li>);
+        for (var index = 0; index < this.state.topics.length; index++) {
+            topicOptions.push(<li key={index+2}><span className="dropdown-item pointer" data-topic={this.state.topics[index]} onClick={(element) => this.onClickUpdateWordsByTopic(element)}>{this.capitalizeFirstLetter(this.state.topics[index])}</span></li>);
         }
         return (
             <div className="reading-block">
@@ -155,7 +151,7 @@ export default class Reading extends Component {
                                         <FontAwesomeIcon icon={faChalkboardTeacher} />
                                     </div>
                                     <ul className="dropdown-menu">
-                                        {lessonsOptions}
+                                        {topicOptions}
                                     </ul>
                                 </div>
                             </li>
