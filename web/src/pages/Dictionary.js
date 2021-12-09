@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import LessonsService from '../services/LessonsService';
+import DictionaryService from '../services/DictionaryService';
 import WordList from '../components/WordList';
 
 export default class Dictionary extends Component {
@@ -7,39 +7,53 @@ export default class Dictionary extends Component {
         super(props)
         this.state = {
             words: [],
-            lessonsCount: 0
+            topics: [],
+            topic: ""
         }
         this.onChangeQueryString = this.onChangeQueryString.bind(this);
-        this.onClickUpdateWordsByLessonId = this.onClickUpdateWordsByLessonId.bind(this);
+        this.onClickUpdateWordsByTopic = this.onClickUpdateWordsByTopic.bind(this);
         this.onClickUpdateWordsByAll = this.onClickUpdateWordsByAll.bind(this);
     }
     componentDidMount() {
+        const topic = this.props.match.params.topic; 
+        console.log("topic: " + topic);
         this.setState({
-            words: LessonsService.getAllWords(),
-            lessonsCount: LessonsService.getLessonsCount()
+            words: DictionaryService.getAllWords(),
+            topics: DictionaryService.getAllTopics(),
+            topic: topic
         });
     }
-    onClickUpdateWordsByLessonId = (element) => {
-        var lessonId = element.target.getAttribute("data-index")
+    onClickUpdateWordsByTopic = (element) => {
+        var topic = element.target.getAttribute("data-topic")
         this.setState({
-            words: LessonsService.getAllWordsFromLessonId(lessonId)
+            ...this.state,
+            words: DictionaryService.getAllWordsByTopic(topic),
+            topic: topic
         });
     };
     onClickUpdateWordsByAll = () => {
         this.setState({
-            words: LessonsService.getAllWords()
+            ...this.state,
+            words: DictionaryService.getAllWords(),
+            topic: ""
         });
     };
     onChangeQueryString = (event) => {
         this.setState({
-            words: LessonsService.getAllWordsFromString(event.target.value)
+            ...this.state,
+            words: DictionaryService.getAllWordsFromString(event.target.value, this.state.topic)
         });
     }
+    capitalizeFirstLetter(string) { 
+        if(string !== undefined && string.length > 0) {
+            return string.replace(/^\w/, (c) => c.toUpperCase());
+        }
+    }
     render() {
-        var lessonsOptions = [];
-        lessonsOptions.push(<li key="0"><span className="dropdown-item pointer" onClick={() => this.onClickUpdateWordsByAll()}>All</span></li>);
-        for (var index = 1; index <= this.state.lessonsCount; index++) {
-            lessonsOptions.push(<li key={index}><span className="dropdown-item pointer" data-index={index - 1} onClick={(element) => this.onClickUpdateWordsByLessonId(element)}>{index}</span></li>);
+        var topicOptions = [];
+        topicOptions.push(<li key="0"><span className="dropdown-item pointer" onClick={() => this.onClickUpdateWordsByAll()}>All</span></li>);
+        for (var index = 0; index < this.state.topics.length; index++) {
+            topicOptions.push(<li key={index+1}><span className="dropdown-item pointer" data-topic={this.state.topics[index]} onClick={(element) => this.onClickUpdateWordsByTopic(element)}>{this.capitalizeFirstLetter(this.state.topics[index])}</span></li>);
         }
         return (
             <div>
@@ -47,11 +61,11 @@ export default class Dictionary extends Component {
                     <h1 className="h2">Dictionary</h1>
                     <div className="btn-toolbar mb-2 mb-md-0">
                         <div className="dropdown px-2 py-2">
-                            <span className="btn btn-secondary dropdown-toggle pointer" role="button" id="lessonFilterDropdown" data-bs-toggle="dropdown" aria-expanded="false">
-                                Lesson
+                            <span className="btn btn-secondary dropdown-toggle pointer" role="button" id="topicFilterDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                                Topics: {this.state.topic !== "" ? this.capitalizeFirstLetter(this.state.topic) : "All"}
                             </span>
-                            <ul className="dropdown-menu" aria-labelledby="lessonFilterDropdown">
-                                {lessonsOptions}
+                            <ul className="dropdown-menu" aria-labelledby="topicFilterDropdown">
+                                {topicOptions}
                             </ul>
                         </div>
                         <div className="input-group mb-3 px-2 py-2">

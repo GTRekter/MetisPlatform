@@ -17,7 +17,7 @@ export default class Sidebar extends Component {
                             </Link>
                         </li>
                         <li className="nav-item mt-0">
-                            <Link className="nav-link" to='/alphabet'>
+                            <Link className="nav-link" to='/dictionary/alphabet'>
                                 <FontAwesomeIcon icon={faFont} />
                                 <span className="px-1 d-none d-md-inline">Alphabet</span>
                             </Link>
