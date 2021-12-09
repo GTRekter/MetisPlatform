@@ -39,12 +39,6 @@ export default class Sidebar extends Component {
                                 <span className="px-1 d-none d-md-inline">Reading</span>
                             </Link>
                         </li>
-                        {/* <li className="nav-item mt-0">
-                            <Link className="nav-link" to='/writing'>
-                                <FontAwesomeIcon icon={faSpellCheck} />
-                                <span className="px-1 d-none d-md-inline">Writing</span>
-                            </Link>
-                        </li> */}
                     </ul>
                 </div>
             </div>

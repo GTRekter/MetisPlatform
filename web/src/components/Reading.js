@@ -14,11 +14,8 @@ export default class Reading extends Component {
             correct: [],
             lessonsCount: 0,
             currentWord: null,
-            viewTranslation: false,
-            // audioRecording: false
+            viewTranslation: false
         }
-        // this.onClickRecordAudio = this.onClickRecordAudio.bind(this);
-
         this.onClickAddError = this.onClickAddError.bind(this);
         this.onClickAddCorrect = this.onClickAddCorrect.bind(this);
         this.onClickUpdateWordsByAlphabet = this.onClickUpdateWordsByAlphabet.bind(this);
@@ -37,83 +34,6 @@ export default class Reading extends Component {
             lessonsCount: lessonsCount
         });
     }
-
-    // onClickRecordAudio = () => {
-    //     this.setState({
-    //         audioRecording: !this.state.audioRecording
-    //     })
-    //     // await SpeechService.recognizeSpeech()
-    //     //     .then(text => {
-    //     //         console.log(text);
-    //     //         if (text === this.state.currentWord.korean) {
-    //     //             console.log("Yee");
-    //     //             // this.updateCounters(false);
-    //     //         } else {
-    //     //             console.log("nooo");
-    //     //             // this.updateCounters(true);
-    //     //         }
-    //     //         this.setState({
-    //     //             audioRecording: !this.state.audioRecording
-    //     //         })
-    //     //     });
-
-
-    //     navigator.mediaDevices.getUserMedia({ audio: true })
-    //         .then(stream => {
-    //             const mediaRecorder = new MediaRecorder(stream);
-    //             mediaRecorder.start();
-
-    //             const audioChunks = [];
-    //             mediaRecorder.addEventListener("dataavailable", event => {
-    //                 audioChunks.push(event.data);
-    //             });
-
-    //             mediaRecorder.addEventListener("stop", () => {
-    //                 const audioBlob = new Blob(audioChunks);
-    //                 const audioUrl = URL.createObjectURL(audioBlob);
-
-    //                 // var stream = audioBlob.stream();
-                    
-
-    //                 // var arrayBuffer = audioBlob.arrayBuffer();
-    //                 // // console.log()
-    //                 var audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-
-    //                 // rec = new MediaRecorder(stream,{
-    //                 //     mimeType : 'audio/webm',
-    //                 //     codecs : "opus",
-    //                 // });
-                    
-    //                 var arrayBuffer;
-    //                 var fileReader = new FileReader();
-    //                 fileReader.onload = function(event) {
-    //                     arrayBuffer = event.target.result;
-    //                 };
-    //                 fileReader.readAsArrayBuffer(audioBlob);
-    //                 fileReader.onloadend = function(d){
-    //                     audioCtx.decodeAudioData(
-    //                         fileReader.result,
-    //                         function(buffer) {
-    //                             SpeechService.recognizeSpeech(buffer)
-    //                         },
-    //                         function(e){ console.log( e); }
-    //                     );
-    //                 };
-
-
-
-
-
-    //                 const audio = new Audio(audioUrl);
-    //                 audio.play();
-    //             });
-
-    //             setTimeout(() => {
-    //                 mediaRecorder.stop();
-    //             }, 3000);
-    //     });
-    // }
-
     onClickAddError = () => {
         var self = this;
         this.setState({
@@ -215,14 +135,6 @@ export default class Reading extends Component {
         } else {
             translationIcon = <FontAwesomeIcon className="link-light" icon={faEye} />
         }
-
-        // var microphoneIcon = null;
-        // if (this.state.audioRecording) {
-        //     microphoneIcon = <FontAwesomeIcon className="link-light" icon={faMicrophoneSlash} />
-        // } else {
-        //     microphoneIcon = <FontAwesomeIcon className="link-light" icon={faMicrophone} />
-        // }
-        
         var lessonsOptions = [];
         lessonsOptions.push(<li key="0"><span className="dropdown-item pointer" onClick={() => this.onClickUpdateWordsByAll()}>All</span></li>);
         lessonsOptions.push(<li key="1"><span className="dropdown-item pointer" onClick={() => this.onClickUpdateWordsByAlphabet()}>Alphabet</span></li>);
@@ -290,9 +202,6 @@ export default class Reading extends Component {
                         <button className="btn btn-success mx-3 text-white rounded-circle" onClick={() => this.onClickAddCorrect()}>
                             <FontAwesomeIcon icon={faThumbsUp} />
                         </button>
-                        {/* <button className="btn btn-secondary mx-3 text-white rounded-circle" onClick={() => this.onClickRecordAudio()}>
-                            {microphoneIcon}
-                        </button> */}
                         <button className="btn btn-secondary mx-3 text-white rounded-circle d-inline d-sm-none" onClick={() => this.onClickViewTranslation()}>
                             {translationIcon}
                         </button>

@@ -24,9 +24,6 @@ export default class Header extends Component {
                         </Link>
                     </div>
                     <div className="col text-center py-2">
-                        {/* <Link className="nav-link text-white" to='/wordlist'>
-                            <FontAwesomeIcon icon={faSpellCheck} />
-                        </Link> */}
                         <Link className="nav-link text-white" to='/alphabet'>
                             <FontAwesomeIcon icon={faFont} />
                         </Link>
