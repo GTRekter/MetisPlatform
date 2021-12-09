@@ -65,7 +65,8 @@ export default class Reading extends Component {
             words: this.shuffle(mappedJson),
             currentWord: mappedJson[0],
             errors: [],
-            correct: []
+            correct: [],
+            topic: topic
         });
     };
     onClickUpdateWordsByTopic = (element) => {
@@ -76,7 +77,8 @@ export default class Reading extends Component {
             words: this.shuffle(mappedJson),
             currentWord: mappedJson[0],
             errors: [],
-            correct: []
+            correct: [],
+            topic: topic
         });
     };
     onClickUpdateWordsByAll = () => {
