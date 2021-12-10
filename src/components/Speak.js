@@ -45,10 +45,10 @@ export default class Speak extends Component {
                     userAnswer: result,
                     viewTranslation: true,
                     isRecordingMicrophone: false,
-                    isAnswerCorrect: result === this.state.currentWord.korean
+                    isAnswerCorrect: result === this.props.currentWord.korean
                 });
                 setTimeout(function () {
-                    self.props.onAnswerProvidedCallback(result === this.state.currentWord.korean);
+                    self.props.onAnswerProvidedCallback(result === self.props.currentWord.korean);
                     self.resetValues();
                 }, 2000); 
             });

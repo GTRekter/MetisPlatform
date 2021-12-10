@@ -1092,11 +1092,15 @@
                 "description": "곧 [soon] 만나다 [to meet]",
                 "example": "",
                 "topics":["sentence"]
+            },
+            {
+                "korean": "보다",
+                "english": "To see",
+                "roman": "do-da",
+                "description": "",
+                "example": "",
+                "topics":["verb"]
             }
-
-
-
-
         ]
     }
 ]
