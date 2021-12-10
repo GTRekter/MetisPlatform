@@ -5,7 +5,7 @@
                 "korean": "ㄱ",
                 "english": "g/k",
                 "roman": "g/k",
-                "description": "Pronounced as in <b>g</b>old/<b>k</b>it",
+                "description": "Pronounced as in gold/kit",
                 "example": "",
                 "topics": ["alphabet", "consonant"]
             },
@@ -13,7 +13,7 @@
                 "korean": "ㄴ",
                 "english": "n",
                 "roman": "n",
-                "description": "Pronounced as in <b>n</b>ear",
+                "description": "Pronounced as in near",
                 "example": "",
                 "topics": ["alphabet", "consonant"]
             },
@@ -21,7 +21,7 @@
                 "korean": "ㄷ",
                 "english": "d/t",
                 "roman": "d/t",
-                "description": "Pronounced as in <b>d</b>ay/ha<b>t</b>",
+                "description": "Pronounced as in day/hat",
                 "example": "",
                 "topics":["alphabet", "consonant"]
             },
@@ -29,7 +29,7 @@
                 "korean": "ㄹ",
                 "english": "r/l",
                 "roman": "r/l",
-                "description": "Pronounced as in <b>r</b>abbit/bal<b>l</b>",
+                "description": "Pronounced as in rabbit/ball",
                 "example": "",
                 "topics":["alphabet", "consonant"]
             },
@@ -37,7 +37,7 @@
                 "korean": "ㅁ",
                 "english": "m",
                 "roman": "m",
-                "description": "Pronounced as in <b>m</b>oon",
+                "description": "Pronounced as in moon",
                 "example": "",
                 "topics": ["alphabet", "consonant"]
             },
@@ -45,7 +45,7 @@
                 "korean": "ㅂ",
                 "english": "b/p",
                 "roman": "b/p",
-                "description": "Pronounced as in <b>b</b>oy/ma<b>p</b>",
+                "description": "Pronounced as in boy/map",
                 "example": "",
                 "topics": ["alphabet", "consonant"]
             },
@@ -53,7 +53,7 @@
                 "korean": "ㅅ",
                 "english": "s/t",
                 "roman": "s/t",
-                "description": "Pronounced as in <b>s</b>mile/ra<b>t</b>",
+                "description": "Pronounced as in smile/rat",
                 "example": "",
                 "topics": ["alphabet", "consonant"]
             },
@@ -61,7 +61,7 @@
                 "korean": "ㅇ",
                 "english": "silent/ng",
                 "roman": "silent/ng",
-                "description": "Pronounced as in ki<b>ng</b>dom",
+                "description": "Pronounced as in kingdom",
                 "example": "",
                 "topics": ["alphabet", "consonant"]
             },
@@ -69,7 +69,7 @@
                 "korean": "ㅈ",
                 "english": "j/t",
                 "roman": "j/t",
-                "description": "Pronounced as in <b>j</b>oy/ha<b>t</b>",
+                "description": "Pronounced as in joy/hat",
                 "example": "",
                 "topics":["alphabet", "consonant"]
             },
@@ -77,7 +77,7 @@
                 "korean": "ㅊ",
                 "english": "ch/t",
                 "roman": "ch/t",
-                "description": "Pronounced as in <b>ch</b>in/ki<b>t</b>",
+                "description": "Pronounced as in chin/kit",
                 "example": "",
                 "topics": ["alphabet", "consonant"]
             },
@@ -85,7 +85,7 @@
                 "korean": "ㅋ",
                 "english": "k",
                 "roman": "k",
-                "description": "Pronounced as in <b>k</b>id",
+                "description": "Pronounced as in kid",
                 "example": "",
                 "topics": ["alphabet", "consonant"]
             },
@@ -93,7 +93,7 @@
                 "korean": "ㅌ",
                 "english": "t",
                 "roman": "t",
-                "description": "Pronounced as in <b>t</b>oy",
+                "description": "Pronounced as in toy",
                 "example": "",
                 "topics": ["alphabet", "consonant"]
             },
@@ -101,7 +101,7 @@
                 "korean": "ㅍ",
                 "english": "p",
                 "roman": "p",
-                "description": "Pronounced as in <b>p</b>lay",
+                "description": "Pronounced as in play",
                 "example": "",
                 "topics": ["alphabet", "consonant"]
             },
@@ -109,7 +109,7 @@
                 "korean": "ㅎ",
                 "english": "h/t",
                 "roman": "h/t",
-                "description": "Pronounced as in <b>h</b>and/ra<b>t</b>",
+                "description": "Pronounced as in hand/rat",
                 "example": "",
                 "topics": ["alphabet", "consonant"]
             },
@@ -117,7 +117,7 @@
                 "korean": "ㄲ",
                 "english": "gg/k",
                 "roman": "gg/k",
-                "description": "Pronounced as in <b>g</b>reat/bac<b>k</b>",
+                "description": "Pronounced as in great/back",
                 "example": "",
                 "topics": ["alphabet", "consonant"]
             },
@@ -125,7 +125,7 @@
                 "korean": "ㄸ",
                 "english": "dd/t",
                 "roman": "dd/t",
-                "description": "Pronounced as in <b>d</b>esk/ba<b>t</b>",
+                "description": "Pronounced as in desk/bat",
                 "example": "",
                 "topics": ["alphabet", "consonant"]
             },
@@ -133,7 +133,7 @@
                 "korean": "ㅃ",
                 "english": "bb/pp",
                 "roman": "bb/pp",
-                "description": "Pronounced as in <b>b</b>rain/sna<b>p</b>",
+                "description": "Pronounced as in brain/snap",
                 "example": "",
                 "topics": ["alphabet", "consonant"]
             },
@@ -141,7 +141,7 @@
                 "korean": "ㅆ",
                 "english": "ss/t",
                 "roman": "ss/t",
-                "description": "Pronounced as in <b>s</b>mile/ra<b>t</b>",
+                "description": "Pronounced as in smile/rat",
                 "example": "",
                 "topics":["alphabet", "consonant"]
             },
@@ -149,7 +149,7 @@
                 "korean": "ㅉ",
                 "english": "jj/t",
                 "roman": "jj/t",
-                "description": "Pronounced as in <b>j</b>oy/ha<b>t</b>",
+                "description": "Pronounced as in joy/hat",
                 "example": "",
                 "topics": ["alphabet", "consonant"]
             },
@@ -157,7 +157,7 @@
                 "korean": "ㅏ",
                 "english": "a",
                 "roman": "a",
-                "description": "Pronounced as in f<b>a</b>ther",
+                "description": "Pronounced as in father",
                 "example": "",
                 "topics":["alphabet", "vowel"]
             },
@@ -165,7 +165,7 @@
                 "korean": "ㅐ",
                 "english": "ae",
                 "roman": "ae",
-                "description": "Pronounced as in p<b>a</b>y",
+                "description": "Pronounced as in pay",
                 "example": "",
                 "topics":["alphabet", "vowel"]
             },
@@ -173,7 +173,7 @@
                 "korean": "ㅑ",
                 "english": "ya",
                 "roman": "ya",
-                "description": "Pronounced as in <b>ya</b>cht",
+                "description": "Pronounced as in yacht",
                 "example": "",
                 "topics":["alphabet", "vowel"]
             },
@@ -181,7 +181,7 @@
                 "korean": "ㅒ",
                 "english": "yae",
                 "roman": "yae",
-                "description": "Pronounced as in <b>yea</b>!",
+                "description": "Pronounced as in yea!",
                 "example": "",
                 "topics":["alphabet", "vowel"]
             },
@@ -189,7 +189,7 @@
                 "korean": "ㅓ",
                 "english": "eo",
                 "roman": "eo",
-                "description": "Pronounced as in y<b>o</b>ung",
+                "description": "Pronounced as in young",
                 "example": "",
                 "topics": ["alphabet", "vowel"]
             },
@@ -197,7 +197,7 @@
                 "korean": "ㅔ",
                 "english": "e",
                 "roman": "e",
-                "description": "Pronounced as in s<b>e</b>t",
+                "description": "Pronounced as in set",
                 "example": "",
                 "topics": ["alphabet", "vowel"]
             },
@@ -205,7 +205,7 @@
                 "korean": "ㅕ",
                 "english": "yeo",
                 "roman": "yeo",
-                "description": "Pronounced as in <b>yo</b>ung",
+                "description": "Pronounced as in young",
                 "example": "",
                 "topics":["alphabet", "vowel"]
             },
@@ -213,7 +213,7 @@
                 "korean": "ㅖ",
                 "english": "ye",
                 "roman": "ye",
-                "description": "Pronounced as in <b>ye</b>t",
+                "description": "Pronounced as in yet",
                 "example": "",
                 "topics": ["alphabet", "vowel"]
             },
@@ -221,7 +221,7 @@
                 "korean": "ㅗ",
                 "english": "o",
                 "roman": "o",
-                "description": "Pronounced as in y<b>o</b> y<b>o</b>",
+                "description": "Pronounced as in yo yo",
                 "example": "",
                 "topics":["alphabet", "vowel"]
             },
@@ -229,7 +229,7 @@
                 "korean": "ㅘ",
                 "english": "wa",
                 "roman": "wa",
-                "description": "Pronounced as in <b>wa</b>ter",
+                "description": "Pronounced as in water",
                 "example": "",
                 "topics":["alphabet"]
             },
@@ -237,7 +237,7 @@
                 "korean": "ㅙ",
                 "english": "wae",
                 "roman": "wae",
-                "description": "Pronounced as in <b>wa</b>iter",
+                "description": "Pronounced as in waiter",
                 "example": "",
                 "topics":["alphabet"]
             },
@@ -245,7 +245,7 @@
                 "korean": "ㅚ",
                 "english": "oi",
                 "roman": "oi",
-                "description": "Pronounced as in <b>wai</b>t",
+                "description": "Pronounced as in wait",
                 "example": "",
                 "topics":["alphabet"]
             },
@@ -253,7 +253,7 @@
                 "korean": "ㅛ",
                 "english": "yo",
                 "roman": "yo",
-                "description": "Pronounced as in <b>yo</b> <b>yo</b>",
+                "description": "Pronounced as in yo yo",
                 "example": "",
                 "topics":["alphabet", "vowel"]
             },
@@ -261,7 +261,7 @@
                 "korean": "ㅜ",
                 "english": "u",
                 "roman": "u",
-                "description": "Pronounced as in c<b>oo</b>l",
+                "description": "Pronounced as in cool",
                 "example": "",
                 "topics":["alphabet", "vowel"]
             },
@@ -269,7 +269,7 @@
                 "korean": "ㅝ",
                 "english": "weo",
                 "roman": "weo",
-                "description": "Pronounced as in <b>wo</b>n",
+                "description": "Pronounced as in won",
                 "example": "",
                 "topics":["alphabet"]
             },
@@ -277,7 +277,7 @@
                 "korean": "ㅞ",
                 "english": "we",
                 "roman": "we",
-                "description": "Pronounced as in <b>we</b>t",
+                "description": "Pronounced as in wet",
                 "example": "",
                 "topics":["alphabet"]
             },
@@ -285,7 +285,7 @@
                 "korean": "ㅟ",
                 "english": "ui",
                 "roman": "ui",
-                "description": "Pronounced as in <b>we</b>",
+                "description": "Pronounced as in we",
                 "example": "",
                 "topics":["alphabet"]
             },
@@ -293,7 +293,7 @@
                 "korean": "ㅠ",
                 "english": "yu",
                 "roman": "yu",
-                "description": "Pronounced as in <b>you</b>",
+                "description": "Pronounced as in you",
                 "example": "",
                 "topics":["alphabet", "vowel"]
             },
@@ -301,7 +301,7 @@
                 "korean": "ㅡ",
                 "english": "u",
                 "roman": "u",
-                "description": "Pronounced as in g<b>oo</b>d",
+                "description": "Pronounced as in good",
                 "example": "",
                 "topics":["alphabet", "vowel"]
             },
@@ -309,7 +309,7 @@
                 "korean": "ㅢ",
                 "english": "ui",
                 "roman": "ui",
-                "description": "Pronounced as in <b>wi</b>sdom",
+                "description": "Pronounced as in wisdom",
                 "example": "",
                 "topics":["alphabet"]
             },
@@ -317,7 +317,7 @@
                 "korean": "ㅣ",
                 "english": "i",
                 "roman": "i",
-                "description": "Pronounced as in sh<b>ee</b>p",
+                "description": "Pronounced as in sheep",
                 "example": "",
                 "topics":["alphabet", "vowel"]
             }
@@ -814,14 +814,14 @@
                 "english": "Raw fish",
                 "roman": "hoe",
                 "description": "",
-                "example": "저는 회를 좋아해요 / 저는 회가 좋아요 <br/> jeo-neun hoe-leul joh-ahaeyo / jeo-neun hoe-ga joh-ayo [I like raw fish]",
+                "example": "저는 회를 좋아해요 / 저는 회가 좋아요  jeo-neun hoe-leul joh-ahaeyo / jeo-neun hoe-ga joh-ayo [I like raw fish]",
                 "topics":["word"]
             },
             {
                 "korean": "저는 회를 좋아해요 / 저는 회가 좋아요",
                 "english": "I like raw fish",
                 "roman": "jeo-neun hoe-leul joh-ahaeyo / jeo-neun hoe-ga joh-ayo",
-                "description": "회 [Raw fish] 좋아해요 [I like] <br/> 회 [Raw fish] 좋아요 [I like]",
+                "description": "회 [Raw fish] 좋아해요 [I like]  회 [Raw fish] 좋아요 [I like]",
                 "example": "",
                 "topics":["sentence"]
             },
@@ -830,7 +830,7 @@
                 "english": "Movies",
                 "roman": "yeonghwa",
                 "description": "",
-                "example": "영화를 좋아했어요? 네, 좋아했어요 <br/> yeonghwa-leul joh-ahaess-eoyo? ne, joh-ahaess-eoyo [Did you like movies? Yes, I liked it]",
+                "example": "영화를 좋아했어요? 네, 좋아했어요  yeonghwa-leul joh-ahaess-eoyo? ne, joh-ahaess-eoyo [Did you like movies? Yes, I liked it]",
                 "topics":["word"]
             },
             {
@@ -846,7 +846,7 @@
                 "english": "Eyes / Snow",
                 "roman": "nun",
                 "description": "",
-                "example": "저는 눈을 좋아해요 <br/> jeo-neun nun-eul joh-ahaeyo [I like snow]",
+                "example": "저는 눈을 좋아해요  jeo-neun nun-eul joh-ahaeyo [I like snow]",
                 "topics":["word"]
             },
             {
@@ -909,7 +909,7 @@
                 "korean": "네, 맞아요",
                 "english": "Yes, that's right",
                 "roman": "ne, maj-ayo",
-                "description": "네 [yes] 맞다 [to be right] <br/> <b>Conjugation Rule:</b> The last vowel in a verb stem is ㅏ or ㅗ, then you add 아요",
+                "description": "네 [yes] 맞다 [to be right]  Conjugation Rule: The last vowel in a verb stem is ㅏ or ㅗ, then you add 아요",
                 "example": "",
                 "topics":["sentence"]
             },
