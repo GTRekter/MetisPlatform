@@ -39,3 +39,15 @@ Application that generate random flashcard according to a JSON dictionary. I'm c
 |   Good: Good evening! good!  | 좋다: 좋은 저녁! 좋아요! | 
 |   right: right? Yes that's right.  | 맞다: 맞아요? 네, 맞아요. | 
 |  -hello(lit: be happy well)-: hello? Hello?  | 안녕하다: 안녕하십니까? 안녕하세요? | 
+
+
+## Quick start
+Download Gulp Command Line Interface to be able to use gulp in your Terminal.
+``npm install gulp-cli -g``
+After installing Gulp, run npm install in the main volt/ folder to download all the project dependencies. You'll find them in the node_modules/ folder.
+``npm install``
+Run gulp in the scss/ folder to serve the project files using BrowserSync. Running gulp will compile the theme and open /index.html in your main browser.
+``gulp``
+While the gulp command is running, files in the material-dashboard/scss/, material-dashboard/js/ and material-dashboard/ folders will be monitored for changes. Files from the material-dashboard/scss/ folder will generate injected CSS.
+
+Hit CTRL+C to terminate the gulp command. This will stop the local server from running.
