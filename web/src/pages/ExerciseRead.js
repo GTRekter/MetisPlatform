@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import DictionaryService from '../services/DictionaryService';
 import ReportCard from '../components/ReportCard';
-import { faFlag, faExclamationTriangle } from '@fortawesome/free-solid-svg-icons'
+import ReportCardFilter from '../components/ReportCardFilter';
+import { faFlag, faExclamationTriangle, faTags } from '@fortawesome/free-solid-svg-icons'
 import Read from '../components/Read';
 
 export default class ExerciseRead extends Component {
@@ -12,8 +13,8 @@ export default class ExerciseRead extends Component {
             errors: [],
             correct: [],
             topics: [],
-            currentWord: null,
-            currentTopic: null
+            currentWord: "",
+            currentTopic: ""
         }
         // this.onClickReset = this.onClickReset.bind(this);
         // this.onClickUpdateWordsByTopic = this.onClickUpdateWordsByTopic.bind(this);
@@ -40,21 +41,6 @@ export default class ExerciseRead extends Component {
     //         isAnswerCorrect: false
     //     });
     // };
-    // onClickUpdateWordsByTopic = (element) => {
-    //     var topic = element.target.getAttribute("data-topic");
-    //     var mappedJson = DictionaryService.getAllWordsByTopic(topic);
-    //     this.setState({
-    //         ...this.state,
-    //         words: this.shuffle(mappedJson),
-    //         currentWord: mappedJson[0],
-    //         viewTranslation: false,
-    //         errors: [],
-    //         correct: [],
-    //         topic: topic,
-    //         isAnswerProvided: false,
-    //         isAnswerCorrect: false
-    //     });
-    // };
     // onClickUpdateWordsByAll = () => {
     //     var mappedJson = DictionaryService.getAllWords();
     //     this.setState({
@@ -67,6 +53,19 @@ export default class ExerciseRead extends Component {
     //         isAnswerCorrect: false
     //     });
     // };
+    updateWordsByTopic = (topic) => {
+        console.log(topic);
+        var mappedJson = DictionaryService.getAllWordsByTopic(topic);
+        this.setState({
+            ...this.state,
+            words: this.shuffle(mappedJson),
+            viewTranslation: false,
+            errors: [],
+            correct: [],
+            currentTopic: topic,
+            currentWord: mappedJson[0]
+        });
+    };
     updateCounters = () => {
         if (this.state.words.length > (this.state.errors.length + this.state.correct.length) + 1) {
             if (!this.state.isAnswerCorrect) {
@@ -93,23 +92,23 @@ export default class ExerciseRead extends Component {
     shuffle = (array) => {
         return array.sort(() => Math.random() - 0.5);
     };
-    // capitalizeFirstLetter = (string) => {
-    //     if (string !== undefined && string.length > 0) {
-    //         return string.replace(/^\w/, (c) => c.toUpperCase());
-    //     }
-    // }
+    capitalizeFirstLetter = (string) => {
+        if (string !== undefined && string.length > 0) {
+            return string.replace(/^\w/, (c) => c.toUpperCase());
+        }
+    }
     render() {
         return (
             <div>
                 <div className="row">
                     <div className="col-12 col-sm-4 py-4">
-                        <ReportCard title="Total" icon={faFlag} color="success" value={this.state.words.length} />
+                        <ReportCardFilter title="Topic" icon={faTags} color="dark" value={this.state.currentTopic === "" ? "All" : this.capitalizeFirstLetter(this.state.currentTopic)} options={this.state.topics} onOptionChangeCallback={this.updateWordsByTopic} />
                     </div>
                     <div className="col-12 col-sm-4 py-4">
-                        <ReportCard title="Remaining" icon={faFlag} color="primary" value={this.state.errors.length + this.state.correct.length + "/" + this.state.words.length} />
+                        <ReportCard title="Remaining" icon={faFlag} color="primary" value={this.state.errors.length + this.state.correct.length + "/" + this.state.words.length} footer="Number of remaining words" />
                     </div>
                     <div className="col-12 col-sm-4 py-4">
-                        <ReportCard title="errors" icon={faExclamationTriangle} color="info" value={this.state.errors.length} />
+                        <ReportCard title="errors" icon={faExclamationTriangle} color="info" value={this.state.errors.length} footer="Number of errors" />
                     </div>
                 </div>
                 <div className="row pt-4">

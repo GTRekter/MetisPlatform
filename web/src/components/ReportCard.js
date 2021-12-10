@@ -20,12 +20,13 @@ export default class ReportCard extends Component {
                         <h4 className="mb-0">{this.props.value}</h4>
                     </div>
                 </div>
-                {/* <hr className="dark horizontal my-0" />
+                <hr className="dark horizontal my-0" />
                 <div className="card-footer p-3">
                     <p className="mb-0">
-                        <span className="text-success text-sm font-weight-bolder">+55% </span>than lask week
-                    </p>
-                </div> */}
+                        {this.props.footer}
+                        {/* <span className="text-success text-sm font-weight-bolder">+55% </span>than lask week */}
+                    </p> 
+                </div>
             </div>
         )
     }
