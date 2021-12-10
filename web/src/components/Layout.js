@@ -21,11 +21,11 @@ export class Layout extends Component {
         return (
             <div className={`g-sidenav-show ${this.state.isNavbarVisible ? 'g-sidenav-pinned' : ''}`}>
                 <Sidebar />
-                <main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg ">
-                    <div class="container-fluid my-3">
-                        <div class="row d-block d-sm-none">
-                            <div class="col text-end">
-                                <p class="text-md text-muted pointer" onClick={() => this.onClickToggleNavbar()}>
+                <main className="main-content position-relative max-height-vh-100 h-100 border-radius-lg ">
+                    <div className="container-fluid my-3">
+                        <div className="row d-block d-sm-none">
+                            <div className="col text-end">
+                                <p className="text-md text-muted pointer" onClick={() => this.onClickToggleNavbar()}>
                                     <FontAwesomeIcon className='opacity-10' icon={faBars} />
                                 </p>
                             </div>

@@ -5,10 +5,10 @@ export default class Home extends Component {
     render() {
         return (
             <div>
-                <div class="row">
-                    <div class="col-xl-12">
-                        <div class="card">
-                            <div class="card-body text-center">
+                <div className="row">
+                    <div className="col-xl-12">
+                        <div className="card">
+                            <div className="card-body text-center">
                                 <img src={korea} id="korea-img" className="img-fluid" alt="korea" />
                             </div>
                         </div>

@@ -56,8 +56,8 @@ export default class Dictionary extends Component {
         }
         return (
             <div>
-                <div class="row">
-                    <div class="col-12">
+                <div className="row">
+                    <div className="col-12">
                         <div className="btn-toolbar mb-2 mb-md-0">
                             <div className="dropdown px-2 py-2">
                                 <span className="btn btn-secondary dropdown-toggle pointer" role="button" id="topicFilterDropdown" data-bs-toggle="dropdown" aria-expanded="false">
@@ -73,16 +73,16 @@ export default class Dictionary extends Component {
                         </div>
                     </div>
                 </div>
-                <div class="row">
-                    <div class="col-12">
-                        <div class="card my-4">
-                            <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
-                                <div class="bg-gradient-info shadow-info border-radius-lg pt-4 pb-3">
-                                    <h6 class="text-white text-capitalize ps-3">Dictionary</h6>
+                <div className="row">
+                    <div className="col-12">
+                        <div className="card my-4">
+                            <div className="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
+                                <div className="bg-gradient-info shadow-info border-radius-lg pt-4 pb-3">
+                                    <h6 className="text-white text-capitalize ps-3">Dictionary</h6>
                                 </div>
                             </div>
-                            <div class="card-body px-0 pb-2">
-                                <div class="table-responsive p-0">
+                            <div className="card-body px-0 pb-2">
+                                <div className="table-responsive p-0">
                                     <WordList words={this.state.words} />
                                 </div>
                             </div>

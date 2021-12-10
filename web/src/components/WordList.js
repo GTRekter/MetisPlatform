@@ -14,13 +14,13 @@ export default class WordList extends Component {
     render() {
         return (
             <div>
-                <table class="table align-items-center mb-0">
+                <table className="table align-items-center mb-0">
                     <thead>
                         <tr>
-                            <th class="text-secondary opacity-7"></th>
-                            <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Korean</th>
-                            <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 text-center">English</th>
-                            <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 text-center">Roman</th>
+                            <th className="text-secondary opacity-7"></th>
+                            <th className="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Korean</th>
+                            <th className="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 text-center">English</th>
+                            <th className="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 text-center">Roman</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -32,9 +32,9 @@ export default class WordList extends Component {
                                             <FontAwesomeIcon icon={faVolumeUp} />
                                         </button>
                                     </td>
-                                    <td class="text-wrap">{word.korean}</td>
-                                    <td class="text-center text-wrap">{word.english}</td>
-                                    <td class="text-center text-wrap">{word.roman}</td>
+                                    <td className="text-wrap">{word.korean}</td>
+                                    <td className="text-center text-wrap">{word.english}</td>
+                                    <td className="text-center text-wrap">{word.roman}</td>
                                 </tr>
                             )
                         }
