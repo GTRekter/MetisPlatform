@@ -17,7 +17,7 @@ export default class Read extends Component {
     }
     onClickViewTranslation = () => {
         if (!this.state.viewTranslation) {
-            SpeechService.synthesizeSpeech(this.state.currentWord.korean);
+            SpeechService.synthesizeSpeech(this.props.currentWord.korean);
         }
         this.setState({
             viewTranslation: !this.state.viewTranslation
