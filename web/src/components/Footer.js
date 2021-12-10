@@ -12,7 +12,7 @@ export default class Footer extends Component {
                             <div className="copyright text-center text-sm text-muted text-lg-start">
                                 © 2021,
                                 made with <FontAwesomeIcon className='opacity-10' icon={faHeart} /> by 
-                                <a href="https://www.ivanporta.net" rel="noreferrer" className="font-weight-bold text" target="_blank"> Ivan Porta</a>.
+                                <a href="https://ivanporta.net/" rel="noreferrer" className="font-weight-bold text" target="_blank"> Ivan Porta</a>.
                             </div>
                         </div>
                         <div className="col-lg-6">
