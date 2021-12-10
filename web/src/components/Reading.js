@@ -195,8 +195,6 @@ export default class Reading extends Component {
                 backgroundClass = "bg-gradient-danger shadow-danger";
             }
         }
-        var example = this.state.currentWord != null ? this.state.currentWord.example : "";
-        var description = this.state.currentWord != null ? this.state.currentWord.description : "";
         return (
             <div>
                 <div className="row">
@@ -229,9 +227,9 @@ export default class Reading extends Component {
                             </div>
                             <div class="card-body">
                                 <h6 class="mb-0 ">Examples</h6>
-                                <p class="text-sm ">{example}</p>
+                                <p class="text-sm ">{this.state.currentWord != null ? this.state.currentWord.example : ""}</p>
                                 <h6 class="mb-0 ">Description</h6>
-                                <p class="text-sm ">{description}</p>
+                                <p class="text-sm ">{this.state.currentWord != null ? this.state.currentWord.description : ""}</p>
                                 <hr class="dark horizontal" />
                                 <div class="text-center">
                                     <button className="btn btn-success mx-3 mb-0 text-white" onClick={() => this.onClickAddCorrect()}>
