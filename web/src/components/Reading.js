@@ -63,10 +63,12 @@ export default class Reading extends Component {
         }, 3000);
     };
     onClickViewTranslation = () => {
+        if(!this.state.viewTranslation) {
+            SpeechService.synthesizeSpeech(this.state.currentWord.korean);
+        }  
         this.setState({
             viewTranslation: !this.state.viewTranslation
-        })
-        SpeechService.synthesizeSpeech(this.state.currentWord.korean);
+        })  
     };
     onClickToggleMicrophone = async () => {
         var self = this;
