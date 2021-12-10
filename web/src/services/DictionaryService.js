@@ -33,10 +33,8 @@ class DictionaryService {
         return words; 
     }
     getAllWordsByTopic(topic){
-        console.log(topic);
         var wordArrays = data.map(lesson => {
             var words = lesson.words;
-            console.log(topic);
             if(topic !== undefined && topic !== ""){
                 words = lesson.words.filter(item => item.topics.includes(topic))
             }
@@ -55,8 +53,6 @@ class DictionaryService {
         return words; 
     }
     getAllWordsFromString(wordString, topic){
-        console.log(wordString);
-        console.log("topic:" + topic);
         var wordArrays = data.map(lesson => {
             var words = lesson.words;
             if(topic !== undefined && topic !== ""){

@@ -1,47 +1,44 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faBook, faGlasses, faHome, faFont } from '@fortawesome/free-solid-svg-icons'
-import './Sidebar.css';
+import { faBook, faGlasses, faHome } from '@fortawesome/free-solid-svg-icons'
 
 export default class Sidebar extends Component {
     render() {
         return (
-            <div>
-                <div className="position-sticky pt-3">
-                    <ul className="nav flex-column mb-2">
-                        <li className="nav-item mt-0">
-                            <Link className="nav-link" to='/'>
-                                <FontAwesomeIcon icon={faHome} />
-                                <span className="px-1 d-none d-md-inline">Home</span>
-                            </Link>
-                        </li>
-                        <li className="nav-item mt-0">
-                            <Link className="nav-link" to='/dictionary/alphabet'>
-                                <FontAwesomeIcon icon={faFont} />
-                                <span className="px-1 d-none d-md-inline">Alphabet</span>
-                            </Link>
-                        </li>
-                        <li className="nav-item mt-0">
-                            <Link className="nav-link" to='/dictionary'>
-                                <FontAwesomeIcon icon={faBook} />
-                                <span className="px-1 d-none d-md-inline">Dictionary</span>
-                            </Link>
-                        </li>
-                    </ul>
-                    <h6 className="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted d-none d-md-inline">
-                        <span className="">Exercises</span>
-                    </h6>
-                    <ul className="nav flex-column mb-2">
-                        <li className="nav-item mt-0">
-                            <Link className="nav-link" to='/reading'>
-                                <FontAwesomeIcon icon={faGlasses} />
-                                <span className="px-1 d-none d-md-inline">Reading</span>
-                            </Link>
-                        </li>
-                    </ul>
-                </div>
-            </div>
+                <aside class="sidenav navbar navbar-vertical navbar-expand-xs border-0 border-radius-xl my-3 fixed-start ms-3 bg-gradient-dark" id="sidenav-main">
+                    <div class="collapse navbar-collapse w-auto max-height-vh-100 mt-4" id="sidenav-collapse-main">
+                        <ul class="navbar-nav">
+                            <li class="nav-item">
+                                <Link className="nav-link" to='/'>
+                                    <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
+                                        <FontAwesomeIcon className='opacity-10' icon={faHome} />
+                                    </div>
+                                    <span class="nav-link-text ms-1">Dashboard</span>
+                                </Link>
+                            </li>
+                            <li class="nav-item">
+                                <Link className="nav-link" to='/dictionary'>
+                                    <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
+                                        <FontAwesomeIcon className='opacity-10' icon={faBook} />
+                                    </div>
+                                    <span class="nav-link-text ms-1">Dictionary</span>
+                                </Link>
+                            </li>
+                            <li class="nav-item mt-3">
+                                <h6 class="ps-4 ms-2 text-uppercase text-xs text-white font-weight-bolder opacity-8">Exercise</h6>
+                            </li>
+                            <li class="nav-item">
+                                <Link className="nav-link" to='/reading'>
+                                    <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
+                                        <FontAwesomeIcon className='opacity-10' icon={faGlasses} />
+                                    </div>
+                                    <span class="nav-link-text ms-1">Reading</span>
+                                </Link>
+                            </li>
+                        </ul>
+                    </div>
+                </aside>
         )
     }
 }

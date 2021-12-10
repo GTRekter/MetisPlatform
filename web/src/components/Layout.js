@@ -1,24 +1,39 @@
 import React, { Component } from 'react';
 import Sidebar from './Sidebar';
-import Header from './Header';
+import Footer from './Footer';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faBars } from '@fortawesome/free-solid-svg-icons'
 
 export class Layout extends Component {
-    render() {
+    constructor(props) {
+        super(props)
+        this.state = {
+            isNavbarVisible: false
+        }
+        this.onClickToggleNavbar = this.onClickToggleNavbar.bind(this);
+    }
+    onClickToggleNavbar = () => {
+        this.setState({
+            isNavbarVisible: !this.state.isNavbarVisible
+        })
+    }
+    render() {     
         return (
-            <div>
-                <div className="d-inline d-md-none">
-                    <Header />
-                </div>
-                <div className="container-fluid">
-                    <div className="row">
-                        <nav className="d-none d-md-inline col-md-3 col-lg-2 bg-light sidebar">
-                            <Sidebar />
-                        </nav>
-                        <main className="col offset-md-3 col-md-9 ms-sm-auto col-lg-10 px-md-4">
-                            {this.props.children}
-                        </main>
+            <div className={`g-sidenav-show ${this.state.isNavbarVisible ? 'g-sidenav-pinned' : ''}`}>
+                <Sidebar />
+                <main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg ">
+                    <div class="container-fluid my-3">
+                        <div class="row d-block d-sm-none">
+                            <div class="col text-end">
+                                <p class="text-md text-muted pointer" onClick={() => this.onClickToggleNavbar()}>
+                                    <FontAwesomeIcon className='opacity-10' icon={faBars} />
+                                </p>
+                            </div>
+                        </div>
+                        {this.props.children}
+                        <Footer />
                     </div>
-                </div>
+                </main>
             </div>
         );
     }

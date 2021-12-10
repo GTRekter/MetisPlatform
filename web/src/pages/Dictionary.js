@@ -15,8 +15,7 @@ export default class Dictionary extends Component {
         this.onClickUpdateWordsByAll = this.onClickUpdateWordsByAll.bind(this);
     }
     componentDidMount() {
-        const topic = this.props.match.params.topic; 
-        console.log("topic: " + topic);
+        const topic = this.props.match.params.topic;
         this.setState({
             words: DictionaryService.getAllWords(),
             topics: DictionaryService.getAllTopics(),
@@ -57,23 +56,39 @@ export default class Dictionary extends Component {
         }
         return (
             <div>
-                <div className="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-                    <h1 className="h2">Dictionary</h1>
-                    <div className="btn-toolbar mb-2 mb-md-0">
-                        <div className="dropdown px-2 py-2">
-                            <span className="btn btn-secondary dropdown-toggle pointer" role="button" id="topicFilterDropdown" data-bs-toggle="dropdown" aria-expanded="false">
-                                Topics: {this.state.topic !== "" ? this.capitalizeFirstLetter(this.state.topic) : "All"}
-                            </span>
-                            <ul className="dropdown-menu" aria-labelledby="topicFilterDropdown">
-                                {topicOptions}
-                            </ul>
-                        </div>
-                        <div className="input-group mb-3 px-2 py-2">
-                            <input type="text" className="form-control" placeholder="Search" aria-label="Word" name="searchQuery" value={this.state.searchQuery} onChange={(element) => this.onChangeQueryString(element)} />
+                <div class="row">
+                    <div class="col-12">
+                        <div className="btn-toolbar mb-2 mb-md-0">
+                            <div className="dropdown px-2 py-2">
+                                <span className="btn btn-secondary dropdown-toggle pointer" role="button" id="topicFilterDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                                    Topics: {this.state.topic !== "" && this.state.topic !== undefined ? this.capitalizeFirstLetter(this.state.topic) : "All"}
+                                </span>
+                                <ul className="dropdown-menu" aria-labelledby="topicFilterDropdown">
+                                    {topicOptions}
+                                </ul>
+                            </div>
+                            <div className="input-group mb-3 px-2 py-2">
+                                <input type="text" className="form-control" placeholder="Search" aria-label="Word" name="searchQuery" value={this.state.searchQuery} onChange={(element) => this.onChangeQueryString(element)} />
+                            </div>
                         </div>
                     </div>
                 </div>
-                <WordList words={this.state.words} />
+                <div class="row">
+                    <div class="col-12">
+                        <div class="card my-4">
+                            <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
+                                <div class="bg-gradient-primary shadow-primary border-radius-lg pt-4 pb-3">
+                                    <h6 class="text-white text-capitalize ps-3">Authors table</h6>
+                                </div>
+                            </div>
+                            <div class="card-body px-0 pb-2">
+                                <div class="table-responsive p-0">
+                                    <WordList words={this.state.words} />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         )
     }

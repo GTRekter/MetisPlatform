@@ -13,14 +13,14 @@ export default class WordList extends Component {
     }
     render() {
         return (
-            <div className="word-list">
-                <table className="table">
+            <div>
+                <table class="table align-items-center mb-0">
                     <thead>
                         <tr>
-                            <th className='w-10'></th>
-                            <th className='w-30'>Korean</th>
-                            <th className='w-30'>English</th>
-                            <th className='w-30'>Roman</th>
+                            <th class="text-secondary opacity-7"></th>
+                            <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Korean</th>
+                            <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">English</th>
+                            <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Roman</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -33,8 +33,8 @@ export default class WordList extends Component {
                                         </button>
                                     </td>
                                     <td>{word.korean}</td>
-                                    <td>{word.english}</td>
-                                    <td>{word.roman}</td>
+                                    <td class="text-center">{word.english}</td>
+                                    <td class="text-center">{word.roman}</td>
                                 </tr>
                             )
                         }
