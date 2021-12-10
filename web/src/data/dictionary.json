@@ -5,7 +5,7 @@
                 "korean": "ㄱ",
                 "english": "g/k",
                 "roman": "g/k",
-                "description": "Pronounced as in gold/kit",
+                "description": "Pronounced as in <b>g</b>old/<b>k</b>it",
                 "example": "",
                 "topics": ["alphabet", "consonant"]
             },
@@ -13,7 +13,7 @@
                 "korean": "ㄴ",
                 "english": "n",
                 "roman": "n",
-                "description": "Pronounced as in near",
+                "description": "Pronounced as in <b>n</b>ear",
                 "example": "",
                 "topics": ["alphabet", "consonant"]
             },
@@ -21,7 +21,7 @@
                 "korean": "ㄷ",
                 "english": "d/t",
                 "roman": "d/t",
-                "description": "Pronounced as in day/hat",
+                "description": "Pronounced as in <b>d</b>ay/ha<b>t</b>",
                 "example": "",
                 "topics":["alphabet", "consonant"]
             },
@@ -29,7 +29,7 @@
                 "korean": "ㄹ",
                 "english": "r/l",
                 "roman": "r/l",
-                "description": "Pronounced as in rabbit/ball",
+                "description": "Pronounced as in <b>r</b>abbit/bal<b>l</b>",
                 "example": "",
                 "topics":["alphabet", "consonant"]
             },
@@ -37,7 +37,7 @@
                 "korean": "ㅁ",
                 "english": "m",
                 "roman": "m",
-                "description": "Pronounced as in moon",
+                "description": "Pronounced as in <b>m</b>oon",
                 "example": "",
                 "topics": ["alphabet", "consonant"]
             },
@@ -45,7 +45,7 @@
                 "korean": "ㅂ",
                 "english": "b/p",
                 "roman": "b/p",
-                "description": "Pronounced as in boy/map",
+                "description": "Pronounced as in <b>b</b>oy/ma<b>p</b>",
                 "example": "",
                 "topics": ["alphabet", "consonant"]
             },
@@ -53,7 +53,7 @@
                 "korean": "ㅅ",
                 "english": "s/t",
                 "roman": "s/t",
-                "description": "Pronounced as in smile/rat",
+                "description": "Pronounced as in <b>s</b>mile/ra<b>t</b>",
                 "example": "",
                 "topics": ["alphabet", "consonant"]
             },
@@ -61,7 +61,7 @@
                 "korean": "ㅇ",
                 "english": "silent/ng",
                 "roman": "silent/ng",
-                "description": "Pronounced as in kingdom",
+                "description": "Pronounced as in ki<b>ng</b>dom",
                 "example": "",
                 "topics": ["alphabet", "consonant"]
             },
@@ -69,7 +69,7 @@
                 "korean": "ㅈ",
                 "english": "j/t",
                 "roman": "j/t",
-                "description": "Pronounced as in joy/hat",
+                "description": "Pronounced as in <b>j</b>oy/ha<b>t</b>",
                 "example": "",
                 "topics":["alphabet", "consonant"]
             },
@@ -77,7 +77,7 @@
                 "korean": "ㅊ",
                 "english": "ch/t",
                 "roman": "ch/t",
-                "description": "Pronounced as in chin/kit",
+                "description": "Pronounced as in <b>ch</b>in/ki<b>t</b>",
                 "example": "",
                 "topics": ["alphabet", "consonant"]
             },
@@ -85,7 +85,7 @@
                 "korean": "ㅋ",
                 "english": "k",
                 "roman": "k",
-                "description": "Pronounced as in kid",
+                "description": "Pronounced as in <b>k</b>id",
                 "example": "",
                 "topics": ["alphabet", "consonant"]
             },

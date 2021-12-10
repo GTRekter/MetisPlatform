@@ -176,7 +176,6 @@ export default class Reading extends Component {
         var translationIcon = <FontAwesomeIcon className="link-light" icon={faEye} />;
         if (this.state.viewTranslation) {
             transation = <h2 className="text-white">{this.state.currentWord.korean} <br />({this.state.currentWord.roman})</h2>
-        } else {
             translationIcon = <FontAwesomeIcon className="link-light" icon={faEyeSlash} />
         }
         var microphoneIcon = <FontAwesomeIcon className="link-light" icon={faMicrophone} />;
