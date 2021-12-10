@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import SpeechService from '../services/SpeechService';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faMicrophone, faMicrophoneSlash, faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons'
+import { faMicrophone, faMicrophoneSlash, faEye, faEyeSlash, faVolumeUp, faVolumeMute } from '@fortawesome/free-solid-svg-icons'
 
 export default class Speak extends Component {
     constructor(props) {
@@ -9,19 +9,30 @@ export default class Speak extends Component {
         this.state = {
             userAnswer: null,
             viewTranslation: false,
+            isPlaying: false,
             isAnswerCorrect: false,
             isRecordingMicrophone: false
         }
         this.onClickToggleMicrophone = this.onClickToggleMicrophone.bind(this);
         this.onClickViewTranslation = this.onClickViewTranslation.bind(this);
+        this.onClickPlayTranslation = this.onClickPlayTranslation.bind(this);
     }
     onClickViewTranslation = () => {
-        if (!this.state.viewTranslation) {
-            SpeechService.synthesizeSpeech(this.props.currentWord.korean);
-        }
         this.setState({
             viewTranslation: !this.state.viewTranslation
         })
+    };
+    onClickPlayTranslation = () => {
+        let self = this;
+        this.setState({
+            isPlaying: true
+        });
+        SpeechService.synthesizeSpeech(self.props.currentWord.korean);
+        setTimeout(function () {     
+            self.setState({
+                isPlaying: false
+            })
+        }, 2000);   
     };
     onClickToggleMicrophone = async () => {
         var self = this;
@@ -56,6 +67,10 @@ export default class Speak extends Component {
         if (this.state.viewTranslation) {
             transation = <h2 className="text-white">{this.props.currentWord.korean} <br />({this.props.currentWord.roman})</h2>
             translationIcon = <FontAwesomeIcon className="link-light" icon={faEyeSlash} />
+        }
+        var playIcon = <FontAwesomeIcon className="link-light" icon={faVolumeUp} />;
+        if (this.state.isPlaying) {
+            playIcon = <FontAwesomeIcon className="link-light" icon={faVolumeMute} />
         }
         var microphoneIcon = <FontAwesomeIcon className="link-light" icon={faMicrophone} />;
         if (this.state.isRecordingMicrophone) {
@@ -96,6 +111,9 @@ export default class Speak extends Component {
                     <div className="text-center">
                         <button className="btn btn-secondary mx-3 mb-0 text-white" onClick={() => this.onClickToggleMicrophone()}>
                             {microphoneIcon}
+                        </button>
+                        <button className="btn btn-secondary mx-3 mb-0 text-white" onClick={() => this.onClickPlayTranslation()}>
+                            {playIcon}
                         </button>
                         <button className="btn btn-secondary mx-3 mb-0 text-white" onClick={() => this.onClickViewTranslation()}>
                             {translationIcon}
