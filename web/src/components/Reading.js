@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import DictionaryService from '../services/DictionaryService';
 import SpeechService from '../services/SpeechService';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faMicrophone, faMicrophoneSlash, faEye, faEyeSlash, faExclamationTriangle, faFlag, faThumbsUp, faThumbsDown, faChalkboardTeacher, faSync } from '@fortawesome/free-solid-svg-icons'
+import { faMicrophone, faMicrophoneSlash, faEye, faEyeSlash, faExclamationTriangle, faFlag, faThumbsUp, faThumbsDown } from '@fortawesome/free-solid-svg-icons'
 import './Reading.css';
 import ReportCard from './ReportCard';
 
@@ -186,12 +186,12 @@ export default class Reading extends Component {
         for (var index = 0; index < this.state.topics.length; index++) {
             topicOptions.push(<li key={index + 2}><span className="dropdown-item pointer" data-topic={this.state.topics[index]} onClick={(element) => this.onClickUpdateWordsByTopic(element)}>{this.capitalizeFirstLetter(this.state.topics[index])}</span></li>);
         }
-        var backgroundClass = "";
+        var backgroundClass = "bg-gradient-info shadow-info";
         if (this.state.isAnswerProvided) {
             if (this.state.isAnswerCorrect) {
-                backgroundClass = "bg-success";
+                backgroundClass = "bg-gradient-success shadow-success";
             } else {
-                backgroundClass = "bg-danger";
+                backgroundClass = "bg-gradient-danger shadow-danger";
             }
         }
         return (
@@ -211,7 +211,15 @@ export default class Reading extends Component {
                     <div class="col-12">
                         <div class="card z-index-2">
                             <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2 bg-transparent">
-                                <div class="bg-gradient-info shadow-info border-radius-lg py-3 pe-1 text-center">
+                                <div className={`border-radius-lg py-3 pe-1 text-center ${backgroundClass}`}>
+                                    {/* <div className="dropdown">
+                                        <div className="dropdown-toggle pointer" data-bs-toggle="dropdown" aria-expanded="false"> 
+                                            <FontAwesomeIcon icon={faChalkboardTeacher} />
+                                        </div>
+                                        <ul className="dropdown-menu">
+                                            {topicOptions}
+                                        </ul>
+                                    </div> */}
                                     <h1 className="display-4 fst-italic mt-5 text-white">{this.state.currentWord != null ? this.state.currentWord.english : ""}</h1>
                                     {transation}
                                 </div>

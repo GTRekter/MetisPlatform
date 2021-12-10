@@ -19,8 +19,8 @@ export default class WordList extends Component {
                         <tr>
                             <th class="text-secondary opacity-7"></th>
                             <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Korean</th>
-                            <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">English</th>
-                            <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Roman</th>
+                            <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 text-center">English</th>
+                            <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 text-center">Roman</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -32,9 +32,9 @@ export default class WordList extends Component {
                                             <FontAwesomeIcon icon={faVolumeUp} />
                                         </button>
                                     </td>
-                                    <td>{word.korean}</td>
-                                    <td class="text-center">{word.english}</td>
-                                    <td class="text-center">{word.roman}</td>
+                                    <td class="text-wrap">{word.korean}</td>
+                                    <td class="text-center text-wrap">{word.english}</td>
+                                    <td class="text-center text-wrap">{word.roman}</td>
                                 </tr>
                             )
                         }
