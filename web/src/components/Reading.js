@@ -131,7 +131,7 @@ export default class Reading extends Component {
     };
     updateCounters = () => {
         if (this.state.words.length > (this.state.errors.length + this.state.correct.length) + 1) {
-            if (this.state.isAnswerCorrect) {
+            if (!this.state.isAnswerCorrect) {
                 this.setState({
                     errors: [...this.state.errors, this.state.currentWord],
                     currentWord: this.state.words[this.state.errors.length + this.state.correct.length + 1],
@@ -196,14 +196,14 @@ export default class Reading extends Component {
         }
         return (
             <div>
-                <div className="row my-4">
-                    <div class="col-4">
+                <div className="row">
+                    <div class="col-12 col-sm-4 py-4">
                         <ReportCard title="Total" icon={faFlag} color="success" value={this.state.words.length} />
                     </div>
-                    <div class="col-4">
-                        <ReportCard title="Remaining" icon={faFlag} color="primary" value={this.state.errors.length + this.state.correct.length / this.state.words.length} />
+                    <div class="col-12 col-sm-4 py-4">
+                        <ReportCard title="Remaining" icon={faFlag} color="primary" value={this.state.errors.length + this.state.correct.length + "/" + this.state.words.length} />
                     </div>
-                    <div class="col-4">
+                    <div class="col-12 col-sm-4 py-4">
                         <ReportCard title="errors" icon={faExclamationTriangle} color="info" value={this.state.errors.length} />
                     </div>
                 </div>

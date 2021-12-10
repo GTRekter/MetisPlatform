@@ -12,13 +12,13 @@ export default class Footer extends Component {
                             <div class="copyright text-center text-sm text-muted text-lg-start">
                                 © 2021,
                                 made with <FontAwesomeIcon className='opacity-10' icon={faHeart} /> by 
-                                <a href="https://www.ivanporta.net" class="font-weight-bold text" target="_blank"> Ivan Porta</a>.
+                                <a href="https://www.ivanporta.net" rel="noreferrer" class="font-weight-bold text" target="_blank"> Ivan Porta</a>.
                             </div>
                         </div>
                         <div class="col-lg-6">
                             <ul class="nav nav-footer justify-content-center justify-content-lg-end">
                                 <li class="nav-item">
-                                    <a href="https://www.medium.com/gtrekter" class="nav-link text-muted" target="_blank">Blog</a>
+                                    <a href="https://gtrekter.medium.com" rel="noreferrer" class="nav-link text-muted" target="_blank">Blog</a>
                                 </li>
                             </ul>
                         </div>

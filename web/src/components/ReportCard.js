@@ -1,21 +1,7 @@
 import React, { Component } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import * as Icons from '@fortawesome/free-solid-svg-icons'
 
 export default class ReportCard extends Component {
-    constructor(props) {
-        super(props)
-    }
-    // componentDidMount() {
-    //     var mappedJson = DictionaryService.getAllWords();
-    //     this.setState({
-    //         words: this.shuffle(mappedJson),
-    //         currentWord: mappedJson[0],
-    //         errors: [],
-    //         correct: [],
-    //         topics: DictionaryService.getAllTopics(),
-    //     });
-    // }
     render() {
         let gradientColor = "bg-gradient-dark"
         let shadowColor = "shadow-dark-dark" 
