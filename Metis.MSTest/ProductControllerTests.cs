@@ -1,21 +1,13 @@
-using System;
-using System.Net;
-using System.Text.Json;
-using System.Threading.Tasks;
-using Training.API;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.EntityFrameworkCore;
-using Training.Models.Store;
+using Metis.Models.Store;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using Training.API.Controllers;
+using Metis.API.Controllers;
 using System.Collections.Generic;
-using Microsoft.AspNetCore.Mvc;
 
 namespace Training.MSTest
 {
     [TestClass]
-    public class ProductControllerTests
+    public class MetisControllerTests
     {
         protected ApplicationDbContext _dbContext { get; private set; }
         
@@ -27,10 +19,10 @@ namespace Training.MSTest
                 .Options;
 
             _dbContext = new ApplicationDbContext(options);
-            List<Product> testProducts = GetTestProducts();
-            for (int i = 0; i < testProducts.Count; i++)
+            List<Word> testWords = GetTestWords();
+            for (int i = 0; i < testWords.Count; i++)
             {
-                _dbContext.Products.Add(testProducts[i]);
+                _dbContext.Words.Add(testWords[i]);
             }
             _dbContext.SaveChanges();
         }
@@ -45,63 +37,63 @@ namespace Training.MSTest
         [TestMethod]
         public void GetAllProducts_ShouldReturnAllProducts()
         {
-            var controller = new ProductController(_dbContext);
+            var controller = new DictionaryController(_dbContext);
 
-            List<Product> result = controller.GetAllProducts() as List<Product>;
-            List<Product> testProducts = GetTestProducts();
+            List<Word> result = controller.GetAllWords() as List<Word>;
+            List<Word> testProducts = GetTestWords();
             Assert.AreEqual(testProducts.Count, result.Count);
         }
 
         [TestMethod]
         public void GetProduct_ShouldReturnCorrectProduct()
         {
-            var controller = new ProductController(_dbContext);
+            var controller = new DictionaryController(_dbContext);
 
-            List<Product> testProducts = GetTestProducts();
-            Product result = controller.GetProduct(4) as Product;
+            List<Word> testWords = GetTestWords();
+            Word result = controller.GetWord(4) as Word;
             Assert.IsNotNull(result);
-            Assert.AreEqual(testProducts[3].Name, result.Name);
+            Assert.AreEqual(testWords[3].Text, result.Text);
         }
 
         [TestMethod]
         public void RemoveProduct_ShouldReturnAllProductsExceptTheRemoved()
         {
-            var controller = new ProductController(_dbContext);
+            var controller = new DictionaryController(_dbContext);
 
-            List<Product> testProducts = GetTestProducts();
-            controller.DeleteProductById(4);
-            List<Product> result = controller.GetAllProducts() as List<Product>;
-            Assert.AreNotEqual(testProducts.Count, result.Count);
+            List<Word> testWords = GetTestWords();
+            controller.RemoveWordById(4);
+            List<Word> result = controller.GetAllWords() as List<Word>;
+            Assert.AreNotEqual(testWords.Count, result.Count);
         }
 
         [TestMethod]
         public void AddProduct_ShouldAddProduct()
         {
-            var controller = new ProductController(_dbContext);
+            var controller = new DictionaryController(_dbContext);
 
-            Product testProduct = new Product { Id = 5, Name = "Demo5", Price = 18.09M };
+            Word testProduct = new Word { Id = 5, Text = "워드 05", Description = "묘사 05", Example = "본보기 05" };
             controller.AddProduct(testProduct);
-            Product result = controller.GetProduct(5) as Product;
-            Assert.AreEqual(testProduct.Name, result.Name);
+            Word result = controller.GetWord(5) as Word;
+            Assert.AreEqual(testProduct.Text, result.Text);
         }
 
         [TestMethod]
         public void GetProduct_ShouldNotFindProduct()
         {
-            var controller = new ProductController(_dbContext);
+            var controller = new DictionaryController(_dbContext);
 
-            var result = controller.GetProduct(999);
+            var result = controller.GetWord(999);
             Assert.IsNull(result);
         }
 
-        private List<Product> GetTestProducts()
+        private List<Word> GetTestWords()
         {
-            var testProducts = new List<Product>();
-            testProducts.Add(new Product { Id = 1, Name = "Demo1", Price = 1 });
-            testProducts.Add(new Product { Id = 2, Name = "Demo2", Price = 3.75M });
-            testProducts.Add(new Product { Id = 3, Name = "Demo3", Price = 16.99M });
-            testProducts.Add(new Product { Id = 4, Name = "Demo4", Price = 11.00M });
-
+            var testProducts = new List<Word>();
+            testProducts.Add(new Word { Id = 1, Text = "워드 01", Description = "묘사 01", Example = "본보기 01" });
+            testProducts.Add(new Word { Id = 2, Text = "워드 02", Description = "묘사 02", Example = "본보기 02" });
+            testProducts.Add(new Word { Id = 3, Text = "워드 03", Description = "묘사 03", Example = "본보기 03" });
+            testProducts.Add(new Word { Id = 4, Text = "워드 04", Description = "묘사 04", Example = "본보기 04" });
+            testProducts.Add(new Word { Id = 4, Text = "워드 05", Description = "묘사 05", Example = "본보기 05" });
             return testProducts;
         }
     }

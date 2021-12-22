@@ -15,19 +15,19 @@ namespace Metis.API.Controllers
             _context = context;
         }
 
-        // [HttpPost]
-        // [Route("AddProduct")]
-        // public void AddProduct(Product product)
-        // {
-        //     ProductManager.AddProduct(_context, product);
-        // }
+        [HttpPost]
+        [Route("AddProduct")]
+        public void AddProduct(Word word)
+        {
+            DictionaryManager.AddWord(_context, word);
+        }
 
-        // [HttpPost]
-        // [Route("DeleteProductById")]
-        // public void DeleteProductById(int id)
-        // {
-        //     ProductManager.RemoveProductById(_context, id);
-        // }
+        [HttpPost]
+        [Route("RemoveWordById")]
+        public void RemoveWordById(int id)
+        {
+            DictionaryManager.RemoveWordById(_context, id);
+        }
 
         [HttpGet]
         [Route("GetAllWords")]
@@ -37,8 +37,8 @@ namespace Metis.API.Controllers
         }
 
         [HttpGet]
-        [Route("GetProduct")]
-        public Product GetProduct(int id)
+        [Route("GetWord")]
+        public Word GetWord(int id)
         {
             return DictionaryManager.GetWordById(_context, id);
         }

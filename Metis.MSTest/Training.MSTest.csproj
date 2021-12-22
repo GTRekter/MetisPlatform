@@ -8,7 +8,7 @@
   </PropertyGroup>
 
   <PropertyGroup>
-    <TargetFramework>net5.0</TargetFramework>
+    <TargetFramework>net6.0</TargetFramework>
     <ProduceReferenceAssembly>false</ProduceReferenceAssembly>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <GenerateBindingRedirectsOutputType>true</GenerateBindingRedirectsOutputType>
@@ -26,8 +26,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Training.API\Training.API.csproj" />
-    <ProjectReference Include="..\Training.Models\Training.Models.csproj" />
+    <ProjectReference Include="..\Metis.API\Metis.API.csproj" />
+    <ProjectReference Include="..\Metis.Models\Metis.Models.csproj" />
   </ItemGroup>
 
 </Project>

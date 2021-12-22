@@ -4,9 +4,9 @@ using Metis.Models.Store;
 
 namespace Metis.Models.Managers
 {
-    public static class ProductManager
+    public static class DictionaryManager
     {
-        public static void AddProduct(ApplicationDbContext context, Word word)
+        public static void AddWord(ApplicationDbContext context, Word word)
         {
             context.Words.Add(word);
             context.SaveChanges();
