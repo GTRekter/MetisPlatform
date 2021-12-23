@@ -1,82 +1,78 @@
-import data from '../data/dictionary.json';
+class DictionaryService { 
+    getAllLanguages(){
+        return fetch(process.env.REACT_APP_API_BASEURL + "Dictionary/GetAllLanguages",{ 
+            method: 'get',
+            mode: 'cors',
+            headers: {
+                'Accept': 'application/json, text/plain, */*',
+                'Content-Type': 'application/json',
+                'Access-Control-Allow-Origin':'*'
+            }
+        })
+        .then(res => res.json());        
+    }
+    getAllWordTypes(){
+        return fetch(process.env.REACT_APP_API_BASEURL + "Dictionary/GetAllWordTypes",{ 
+            method: 'get',
+            mode: 'cors',
+            headers: {
+                'Accept': 'application/json, text/plain, */*',
+                'Content-Type': 'application/json',
+                'Access-Control-Allow-Origin':'*'
+            }
+        })
+        .then(res => res.json());        
+    }
+    
 
-class DictionaryService {    
-    getAllTopics(){
-        var topics = [];
-        for(var i = 0; i < data.length; i++) {
-            for(var j = 0; j < data[i].words.length; j++) {
-                for(var k = 0; k < data[i].words[j].topics.length; k++) {
-                    if(!topics.includes(data[i].words[j].topics[k])){
-                        topics.push(data[i].words[j].topics[k]);
-                    }
-                }           
-            }        
-        }
-        return topics; 
-    }
+
+
+
+
+
+
     getAllWords(){
-        var wordArrays = data.map(lesson => {
-            return lesson.words.map(item => {
-                return {
-                    korean: item.korean,
-                    english: item.english,
-                    roman: item.roman,
-                    description: item.description,
-                    example: item.example
-                }
-            })
-        });    
-        var words = [];
-        for(var i = 0; i < wordArrays.length; i++) {
-            words = words.concat(wordArrays[i]);
-        }
-        return words; 
+        return fetch(process.env.REACT_APP_API_BASEURL + "Dictionary/GetAllWords",{ 
+            method: 'get',
+            mode: 'cors',
+            headers: {
+                'Accept': 'application/json, text/plain, */*',
+                'Content-Type': 'application/json',
+                'Access-Control-Allow-Origin':'*'
+            }
+        })
+        .then(res => res.json());        
     }
-    getAllWordsByTopic(topic){
-        var wordArrays = data.map(lesson => {
-            var words = lesson.words;
-            if(topic !== undefined && topic !== ""){
-                words = lesson.words.filter(item => item.topics.includes(topic))
-            }
-            return words.map(item => {
-                return {
-                    korean: item.korean,
-                    english: item.english,
-                    roman: item.roman
-                }     
+    addProduct(name, price){
+        return fetch(process.env.REACT_APP_API_BASEURL + "Dictionary/AddWord",{ 
+            method: 'post',
+            mode: 'cors',
+            headers: {
+                'Accept': 'application/json, text/plain, */*',
+                'Content-Type': 'application/json',
+                'Access-Control-Allow-Origin':'*'
+            },
+            body: JSON.stringify({
+                name: name,
+                price: price
             })
-        });    
-        var words = [];
-        for(var i = 0; i < wordArrays.length; i++) {
-            words = words.concat(wordArrays[i]);
-        }
-        return words; 
+        })
+        // .then(res => res.json());        
     }
-    getAllWordsFromString(wordString, topic){
-        var wordArrays = data.map(lesson => {
-            var words = lesson.words;
-            if(topic !== undefined && topic !== ""){
-                words = lesson.words.filter(item => item.topics.includes(topic))
-            }
-            return words.map(item => {
-                return {
-                    korean: item.korean,
-                    english: item.english,
-                    roman: item.roman
-                }     
+    deleteProduct(id){
+        return fetch(process.env.REACT_APP_API_BASEURL + "Dictionary/RemoveWordById",{ 
+            method: 'post',
+            mode: 'cors',
+            headers: {
+                'Accept': 'application/json, text/plain, */*',
+                'Content-Type': 'application/json',
+                'Access-Control-Allow-Origin':'*'
+            },
+            body: JSON.stringify({
+                id: id
             })
-        });   
-        var words = [];
-        for(var i = 0; i < wordArrays.length; i++) {
-            for(var k = 0; k < wordArrays[i].length; k++) {
-                if(wordArrays[i][k].korean.includes(wordString) 
-                || wordArrays[i][k].english.includes(wordString)
-                || wordArrays[i][k].roman.includes(wordString)){
-                    words.push(wordArrays[i][k]);
-                }  
-            }
-        }
-        return words;         
+        })
+        //.then(res => res.json());        
     }
 }
 export default new DictionaryService();

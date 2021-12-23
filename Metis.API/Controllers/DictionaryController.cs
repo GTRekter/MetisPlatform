@@ -1,10 +1,14 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using Metis.Models.Managers;
 using Metis.Models.Store;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authorization;
+
 
 namespace Metis.API.Controllers
 {
+    //[Authorize]
     [ApiController]
     [Route("[controller]")]
     public class DictionaryController : ControllerBase
@@ -14,33 +18,64 @@ namespace Metis.API.Controllers
         {
             _context = context;
         }
-
+   
         [HttpPost]
         [Route("AddProduct")]
-        public void AddWord(Word word)
+        public async Task<IActionResult> AddWord(Word word)
         {
-            DictionaryManager.AddWord(_context, word);
+            if(word == null)
+            {
+                return NotFound();
+            }
+            await DictionaryManager.AddWord(_context, word);
+            return Ok();
         }
 
         [HttpPost]
         [Route("RemoveWordById")]
-        public void RemoveWordById(int id)
+        public async Task<IActionResult> RemoveWordById(int id)
         {
-            DictionaryManager.RemoveWordById(_context, id);
+            await DictionaryManager.RemoveWordById(_context, id);
+            return Ok();
         }
 
+        [AllowAnonymous]
         [HttpGet]
         [Route("GetAllWords")]
-        public IEnumerable<Word> GetAllWords()
+        public async Task<IActionResult> GetAllWords()
         {
-            return DictionaryManager.GetAllWord(_context);
+            IEnumerable<Word> words = await DictionaryManager.GetAllWord(_context);
+            return Ok(words);
         }
 
+        [AllowAnonymous]
         [HttpGet]
         [Route("GetWord")]
-        public Word GetWord(int id)
+        public async Task<IActionResult> GetWord(int id)
         {
-            return DictionaryManager.GetWordById(_context, id);
+            var word = await DictionaryManager.GetWordById(_context, id);
+            return Ok(word);
+        }
+
+
+
+
+        [AllowAnonymous]
+        [HttpGet]
+        [Route("GetAllWordTypes")]
+        public async Task<IActionResult> GetAllWordTypes()
+        {
+            IEnumerable<WordType> words = await DictionaryManager.GetAllWordTypes(_context);
+            return Ok(words);
+        }
+
+        [AllowAnonymous]
+        [HttpGet]
+        [Route("GetAllLanguages")]
+        public async Task<IActionResult> GetAllLanguages()
+        {
+            IEnumerable<Language> words = await DictionaryManager.GetAllLanguage(_context);
+            return Ok(words);
         }
     }
 }

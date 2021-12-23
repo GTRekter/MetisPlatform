@@ -1,29 +1,45 @@
 using System.Linq;
+using System.Threading.Tasks;
 using System.Collections.Generic;
 using Metis.Models.Store;
+using Microsoft.EntityFrameworkCore;
 
 namespace Metis.Models.Managers
 {
     public static class DictionaryManager
     {
-        public static void AddWord(ApplicationDbContext context, Word word)
+        #region Words
+        public static async Task AddWord(ApplicationDbContext context, Word word)
         {
             context.Words.Add(word);
-            context.SaveChanges();
+            await context.SaveChangesAsync();
         }
-        public static Word GetWordById(ApplicationDbContext context, int id)
+        public static async Task<Word> GetWordById(ApplicationDbContext context, int id)
         {
-            return context.Words.FirstOrDefault((p) => p.Id == id);
+            return await context.Words.FindAsync(id);
         }
-        public static List<Word> GetAllWord(ApplicationDbContext context)
+        public static async Task<IEnumerable<Word>> GetAllWord(ApplicationDbContext context)
         {
-            return context.Words.ToList();
+            return await context.Words.ToListAsync();
         }
-        public static void RemoveWordById(ApplicationDbContext context, int id)
+        public static async Task RemoveWordById(ApplicationDbContext context, int id)
         {
-            var wordToRemove = context.Words.FirstOrDefault((p) => p.Id == id);
+            var wordToRemove = await context.Words.FindAsync(id);
             context.Words.Remove(wordToRemove);
-            context.SaveChanges();
+            await context.SaveChangesAsync();
         }
+        #endregion
+        #region Types
+        public static async Task<IEnumerable<WordType>> GetAllWordTypes(ApplicationDbContext context)
+        {
+            return await context.WordTypes.ToListAsync();
+        }
+        #endregion
+        #region Languages
+        public static async Task<IEnumerable<Language>> GetAllLanguage(ApplicationDbContext context)
+        {
+            return await context.Languages.ToListAsync();
+        }
+        #endregion
     }
 }

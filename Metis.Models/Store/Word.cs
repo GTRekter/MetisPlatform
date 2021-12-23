@@ -9,12 +9,13 @@ namespace Metis.Models.Store
     {
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
+        [Required]
         public int IdLanguage { get; set; }
+        [Required]
+        public int IdType { get; set; }
         [Required]
         [StringLength(maximumLength: 100, MinimumLength = 2)]
         public string Text { get; set; }
-        [Required]
-        public WordType Type { get; set; }
         public string Description { get; set; }
         public string Example { get; set; }
     }
