@@ -17,7 +17,6 @@ namespace Training.MSTest
             var options = new DbContextOptionsBuilder<ApplicationDbContext>()
                 .UseInMemoryDatabase("ApplicationDbContext")
                 .Options;
-
             _dbContext = new ApplicationDbContext(options);
             List<Word> testWords = GetTestWords();
             for (int i = 0; i < testWords.Count; i++)
@@ -38,7 +37,6 @@ namespace Training.MSTest
         public void GetAllProducts_ShouldReturnAllProducts()
         {
             var controller = new DictionaryController(_dbContext);
-
             List<Word> result = controller.GetAllWords() as List<Word>;
             List<Word> testProducts = GetTestWords();
             Assert.AreEqual(testProducts.Count, result.Count);
@@ -48,7 +46,6 @@ namespace Training.MSTest
         public void GetProduct_ShouldReturnCorrectProduct()
         {
             var controller = new DictionaryController(_dbContext);
-
             List<Word> testWords = GetTestWords();
             Word result = controller.GetWord(4) as Word;
             Assert.IsNotNull(result);
@@ -59,7 +56,6 @@ namespace Training.MSTest
         public void RemoveProduct_ShouldReturnAllProductsExceptTheRemoved()
         {
             var controller = new DictionaryController(_dbContext);
-
             List<Word> testWords = GetTestWords();
             controller.RemoveWordById(4);
             List<Word> result = controller.GetAllWords() as List<Word>;
@@ -70,18 +66,16 @@ namespace Training.MSTest
         public void AddProduct_ShouldAddProduct()
         {
             var controller = new DictionaryController(_dbContext);
-
-            Word testProduct = new Word { Id = 5, Text = "워드 05", Description = "묘사 05", Example = "본보기 05" };
-            controller.AddProduct(testProduct);
+            Word testWord = new Word { Id = 5, Text = "워드 05", Description = "묘사 05", Example = "본보기 05" };
+            controller.AddWord(testWord);
             Word result = controller.GetWord(5) as Word;
-            Assert.AreEqual(testProduct.Text, result.Text);
+            Assert.AreEqual(testWord.Text, result.Text);
         }
 
         [TestMethod]
         public void GetProduct_ShouldNotFindProduct()
         {
             var controller = new DictionaryController(_dbContext);
-
             var result = controller.GetWord(999);
             Assert.IsNull(result);
         }

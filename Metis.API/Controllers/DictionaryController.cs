@@ -17,7 +17,7 @@ namespace Metis.API.Controllers
 
         [HttpPost]
         [Route("AddProduct")]
-        public void AddProduct(Word word)
+        public void AddWord(Word word)
         {
             DictionaryManager.AddWord(_context, word);
         }
