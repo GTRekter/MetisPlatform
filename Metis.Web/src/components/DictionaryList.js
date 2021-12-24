@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faTrash } from '@fortawesome/free-solid-svg-icons'
+import { faTrash, faEdit } from '@fortawesome/free-solid-svg-icons'
 
 export default class DictionaryList extends Component {
     constructor(props) {
@@ -9,6 +9,9 @@ export default class DictionaryList extends Component {
     }
     onClickRemove = (id) => {
         this.props.onClickRemoveCallback(id);
+    }
+    onClickEdit= () => {
+        this.props.onClickEditCallback();
     }
     render() {
         return (
@@ -28,6 +31,9 @@ export default class DictionaryList extends Component {
                                     <td className="text-center text-wrap align-middle">{dictionary.name}</td>
                                     <td className="text-center text-wrap align-middle">{dictionary.code}</td>
                                     <td className="text-center text-wrap align-middle">
+                                        <button className="btn btn-link text-dark font-weight-normal text-xs mb-0" onClick={() => this.onClickEdit()}>
+                                            <FontAwesomeIcon icon={faEdit} />
+                                        </button>
                                         <button className="btn btn-link text-danger font-weight-normal text-xs mb-0" onClick={() => this.onClickRemove(dictionary.id)}>
                                             <FontAwesomeIcon icon={faTrash} />
                                         </button>

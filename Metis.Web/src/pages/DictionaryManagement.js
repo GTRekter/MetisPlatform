@@ -5,7 +5,6 @@ import DictionaryList from '../components/DictionaryList';
 import FormCardLayout from '../components/FormCardLayout';
 import DictionaryService from '../services/DictionaryService';
 
-
 export default class DictionaryManagement extends Component {
   constructor(props) {
     super(props)
@@ -39,6 +38,17 @@ export default class DictionaryManagement extends Component {
       .catch(function (ex) {
         console.log('Response parsing failed. Error: ', ex);
       });
+  };
+  onClickEdit = () => {
+    // DictionaryService.removeDictionaryById(id)
+    //   .then(() => {
+    //     this.setState({
+    //       dictionaries: this.state.dictionaries.filter(x => x.id !== id)
+    //     })
+    //   })
+    //   .catch(function (ex) {
+    //     console.log('Response parsing failed. Error: ', ex);
+    //   });
   };
   onClickRemove = (id) => {
     DictionaryService.removeDictionaryById(id)
@@ -106,7 +116,7 @@ export default class DictionaryManagement extends Component {
               </div>
               <div className="card-body px-0 pb-2">
                 <div className="table-responsive p-0">
-                  <DictionaryList dictionaries={this.state.dictionaries} onClickRemoveCallback={this.onClickRemove} />
+                  <DictionaryList dictionaries={this.state.dictionaries} onClickRemoveCallback={this.onClickRemove} onClickEditCallback={this.onClickEdit} />
                 </div>
               </div>
             </div>

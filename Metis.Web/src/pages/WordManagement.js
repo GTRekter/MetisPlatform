@@ -146,14 +146,14 @@ export default class WordManagement extends Component {
             <div className="row">
               <div className="col-12">
                 <div className="input-group input-group-dynamic">
-                  <textarea className="form-control" rows="3" placeholder="Example" name="example" value={this.state.example} onChange={this.handleInputChange}></textarea>
+                  <textarea className="form-control" rows="3" placeholder="Description" name="description" value={this.state.description} onChange={this.handleInputChange}></textarea>
                 </div>
               </div>
             </div>
             <div className="row mt-3">
               <div className="col-12">
                 <div className="input-group input-group-dynamic">
-                  <textarea className="form-control" rows="3" placeholder="Description" name="description" value={this.state.description} onChange={this.handleInputChange}></textarea>
+                  <textarea className="form-control" rows="3" placeholder="Example" name="example" value={this.state.example} onChange={this.handleInputChange}></textarea>
                 </div>
               </div>
             </div>
@@ -165,13 +165,15 @@ export default class WordManagement extends Component {
             <div className="row">
               {
                 this.state.dictionaries.map((dictionary, index) => {
-                  if (dictionary.id != this.state.idDictionary) {
+                  if (dictionary.id !== this.state.idDictionary) {
                     return <div key={index} className="col-12 col-xl-4">
                       <div className="input-group input-group-static">
                         <label>{dictionary.name}</label>
                         <input className="form-control" type="text" name={`translation[${dictionary.id}]`} value={this.state.translation[this.state.idDictionary]} onChange={this.handleInputChange} />
                       </div>
                     </div>
+                  } else {
+                    return null
                   }
                 })
               }

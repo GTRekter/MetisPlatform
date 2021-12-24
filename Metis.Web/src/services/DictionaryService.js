@@ -81,14 +81,6 @@ class DictionaryService {
         })
             .then(res => res.json());
     }
-
-
-
-
-
-
-
-
     getAllWords() {
         return fetch(process.env.REACT_APP_API_BASEURL + "Dictionary/GetAllWords", {
             method: 'get',
@@ -119,21 +111,6 @@ class DictionaryService {
             })
         })
         // .then(res => res.json());        
-    }
-    deleteProduct(id) {
-        return fetch(process.env.REACT_APP_API_BASEURL + "Dictionary/RemoveWordById", {
-            method: 'post',
-            mode: 'cors',
-            headers: {
-                'Accept': 'application/json, text/plain, */*',
-                'Content-Type': 'application/json',
-                'Access-Control-Allow-Origin': '*'
-            },
-            body: JSON.stringify({
-                id: id
-            })
-        })
-        //.then(res => res.json());        
     }
 }
 export default new DictionaryService();

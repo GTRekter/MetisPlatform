@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faBook, faGlasses, faHome, faComment, faFont, faLanguage, faLayerGroup } from '@fortawesome/free-solid-svg-icons'
+import { faBook, faGlasses, faHome, faComment, faLanguage, faLayerGroup } from '@fortawesome/free-solid-svg-icons'
 
 export default class Sidebar extends Component {
     render() {
