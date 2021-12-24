@@ -1,38 +1,56 @@
 import React, { Component } from 'react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faPlus, faFont } from '@fortawesome/free-solid-svg-icons'
+import DictionaryList from '../components/DictionaryList';
 import FormCardLayout from '../components/FormCardLayout';
 import DictionaryService from '../services/DictionaryService';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faPlus } from '@fortawesome/free-solid-svg-icons'
+
 
 export default class DictionaryManagement extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      languages: [],
-      wordTypes: []
+      dictionaries: [],
+      name: "",
+      code: ""
     }
     this.handleInputChange = this.handleInputChange.bind(this);
+    this.onClickRemove = this.onClickRemove.bind(this);
+    this.onSubmitAddDictionary = this.onSubmitAddDictionary.bind(this);
   }
   componentDidMount() {
-    DictionaryService.getAllLanguages()
+    DictionaryService.getAllDictionaries()
       .then((data) => {
         this.setState({
-          languages: data
-        })
-      })
-      .catch(function (ex) {
-        console.log('Response parsing failed. Error: ', ex);
-      });
-    DictionaryService.getAllWordTypes()
-      .then((data) => {
-        this.setState({
-          wordTypes: data
+          dictionaries: data
         })
       })
       .catch(function (ex) {
         console.log('Response parsing failed. Error: ', ex);
       });
   }
+  onSubmitAddDictionary = () => {
+    DictionaryService.addDictionary(this.state.name, this.state.code)
+      .then((data) => {
+        this.setState({
+          dictionaries: [...this.state.dictionaries, data],
+        })
+      })
+      .catch(function (ex) {
+        console.log('Response parsing failed. Error: ', ex);
+      });
+  };
+  onClickRemove = (id) => {
+    DictionaryService.removeDictionaryById(id)
+      .then(() => {
+        this.setState({
+          dictionaries: this.state.dictionaries.filter(x => x.id !== id)
+        })
+      })
+      .catch(function (ex) {
+        console.log('Response parsing failed. Error: ', ex);
+      });
+  };
   handleInputChange = (event) => {
     const target = event.target;
     const value = target.type === 'checkbox' ? target.checked : target.value;
@@ -57,52 +75,21 @@ export default class DictionaryManagement extends Component {
 
         <div class="collapse" id="collapseCreationForm">
           <FormCardLayout className={`${this.state.isCreationFormVisible ? "visually-hidden" : ""}`}
-            title="Add Word"
-            subtitle="Add a new word to the choosen dictionary."
-            onSubmitCallback={this.onSubmitAddLanguage}>
+            icon={faFont}
+            title="Add Dictionary"
+            subtitle="Add a new dictionary."
+            onSubmitCallback={this.onSubmitAddDictionary}>
             <div className="row">
-              <div className="col-12 col-xl-4">
+              <div className="col-12 col-xl-6">
                 <div className="input-group input-group-static">
-                  <label>Word</label>
-                  <input className="form-control" type="text" />
+                  <label>Name</label>
+                  <input className="form-control" type="text" name="name" value={this.state.name} onChange={this.handleInputChange} />
                 </div>
               </div>
-              <div className="col-12 col-xl-4">
-                <div className="input-group input-group-static mb-4">
-                  <label className="ms-0">Dictionary</label>
-                  <select className="form-control">
-                    {
-                      this.state.languages.map((language, index) =>
-                        <option key={index}>{language.name}</option>
-                      )
-                    }
-                  </select>
-                </div>
-              </div>
-              <div className="col-12 col-xl-4">
-                <div className="input-group input-group-static mb-4">
-                  <label className="ms-0">Type</label>
-                  <select className="form-control">
-                    {
-                      this.state.wordTypes.map((wordType, index) =>
-                        <option key={index}>{wordType.name}</option>
-                      )
-                    }
-                  </select>
-                </div>
-              </div>
-            </div>
-            <div className="row">
-              <div className="col-12">
-                <div className="input-group input-group-dynamic">
-                  <textarea className="form-control" rows="3" placeholder="Example"></textarea>
-                </div>
-              </div>
-            </div>
-            <div className="row mt-3">
-              <div className="col-12">
-                <div className="input-group input-group-dynamic">
-                  <textarea className="form-control" rows="3" placeholder="Description"></textarea>
+              <div className="col-12 col-xl-6">
+                <div className="input-group input-group-static">
+                  <label>ISO Code</label>
+                  <input className="form-control" type="text" maxLength="5" name="code" value={this.state.code} onChange={this.handleInputChange} />
                 </div>
               </div>
             </div>
@@ -114,12 +101,12 @@ export default class DictionaryManagement extends Component {
             <div className="card my-4">
               <div className="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
                 <div className="bg-gradient-dark shadow-dark border-radius-lg pt-4 pb-3">
-                  <h6 className="text-white text-capitalize ps-3">Languages</h6>
+                  <h6 className="text-white text-capitalize ps-3">Dictionaries</h6>
                 </div>
               </div>
               <div className="card-body px-0 pb-2">
                 <div className="table-responsive p-0">
-                  {/* <LanguageList languages={this.state.languages} onClickRemoveLanguageCallback={this.onClickRemoveLanguage} /> */}
+                  <DictionaryList dictionaries={this.state.dictionaries} onClickRemoveCallback={this.onClickRemove} />
                 </div>
               </div>
             </div>

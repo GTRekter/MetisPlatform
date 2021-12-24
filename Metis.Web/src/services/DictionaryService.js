@@ -1,6 +1,6 @@
 class DictionaryService {
-    addLanguage(name, code) {
-        return fetch(process.env.REACT_APP_API_BASEURL + "Dictionary/AddLanguage", {
+    addDictionary(name, code) {
+        return fetch(process.env.REACT_APP_API_BASEURL + "Dictionary/AddDictionary", {
             method: 'post',
             mode: 'cors',
             headers: {
@@ -15,8 +15,8 @@ class DictionaryService {
         })
         .then(res => res.json());
     }
-    removeLanguageById(id) {
-        return fetch(process.env.REACT_APP_API_BASEURL + "Dictionary/RemoveLanguageById", {
+    removeDictionaryById(id) {
+        return fetch(process.env.REACT_APP_API_BASEURL + "Dictionary/RemoveDictionaryById", {
             method: 'post',
             mode: 'cors',
             headers: {
@@ -28,8 +28,8 @@ class DictionaryService {
         })
         .then(res => res.json());
     }
-    getAllLanguages() {
-        return fetch(process.env.REACT_APP_API_BASEURL + "Dictionary/GetAllLanguages", {
+    getAllDictionaries() {
+        return fetch(process.env.REACT_APP_API_BASEURL + "Dictionary/GetAllDictionaries", {
             method: 'get',
             mode: 'cors',
             headers: {
@@ -101,7 +101,7 @@ class DictionaryService {
         })
             .then(res => res.json());
     }
-    addProduct(name, price) {
+    addWord(text, idDictionary, idWordType, description, example) {
         return fetch(process.env.REACT_APP_API_BASEURL + "Dictionary/AddWord", {
             method: 'post',
             mode: 'cors',
@@ -111,8 +111,11 @@ class DictionaryService {
                 'Access-Control-Allow-Origin': '*'
             },
             body: JSON.stringify({
-                name: name,
-                price: price
+                text: text,
+                idDictionary: idDictionary,
+                idWordType: idWordType,
+                description: description,
+                example: example
             })
         })
         // .then(res => res.json());        

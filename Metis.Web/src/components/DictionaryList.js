@@ -2,13 +2,13 @@ import React, { Component } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faTrash } from '@fortawesome/free-solid-svg-icons'
 
-export default class LanguageList extends Component {
+export default class DictionaryList extends Component {
     constructor(props) {
         super(props)
-        this.onClickRemoveLanguage = this.onClickRemoveLanguage.bind(this);
+        this.onClickRemove = this.onClickRemove.bind(this);
     }
-    onClickRemoveLanguage = (id) => {
-        this.props.onClickRemoveLanguageCallback(id);
+    onClickRemove = (id) => {
+        this.props.onClickRemoveCallback(id);
     }
     render() {
         return (
@@ -23,12 +23,12 @@ export default class LanguageList extends Component {
                     </thead>
                     <tbody>
                         {
-                            this.props.languages.map((language, index) =>
+                            this.props.dictionaries.map((dictionary, index) =>
                                 <tr key={index}>
-                                    <td className="text-center text-wrap align-middle">{language.name}</td>
-                                    <td className="text-center text-wrap align-middle">{language.code}</td>
+                                    <td className="text-center text-wrap align-middle">{dictionary.name}</td>
+                                    <td className="text-center text-wrap align-middle">{dictionary.code}</td>
                                     <td className="text-center text-wrap align-middle">
-                                        <button className="btn btn-link text-danger font-weight-normal text-xs mb-0" onClick={() => this.onClickRemoveLanguage(language.id)}>
+                                        <button className="btn btn-link text-danger font-weight-normal text-xs mb-0" onClick={() => this.onClickRemove(dictionary.id)}>
                                             <FontAwesomeIcon icon={faTrash} />
                                         </button>
                                     </td>
