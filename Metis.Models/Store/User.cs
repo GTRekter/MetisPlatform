@@ -10,7 +10,6 @@ namespace Metis.Models.Store
     {
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
-        public int IdLanguage { get; set; }
         public string FirstName { get; set; }
         public string MiddleName { get; set; }
         public string SurnLastNameame { get; set; }

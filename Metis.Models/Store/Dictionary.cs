@@ -5,18 +5,13 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Metis.Models.Store
 {
-    public class Word
+    public class Dictionary
     {
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
-        [Required]
-        public int IdDictionary { get; set; }
-        [Required]
-        public int IdWordType { get; set; }
-        [Required]
         [StringLength(maximumLength: 100, MinimumLength = 2)]
-        public string Text { get; set; }
-        public string Description { get; set; }
-        public string Example { get; set; }
+        public string Name { get; set; }
+        [StringLength(maximumLength: 5, MinimumLength = 5)]
+        public string Code { get; set; }
     }
 }
