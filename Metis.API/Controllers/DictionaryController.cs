@@ -20,15 +20,15 @@ namespace Metis.API.Controllers
         }
    
         [HttpPost]
-        [Route("AddProduct")]
+        [Route("AddWord")]
         public async Task<IActionResult> AddWord(Word word)
         {
             if(word == null)
             {
                 return NotFound();
             }
-            await DictionaryManager.AddWord(_context, word);
-            return Ok();
+            Word newWord = await DictionaryManager.AddWord(_context, word);
+            return Ok(newWord);
         }
 
         [HttpPost]
@@ -88,31 +88,31 @@ namespace Metis.API.Controllers
         }
 
         [HttpPost]
-        [Route("AddLanguage")]
-        public async Task<IActionResult> AddLanguage(Language language)
+        [Route("AddDictionary")]
+        public async Task<IActionResult> AddDictionary(Dictionary dictionary)
         {
-            if (language == null)
+            if (dictionary == null)
             {
                 return NotFound();
             }
-            Language newLanguage = await DictionaryManager.AddLanguage(_context, language);
-            return Ok(newLanguage);
+            Dictionary newDictionary = await DictionaryManager.AddDictionary(_context, dictionary);
+            return Ok(newDictionary);
         }
 
         [HttpPost]
-        [Route("RemoveLanguageById")]
-        public async Task<IActionResult> RemoveLanguageById([FromBody] int id)
+        [Route("RemoveDictionaryById")]
+        public async Task<IActionResult> RemoveDictionaryById([FromBody] int id)
         {
-            await DictionaryManager.RemoveLanguageById(_context, id);
+            await DictionaryManager.RemoveDictionaryById(_context, id);
             return Ok();
         }
 
         [AllowAnonymous]
         [HttpGet]
-        [Route("GetAllLanguages")]
-        public async Task<IActionResult> GetAllLanguages()
+        [Route("GetAllDictionaries")]
+        public async Task<IActionResult> GetAllDictionaries()
         {
-            IEnumerable<Language> words = await DictionaryManager.GetAllLanguage(_context);
+            IEnumerable<Dictionary> words = await DictionaryManager.GetAllDictionary(_context);
             return Ok(words);
         }
     }

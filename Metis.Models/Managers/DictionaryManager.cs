@@ -9,10 +9,11 @@ namespace Metis.Models.Managers
     public static class DictionaryManager
     {
         #region Words
-        public static async Task AddWord(ApplicationDbContext context, Word word)
+        public static async Task<Word> AddWord(ApplicationDbContext context, Word word)
         {
             context.Words.Add(word);
             await context.SaveChangesAsync();
+            return word;
         }
         public static async Task<Word> GetWordById(ApplicationDbContext context, int id)
         {
@@ -47,22 +48,22 @@ namespace Metis.Models.Managers
             return await context.WordTypes.ToListAsync();
         }
         #endregion
-        #region Languages
-        public static async Task<Language> AddLanguage(ApplicationDbContext context, Language language)
+        #region Dictionaries
+        public static async Task<Dictionary> AddDictionary(ApplicationDbContext context, Dictionary dictionary)
         {
-            context.Languages.Add(language);
+            context.Dictionaries.Add(dictionary);
             await context.SaveChangesAsync();
-            return language;
+            return dictionary;
         }
-        public static async Task RemoveLanguageById(ApplicationDbContext context, int id)
+        public static async Task RemoveDictionaryById(ApplicationDbContext context, int id)
         {
-            var languageToRemove = await context.Languages.FindAsync(id);
-            context.Languages.Remove(languageToRemove);
+            var dictionaryToRemove = await context.Dictionaries.FindAsync(id);
+            context.Dictionaries.Remove(dictionaryToRemove);
             await context.SaveChangesAsync();
         }
-        public static async Task<IEnumerable<Language>> GetAllLanguage(ApplicationDbContext context)
+        public static async Task<IEnumerable<Dictionary>> GetAllDictionary(ApplicationDbContext context)
         {
-            return await context.Languages.ToListAsync();
+            return await context.Dictionaries.ToListAsync();
         }
         #endregion
     }

@@ -10,6 +10,6 @@ namespace Metis.Models.Store
         }
         public DbSet<Word> Words { get; set; }
         public DbSet<WordType> WordTypes { get; set; }
-        public DbSet<Language> Languages { get; set; }
+        public DbSet<Dictionary> Dictionaries { get; set; }
     }
 }
