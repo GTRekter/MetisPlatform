@@ -31,7 +31,7 @@ export default class FormCardLayout extends Component {
           </div>
           <hr className="dark horizontal my-0" />
           <div className="card-footer p-3">
-            <button type="submit" className="btn btn-primary mx-2">Save</button>
+            <button type="submit" className="btn btn-info mx-2">Save</button>
             <button type="reset" className="btn btn-secondary">Reset</button>
           </div>
         </form>

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faPlus, faFont } from '@fortawesome/free-solid-svg-icons'
+import { faPlus, faBook } from '@fortawesome/free-solid-svg-icons'
 import DictionaryList from '../components/DictionaryList';
 import FormCardLayout from '../components/FormCardLayout';
 import DictionaryService from '../services/DictionaryService';
@@ -75,7 +75,7 @@ export default class DictionaryManagement extends Component {
 
         <div class="collapse" id="collapseCreationForm">
           <FormCardLayout className={`${this.state.isCreationFormVisible ? "visually-hidden" : ""}`}
-            icon={faFont}
+            icon={faBook}
             title="Add Dictionary"
             subtitle="Add a new dictionary."
             onSubmitCallback={this.onSubmitAddDictionary}>

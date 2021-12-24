@@ -57,7 +57,6 @@ namespace Metis.API.Controllers
             return Ok(word);
         }
 
-
         [HttpPost]
         [Route("AddWordType")]
         public async Task<IActionResult> AddWordType(WordType wordType)

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faPlus, faFont } from '@fortawesome/free-solid-svg-icons'
+import { faPlus, faLanguage } from '@fortawesome/free-solid-svg-icons'
 import FormCardLayout from '../components/FormCardLayout';
 import DictionaryService from '../services/DictionaryService';
 import WordList from '../components/WordList';
@@ -107,7 +107,7 @@ export default class WordManagement extends Component {
 
         <div className="collapse" id="collapseCreationForm">
           <FormCardLayout className={`${this.state.isCreationFormVisible ? "visually-hidden" : ""}`}
-            icon={faFont}
+            icon={faLanguage}
             title="Add Word"
             subtitle="Add a new word to a choosen dictionary."
             onSubmitCallback={this.onSubmitAddWord}>
