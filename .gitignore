@@ -1,7 +1,7 @@
 
-*\appsettings.Development.json
-*\bin
-*\obj
-*\.vs\
+*/appsettings.Development.json
+*/bin
+*/obj
+*/.vs
 /Metis.API/.vs/Metis.API/DesignTimeBuild
 /Metis.API/Migrations

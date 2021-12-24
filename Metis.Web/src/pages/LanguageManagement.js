@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
+import FormCardLayout from '../components/FormCardLayout';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faPlus } from '@fortawesome/free-solid-svg-icons'
+import { faPlus, faFont } from '@fortawesome/free-solid-svg-icons'
 import LanguageList from '../components/LanguageList';
 import DictionaryService from '../services/DictionaryService';
-import ModalLayout from '../components/ModalLayout';
 
 export default class LanguageManagement extends Component {
   constructor(props) {
@@ -11,7 +11,7 @@ export default class LanguageManagement extends Component {
     this.state = {
       languages: [],
       name: "",
-      code: "",
+      code: ""
     }
     this.handleInputChange = this.handleInputChange.bind(this);
     this.onClickRemoveLanguage = this.onClickRemoveLanguage.bind(this);
@@ -28,14 +28,17 @@ export default class LanguageManagement extends Component {
         console.log('Response parsing failed. Error: ', ex);
       });
   }
-  handleInputChange = (event) => {
-    const target = event.target;
-    const value = target.type === 'checkbox' ? target.checked : target.value;
-    const name = target.name;
-    this.setState({
-      [name]: value
-    });
-  }
+  onSubmitAddLanguage = () => {
+    DictionaryService.addLanguage(this.state.name, this.state.code)
+      .then((data) => {
+        this.setState({
+          languages: [...this.state.languages, data],
+        })
+      })
+      .catch(function (ex) {
+        console.log('Response parsing failed. Error: ', ex);
+      });
+  };
   onClickRemoveLanguage = (id) => {
     DictionaryService.removeLanguageById(id)
       .then(() => {
@@ -47,36 +50,56 @@ export default class LanguageManagement extends Component {
         console.log('Response parsing failed. Error: ', ex);
       });
   };
-  onSubmitAddLanguage = (event) => {
-    event.preventDefault();
-    DictionaryService.addLanguage(this.state.name, this.state.code)
-      .then((data) => {
-        this.setState({
-          languages: [...this.state.languages, data],
-        })
-      })
-      .catch(function (ex) {
-        console.log('Response parsing failed. Error: ', ex);
-      });
-  };
+  handleInputChange = (event) => {
+    const target = event.target;
+    const value = target.type === 'checkbox' ? target.checked : target.value;
+    const name = target.name;
+    this.setState({
+      [name]: value
+    });
+  }
   render() {
     return (
       <div>
         <div className="row">
           <div className="col-12">
             <div className="btn-toolbar mb-2 mb-md-0">
-              <button className="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#languageModal">
+              <button className="btn btn-secondary" data-bs-toggle="collapse" data-bs-target="#collapseCreationForm" aria-expanded="false" aria-controls="collapseCreationForm">
                 <FontAwesomeIcon className='position-relative opacity-10' icon={faPlus} />
                 <span className='px-2'>Add</span>
               </button>
             </div>
           </div>
         </div>
+
+        <div class="collapse" id="collapseCreationForm">
+          <FormCardLayout className={`${this.state.isCreationFormVisible ? "visually-hidden" : ""}`}
+            icon={faFont}
+            title="Add Language"
+            subtitle="Add a new language to the available dictionaries."
+            onSubmitCallback={this.onSubmitAddLanguage}>
+            <div className="row">
+              <div className="col-12 col-xl-6">
+                <div className="input-group input-group-static">
+                  <label>Name</label>
+                  <input className="form-control" type="text" name="name" value={this.state.name} onChange={this.handleInputChange} />
+                </div>
+              </div>
+              <div className="col-12 col-xl-6">
+                <div className="input-group input-group-static">
+                  <label>ISO Code</label>
+                  <input className="form-control" type="text" maxLength="5" name="code" value={this.state.code} onChange={this.handleInputChange} />
+                </div>
+              </div>
+            </div>
+          </FormCardLayout>
+        </div>
+
         <div className="row">
           <div className="col-12">
             <div className="card my-4">
               <div className="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
-                <div className="bg-gradient-info shadow-info border-radius-lg pt-4 pb-3">
+                <div className="bg-gradient-dark shadow-dark border-radius-lg pt-4 pb-3">
                   <h6 className="text-white text-capitalize ps-3">Languages</h6>
                 </div>
               </div>
@@ -89,30 +112,6 @@ export default class LanguageManagement extends Component {
           </div>
         </div>
 
-        <ModalLayout id="languageModal" title="Add Language" subtitle="Add a new language.">
-          <form onSubmit={this.onSubmitAddLanguage}>
-            <div className="card-body">
-              <div className="row">
-                <div className="col-12 col-xl-6">
-                  <div className="input-group input-group-static">
-                    <label>Name</label>
-                    <input className="form-control" type="text" name="name" value={this.state.name} onChange={this.handleInputChange} />
-                  </div>
-                </div>
-                <div className="col-12 col-xl-6">
-                  <div className="input-group input-group-static">
-                    <label>Code</label>
-                    <input className="form-control" type="text" maxLength="5" name="code" value={this.state.code} onChange={this.handleInputChange} />
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div className="card-footer px-2">
-              <button type="reset" className="btn bg-gradient-secondary mx-2" data-bs-dismiss="modal">Reset</button>
-              <button type="submit" className="btn bg-gradient-primary">Save changes</button>
-            </div>
-          </form>
-        </ModalLayout>
       </div>
     );
   }

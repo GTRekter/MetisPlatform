@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import FormCardLayout from '../components/FormCardLayout';
+import DictionaryService from '../services/DictionaryService';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPlus } from '@fortawesome/free-solid-svg-icons'
-import DictionaryService from '../services/DictionaryService';
 
 export default class DictionaryManagement extends Component {
   constructor(props) {
@@ -56,12 +56,10 @@ export default class DictionaryManagement extends Component {
         </div>
 
         <div class="collapse" id="collapseCreationForm">
-          <FormCardLayout className={`${this.state.isCreationFormVisible ? "visually-hidden" : ""}`}>
-            <div className="col-12">
-              <p className="text-sm">
-                Add a new word to the choosen dictionary.
-              </p>
-            </div>
+          <FormCardLayout className={`${this.state.isCreationFormVisible ? "visually-hidden" : ""}`}
+            title="Add Word"
+            subtitle="Add a new word to the choosen dictionary."
+            onSubmitCallback={this.onSubmitAddLanguage}>
             <div className="row">
               <div className="col-12 col-xl-4">
                 <div className="input-group input-group-static">
@@ -71,7 +69,7 @@ export default class DictionaryManagement extends Component {
               </div>
               <div className="col-12 col-xl-4">
                 <div className="input-group input-group-static mb-4">
-                  <label className="ms-0">Language</label>
+                  <label className="ms-0">Dictionary</label>
                   <select className="form-control">
                     {
                       this.state.languages.map((language, index) =>
@@ -115,7 +113,7 @@ export default class DictionaryManagement extends Component {
           <div className="col-12">
             <div className="card my-4">
               <div className="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
-                <div className="bg-gradient-info shadow-info border-radius-lg pt-4 pb-3">
+                <div className="bg-gradient-dark shadow-dark border-radius-lg pt-4 pb-3">
                   <h6 className="text-white text-capitalize ps-3">Languages</h6>
                 </div>
               </div>
