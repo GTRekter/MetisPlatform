@@ -23,6 +23,7 @@ export default class WordManagement extends Component {
     this.handleInputChange = this.handleInputChange.bind(this);
     this.onSubmitAddWord = this.onSubmitAddWord.bind(this);
     this.onClickEdit = this.onClickEdit.bind(this);
+    this.onChangeTransition = this.onChangeTransition.bind(this);
   }
   componentDidMount() {
     DictionaryService.getAllDictionaries()
@@ -69,24 +70,40 @@ export default class WordManagement extends Component {
   onClickEdit = () => {
 
   };
+  onChangeTransition= (event, index, idDictionary) => {
+    const target = event.target;
+    const value = target.type === 'checkbox' ? target.checked : target.value;
+    var translations = this.state.translation;
+    translations[index-1] = { idDictionary: idDictionary, text: value };
+    this.setState({
+      translation: translations,
+    })
+  };
   onSubmitAddWord = () => {
     // DictionaryService.addWord(this.state.text, this.state.idDictionary, this.state.idWordType, this.state.description, this.state.example)
-    //   .then((data) => {
-    //     this.setState({
-    //       words: [...this.state.words, data],
-    //     })
+    // .then((data) => {
+    //   this.setState({
+    //     words: [...this.state.words, data],
     //   })
-    //   .catch(function (ex) {
-    //     console.log('Response parsing failed. Error: ', ex);
-    //   });
-
+    // })
+    // .catch(function (ex) {
+    //   console.log('Response parsing failed. Error: ', ex);
+    // });
+    DictionaryService.addWordWithTranslations(this.state.text, this.state.idDictionary, this.state.idWordType, this.state.description, this.state.example, this.state.translation)
+      .then((data) => {
+        this.setState({
+          words: [...this.state.words, data],
+        })
+      })
+      .catch(function (ex) {
+        console.log('Response parsing failed. Error: ', ex);
+      });
     console.log(this.state.translation);
   };
   handleInputChange = (event) => {
     const target = event.target;
     const value = target.type === 'checkbox' ? target.checked : target.value;
     const name = target.name;
-    console.log(name)
     this.setState({
       [name]: value
     });
@@ -165,15 +182,14 @@ export default class WordManagement extends Component {
             <div className="row">
               {
                 this.state.dictionaries.map((dictionary, index) => {
-                  if (dictionary.id !== this.state.idDictionary) {
+                  if (dictionary.id != this.state.idDictionary) {
                     return <div key={index} className="col-12 col-xl-4">
                       <div className="input-group input-group-static">
                         <label>{dictionary.name}</label>
-                        <input className="form-control" type="text" name={`translation[${dictionary.id}]`} value={this.state.translation[this.state.idDictionary]} onChange={this.handleInputChange} />
+                        {/* <input className="form-control" type="text" name={`translation[${dictionary.id}]`} value={this.state.translation[this.state.idDictionary]} onChange={this.handleInputChange} /> */}
+                        <input className="form-control" type="text" name={`translation[${dictionary.id}]`} value={this.state.translation[this.state.index]} onChange={(event) => this.onChangeTransition(event, index, dictionary.id)} />
                       </div>
                     </div>
-                  } else {
-                    return null
                   }
                 })
               }

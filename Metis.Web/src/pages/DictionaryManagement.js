@@ -82,7 +82,7 @@ export default class DictionaryManagement extends Component {
             </div>
           </div>
         </div>
-
+        
         <div class="collapse" id="collapseCreationForm">
           <FormCardLayout className={`${this.state.isCreationFormVisible ? "visually-hidden" : ""}`}
             icon={faBook}

@@ -4,7 +4,7 @@ using Metis.Models.Managers;
 using Metis.Models.Store;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
-
+using Metis.API.ViewModels;
 
 namespace Metis.API.Controllers
 {
@@ -21,21 +21,33 @@ namespace Metis.API.Controllers
    
         [HttpPost]
         [Route("AddWord")]
-        public async Task<IActionResult> AddWord(Word word)
+        public async Task<IActionResult> AddWord(Word request)
         {
-            if(word == null)
+            if(request == null)
             {
                 return NotFound();
             }
-            Word newWord = await DictionaryManager.AddWord(_context, word);
+            Word newWord = await DictionaryManager.AddWord(_context, request);
+            return Ok(newWord);
+        }
+
+        [HttpPost]
+        [Route("AddWordWithTranslations")]
+        public async Task<IActionResult> AddWordWithTranslations([FromBody]AddWordWithTranslationsRequest request)
+        {
+            if(request == null)
+            {
+                return NotFound();
+            }
+            Word newWord = await DictionaryManager.AddWord(_context, request.Word, request.Translations);
             return Ok(newWord);
         }
 
         [HttpPost]
         [Route("RemoveWordById")]
-        public async Task<IActionResult> RemoveWordById(int id)
+        public async Task<IActionResult> RemoveWordById(int request)
         {
-            await DictionaryManager.RemoveWordById(_context, id);
+            await DictionaryManager.RemoveWordById(_context, request);
             return Ok();
         }
 
@@ -51,21 +63,21 @@ namespace Metis.API.Controllers
         [AllowAnonymous]
         [HttpGet]
         [Route("GetWord")]
-        public async Task<IActionResult> GetWord(int id)
+        public async Task<IActionResult> GetWord(int request)
         {
-            var word = await DictionaryManager.GetWordById(_context, id);
+            var word = await DictionaryManager.GetWordById(_context, request);
             return Ok(word);
         }
 
         [HttpPost]
         [Route("AddWordType")]
-        public async Task<IActionResult> AddWordType(WordType wordType)
+        public async Task<IActionResult> AddWordType(WordType request)
         {
-            if (wordType == null)
+            if (request == null)
             {
                 return NotFound();
             }
-            WordType newWordType = await DictionaryManager.AddWordType(_context, wordType);
+            WordType newWordType = await DictionaryManager.AddWordType(_context, request);
             return Ok(newWordType);
         }
 
@@ -80,29 +92,29 @@ namespace Metis.API.Controllers
 
         [HttpPost]
         [Route("RemoveWordTypeById")]
-        public async Task<IActionResult> RemoveWordTypeById([FromBody] int id)
+        public async Task<IActionResult> RemoveWordTypeById([FromBody] int request)
         {
-            await DictionaryManager.RemoveWordTypeById(_context, id);
+            await DictionaryManager.RemoveWordTypeById(_context, request);
             return Ok();
         }
 
         [HttpPost]
         [Route("AddDictionary")]
-        public async Task<IActionResult> AddDictionary(Dictionary dictionary)
+        public async Task<IActionResult> AddDictionary(Dictionary request)
         {
-            if (dictionary == null)
+            if (request == null)
             {
                 return NotFound();
             }
-            Dictionary newDictionary = await DictionaryManager.AddDictionary(_context, dictionary);
+            Dictionary newDictionary = await DictionaryManager.AddDictionary(_context, request);
             return Ok(newDictionary);
         }
 
         [HttpPost]
         [Route("RemoveDictionaryById")]
-        public async Task<IActionResult> RemoveDictionaryById([FromBody] int id)
+        public async Task<IActionResult> RemoveDictionaryById([FromBody] int request)
         {
-            await DictionaryManager.RemoveDictionaryById(_context, id);
+            await DictionaryManager.RemoveDictionaryById(_context, request);
             return Ok();
         }
 

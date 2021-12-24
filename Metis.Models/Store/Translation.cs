@@ -7,7 +7,9 @@ namespace Metis.Models.Store
 {
     public class Translation
     {
+        [Required]
         public int IdPrimaryWord { get; set; }
+        [Required]
         public int IdSecondaryWord { get; set; }
     }
 }

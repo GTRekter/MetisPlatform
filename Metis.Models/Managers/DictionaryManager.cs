@@ -15,6 +15,23 @@ namespace Metis.Models.Managers
             await context.SaveChangesAsync();
             return word;
         }
+        public static async Task<Word> AddWord(ApplicationDbContext context, Word word, IEnumerable<Word> translations)
+        {
+            // TODO: Add transaction
+            context.Words.Add(word);
+            await context.SaveChangesAsync();
+
+            foreach (var translation in translations)
+            {
+                context.Words.Add(translation);
+                await context.SaveChangesAsync();
+                // Translation newTranslation = new Translation(){ IdPrimaryWord = word.Id, IdSecondaryWord = translation.Id };
+                // context.Translations.Add(newTranslation);
+                await context.SaveChangesAsync();
+            }
+            
+            return word;
+        }    
         public static async Task<Word> GetWordById(ApplicationDbContext context, int id)
         {
             return await context.Words.FindAsync(id);

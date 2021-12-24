@@ -13,7 +13,7 @@ class DictionaryService {
                 code: code
             })
         })
-        .then(res => res.json());
+            .then(res => res.json());
     }
     removeDictionaryById(id) {
         return fetch(process.env.REACT_APP_API_BASEURL + "Dictionary/RemoveDictionaryById", {
@@ -26,7 +26,7 @@ class DictionaryService {
             },
             body: id
         })
-        .then(res => res.json());
+            .then(res => res.json());
     }
     getAllDictionaries() {
         return fetch(process.env.REACT_APP_API_BASEURL + "Dictionary/GetAllDictionaries", {
@@ -54,7 +54,7 @@ class DictionaryService {
                 description: description
             })
         })
-        .then(res => res.json());
+            .then(res => res.json());
     }
     removeWordTypeById(id) {
         return fetch(process.env.REACT_APP_API_BASEURL + "Dictionary/RemoveWordTypeById", {
@@ -67,7 +67,7 @@ class DictionaryService {
             },
             body: id
         })
-        .then(res => res.json());
+            .then(res => res.json());
     }
     getAllWordTypes() {
         return fetch(process.env.REACT_APP_API_BASEURL + "Dictionary/GetAllWordTypes", {
@@ -111,6 +111,42 @@ class DictionaryService {
             })
         })
         // .then(res => res.json());        
+    }
+    addWordWithTranslations(text, idDictionary, idWordType, description, example, translations) {
+        return fetch(process.env.REACT_APP_API_BASEURL + "Dictionary/AddWordWithTranslations", {
+            method: 'post',
+            mode: 'cors',
+            headers: {
+                'Accept': 'application/json, text/plain, */*',
+                'Content-Type': 'application/json',
+                'Access-Control-Allow-Origin': '*'
+            },
+            body: JSON.stringify(
+                {
+                    word: {
+                        text: text,
+                        idDictionary: idDictionary,
+                        idWordType: idWordType,
+                        description: description,
+                        example: example
+                    },
+                    translations: translations
+                })
+        })
+        // .then(res => res.json());        
+    }
+    removeWordById(id) {
+        return fetch(process.env.REACT_APP_API_BASEURL + "Dictionary/RemoveWordById", {
+            method: 'post',
+            mode: 'cors',
+            headers: {
+                'Accept': 'application/json, text/plain, */*',
+                'Content-Type': 'application/json',
+                'Access-Control-Allow-Origin': '*'
+            },
+            body: id
+        })
+            .then(res => res.json());
     }
 }
 export default new DictionaryService();
