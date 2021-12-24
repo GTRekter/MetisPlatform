@@ -58,7 +58,17 @@ namespace Metis.API.Controllers
         }
 
 
-
+        [HttpPost]
+        [Route("AddWordType")]
+        public async Task<IActionResult> AddWordType(WordType wordType)
+        {
+            if (wordType == null)
+            {
+                return NotFound();
+            }
+            WordType newWordType = await DictionaryManager.AddWordType(_context, wordType);
+            return Ok(newWordType);
+        }
 
         [AllowAnonymous]
         [HttpGet]
@@ -67,6 +77,34 @@ namespace Metis.API.Controllers
         {
             IEnumerable<WordType> words = await DictionaryManager.GetAllWordTypes(_context);
             return Ok(words);
+        }
+
+        [HttpPost]
+        [Route("RemoveWordTypeById")]
+        public async Task<IActionResult> RemoveWordTypeById([FromBody] int id)
+        {
+            await DictionaryManager.RemoveWordTypeById(_context, id);
+            return Ok();
+        }
+
+        [HttpPost]
+        [Route("AddLanguage")]
+        public async Task<IActionResult> AddLanguage(Language language)
+        {
+            if (language == null)
+            {
+                return NotFound();
+            }
+            Language newLanguage = await DictionaryManager.AddLanguage(_context, language);
+            return Ok(newLanguage);
+        }
+
+        [HttpPost]
+        [Route("RemoveLanguageById")]
+        public async Task<IActionResult> RemoveLanguageById([FromBody] int id)
+        {
+            await DictionaryManager.RemoveLanguageById(_context, id);
+            return Ok();
         }
 
         [AllowAnonymous]

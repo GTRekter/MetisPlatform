@@ -5,7 +5,9 @@ import Home from './Home';
 import Dictionary from '../pages/Dictionary';
 import ExerciseSpeak from '../pages/ExerciseSpeak';
 import ExerciseRead from '../pages/ExerciseRead';
+import LanguageManagement from '../pages/LanguageManagement';
 import DictionaryManagement from '../pages/DictionaryManagement';
+import WordTypeManagement from '../pages/WordTypeManagement';
 
 export default class App extends Component {
     render () {
@@ -17,6 +19,8 @@ export default class App extends Component {
               <Route path='/exercise/speak' component={ExerciseSpeak} />
               <Route path='/exercise/read' component={ExerciseRead} />
 
+              <Route path='/admin/language' component={LanguageManagement} /> 
+              <Route path='/admin/wordType' component={WordTypeManagement} /> 
               <Route path='/admin/dictionary' component={DictionaryManagement} />       
             </Layout>
         );

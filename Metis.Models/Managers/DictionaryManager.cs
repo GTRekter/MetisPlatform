@@ -29,13 +29,37 @@ namespace Metis.Models.Managers
             await context.SaveChangesAsync();
         }
         #endregion
-        #region Types
+        #region WordTypes
+        public static async Task<WordType> AddWordType(ApplicationDbContext context, WordType wordType)
+        {
+            context.WordTypes.Add(wordType);
+            await context.SaveChangesAsync();
+            return wordType;
+        }
+        public static async Task RemoveWordTypeById(ApplicationDbContext context, int id)
+        {
+            var wordTypeToRemove = await context.WordTypes.FindAsync(id);
+            context.WordTypes.Remove(wordTypeToRemove);
+            await context.SaveChangesAsync();
+        }
         public static async Task<IEnumerable<WordType>> GetAllWordTypes(ApplicationDbContext context)
         {
             return await context.WordTypes.ToListAsync();
         }
         #endregion
         #region Languages
+        public static async Task<Language> AddLanguage(ApplicationDbContext context, Language language)
+        {
+            context.Languages.Add(language);
+            await context.SaveChangesAsync();
+            return language;
+        }
+        public static async Task RemoveLanguageById(ApplicationDbContext context, int id)
+        {
+            var languageToRemove = await context.Languages.FindAsync(id);
+            context.Languages.Remove(languageToRemove);
+            await context.SaveChangesAsync();
+        }
         public static async Task<IEnumerable<Language>> GetAllLanguage(ApplicationDbContext context)
         {
             return await context.Languages.ToListAsync();

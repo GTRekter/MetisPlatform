@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faFont } from '@fortawesome/free-solid-svg-icons'
 
-export default class FormLayout extends Component {
+export default class FormCardLayout extends Component {
   render() {
     return (
       <div className="py-4">

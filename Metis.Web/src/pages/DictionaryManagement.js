@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import FormLayout from '../components/FormLayout';
+import FormCardLayout from '../components/FormCardLayout';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPlus } from '@fortawesome/free-solid-svg-icons'
 import DictionaryService from '../services/DictionaryService';
@@ -9,12 +9,9 @@ export default class DictionaryManagement extends Component {
     super(props)
     this.state = {
       languages: [],
-      wordTypes: [],
-      correct: [],
-      topics: [],
-      currentWord: "",
-      currentTopic: ""
+      wordTypes: []
     }
+    this.handleInputChange = this.handleInputChange.bind(this);
   }
   componentDidMount() {
     DictionaryService.getAllLanguages()
@@ -36,67 +33,102 @@ export default class DictionaryManagement extends Component {
         console.log('Response parsing failed. Error: ', ex);
       });
   }
+  handleInputChange = (event) => {
+    const target = event.target;
+    const value = target.type === 'checkbox' ? target.checked : target.value;
+    const name = target.name;
+    this.setState({
+      [name]: value
+    });
+  }
   render() {
     return (
-      <FormLayout>
-        <div className="col-12">
-          <p className="text-sm">
-            Add a new word to the choosen dictionary.
-          </p>
-        </div>
-        <div className="row">
-          <div className="col-12 col-xl-4">
-            <div className="input-group input-group-static">
-              <label>Word</label>
-              <input className="form-control" type="text" />
-            </div>
-          </div>
-          <div className="col-12 col-xl-4">
-            <div className="input-group input-group-static mb-4">
-              <label className="ms-0">Language</label>
-              <select className="form-control">
-                {
-                  this.state.languages.map((language, index) =>
-                    <option key={index}>{language.name}</option>
-                  )
-                }
-              </select>
-              <span class="input-group-text px-2">
-                <FontAwesomeIcon className='position-relative opacity-10' icon={faPlus} />
-              </span>
-            </div>
-          </div>
-          <div className="col-12 col-xl-4">
-            <div className="input-group input-group-static mb-4">
-              <label className="ms-0">Type</label>
-              <select className="form-control">
-                {
-                  this.state.wordTypes.map((wordType, index) =>
-                    <option key={index}>{wordType.name}</option>
-                  )
-                }
-              </select>
-              <span class="input-group-text px-2">
-                <FontAwesomeIcon className='position-relative opacity-10' icon={faPlus} />
-              </span>
-            </div>
-          </div>
-        </div>
+      <div>
         <div className="row">
           <div className="col-12">
-            <div className="input-group input-group-dynamic">
-              <textarea className="form-control" rows="3" placeholder="Example"></textarea>
+            <div className="btn-toolbar mb-2 mb-md-0">
+              <button className="btn btn-secondary" data-bs-toggle="collapse" data-bs-target="#collapseCreationForm" aria-expanded="false" aria-controls="collapseCreationForm">
+                <FontAwesomeIcon className='position-relative opacity-10' icon={faPlus} />
+                <span className='px-2'>Add</span>
+              </button>
             </div>
           </div>
         </div>
-        <div className="row mt-3">
+
+        <div class="collapse" id="collapseCreationForm">
+          <FormCardLayout className={`${this.state.isCreationFormVisible ? "visually-hidden" : ""}`}>
+            <div className="col-12">
+              <p className="text-sm">
+                Add a new word to the choosen dictionary.
+              </p>
+            </div>
+            <div className="row">
+              <div className="col-12 col-xl-4">
+                <div className="input-group input-group-static">
+                  <label>Word</label>
+                  <input className="form-control" type="text" />
+                </div>
+              </div>
+              <div className="col-12 col-xl-4">
+                <div className="input-group input-group-static mb-4">
+                  <label className="ms-0">Language</label>
+                  <select className="form-control">
+                    {
+                      this.state.languages.map((language, index) =>
+                        <option key={index}>{language.name}</option>
+                      )
+                    }
+                  </select>
+                </div>
+              </div>
+              <div className="col-12 col-xl-4">
+                <div className="input-group input-group-static mb-4">
+                  <label className="ms-0">Type</label>
+                  <select className="form-control">
+                    {
+                      this.state.wordTypes.map((wordType, index) =>
+                        <option key={index}>{wordType.name}</option>
+                      )
+                    }
+                  </select>
+                </div>
+              </div>
+            </div>
+            <div className="row">
+              <div className="col-12">
+                <div className="input-group input-group-dynamic">
+                  <textarea className="form-control" rows="3" placeholder="Example"></textarea>
+                </div>
+              </div>
+            </div>
+            <div className="row mt-3">
+              <div className="col-12">
+                <div className="input-group input-group-dynamic">
+                  <textarea className="form-control" rows="3" placeholder="Description"></textarea>
+                </div>
+              </div>
+            </div>
+          </FormCardLayout>
+        </div>
+
+        <div className="row">
           <div className="col-12">
-            <div className="input-group input-group-dynamic">
-              <textarea className="form-control" rows="3" placeholder="Description"></textarea>
+            <div className="card my-4">
+              <div className="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
+                <div className="bg-gradient-info shadow-info border-radius-lg pt-4 pb-3">
+                  <h6 className="text-white text-capitalize ps-3">Languages</h6>
+                </div>
+              </div>
+              <div className="card-body px-0 pb-2">
+                <div className="table-responsive p-0">
+                  {/* <LanguageList languages={this.state.languages} onClickRemoveLanguageCallback={this.onClickRemoveLanguage} /> */}
+                </div>
+              </div>
             </div>
           </div>
         </div>
-      </FormLayout>
+
+      </div>
     );
   }
 }
