@@ -9,6 +9,6 @@ namespace Metis.API.ViewModels
     public class AddWordWithTranslationsRequest
     {
         public Word Word { get; set; }
-        public IEnumerable<Word> Translations { get; set; }
+        public IEnumerable<Translation> Translations { get; set; }
     }
 }

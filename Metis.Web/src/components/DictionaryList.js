@@ -10,7 +10,7 @@ export default class DictionaryList extends Component {
     onClickRemove = (id) => {
         this.props.onClickRemoveCallback(id);
     }
-    onClickEdit= () => {
+    onClickEdit = () => {
         this.props.onClickEditCallback();
     }
     render() {
@@ -31,12 +31,20 @@ export default class DictionaryList extends Component {
                                     <td className="text-center text-wrap align-middle">{dictionary.name}</td>
                                     <td className="text-center text-wrap align-middle">{dictionary.code}</td>
                                     <td className="text-center text-wrap align-middle">
-                                        <button className="btn btn-link text-dark font-weight-normal text-xs mb-0" onClick={() => this.onClickEdit()}>
-                                            <FontAwesomeIcon icon={faEdit} />
-                                        </button>
-                                        <button className="btn btn-link text-danger font-weight-normal text-xs mb-0" onClick={() => this.onClickRemove(dictionary.id)}>
-                                            <FontAwesomeIcon icon={faTrash} />
-                                        </button>
+                                        {(() => {
+                                            if (!dictionary.primary) {
+                                                return (
+                                                    <div>
+                                                        <button className="btn btn-link text-dark font-weight-normal text-xs mb-0" onClick={() => this.onClickEdit()}>
+                                                            <FontAwesomeIcon icon={faEdit} />
+                                                        </button>
+                                                        <button className="btn btn-link text-danger font-weight-normal text-xs mb-0" onClick={() => this.onClickRemove(dictionary.id)}>
+                                                            <FontAwesomeIcon icon={faTrash} />
+                                                        </button>
+                                                    </div>
+                                                )
+                                            }
+                                        })()}
                                     </td>
                                 </tr>
                             )

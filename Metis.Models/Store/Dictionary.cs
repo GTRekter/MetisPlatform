@@ -13,5 +13,6 @@ namespace Metis.Models.Store
         public string Name { get; set; }
         [StringLength(maximumLength: 5, MinimumLength = 5)]
         public string Code { get; set; }
+        public bool Primary { get; set; }
     }
 }

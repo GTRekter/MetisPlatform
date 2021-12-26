@@ -7,9 +7,11 @@ namespace Metis.Models.Store
 {
     public class Translation
     {
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public int Id { get; set; }
         [Required]
-        public int IdPrimaryWord { get; set; }
+        public int IdDictionary { get; set; }
         [Required]
-        public int IdSecondaryWord { get; set; }
+        public int IdWord { get; set; }
     }
 }

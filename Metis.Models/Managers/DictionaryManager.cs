@@ -1,8 +1,10 @@
+using System;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Collections.Generic;
 using Metis.Models.Store;
 using Microsoft.EntityFrameworkCore;
+using System.Transactions;
 
 namespace Metis.Models.Managers
 {
@@ -15,23 +17,22 @@ namespace Metis.Models.Managers
             await context.SaveChangesAsync();
             return word;
         }
-        public static async Task<Word> AddWord(ApplicationDbContext context, Word word, IEnumerable<Word> translations)
+        public static async Task<Word> AddWord(ApplicationDbContext context, Word word, IEnumerable<Translation> translations)
         {
-            // TODO: Add transaction
-            context.Words.Add(word);
-            await context.SaveChangesAsync();
-
-            foreach (var translation in translations)
+            using (TransactionScope scope = new TransactionScope())
             {
-                context.Words.Add(translation);
+                context.Words.Add(word);
                 await context.SaveChangesAsync();
-                // Translation newTranslation = new Translation(){ IdPrimaryWord = word.Id, IdSecondaryWord = translation.Id };
-                // context.Translations.Add(newTranslation);
+                foreach (var translation in translations)
+                {
+                    translation.IdWord = word.Id;
+                    context.Translations.Add(translation);
+                }
                 await context.SaveChangesAsync();
+                scope.Complete();
             }
-            
             return word;
-        }    
+        }
         public static async Task<Word> GetWordById(ApplicationDbContext context, int id)
         {
             return await context.Words.FindAsync(id);
@@ -75,6 +76,10 @@ namespace Metis.Models.Managers
         public static async Task RemoveDictionaryById(ApplicationDbContext context, int id)
         {
             var dictionaryToRemove = await context.Dictionaries.FindAsync(id);
+            if (dictionaryToRemove.Primary)
+            {
+                throw new InvalidOperationException("You cannot delete a primary dictionary");
+            }
             context.Dictionaries.Remove(dictionaryToRemove);
             await context.SaveChangesAsync();
         }
