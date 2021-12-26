@@ -18,7 +18,7 @@ export default class WordManagement extends Component {
       idWordType: 0,
       description: "",
       example: "",
-      translation: []
+      translations: []
     }
     this.handleInputChange = this.handleInputChange.bind(this);
     this.onSubmitAddWord = this.onSubmitAddWord.bind(this);
@@ -30,7 +30,7 @@ export default class WordManagement extends Component {
       .then((data) => {
         this.setState({
           dictionaries: data,
-          idDictionary: data[0].id
+          idDictionary: data.filter(function(o){return o.primary}).id
         })
       })
       .catch(function (ex) {
@@ -71,12 +71,10 @@ export default class WordManagement extends Component {
 
   };
   onChangeTransition= (event, index, idDictionary) => {
-    const target = event.target;
-    const value = target.type === 'checkbox' ? target.checked : target.value;
-    var translations = this.state.translation;
-    translations[index-1] = { idDictionary: idDictionary, text: value };
+    let translations = this.state.translations;
+    translations.splice(index, 1, { idDictionary: idDictionary, text: event.target.value })
     this.setState({
-      translation: translations,
+      translations: translations
     })
   };
   onSubmitAddWord = () => {
@@ -138,7 +136,7 @@ export default class WordManagement extends Component {
               <div className="col-12 col-xl-4">
                 <div className="input-group input-group-static mb-4">
                   <label className="ms-0">Dictionary</label>
-                  <select className="form-control" name="idDictionary" value={this.state.idDictionary} onChange={this.handleInputChange}>
+                  <select className="form-control" name="idDictionary" disabled value={this.state.idDictionary} onChange={this.handleInputChange}>
                     {
                       this.state.dictionaries.map((dictionary, index) =>
                         <option key={index} value={dictionary.id}>{dictionary.name}</option>

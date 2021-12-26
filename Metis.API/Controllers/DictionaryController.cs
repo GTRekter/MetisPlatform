@@ -47,5 +47,23 @@ namespace Metis.API.Controllers
             IEnumerable<Dictionary> words = await DictionaryManager.GetAllDictionary(_context);
             return Ok(words);
         }
+                
+        [AllowAnonymous]
+        [HttpGet]
+        [Route("GetAllDictionariesByPage")]
+        public async Task<IActionResult> GetAllDictionariesByPage(int page, int itemsPerPage)
+        {
+            IEnumerable<Dictionary> words = await DictionaryManager.GetAllDictionary(_context, page, itemsPerPage);
+            return Ok(words);
+        }
+
+        [AllowAnonymous]
+        [HttpGet]
+        [Route("GetDictionariesCount")]
+        public async Task<IActionResult> GetDictionariesCount()
+        {
+            int counter = await DictionaryManager.GetDictionariesCount(_context);
+            return Ok(counter);
+        }
     }
 }

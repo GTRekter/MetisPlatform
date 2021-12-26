@@ -12,6 +12,7 @@ namespace Metis.Models.Store
         [Required]
         public int IdDictionary { get; set; }
         [Required]
-        public int IdWord { get; set; }
+        public int IdWord { get; set; }   
+        public int Text { get; set; }
     }
 }

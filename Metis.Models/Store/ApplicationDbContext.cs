@@ -1,4 +1,7 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using System.Collections.Generic;
+using System.Globalization;
+using System.Linq;
+using Microsoft.EntityFrameworkCore;
 
 namespace Metis.Models.Store
 {
@@ -8,10 +11,19 @@ namespace Metis.Models.Store
             : base(options)
         {
         }
-        // public void OnModelCreating() {
-        // TODO: Add has no key to Translations
-        // }
+        protected override void OnModelCreating(ModelBuilder builder)  
+        {  
+            base.OnModelCreating(builder);  
+            this.SeedDictionaries(builder);  
+        }  
 
+        private void SeedDictionaries(ModelBuilder builder)  
+        {  
+            CultureInfo[] cultures = CultureInfo.GetCultures(CultureTypes.AllCultures & ~CultureTypes.NeutralCultures);
+            IEnumerable<Dictionary> dictionaries = cultures.Select((c, index) => new Dictionary(){ Id = index + 1, Name = c.DisplayName, Code = c.Name, Primary = false, Enabled = false });
+            builder.Entity<Dictionary>().HasData(dictionaries);  
+        }  
+  
         public DbSet<Word> Words { get; set; }
         public DbSet<WordType> WordTypes { get; set; }
         public DbSet<Dictionary> Dictionaries { get; set; }

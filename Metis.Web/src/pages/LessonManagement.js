@@ -83,7 +83,7 @@ export default class LessonManagement extends Component {
           </div>
         </div>
         
-        <div class="collapse" id="collapseCreationForm">
+        <div className="collapse" id="collapseCreationForm">
           <FormCardLayout className={`${this.state.isCreationFormVisible ? "visually-hidden" : ""}`}
             icon={faBook}
             title="Add Lesson"

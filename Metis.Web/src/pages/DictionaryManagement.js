@@ -4,24 +4,35 @@ import { faPlus, faBook } from '@fortawesome/free-solid-svg-icons'
 import DictionaryList from '../components/DictionaryList';
 import FormCardLayout from '../components/FormCardLayout';
 import DictionaryService from '../services/DictionaryService';
+import Pagination from '../components/Pagination';
 
 export default class DictionaryManagement extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      dictionaries: [],
-      name: "",
-      code: ""
+      items: [],
+      itemsPerPage: 30,
+      pages: 0,
+      page: 1
     }
     this.handleInputChange = this.handleInputChange.bind(this);
     this.onClickRemove = this.onClickRemove.bind(this);
     this.onSubmitAddDictionary = this.onSubmitAddDictionary.bind(this);
   }
   componentDidMount() {
-    DictionaryService.getAllDictionaries()
+    DictionaryService.getDictionariesCount()
       .then((data) => {
         this.setState({
-          dictionaries: data
+          pages: Math.floor(data / this.state.itemsPerPage)
+        })
+      })
+      .catch(function (ex) {
+        console.log('Response parsing failed. Error: ', ex);
+      });
+    DictionaryService.getAllDictionariesByPage(this.state.page, this.state.itemsPerPage)
+      .then((data) => {
+        this.setState({
+          items: data,
         })
       })
       .catch(function (ex) {
@@ -29,10 +40,29 @@ export default class DictionaryManagement extends Component {
       });
   }
   onSubmitAddDictionary = () => {
-    DictionaryService.addDictionary(this.state.name, this.state.code)
+    DictionaryService.addDictionary(this.state.name, this.state.code, this.state.primary)
+      .then((data) => {
+        let items = this.state.items;
+        console.log(items);
+        if (this.state.primary) {
+          console.log(items);
+          items.map(el => el.primary ? { ...el, primary: false } : el);
+          console.log(items);
+        }
+        this.setState({
+          items: [...items, data],
+        })
+      })
+      .catch(function (ex) {
+        console.log('Response parsing failed. Error: ', ex);
+      });
+  };
+  onClickChangePage = (pageNumber) => { 
+    DictionaryService.getAllDictionariesByPage(pageNumber, this.state.itemsPerPage)
       .then((data) => {
         this.setState({
-          dictionaries: [...this.state.dictionaries, data],
+          items: data,
+          page: pageNumber
         })
       })
       .catch(function (ex) {
@@ -54,7 +84,7 @@ export default class DictionaryManagement extends Component {
     DictionaryService.removeDictionaryById(id)
       .then(() => {
         this.setState({
-          dictionaries: this.state.dictionaries.filter(x => x.id !== id)
+          items: this.state.items.filter(x => x.id !== id)
         })
       })
       .catch(function (ex) {
@@ -82,28 +112,21 @@ export default class DictionaryManagement extends Component {
             </div>
           </div>
         </div>
-        
-        <div class="collapse" id="collapseCreationForm">
-          <FormCardLayout className={`${this.state.isCreationFormVisible ? "visually-hidden" : ""}`}
-            icon={faBook}
-            title="Add Dictionary"
-            subtitle="Add a new dictionary."
-            onSubmitCallback={this.onSubmitAddDictionary}>
-            <div className="row">
-              <div className="col-12 col-xl-6">
-                <div className="input-group input-group-static">
-                  <label>Name</label>
-                  <input className="form-control" type="text" name="name" value={this.state.name} onChange={this.handleInputChange} />
+
+        <div className="row">
+          <div className="col-12">
+            <div className="card my-4">
+              <div className="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
+                <div className="bg-gradient-dark shadow-dark border-radius-lg pt-4 pb-3">
+                  <h6 className="text-white text-capitalize ps-3">Enabled Dictionaries</h6>
                 </div>
               </div>
-              <div className="col-12 col-xl-6">
-                <div className="input-group input-group-static">
-                  <label>ISO Code</label>
-                  <input className="form-control" type="text" maxLength="5" name="code" value={this.state.code} onChange={this.handleInputChange} />
-                </div>
+              <div className="card-body px-0 pb-2">
+                <DictionaryList dictionaries={this.state.items} onClickRemoveCallback={this.onClickRemove} onClickEditCallback={this.onClickEdit} />
+                <Pagination pages={this.state.pages} page={this.state.page} onClickChangePageCallback={this.onClickChangePage} />
               </div>
             </div>
-          </FormCardLayout>
+          </div>
         </div>
 
         <div className="row">
@@ -111,13 +134,12 @@ export default class DictionaryManagement extends Component {
             <div className="card my-4">
               <div className="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
                 <div className="bg-gradient-dark shadow-dark border-radius-lg pt-4 pb-3">
-                  <h6 className="text-white text-capitalize ps-3">Dictionaries</h6>
+                  <h6 className="text-white text-capitalize ps-3">Available Dictionaries</h6>
                 </div>
               </div>
               <div className="card-body px-0 pb-2">
-                <div className="table-responsive p-0">
-                  <DictionaryList dictionaries={this.state.dictionaries} onClickRemoveCallback={this.onClickRemove} onClickEditCallback={this.onClickEdit} />
-                </div>
+                <DictionaryList dictionaries={this.state.items} onClickRemoveCallback={this.onClickRemove} onClickEditCallback={this.onClickEdit} />
+                <Pagination pages={this.state.pages} page={this.state.page} onClickChangePageCallback={this.onClickChangePage} />
               </div>
             </div>
           </div>

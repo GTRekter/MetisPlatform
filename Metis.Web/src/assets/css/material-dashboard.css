@@ -131,6 +131,10 @@ p {
   margin-top: 0;
   margin-bottom: 1rem; }
 
+.pointer  {
+  cursor: pointer;
+}
+
 abbr[title],
 abbr[data-bs-original-title] {
   -webkit-text-decoration: underline dotted;
