@@ -27,7 +27,7 @@ namespace Metis.API.Controllers
             {
                 return NotFound();
             }
-            Word newWord = await DictionaryManager.AddWord(_context, request);
+            Word newWord = await WordManager.AddWord(_context, request);
             return Ok(newWord);
         }
 
@@ -39,7 +39,7 @@ namespace Metis.API.Controllers
             {
                 return NotFound();
             }
-            Word newWord = await DictionaryManager.AddWord(_context, request.Word, request.Translations);
+            Word newWord = await WordManager.AddWord(_context, request.Word, request.Translations);
             return Ok(newWord);
         }
 
@@ -47,7 +47,7 @@ namespace Metis.API.Controllers
         [Route("RemoveWordById")]
         public async Task<IActionResult> RemoveWordById(int request)
         {
-            await DictionaryManager.RemoveWordById(_context, request);
+            await WordManager.RemoveWordById(_context, request);
             return Ok();
         }
 
@@ -56,7 +56,7 @@ namespace Metis.API.Controllers
         [Route("GetAllWords")]
         public async Task<IActionResult> GetAllWords()
         {
-            IEnumerable<Word> words = await DictionaryManager.GetAllWord(_context);
+            IEnumerable<Word> words = await WordManager.GetAllWord(_context);
             return Ok(words);
         }
 
@@ -65,7 +65,7 @@ namespace Metis.API.Controllers
         [Route("GetWord")]
         public async Task<IActionResult> GetWord(int request)
         {
-            var word = await DictionaryManager.GetWordById(_context, request);
+            var word = await WordManager.GetWordById(_context, request);
             return Ok(word);
         }
     }

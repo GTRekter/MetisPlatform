@@ -6,7 +6,6 @@ import Dictionary from '../pages/Dictionary';
 import ExerciseSpeak from '../pages/ExerciseSpeak';
 import ExerciseRead from '../pages/ExerciseRead';
 import WordManagement from '../pages/WordManagement';
-import WordTypeManagement from '../pages/WordTypeManagement';
 import DictionaryManagement from '../pages/DictionaryManagement';
 
 export default class App extends Component {
@@ -20,7 +19,6 @@ export default class App extends Component {
               <Route path='/exercise/read' component={ExerciseRead} />
 
               <Route path='/admin/dictionary' component={DictionaryManagement} /> 
-              <Route path='/admin/wordType' component={WordTypeManagement} /> 
               <Route path='/admin/word' component={WordManagement} />       
             </Layout>
         );

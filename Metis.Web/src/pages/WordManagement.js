@@ -3,6 +3,8 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPlus, faLanguage } from '@fortawesome/free-solid-svg-icons'
 import FormCardLayout from '../components/FormCardLayout';
 import DictionaryService from '../services/DictionaryService';
+import WordTypeService from '../services/WordTypeService';
+import WordService from '../services/WordService';
 import WordList from '../components/WordList';
 
 export default class WordManagement extends Component {
@@ -36,7 +38,7 @@ export default class WordManagement extends Component {
       .catch(function (ex) {
         console.log('Response parsing failed. Error: ', ex);
       });
-    DictionaryService.getAllWordTypes()
+      WordTypeService.getAllWordTypes()
       .then((data) => {
         this.setState({
           wordTypes: data,
@@ -46,7 +48,7 @@ export default class WordManagement extends Component {
       .catch(function (ex) {
         console.log('Response parsing failed. Error: ', ex);
       });
-    DictionaryService.getAllWords()
+    WordService.getAllWords()
       .then((data) => {
         this.setState({
           words: data

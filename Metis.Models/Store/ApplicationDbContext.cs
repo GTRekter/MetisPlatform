@@ -14,7 +14,8 @@ namespace Metis.Models.Store
         protected override void OnModelCreating(ModelBuilder builder)  
         {  
             base.OnModelCreating(builder);  
-            this.SeedDictionaries(builder);  
+            this.SeedDictionaries(builder); 
+            this.SeedWordTypes(builder); 
         }  
 
         private void SeedDictionaries(ModelBuilder builder)  
@@ -22,6 +23,18 @@ namespace Metis.Models.Store
             CultureInfo[] cultures = CultureInfo.GetCultures(CultureTypes.AllCultures & ~CultureTypes.NeutralCultures);
             IEnumerable<Dictionary> dictionaries = cultures.Select((c, index) => new Dictionary(){ Id = index + 1, Name = c.DisplayName, Code = c.Name, Primary = false, Enabled = false });
             builder.Entity<Dictionary>().HasData(dictionaries);  
+        }  
+
+        private void SeedWordTypes(ModelBuilder builder)  
+        {  
+            IEnumerable<WordType> wordTypes = new List<WordType>()
+            { 
+                new WordType(){ Id = 1, Name = "Noun", Description = "" },
+                new WordType(){ Id = 2, Name = "Adverb", Description = "" },
+                new WordType(){ Id = 3, Name = "Verb", Description = "" },
+                new WordType(){ Id = 4, Name = "Pronoum", Description = "" }
+            }; 
+            builder.Entity<WordType>().HasData(wordTypes);  
         }  
   
         public DbSet<Word> Words { get; set; }

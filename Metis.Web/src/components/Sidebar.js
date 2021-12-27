@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faBook, faGlasses, faHome, faComment, faLanguage, faLayerGroup } from '@fortawesome/free-solid-svg-icons'
+import { faBook, faGlasses, faHome, faComment, faLanguage } from '@fortawesome/free-solid-svg-icons'
 
 export default class Sidebar extends Component {
     render() {
@@ -53,14 +53,6 @@ export default class Sidebar extends Component {
                                         <FontAwesomeIcon className='opacity-10' icon={faBook} />
                                     </div>
                                     <span className="nav-link-text ms-1">Manage Dictionary</span>
-                                </Link>
-                            </li>
-                            <li className="nav-item">
-                                <Link className="nav-link" to='/admin/wordType'>
-                                    <div className="text-white text-center me-2 d-flex align-items-center justify-content-center">
-                                        <FontAwesomeIcon className='opacity-10' icon={faLayerGroup} />
-                                    </div>
-                                    <span className="nav-link-text ms-1">Manage Word Types</span>
                                 </Link>
                             </li>
                             <li className="nav-item">

@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faPlus, faBook } from '@fortawesome/free-solid-svg-icons'
+import { faPlus } from '@fortawesome/free-solid-svg-icons'
 import DictionaryList from '../components/DictionaryList';
-import FormCardLayout from '../components/FormCardLayout';
 import DictionaryService from '../services/DictionaryService';
 import Pagination from '../components/Pagination';
 

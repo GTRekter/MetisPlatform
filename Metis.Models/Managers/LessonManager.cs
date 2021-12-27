@@ -8,7 +8,6 @@ namespace Metis.Models.Managers
 {
     public static class LessonManager
     {
-        #region Lessons
         public static async Task<Lesson> AddLesson(ApplicationDbContext context, Lesson lesson)
         {
             context.Lessons.Add(lesson);
@@ -29,6 +28,5 @@ namespace Metis.Models.Managers
             context.Lessons.Remove(lessonToRemove);
             await context.SaveChangesAsync();
         }
-        #endregion
     }
 }
