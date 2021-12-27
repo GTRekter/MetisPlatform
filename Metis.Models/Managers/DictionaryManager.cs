@@ -10,9 +10,15 @@ namespace Metis.Models.Managers
 {
     public static class DictionaryManager
     {
-        public static async Task<Dictionary> AddDictionary(ApplicationDbContext context, Dictionary dictionary)
+        public static async Task UpdateDictionary(ApplicationDbContext context, int idDictionary, bool enable)
         {
-            if(dictionary.Primary) 
+            Dictionary dictionaryToEnable = await context.Dictionaries.FirstOrDefaultAsync(d => d.Id == idDictionary);
+            dictionaryToEnable.Enabled = enable;
+            await context.SaveChangesAsync();
+        }
+        public static async Task UpdateDictionary(ApplicationDbContext context, int idDictionary, bool enable, bool primary)
+        {
+            if(primary) 
             {
                 Dictionary previousPrimaryDictionary = await context.Dictionaries.FirstOrDefaultAsync(d => d.Primary);
                 if(previousPrimaryDictionary != null) 
@@ -20,9 +26,10 @@ namespace Metis.Models.Managers
                     previousPrimaryDictionary.Primary = false;
                 }
             }
-            context.Dictionaries.Add(dictionary);
+            Dictionary dictionaryToEnable = await context.Dictionaries.FirstOrDefaultAsync(d => d.Id == idDictionary);
+            dictionaryToEnable.Enabled = enable;
+            dictionaryToEnable.Primary = primary;
             await context.SaveChangesAsync();
-            return dictionary;
         }
         public static async Task RemoveDictionaryById(ApplicationDbContext context, int id)
         {
@@ -34,17 +41,17 @@ namespace Metis.Models.Managers
             context.Dictionaries.Remove(dictionaryToRemove);
             await context.SaveChangesAsync();
         }
-        public static async Task<IEnumerable<Dictionary>> GetAllDictionary(ApplicationDbContext context)
+        public static async Task<IEnumerable<Dictionary>> GetDictionary(ApplicationDbContext context, bool enabled)
         {
-            return await context.Dictionaries.ToListAsync();
+            return await context.Dictionaries.Where(d => d.Enabled == enabled).ToListAsync();
         }
-        public static async Task<IEnumerable<Dictionary>> GetAllDictionary(ApplicationDbContext context, int page, int itemsPerPage)
+        public static async Task<IEnumerable<Dictionary>> GetDictionary(ApplicationDbContext context, bool enabled, int page, int itemsPerPage)
         {
-            return await context.Dictionaries.Skip(page*itemsPerPage).Take(itemsPerPage).OrderBy(c => c.Name).ToListAsync();
+            return await context.Dictionaries.Where(d => d.Enabled == enabled).Skip(page*itemsPerPage).Take(itemsPerPage).OrderBy(c => c.Name).ToListAsync();
         }
-        public static async Task<int> GetDictionariesCount(ApplicationDbContext context)
+        public static async Task<int> GetDictionariesCount(ApplicationDbContext context, bool enabled)
         {
-            return await context.Dictionaries.CountAsync();
+            return await context.Dictionaries.Where(d => d.Enabled == enabled).CountAsync();
         }
     }
 }

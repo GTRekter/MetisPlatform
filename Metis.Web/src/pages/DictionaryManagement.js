@@ -3,6 +3,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPlus } from '@fortawesome/free-solid-svg-icons'
 import DictionaryList from '../components/DictionaryList';
 import DictionaryService from '../services/DictionaryService';
+import DictionaryEnableForm from '../components/DictionaryEnableForm'
 import Pagination from '../components/Pagination';
 
 export default class DictionaryManagement extends Component {
@@ -19,7 +20,7 @@ export default class DictionaryManagement extends Component {
     this.onSubmitAddDictionary = this.onSubmitAddDictionary.bind(this);
   }
   componentDidMount() {
-    DictionaryService.getDictionariesCount()
+    DictionaryService.getEnabledDictionariesCount()
       .then((data) => {
         this.setState({
           pages: Math.floor(data / this.state.itemsPerPage)
@@ -28,10 +29,19 @@ export default class DictionaryManagement extends Component {
       .catch(function (ex) {
         console.log('Response parsing failed. Error: ', ex);
       });
-    DictionaryService.getAllDictionariesByPage(this.state.page, this.state.itemsPerPage)
+    DictionaryService.getEnabledDictionariesByPage(this.state.page, this.state.itemsPerPage)
       .then((data) => {
         this.setState({
           items: data,
+        })
+      })
+      .catch(function (ex) {
+        console.log('Response parsing failed. Error: ', ex);
+      });
+    DictionaryService.getDictionaries()
+      .then((data) => {
+        this.setState({
+          pages: Math.floor(data / this.state.itemsPerPage)
         })
       })
       .catch(function (ex) {
@@ -57,7 +67,7 @@ export default class DictionaryManagement extends Component {
       });
   };
   onClickChangePage = (pageNumber) => { 
-    DictionaryService.getAllDictionariesByPage(pageNumber, this.state.itemsPerPage)
+    DictionaryService.getDictionariesByPage(pageNumber, this.state.itemsPerPage)
       .then((data) => {
         this.setState({
           items: data,
@@ -80,7 +90,7 @@ export default class DictionaryManagement extends Component {
     //   });
   };
   onClickRemove = (id) => {
-    DictionaryService.removeDictionaryById(id)
+    DictionaryService.disableDictionaryById(id)
       .then(() => {
         this.setState({
           items: this.state.items.filter(x => x.id !== id)
@@ -112,28 +122,16 @@ export default class DictionaryManagement extends Component {
           </div>
         </div>
 
-        <div className="row">
-          <div className="col-12">
-            <div className="card my-4">
-              <div className="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
-                <div className="bg-gradient-dark shadow-dark border-radius-lg pt-4 pb-3">
-                  <h6 className="text-white text-capitalize ps-3">Enabled Dictionaries</h6>
-                </div>
-              </div>
-              <div className="card-body px-0 pb-2">
-                <DictionaryList dictionaries={this.state.items} onClickRemoveCallback={this.onClickRemove} onClickEditCallback={this.onClickEdit} />
-                <Pagination pages={this.state.pages} page={this.state.page} onClickChangePageCallback={this.onClickChangePage} />
-              </div>
-            </div>
-          </div>
+        <div className="collapse" id="collapseCreationForm">
+          <DictionaryEnableForm />
         </div>
-
+        
         <div className="row">
           <div className="col-12">
             <div className="card my-4">
               <div className="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
                 <div className="bg-gradient-dark shadow-dark border-radius-lg pt-4 pb-3">
-                  <h6 className="text-white text-capitalize ps-3">Available Dictionaries</h6>
+                  <h6 className="text-white text-capitalize ps-3">Dictionaries</h6>
                 </div>
               </div>
               <div className="card-body px-0 pb-2">

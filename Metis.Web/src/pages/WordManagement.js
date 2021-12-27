@@ -28,11 +28,11 @@ export default class WordManagement extends Component {
     this.onChangeTransition = this.onChangeTransition.bind(this);
   }
   componentDidMount() {
-    DictionaryService.getAllDictionaries()
+    DictionaryService.getAllEnabledDictionaries()
       .then((data) => {
         this.setState({
           dictionaries: data,
-          idDictionary: data.filter(function(o){return o.primary}).id
+          idDictionary: data.filter((dictionary) => { return dictionary.primary }).id
         })
       })
       .catch(function (ex) {

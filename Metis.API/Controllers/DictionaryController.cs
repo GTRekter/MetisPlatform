@@ -20,40 +20,36 @@ namespace Metis.API.Controllers
         }
    
         [HttpPost]
-        [Route("AddDictionary")]
-        public async Task<IActionResult> AddDictionary(Dictionary request)
+        [Route("EnableDictionary")]
+        public async Task<IActionResult> EnableDictionary([FromBody] int request)
         {
-            if (request == null)
-            {
-                return NotFound();
-            }
-            Dictionary newDictionary = await DictionaryManager.AddDictionary(_context, request);
-            return Ok(newDictionary);
+            await DictionaryManager.UpdateDictionary(_context, request, true);
+            return Ok();
         }
 
         [HttpPost]
-        [Route("RemoveDictionaryById")]
-        public async Task<IActionResult> RemoveDictionaryById([FromBody] int request)
+        [Route("DisableDictionary")]
+        public async Task<IActionResult> DisableDictionary([FromBody] int request)
         {
-            await DictionaryManager.RemoveDictionaryById(_context, request);
+            await DictionaryManager.UpdateDictionary(_context, request, false);
             return Ok();
         }
 
         [AllowAnonymous]
         [HttpGet]
-        [Route("GetAllDictionaries")]
-        public async Task<IActionResult> GetAllDictionaries()
+        [Route("GetDictionaries")]
+        public async Task<IActionResult> GetDictionaries()
         {
-            IEnumerable<Dictionary> words = await DictionaryManager.GetAllDictionary(_context);
+            IEnumerable<Dictionary> words = await DictionaryManager.GetDictionary(_context, false);
             return Ok(words);
         }
                 
         [AllowAnonymous]
         [HttpGet]
-        [Route("GetAllDictionariesByPage")]
-        public async Task<IActionResult> GetAllDictionariesByPage(int page, int itemsPerPage)
+        [Route("GetDictionariesByPage")]
+        public async Task<IActionResult> GetDictionariesByPage(int page, int itemsPerPage)
         {
-            IEnumerable<Dictionary> words = await DictionaryManager.GetAllDictionary(_context, page, itemsPerPage);
+            IEnumerable<Dictionary> words = await DictionaryManager.GetDictionary(_context, false, page, itemsPerPage);
             return Ok(words);
         }
 
@@ -62,7 +58,34 @@ namespace Metis.API.Controllers
         [Route("GetDictionariesCount")]
         public async Task<IActionResult> GetDictionariesCount()
         {
-            int counter = await DictionaryManager.GetDictionariesCount(_context);
+            int counter = await DictionaryManager.GetDictionariesCount(_context, false);
+            return Ok(counter);
+        }
+
+        [AllowAnonymous]
+        [HttpGet]
+        [Route("GetEnabledDictionaries")]
+        public async Task<IActionResult> GetEnabledDictionaries()
+        {
+            IEnumerable<Dictionary> words = await DictionaryManager.GetDictionary(_context, true);
+            return Ok(words);
+        }
+
+        [AllowAnonymous]
+        [HttpGet]
+        [Route("GetEnabledDictionariesByPage")]
+        public async Task<IActionResult> GetEnabledDictionariesByPage(int page, int itemsPerPage)
+        {
+            IEnumerable<Dictionary> words = await DictionaryManager.GetDictionary(_context, true, page, itemsPerPage);
+            return Ok(words);
+        }
+
+        [AllowAnonymous]
+        [HttpGet]
+        [Route("GetEnabledDictionariesCount")]
+        public async Task<IActionResult> GetEnabledDictionariesCount()
+        {
+            int counter = await DictionaryManager.GetDictionariesCount(_context, true);
             return Ok(counter);
         }
     }
