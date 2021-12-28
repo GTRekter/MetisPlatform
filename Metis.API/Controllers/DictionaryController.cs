@@ -18,22 +18,6 @@ namespace Metis.API.Controllers
         {
             _context = context;
         }
-   
-        [HttpPost]
-        [Route("EnableDictionary")]
-        public async Task<IActionResult> EnableDictionary([FromBody] int request)
-        {
-            await DictionaryManager.UpdateDictionary(_context, request, true);
-            return Ok();
-        }
-
-        [HttpPost]
-        [Route("DisableDictionary")]
-        public async Task<IActionResult> DisableDictionary([FromBody] int request)
-        {
-            await DictionaryManager.UpdateDictionary(_context, request, false);
-            return Ok();
-        }
 
         [AllowAnonymous]
         [HttpGet]

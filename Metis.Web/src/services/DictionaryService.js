@@ -1,30 +1,4 @@
 class DictionaryService {
-    enableDictionaryById(id) {
-        return fetch(process.env.REACT_APP_API_BASEURL + "Dictionary/EnableDictionary", {
-            method: 'post',
-            mode: 'cors',
-            headers: {
-                'Accept': 'application/json, text/plain, */*',
-                'Content-Type': 'application/json',
-                'Access-Control-Allow-Origin': '*'
-            },
-            body: id
-        })
-            .then(res => res.json());
-    }
-    disableDictionaryById(id) {
-        return fetch(process.env.REACT_APP_API_BASEURL + "Dictionary/DisableDictionary", {
-            method: 'post',
-            mode: 'cors',
-            headers: {
-                'Accept': 'application/json, text/plain, */*',
-                'Content-Type': 'application/json',
-                'Access-Control-Allow-Origin': '*'
-            },
-            body: id
-        })
-            .then(res => res.json());
-    }
     getDictionaries() {
         return fetch(process.env.REACT_APP_API_BASEURL + "Dictionary/GetDictionaries", {
             method: 'get',

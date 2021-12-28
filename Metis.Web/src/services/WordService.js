@@ -1,6 +1,6 @@
 class WordService {
-    getAllWords() {
-        return fetch(process.env.REACT_APP_API_BASEURL + "Dictionary/GetAllWords", {
+    getWordsCount() {
+        return fetch(process.env.REACT_APP_API_BASEURL + "Word/GetWordsCount", {
             method: 'get',
             mode: 'cors',
             headers: {
@@ -11,8 +11,32 @@ class WordService {
         })
             .then(res => res.json());
     }
-    addWord(text, idDictionary, idWordType, description, example) {
-        return fetch(process.env.REACT_APP_API_BASEURL + "Dictionary/AddWord", {
+    getWords() {
+        return fetch(process.env.REACT_APP_API_BASEURL + "Word/GetWords", {
+            method: 'get',
+            mode: 'cors',
+            headers: {
+                'Accept': 'application/json, text/plain, */*',
+                'Content-Type': 'application/json',
+                'Access-Control-Allow-Origin': '*'
+            }
+        })
+            .then(res => res.json());
+    }
+    getWordsWithTranslationsByPage(page, itemsPerPage) {
+        return fetch(process.env.REACT_APP_API_BASEURL + "Word/GetWordsWithTranslationsByPage?page=" + page + "&itemsPerPage=" + itemsPerPage, {
+            method: 'get',
+            mode: 'cors',
+            headers: {
+                'Accept': 'application/json, text/plain, */*',
+                'Content-Type': 'application/json',
+                'Access-Control-Allow-Origin': '*'
+            }
+        })
+            .then(res => res.json());
+    }
+    addWord(text, dictionaryId, wordTypeId, description, example) {
+        return fetch(process.env.REACT_APP_API_BASEURL + "Word/AddWord", {
             method: 'post',
             mode: 'cors',
             headers: {
@@ -22,16 +46,15 @@ class WordService {
             },
             body: JSON.stringify({
                 text: text,
-                idDictionary: idDictionary,
-                idWordType: idWordType,
+                dictionaryId: dictionaryId,
+                wordTypeId: wordTypeId,
                 description: description,
                 example: example
             })
-        })
-        // .then(res => res.json());        
+        })     
     }
-    addWordWithTranslations(text, idDictionary, idWordType, description, example, translations) {
-        return fetch(process.env.REACT_APP_API_BASEURL + "Dictionary/AddWordWithTranslations", {
+    addWordWithTranslations(text, dictionaryId, wordTypeId, description, example, translations) {
+        return fetch(process.env.REACT_APP_API_BASEURL + "Word/AddWordWithTranslations", {
             method: 'post',
             mode: 'cors',
             headers: {
@@ -43,15 +66,14 @@ class WordService {
                 {
                     word: {
                         text: text,
-                        idDictionary: idDictionary,
-                        idWordType: idWordType,
+                        dictionaryId: dictionaryId,
+                        WordTypeId: wordTypeId,
                         description: description,
                         example: example
                     },
                     translations: translations
                 })
-        })
-        // .then(res => res.json());        
+        })       
     }
     removeWordById(id) {
         return fetch(process.env.REACT_APP_API_BASEURL + "Dictionary/RemoveWordById", {
@@ -63,18 +85,6 @@ class WordService {
                 'Access-Control-Allow-Origin': '*'
             },
             body: id
-        })
-            .then(res => res.json());
-    }
-    getAllWordTypes() {
-        return fetch(process.env.REACT_APP_API_BASEURL + "Dictionary/GetAllWordTypes", {
-            method: 'get',
-            mode: 'cors',
-            headers: {
-                'Accept': 'application/json, text/plain, */*',
-                'Content-Type': 'application/json',
-                'Access-Control-Allow-Origin': '*'
-            }
         })
             .then(res => res.json());
     }

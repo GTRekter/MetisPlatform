@@ -9,10 +9,8 @@ namespace Metis.Models.Store
     {
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
-        [Required]
-        public int IdDictionary { get; set; }
-        [Required]
-        public int IdWord { get; set; }   
-        public int Text { get; set; }
+        public int DictionaryId { get; set; }
+        public int WordId { get; set; }   
+        public string Text { get; set; }
     }
 }

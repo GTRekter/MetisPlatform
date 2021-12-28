@@ -6,15 +6,9 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Metis.Models.Store
 {
-    //public enum WordType
-    //{
-    //    Noun = 0,
-    //    Adverb = 1,
-    //    Verb = 2,
-    //    Pronoum = 3
-    //}
     public class WordType
     {
+        [ForeignKey("WordTypeId")]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
         [Required]

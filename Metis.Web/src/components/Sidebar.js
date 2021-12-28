@@ -48,14 +48,6 @@ export default class Sidebar extends Component {
                                 <h6 className="ps-4 ms-2 text-uppercase text-xs text-white font-weight-bolder opacity-8">Admin</h6>
                             </li>
                             <li className="nav-item">
-                                <Link className="nav-link" to='/admin/dictionary'>
-                                    <div className="text-white text-center me-2 d-flex align-items-center justify-content-center">
-                                        <FontAwesomeIcon className='opacity-10' icon={faBook} />
-                                    </div>
-                                    <span className="nav-link-text ms-1">Manage Dictionary</span>
-                                </Link>
-                            </li>
-                            <li className="nav-item">
                                 <Link className="nav-link" to='/admin/word'>
                                     <div className="text-white text-center me-2 d-flex align-items-center justify-content-center">
                                         <FontAwesomeIcon className='opacity-10' icon={faLanguage} />

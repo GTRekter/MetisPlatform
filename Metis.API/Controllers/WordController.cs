@@ -39,7 +39,7 @@ namespace Metis.API.Controllers
             {
                 return NotFound();
             }
-            Word newWord = await WordManager.AddWord(_context, request.Word, request.Translations);
+            Word newWord = await WordManager.AddWordWithTranslations(_context, request.Word, request.Translations);
             return Ok(newWord);
         }
 
@@ -53,10 +53,28 @@ namespace Metis.API.Controllers
 
         [AllowAnonymous]
         [HttpGet]
-        [Route("GetAllWords")]
-        public async Task<IActionResult> GetAllWords()
+        [Route("GetWordsCount")]
+        public async Task<IActionResult> GetWordsCount()
         {
-            IEnumerable<Word> words = await WordManager.GetAllWord(_context);
+            int counter = await WordManager.GetWordsCount(_context);
+            return Ok(counter);
+        }
+
+        [AllowAnonymous]
+        [HttpGet]
+        [Route("GetWords")]
+        public async Task<IActionResult> GetWords()
+        {
+            IEnumerable<Word> words = await WordManager.GetWords(_context);
+            return Ok(words);
+        }
+
+        [AllowAnonymous]
+        [HttpGet]
+        [Route("GetWordsWithTranslationsByPage")]
+        public async Task<IActionResult> GetWordsWithTranslationsByPage(int page, int itemsPerPage)
+        {
+            IEnumerable<Word> words = await WordManager.GetWordsWithTranslationsByPage(_context, page, itemsPerPage);
             return Ok(words);
         }
 

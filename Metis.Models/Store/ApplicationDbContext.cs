@@ -20,8 +20,11 @@ namespace Metis.Models.Store
 
         private void SeedDictionaries(ModelBuilder builder)  
         {  
-            CultureInfo[] cultures = CultureInfo.GetCultures(CultureTypes.AllCultures & ~CultureTypes.NeutralCultures);
-            IEnumerable<Dictionary> dictionaries = cultures.Select((c, index) => new Dictionary(){ Id = index + 1, Name = c.DisplayName, Code = c.Name, Primary = false, Enabled = false });
+            IEnumerable<Dictionary> dictionaries = new List<Dictionary>()
+            { 
+                new Dictionary(){ Id = 1, Name = "Korean", Code = "ko-KO", Enabled = true, Primary = true },
+                new Dictionary(){ Id = 2, Name = "English (en-US)", Code = "en-US", Enabled = true, Primary = false }
+            }; 
             builder.Entity<Dictionary>().HasData(dictionaries);  
         }  
 

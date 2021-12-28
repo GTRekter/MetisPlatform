@@ -16,15 +16,15 @@ namespace Metis.Models.Managers
             await context.SaveChangesAsync();
             return word;
         }
-        public static async Task<Word> AddWord(ApplicationDbContext context, Word word, IEnumerable<Translation> translations)
+        public static async Task<Word> AddWordWithTranslations(ApplicationDbContext context, Word word, IEnumerable<Translation> translations)
         {
-            using (TransactionScope scope = new TransactionScope())
+            using (TransactionScope scope = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled))
             {
                 context.Words.Add(word);
                 await context.SaveChangesAsync();
                 foreach (var translation in translations)
                 {
-                    translation.IdWord = word.Id;
+                    translation.WordId = word.Id;
                     context.Translations.Add(translation);
                 }
                 await context.SaveChangesAsync();
@@ -36,9 +36,17 @@ namespace Metis.Models.Managers
         {
             return await context.Words.FindAsync(id);
         }
-        public static async Task<IEnumerable<Word>> GetAllWord(ApplicationDbContext context)
+        public static async Task<IEnumerable<Word>> GetWords(ApplicationDbContext context)
         {
             return await context.Words.ToListAsync();
+        }
+        public static async Task<int> GetWordsCount(ApplicationDbContext context)
+        {
+            return await context.Words.CountAsync();
+        }
+        public static async Task<IEnumerable<Word>> GetWordsWithTranslationsByPage(ApplicationDbContext context, int page, int itemsPerPage)
+        {
+            return await context.Words.Include(w => w.Translations).Skip(page * itemsPerPage).Take(itemsPerPage).ToListAsync();
         }
         public static async Task RemoveWordById(ApplicationDbContext context, int id)
         {
