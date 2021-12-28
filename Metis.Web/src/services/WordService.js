@@ -23,6 +23,18 @@ class WordService {
         })
             .then(res => res.json());
     }
+    GetWordsByWordTypeId(id) {
+        return fetch(process.env.REACT_APP_API_BASEURL + "Word/GetWordsByWordTypeId?" + id, {
+            method: 'get',
+            mode: 'cors',
+            headers: {
+                'Accept': 'application/json, text/plain, */*',
+                'Content-Type': 'application/json',
+                'Access-Control-Allow-Origin': '*'
+            }
+        })
+            .then(res => res.json());
+    }
     getWordsWithTranslationsByPage(page, itemsPerPage) {
         return fetch(process.env.REACT_APP_API_BASEURL + "Word/GetWordsWithTranslationsByPage?page=" + page + "&itemsPerPage=" + itemsPerPage, {
             method: 'get',
@@ -76,8 +88,8 @@ class WordService {
         })       
     }
     removeWordById(id) {
-        return fetch(process.env.REACT_APP_API_BASEURL + "Dictionary/RemoveWordById", {
-            method: 'post',
+        return fetch(process.env.REACT_APP_API_BASEURL + "Word/RemoveWordById/" + id, {
+            method: 'delete',
             mode: 'cors',
             headers: {
                 'Accept': 'application/json, text/plain, */*',

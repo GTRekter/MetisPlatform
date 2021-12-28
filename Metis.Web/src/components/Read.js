@@ -30,7 +30,7 @@ export default class Read extends Component {
             isAnswerProvided: true,
             isAnswerCorrect: false
         })
-        SpeechService.synthesizeSpeech(this.props.currentWord.korean);
+        SpeechService.synthesizeSpeech(this.props.currentWord.text);
         setTimeout(function () {
             self.props.onAnswerProvidedCallback(false);
             self.resetValues();
@@ -43,7 +43,7 @@ export default class Read extends Component {
             isAnswerProvided: true,
             isAnswerCorrect: true
         })
-        SpeechService.synthesizeSpeech(this.props.currentWord.korean);
+        SpeechService.synthesizeSpeech(this.props.currentWord.text);
         setTimeout(function () {
             self.props.onAnswerProvidedCallback(true);
             self.resetValues();
@@ -60,7 +60,7 @@ export default class Read extends Component {
         var transation = <h2>&nbsp;<br />&nbsp;</h2>;
         var translationIcon = <FontAwesomeIcon className="link-light" icon={faEye} />;
         if (this.state.viewTranslation) {
-            transation = <h2 className="text-white">{this.props.currentWord.korean} <br />({this.props.currentWord.roman})</h2>
+            transation = <h2 className="text-white">{this.props.currentWord.text} <br />({this.props.currentWord.roman})</h2>
             translationIcon = <FontAwesomeIcon className="link-light" icon={faEyeSlash} />
         }
         var backgroundClass = "bg-gradient-info shadow-info";
@@ -75,7 +75,7 @@ export default class Read extends Component {
         var currentWordExample = "";
         var currentWordDescription= "";
         if(this.props.currentWord !== null) {
-            currentWordEnglish = this.props.currentWord.english;
+            currentWordEnglish = this.props.currentWord.translations;
             currentWordExample = this.props.currentWord.example;
             currentWordDescription= this.props.currentWord.description;
         }

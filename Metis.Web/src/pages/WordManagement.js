@@ -14,8 +14,6 @@ export default class WordManagement extends Component {
       words: [...this.state.words, word],
     })
   };
-  onClickRemove = (id) => {
-  };
   onClickEdit = () => {
 
   };

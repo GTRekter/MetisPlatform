@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import DictionaryService from '../services/DictionaryService';
+import WordService from '../services/WordService';
+import WordTypeService from '../services/WordTypeService';
 import ReportCard from '../components/ReportCard';
 import ReportCardFilter from '../components/ReportCardFilter';
 import { faFlag, faExclamationTriangle, faTags } from '@fortawesome/free-solid-svg-icons'
@@ -12,22 +13,29 @@ export default class ExerciseRead extends Component {
             words: [],
             errors: [],
             correct: [],
-            topics: [],
+            wordTypes: [],
             currentWord: "",
-            currentTopic: ""
+            currentWordType: ""
         }
         // this.onClickReset = this.onClickReset.bind(this);
         // this.onClickUpdateWordsByTopic = this.onClickUpdateWordsByTopic.bind(this);
         // this.onClickUpdateWordsByAll = this.onClickUpdateWordsByAll.bind(this);
     }
     componentDidMount() {
-        var mappedJson = DictionaryService.getAllWords();
-        this.setState({
-            words: this.shuffle(mappedJson),
-            topics: DictionaryService.getAllTopics(),
-            currentWord: mappedJson[0],
-        });
-    }    
+        WordService.getWords()
+            .then(data => {
+                this.setState({
+                    words: this.shuffle(data),
+                    currentWord: data[0]
+                });
+            });
+        WordTypeService.getWordTypes()
+            .then(data => {
+                this.setState({
+                    wordTypes: data
+                });
+            });
+    }
     // onClickReset = () => {
     //     var mappedJson = DictionaryService.getAllWords();
     //     this.setState({
@@ -53,16 +61,16 @@ export default class ExerciseRead extends Component {
     //         isAnswerCorrect: false
     //     });
     // };
-    updateWordsByTopic = (topic) => {
-        console.log(topic);
-        var mappedJson = DictionaryService.getAllWordsByTopic(topic);
+    updateWordsByWordType = (wordType) => {
+        console.log(wordType);
+        var mappedJson = WordService.getWordsByWordType(wordType);
         this.setState({
             ...this.state,
             words: this.shuffle(mappedJson),
             viewTranslation: false,
             errors: [],
             correct: [],
-            currentTopic: topic,
+            currentWordType: wordType,
             currentWord: mappedJson[0]
         });
     };
@@ -87,8 +95,8 @@ export default class ExerciseRead extends Component {
                 errors: [],
                 correct: []
             })
-        }                   
-    }; 
+        }
+    };
     shuffle = (array) => {
         return array.sort(() => Math.random() - 0.5);
     };
@@ -102,7 +110,7 @@ export default class ExerciseRead extends Component {
             <div>
                 <div className="row">
                     <div className="col-12 col-sm-4 py-4">
-                        <ReportCardFilter title="Topic" icon={faTags} color="dark" value={this.state.currentTopic === "" ? "All" : this.capitalizeFirstLetter(this.state.currentTopic)} options={this.state.topics} onOptionChangeCallback={this.updateWordsByTopic} />
+                        <ReportCardFilter title="Type" icon={faTags} color="dark" value={this.state.currentWordType === "" ? "All" : this.capitalizeFirstLetter(this.state.currentWordType)} options={this.state.wordTypes} onOptionChangeCallback={this.updateWordsByWordType} />
                     </div>
                     <div className="col-12 col-sm-4 py-4">
                         <ReportCard title="Remaining" icon={faFlag} color="primary" value={this.state.errors.length + this.state.correct.length + "/" + this.state.words.length} footer="Number of remaining words" />

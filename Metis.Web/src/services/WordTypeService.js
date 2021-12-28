@@ -1,5 +1,5 @@
 class WordTypeService {
-    getAllWordTypes() {
+    getWordTypes() {
         return fetch(process.env.REACT_APP_API_BASEURL + "WordType/GetAllWordTypes", {
             method: 'get',
             mode: 'cors',

@@ -56,7 +56,15 @@ export default class WordList extends Component {
         this.props.onClickEditCallback();
     }
     onClickRemove = (id) => {
-        this.props.onClickRemoveCallback(id);
+        WordService.removeWordById(id)
+            .then(() => {
+                this.setState({
+                    words: this.state.words.filter((word) => word.id !== id)
+                })
+            })
+            .catch(function (ex) {
+                console.log('Response parsing failed. Error: ', ex);
+            });
     }
     render() {
         let headers = this.state.dictionaries.map((dictionary, index) =>
@@ -77,9 +85,9 @@ export default class WordList extends Component {
                     console.log(word.translations);
                     console.log(dictionary);
                     if (translation.length > 0) {
-                        columns.push(<td className="text-wrap">{translation[0].text}</td>)
+                        columns.push(<td className="text-wrap text-center">{translation[0].text}</td>)
                     } else {
-                        columns.push(<td className="text-wrap"></td>)
+                        columns.push(<td className="text-wrap text-center"></td>)
                     }
                 }
             })

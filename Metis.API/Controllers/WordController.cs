@@ -43,11 +43,11 @@ namespace Metis.API.Controllers
             return Ok(newWord);
         }
 
-        [HttpPost]
-        [Route("RemoveWordById")]
-        public async Task<IActionResult> RemoveWordById(int request)
+        [HttpDelete]
+        [Route("RemoveWordById/{id}")]    
+        public async Task<IActionResult> RemoveWordById(int id)
         {
-            await WordManager.RemoveWordById(_context, request);
+            await WordManager.RemoveWordById(_context, id);
             return Ok();
         }
 
@@ -66,6 +66,15 @@ namespace Metis.API.Controllers
         public async Task<IActionResult> GetWords()
         {
             IEnumerable<Word> words = await WordManager.GetWords(_context);
+            return Ok(words);
+        }
+
+        [AllowAnonymous]
+        [HttpGet]
+        [Route("GetWordsByWordTypeId")]
+        public async Task<IActionResult> GetWordsByWordTypeId(int id)
+        {
+            IEnumerable<Word> words = await WordManager.GetWordsByWordTypeId(_context, id);
             return Ok(words);
         }
 

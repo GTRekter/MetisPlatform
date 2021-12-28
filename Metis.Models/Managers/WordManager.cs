@@ -36,6 +36,11 @@ namespace Metis.Models.Managers
         {
             return await context.Words.FindAsync(id);
         }
+        
+        public static async Task<IEnumerable<Word>> GetWordsByWordTypeId(ApplicationDbContext context, int id)
+        {
+            return await context.Words.Include(w => w.Translations).Where(w => w.WordTypeId == id).ToListAsync();
+        }
         public static async Task<IEnumerable<Word>> GetWords(ApplicationDbContext context)
         {
             return await context.Words.ToListAsync();
@@ -50,9 +55,18 @@ namespace Metis.Models.Managers
         }
         public static async Task RemoveWordById(ApplicationDbContext context, int id)
         {
-            var wordToRemove = await context.Words.FindAsync(id);
-            context.Words.Remove(wordToRemove);
-            await context.SaveChangesAsync();
+            using (TransactionScope scope = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled))
+            {
+                var wordToRemove = await context.Words.FindAsync(id);
+                context.Words.Remove(wordToRemove);
+                var tranlationsToRemove = await context.Translations.Where(t => t.WordId == id).ToListAsync();
+                foreach (var translation in tranlationsToRemove)
+                {
+                    context.Translations.Remove(translation);
+                }
+                await context.SaveChangesAsync();
+                scope.Complete();
+            }          
         }    
     }
 }

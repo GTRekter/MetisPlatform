@@ -33,7 +33,7 @@ export default class WordCreationFrom extends Component {
       .catch(function (ex) {
         console.log('Response parsing failed. Error: ', ex);
       });
-    WordTypeService.getAllWordTypes()
+    WordTypeService.getWordTypes()
       .then((data) => {
         this.setState({
           wordTypes: data,
@@ -60,7 +60,6 @@ export default class WordCreationFrom extends Component {
     })
   };
   onSubmitAddWord = () => {
-    console.log(this.state)
     WordService.addWordWithTranslations(this.state.text, this.state.dictionaryId, this.state.wordTypeId, this.state.description, this.state.example, this.state.translations)
       .then((data) => {
         this.props.onClickAddCallback(data);
