@@ -5,12 +5,10 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Metis.Models.Store
 {
-    public class Translation
+    public class Lesson
     {
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
-        public int DictionaryId { get; set; }
-        public int WordId { get; set; }   
-        public string Text { get; set; }
+        public ICollection<Word> Words { get; set; }
     }
 }

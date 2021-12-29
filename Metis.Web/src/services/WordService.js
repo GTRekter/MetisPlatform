@@ -11,8 +11,8 @@ class WordService {
         })
             .then(res => res.json());
     }
-    getWords() {
-        return fetch(process.env.REACT_APP_API_BASEURL + "Word/GetWords", {
+    getWordsWithTranslations() {
+        return fetch(process.env.REACT_APP_API_BASEURL + "Word/GetWordsWithTranslations", {
             method: 'get',
             mode: 'cors',
             headers: {
@@ -65,7 +65,7 @@ class WordService {
             })
         })     
     }
-    addWordWithTranslations(text, dictionaryId, wordTypeId, description, example, translations) {
+    addWordWithTranslations(text, roman, dictionaryId, wordTypeId, description, example, translations) {
         return fetch(process.env.REACT_APP_API_BASEURL + "Word/AddWordWithTranslations", {
             method: 'post',
             mode: 'cors',
@@ -78,6 +78,7 @@ class WordService {
                 {
                     word: {
                         text: text,
+                        roman: roman,
                         dictionaryId: dictionaryId,
                         WordTypeId: wordTypeId,
                         description: description,

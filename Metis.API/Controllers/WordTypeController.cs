@@ -4,7 +4,7 @@ using Metis.Models.Managers;
 using Metis.Models.Store;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
-using Metis.API.ViewModels;
+using Metis.API.Models;
 
 namespace Metis.API.Controllers
 {

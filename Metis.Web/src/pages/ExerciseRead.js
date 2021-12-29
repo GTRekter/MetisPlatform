@@ -22,7 +22,7 @@ export default class ExerciseRead extends Component {
         // this.onClickUpdateWordsByAll = this.onClickUpdateWordsByAll.bind(this);
     }
     componentDidMount() {
-        WordService.getWords()
+        WordService.getWordsWithTranslations()
             .then(data => {
                 this.setState({
                     words: this.shuffle(data),

@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Metis.Models.Store;
 
-namespace Metis.API.ViewModels
+namespace Metis.API.Models.Requests
 {
     public class AddWordWithTranslationsRequest
     {

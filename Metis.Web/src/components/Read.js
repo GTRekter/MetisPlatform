@@ -75,7 +75,7 @@ export default class Read extends Component {
         var currentWordExample = "";
         var currentWordDescription= "";
         if(this.props.currentWord !== null) {
-            currentWordEnglish = this.props.currentWord.translations;
+            currentWordEnglish = this.props.currentWord.translations[0].text;
             currentWordExample = this.props.currentWord.example;
             currentWordDescription= this.props.currentWord.description;
         }

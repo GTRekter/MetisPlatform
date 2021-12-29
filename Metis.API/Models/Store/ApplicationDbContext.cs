@@ -1,12 +1,19 @@
 ﻿using System.Collections.Generic;
-using System.Globalization;
-using System.Linq;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 
 namespace Metis.Models.Store
 {
-    public class ApplicationDbContext : DbContext
+    public class ApplicationDbContext : IdentityDbContext<User, Role, int>
     {
+        
+        public DbSet<Word> Words { get; set; }
+        public DbSet<WordType> WordTypes { get; set; }
+        public DbSet<Dictionary> Dictionaries { get; set; }
+        public DbSet<Translation> Translations { get; set; }
+        public DbSet<Lesson> Lessons { get; set; }
+
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
         {
@@ -16,6 +23,32 @@ namespace Metis.Models.Store
             base.OnModelCreating(builder);  
             this.SeedDictionaries(builder); 
             this.SeedWordTypes(builder); 
+
+            builder.Entity<User>()
+                .ToTable("Users");
+
+            builder.Entity<Role>()
+                .ToTable("Roles");
+
+            builder.Entity<IdentityUserRole<int>>()
+                .ToTable("UserRoles")
+                .HasKey(r => new { r.UserId, r.RoleId });
+
+            builder.Entity<IdentityUserClaim<int>>()
+                .ToTable("UserClaims");
+
+            builder.Entity<IdentityRoleClaim<int>>()
+                .ToTable("RoleClaims");
+
+            builder.Entity<IdentityUserToken<int>>()
+                .ToTable("UserTokens");
+
+            builder.Entity<IdentityUserLogin<int>>()
+                .ToTable("UserLogins")
+                .HasKey(l => new { l.LoginProvider, l.ProviderKey, l.UserId });
+
+            builder.Entity<Word>()
+                .HasMany(w => w.Translations);
         }  
 
         private void SeedDictionaries(ModelBuilder builder)  
@@ -39,11 +72,5 @@ namespace Metis.Models.Store
             }; 
             builder.Entity<WordType>().HasData(wordTypes);  
         }  
-  
-        public DbSet<Word> Words { get; set; }
-        public DbSet<WordType> WordTypes { get; set; }
-        public DbSet<Dictionary> Dictionaries { get; set; }
-        public DbSet<Translation> Translations { get; set; }
-        public DbSet<Lesson> Lessons { get; set; }
     }
 }

@@ -31,14 +31,6 @@ namespace Metis.API.Controllers
             return Ok(newLesson);
         }
 
-        [HttpPost]
-        [Route("RemoveLessonById")]
-        public async Task<IActionResult> RemoveLessonById(int request)
-        {
-            await LessonManager.RemoveLessonById(_context, request);
-            return Ok();
-        }
-
         [AllowAnonymous]
         [HttpGet]
         [Route("GetAllLessons")]
@@ -50,20 +42,26 @@ namespace Metis.API.Controllers
 
         [AllowAnonymous]
         [HttpGet]
-        [Route("GetLesson")]
-        public async Task<IActionResult> GetLesson(int request)
+        [Route("GetLessonById/{id}")]
+        public async Task<IActionResult> GetLessonById(int request)
         {
             var lesson = await LessonManager.GetLessonById(_context, request);
             return Ok(lesson);
         }
 
-        // [AllowAnonymous]
-        // [HttpGet]
-        // [Route("GetLesson")]
-        // public async Task<IActionResult> AddWordToLesson(int idWord, int idLesson)
+        // [HttpPut("{id}")]
+        // public IActionResult Update(int id, UpdateRequest model)
         // {
-        //     var lesson = await LessonManager.AddWordToLesson(_context, id);
-        //     return Ok(lesson);
+        //     LessonManager.Update(id, model);
+        //     return Ok(new { message = "User updated" });
         // }
+
+        [HttpDelete]
+        [Route("RemoveLessonById/{id}")]
+        public async Task<IActionResult> RemoveLessonById(int request)
+        {
+            await LessonManager.RemoveLessonById(_context, request);
+            return Ok();
+        }
     }
 }

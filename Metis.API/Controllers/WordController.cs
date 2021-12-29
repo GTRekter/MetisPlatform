@@ -4,7 +4,7 @@ using Metis.Models.Managers;
 using Metis.Models.Store;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
-using Metis.API.ViewModels;
+using Metis.API.Models;
 
 namespace Metis.API.Controllers
 {
@@ -18,48 +18,19 @@ namespace Metis.API.Controllers
         {
             _context = context;
         }
-   
+
         [HttpPost]
         [Route("AddWord")]
-        public async Task<IActionResult> AddWord(Word request)
+        public async Task<IActionResult> AddWord([FromBody]Word word)
         {
-            if(request == null)
+            if(word == null)
             {
                 return NotFound();
             }
-            Word newWord = await WordManager.AddWord(_context, request);
+            Word newWord = await WordManager.AddWord(_context, word);
             return Ok(newWord);
         }
-
-        [HttpPost]
-        [Route("AddWordWithTranslations")]
-        public async Task<IActionResult> AddWordWithTranslations([FromBody]AddWordWithTranslationsRequest request)
-        {
-            if(request == null)
-            {
-                return NotFound();
-            }
-            Word newWord = await WordManager.AddWordWithTranslations(_context, request.Word, request.Translations);
-            return Ok(newWord);
-        }
-
-        [HttpDelete]
-        [Route("RemoveWordById/{id}")]    
-        public async Task<IActionResult> RemoveWordById(int id)
-        {
-            await WordManager.RemoveWordById(_context, id);
-            return Ok();
-        }
-
-        [AllowAnonymous]
-        [HttpGet]
-        [Route("GetWordsCount")]
-        public async Task<IActionResult> GetWordsCount()
-        {
-            int counter = await WordManager.GetWordsCount(_context);
-            return Ok(counter);
-        }
-
+        
         [AllowAnonymous]
         [HttpGet]
         [Route("GetWords")]
@@ -71,29 +42,19 @@ namespace Metis.API.Controllers
 
         [AllowAnonymous]
         [HttpGet]
-        [Route("GetWordsByWordTypeId")]
-        public async Task<IActionResult> GetWordsByWordTypeId(int id)
-        {
-            IEnumerable<Word> words = await WordManager.GetWordsByWordTypeId(_context, id);
-            return Ok(words);
-        }
-
-        [AllowAnonymous]
-        [HttpGet]
         [Route("GetWordsWithTranslationsByPage")]
-        public async Task<IActionResult> GetWordsWithTranslationsByPage(int page, int itemsPerPage)
+        public async Task<IActionResult> GetWordsByPage(int page, int itemsPerPage)
         {
-            IEnumerable<Word> words = await WordManager.GetWordsWithTranslationsByPage(_context, page, itemsPerPage);
+            IEnumerable<Word> words = await WordManager.GetWordsByPage(_context, page, itemsPerPage);
             return Ok(words);
         }
 
-        [AllowAnonymous]
-        [HttpGet]
-        [Route("GetWord")]
-        public async Task<IActionResult> GetWord(int request)
+        [HttpDelete]
+        [Route("RemoveWordById/{id}")]    
+        public async Task<IActionResult> RemoveWordById(int id)
         {
-            var word = await WordManager.GetWordById(_context, request);
-            return Ok(word);
+            await WordManager.RemoveWordById(_context, id);
+            return Ok();
         }
     }
 }

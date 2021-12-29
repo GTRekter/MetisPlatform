@@ -7,7 +7,6 @@ namespace Metis.Models.Store
 {
     public class Dictionary
     {
-        [ForeignKey("DictionaryId")]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
         [StringLength(maximumLength: 100, MinimumLength = 2)]
@@ -16,5 +15,6 @@ namespace Metis.Models.Store
         public string Code { get; set; }
         public bool Primary { get; set; }
         public bool Enabled { get; set; }
+        public ICollection<Translation> Trsanslation { get; set; }
     }
 }

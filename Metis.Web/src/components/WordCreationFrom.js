@@ -13,6 +13,7 @@ export default class WordCreationFrom extends Component {
       wordTypes: [],   
       translations: [],
       text: "",
+      roman: "",
       description: "",
       example: "",
       dictionaryId: 0,
@@ -60,7 +61,7 @@ export default class WordCreationFrom extends Component {
     })
   };
   onSubmitAddWord = () => {
-    WordService.addWordWithTranslations(this.state.text, this.state.dictionaryId, this.state.wordTypeId, this.state.description, this.state.example, this.state.translations)
+    WordService.addWordWithTranslations(this.state.text, this.state.roman, this.state.dictionaryId, this.state.wordTypeId, this.state.description, this.state.example, this.state.translations)
       .then((data) => {
         this.props.onClickAddCallback(data);
       })
@@ -93,13 +94,19 @@ export default class WordCreationFrom extends Component {
           subtitle="Add a new word to a choosen dictionary."
           onSubmitCallback={this.onSubmitAddWord}>
           <div className="row">
-            <div className="col-12 col-xl-4">
+            <div className="col-12 col-xl-6">
               <div className="input-group input-group-static">
                 <label>Word</label>
                 <input className="form-control" type="text" name="text" value={this.state.text} onChange={this.onChangeInput} />
               </div>
             </div>
-            <div className="col-12 col-xl-4">
+            <div className="col-12 col-xl-6">
+              <div className="input-group input-group-static">
+                <label>Roman</label>
+                <input className="form-control" type="text" name="roman" value={this.state.roman} onChange={this.onChangeInput} />
+              </div>
+            </div>
+            <div className="col-12 col-xl-6">
               <div className="input-group input-group-static mb-4">
                 <label className="ms-0">Dictionary</label>
                 <select className="form-control" name="dictionaryId" disabled value={this.state.dictionaryId} onChange={this.onChangeInput}>
@@ -107,7 +114,7 @@ export default class WordCreationFrom extends Component {
                 </select>
               </div>
             </div>
-            <div className="col-12 col-xl-4">
+            <div className="col-12 col-xl-6">
               <div className="input-group input-group-static mb-4">
                 <label className="ms-0">Type</label>
                 <select className="form-control" name="wordTypeId" value={this.state.wordTypeId} onChange={this.onChangeInput}>

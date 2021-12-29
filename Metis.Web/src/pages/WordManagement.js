@@ -7,6 +7,9 @@ import WordList from '../components/WordList';
 export default class WordManagement extends Component {
   constructor(props) {
     super(props)
+    this.state = {
+      showEdit: false
+    }
     this.onClickEdit = this.onClickEdit.bind(this);
   }
   onClickAdd = (word) => {
@@ -15,7 +18,9 @@ export default class WordManagement extends Component {
     })
   };
   onClickEdit = () => {
-
+    this.setState({
+      showEdit: !this.state.showEdit
+    })
   };
   render() {
     return (
@@ -32,7 +37,12 @@ export default class WordManagement extends Component {
         </div>
 
         <div className="collapse" id="collapseCreationForm">
-          <WordCreationFrom  onClickAddCallback={this.onClickAdd} />
+          <WordCreationFrom onClickAddCallback={this.onClickAdd} />
+        </div>
+
+        <div className={`collapse ${this.state.showEdit ? 'show' : ''}`} id="collapseEditForm">
+          dasdas
+          {/* <WordEditFrom onClickAddCallback={this.onClickEdit} /> */}
         </div>
 
         <div className="row">
