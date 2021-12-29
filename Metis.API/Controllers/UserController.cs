@@ -77,6 +77,7 @@ namespace Metis.API.Controllers
         // }
 
         [HttpGet]
+        [Route("GetRoles")]
         [Authorize(Roles = "Country Admin,Administrator")]
         public async Task<IActionResult> GetRolesAsync()
         {
@@ -86,6 +87,7 @@ namespace Metis.API.Controllers
         }
 
         [HttpGet]
+        [Route("GetCurrentUsers")]
         [Authorize]
         public async Task<IActionResult> GetCurrentUsersAsync()
         {
@@ -94,6 +96,7 @@ namespace Metis.API.Controllers
         }
 
         [HttpGet]
+        [Route("GetUsers")]
         [Authorize(Roles = "Country Admin,Administrator")]
         public async Task<IActionResult> GetUsersAsync()
         {
@@ -103,9 +106,10 @@ namespace Metis.API.Controllers
         }
 
         [HttpPost]
+        [Route("AddNewUser")]
         [Authorize(Roles = "Country Admin,Administrator")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> AddNewUser(AddNewUserRequest model)
+        public async Task<IActionResult> AddNewUserAsync(AddNewUserRequest model)
         {
             await IsUserValidAsync(new string[] { "Country Admin", "Administrator" });
 
@@ -142,9 +146,10 @@ namespace Metis.API.Controllers
         }
 
         [HttpPost]
+        [Route("EditUser")]
         [Authorize(Roles = "Country Admin,Administrator")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> EditUser(EditUserRequest model)
+        public async Task<IActionResult> EditUserAsync(EditUserRequest model)
         {
             await IsUserValidAsync(new string[] { "Country Admin", "Administrator" });
 
@@ -190,9 +195,10 @@ namespace Metis.API.Controllers
         // }
 
         [HttpPost]
+        [Route("DeleteUsers")]
         [Authorize(Roles = "Country Admin,Administrator")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteUsers(DeleteUsersRequest model)
+        public async Task<IActionResult> DeleteUsersAsync(DeleteUsersRequest model)
         {
             await IsUserValidAsync(new string[] { "Country Admin", "Administrator" });
             IdentityResult result = null;
@@ -209,9 +215,10 @@ namespace Metis.API.Controllers
         }
 
         [HttpPost]
+        [Route("DisableUsers")]
         [Authorize(Roles = "Country Admin,Administrator")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DisableUsers(DisableUsersRequest model)
+        public async Task<IActionResult> DisableUsersAsync(DisableUsersRequest model)
         {
             await IsUserValidAsync(new string[] { "Country Admin", "Administrator" });
             for (int i = 0; i < model.Emails.Count(); i++)
@@ -239,9 +246,10 @@ namespace Metis.API.Controllers
         // }
 
         [HttpPost]
+        [Route("ChangePassword")]
         [Authorize]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> ChangePassword(ChangePasswordRequest model)
+        public async Task<IActionResult> ChangePasswordAsync(ChangePasswordRequest model)
         {
             await UserManager.EditUserPassword(_userManager, model.UserId, model.OldPassword, model.NewPassword);
             return Ok();

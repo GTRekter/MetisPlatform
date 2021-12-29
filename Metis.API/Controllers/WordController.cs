@@ -21,7 +21,7 @@ namespace Metis.API.Controllers
 
         [HttpPost]
         [Route("AddWord")]
-        public async Task<IActionResult> AddWord([FromBody]Word word)
+        public async Task<IActionResult> AddWordAsync([FromBody]Word word)
         {
             if(word == null)
             {
@@ -34,7 +34,7 @@ namespace Metis.API.Controllers
         [AllowAnonymous]
         [HttpGet]
         [Route("GetWords")]
-        public async Task<IActionResult> GetWords()
+        public async Task<IActionResult> GetWordsAsync()
         {
             IEnumerable<Word> words = await WordManager.GetWords(_context);
             return Ok(words);
@@ -43,7 +43,7 @@ namespace Metis.API.Controllers
         [AllowAnonymous]
         [HttpGet]
         [Route("GetWordsWithTranslationsByPage")]
-        public async Task<IActionResult> GetWordsByPage(int page, int itemsPerPage)
+        public async Task<IActionResult> GetWordsByPageAsync(int page, int itemsPerPage)
         {
             IEnumerable<Word> words = await WordManager.GetWordsByPage(_context, page, itemsPerPage);
             return Ok(words);
@@ -51,7 +51,7 @@ namespace Metis.API.Controllers
 
         [HttpDelete]
         [Route("RemoveWordById/{id}")]    
-        public async Task<IActionResult> RemoveWordById(int id)
+        public async Task<IActionResult> RemoveWordByIdAsync(int id)
         {
             await WordManager.RemoveWordById(_context, id);
             return Ok();

@@ -21,7 +21,7 @@ namespace Metis.API.Controllers
    
         [HttpPost]
         [Route("AddWordType")]
-        public async Task<IActionResult> AddWordType(WordType request)
+        public async Task<IActionResult> AddWordTypeAsync(WordType request)
         {
             if (request == null)
             {
@@ -34,7 +34,7 @@ namespace Metis.API.Controllers
         [AllowAnonymous]
         [HttpGet]
         [Route("GetAllWordTypes")]
-        public async Task<IActionResult> GetAllWordTypes()
+        public async Task<IActionResult> GetAllWordTypesAsync()
         {
             IEnumerable<WordType> words = await WordTypeManager.GetAllWordTypes(_context);
             return Ok(words);

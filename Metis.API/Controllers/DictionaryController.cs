@@ -22,7 +22,7 @@ namespace Metis.API.Controllers
         [AllowAnonymous]
         [HttpGet]
         [Route("GetDictionaries")]
-        public async Task<IActionResult> GetDictionaries()
+        public async Task<IActionResult> GetDictionariesAsync()
         {
             IEnumerable<Dictionary> words = await DictionaryManager.GetDictionaries(_context);
             return Ok(words);
@@ -31,7 +31,7 @@ namespace Metis.API.Controllers
         [AllowAnonymous]
         [HttpGet]
         [Route("GetDictionariesByPage")]
-        public async Task<IActionResult> GetDictionariesByPage(int page, int itemsPerPage)
+        public async Task<IActionResult> GetDictionariesByPageAsync(int page, int itemsPerPage)
         {
             IEnumerable<Dictionary> words = await DictionaryManager.GetDictionaries(_context, page, itemsPerPage);
             return Ok(words);

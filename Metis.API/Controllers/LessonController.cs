@@ -21,7 +21,7 @@ namespace Metis.API.Controllers
    
         [HttpPost]
         [Route("AddLesson")]
-        public async Task<IActionResult> AddLesson(Lesson request)
+        public async Task<IActionResult> AddLessonAsync(Lesson request)
         {
             if(request == null)
             {
@@ -34,7 +34,7 @@ namespace Metis.API.Controllers
         [AllowAnonymous]
         [HttpGet]
         [Route("GetAllLessons")]
-        public async Task<IActionResult> GetAllLessons()
+        public async Task<IActionResult> GetAllLessonsAsync()
         {
             IEnumerable<Lesson> lessons = await LessonManager.GetAllLesson(_context);
             return Ok(lessons);
@@ -43,7 +43,7 @@ namespace Metis.API.Controllers
         [AllowAnonymous]
         [HttpGet]
         [Route("GetLessonById/{id}")]
-        public async Task<IActionResult> GetLessonById(int request)
+        public async Task<IActionResult> GetLessonByIdAsync(int request)
         {
             var lesson = await LessonManager.GetLessonById(_context, request);
             return Ok(lesson);
@@ -58,7 +58,7 @@ namespace Metis.API.Controllers
 
         [HttpDelete]
         [Route("RemoveLessonById/{id}")]
-        public async Task<IActionResult> RemoveLessonById(int request)
+        public async Task<IActionResult> RemoveLessonByIdAsync(int request)
         {
             await LessonManager.RemoveLessonById(_context, request);
             return Ok();
