@@ -105,6 +105,36 @@ namespace Metis.API.Controllers
             return Ok(users);
         }
 
+        [HttpGet]
+        [Route("GetUserById")]
+        // [Authorize(Roles = "Country Admin,Administrator")]
+        public async Task<IActionResult> GetUserByIdAsync(int id)
+        {
+            // await IsUserValidAsync(new string[] { "Country Admin", "Administrator" });
+            User users = await UserManager.GetUserById(_userManager, id);         
+            return Ok(users);
+        }
+
+
+        [AllowAnonymous]
+        [HttpGet]
+        [Route("GetUsersByPage")]
+        public async Task<IActionResult> GetUsersByPageAsync(int page, int itemsPerPage)
+        {
+            IEnumerable<User> users = await UserManager.GetUsersByPage(_dataContext, page, itemsPerPage);
+            return Ok(users);
+        }
+
+        [HttpGet]
+        [Route("GetUsersCount")]
+        // [Authorize(Roles = "Country Admin,Administrator")]
+        public async Task<IActionResult> GetUsersCountAsync()
+        {
+            // await IsUserValidAsync(new string[] { "Country Admin", "Administrator" });
+            int counter = UserManager.GetUsersCount(_userManager);         
+            return Ok(counter);
+        }
+
         [HttpPost]
         [Route("AddNewUser")]
         [Authorize(Roles = "Country Admin,Administrator")]

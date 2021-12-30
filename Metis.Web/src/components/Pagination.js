@@ -43,7 +43,7 @@ export default class Pagination extends Component {
                 break;
             }
             let active = false;
-            if (index === this.props.page) {
+            if (index -1 === this.props.page) {
                 active = true;
             }
             linkToPages.push(<li key={index + 1} className={`page-item ${(active ? 'active' : '')}`} onClick={() => this.onClickPageById(index)}>

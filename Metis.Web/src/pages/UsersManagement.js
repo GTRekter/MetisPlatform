@@ -1,9 +1,12 @@
 import React, { Component } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faUser, faTrash, faEdit } from '@fortawesome/free-solid-svg-icons';
-import { Link } from 'react-router-dom';
+import { faUser, faTrash, faEdit, faBell } from '@fortawesome/free-solid-svg-icons';
+import { Collapse, Modal } from 'react-bootstrap';
 import ReportCard from '../components/ReportCard';
 import Pagination from '../components/Pagination';
+import UserCreationForm from '../components/UserCreationForm';
+import UserEditForm from '../components/UserEditForm';
+import UserService from '../services/UserService';
 
 export default class UsersManagement extends Component {
     constructor(props) {
@@ -11,11 +14,76 @@ export default class UsersManagement extends Component {
         this.state = {
             users: 0,
             activeUsers: 0,
-            displayedUsers: [{ id: 1, firstname: "Ivan", lastname: "Porta", email: "ivan.porta@outlook.com" }],
+            selectedUserId: undefined,
+            displayedUsers: [],
             page: 0,
-            pages: 0
+            pages: undefined,
+            usersPerPage: 20,
+            creationFormVisible: false,
+            editFormVisible: false,
+            deleteModalVisible: false
         }
-        this.onClickDelete = this.onClickDelete.bind(this)
+        this.onClickDelete = this.onClickDelete.bind(this);
+        this.onSubmitEditUser = this.onSubmitEditUser.bind(this);
+        this.onSubmitCreationUser = this.onSubmitCreationUser.bind(this);
+        this.onClickShowEditForm = this.onClickShowEditForm.bind(this);
+        this.onClickToggleEditForm = this.onClickToggleEditForm.bind(this);
+        this.onClickToggleCreationForm = this.onClickToggleCreationForm.bind(this);
+        this.onClickToggleDeleteModal = this.onClickToggleDeleteModal.bind(this);
+    }
+    componentDidMount() {
+        UserService
+            .getUsersByPage(this.state.page, this.state.usersPerPage)
+            .then(response => {
+                this.setState({
+                    displayedUsers: response
+                });
+            })
+        UserService
+            .getUsersCount()
+            .then(response => {
+                this.setState({
+                    pages: response
+                });
+
+            })
+    }
+    onSubmitEditUser() {
+        console.log("User edited");
+        this.setState({
+            editFormVisible: false
+        })
+    }
+    onSubmitCreationUser() {
+        console.log("User added");
+        this.setState({
+            creationFormVisible: false
+        })
+    }
+    onClickToggleCreationForm() {
+        this.setState({
+            creationFormVisible: !this.state.creationFormVisible,
+            editFormVisible: false
+        })
+    }
+    onClickShowEditForm(id) {
+        console.log("User selected: " + id);
+        this.setState({
+            selectedUserId: id,
+            creationFormVisible: false,
+            editFormVisible: true,
+        })  
+    }
+    onClickToggleEditForm() {
+        this.setState({
+            creationFormVisible: false,
+            editFormVisible: false
+        })
+    }
+    onClickToggleDeleteModal() {
+        this.setState({
+            deleteModalVisible: !this.state.deleteModalVisible
+        })
     }
     onClickDelete = (id) => {
         console.log("Delete user " + id)
@@ -26,12 +94,15 @@ export default class UsersManagement extends Component {
                 <td className="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">{user.firstname} {user.lastname}</td>
                 <td className="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">{user.email}</td>
                 <td className="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
-                    <Link className="btn btn-icon btn-2 btn-link btn-sm mx-2" to='/useredit'>
+                    <button className="btn btn-icon btn-2 btn-link btn-sm" type="button"
+                        onClick={() => this.onClickShowEditForm(user.id)}
+                        aria-controls="example-collapse-text"
+                        aria-expanded={this.state.editFormVisible}>
                         <span className="btn-inner--icon">
                             <FontAwesomeIcon className='opacity-10' icon={faEdit} />
                         </span>
-                    </Link>
-                    <button className="btn btn-icon btn-2 btn-link btn-sm" type="button" onClick={() => this.onClickDelete(user.id)}>
+                    </button>
+                    <button className="btn btn-icon btn-2 btn-link btn-sm" type="button" onClick={() => this.onClickToggleDeleteModal(user.id)}>
                         <span className="btn-inner--icon">
                             <FontAwesomeIcon className='opacity-10' icon={faTrash} />
                         </span>
@@ -48,8 +119,29 @@ export default class UsersManagement extends Component {
                 </div>
                 <div className="row">
                     <div className="col-12">
-                        <Link className="btn btn-primary" to='/usercreation'>Add user</Link>
+                        <button className="btn btn-primary"
+                            onClick={() => this.onClickToggleCreationForm()}
+                            aria-controls="example-collapse-text"
+                            aria-expanded={this.state.creationFormVisible}>Add user</button>
                     </div>
+                    <Collapse in={this.state.editFormVisible}>
+                        <div className="col-12 my-3">
+                            <div className="card">
+                                <div className="card-body">
+                                    <UserEditForm id={this.state.selectedUserId} onSubmitCallback={this.onSubmitEditUser} onResetCallback={this.onClickToggleEditForm} />
+                                </div>
+                            </div>
+                        </div>
+                    </Collapse>
+                    <Collapse in={this.state.creationFormVisible}>
+                        <div className="col-12 my-3">
+                            <div className="card">
+                                <div className="card-body">
+                                    <UserCreationForm onSubmitCallback={this.onSubmitCreationUser} onResetCallback={this.onClickToggleCreationForm} />
+                                </div>
+                            </div>
+                        </div>
+                    </Collapse>
                     <div className="col-12">
                         <div className="card">
                             <div className="table-responsive">
@@ -72,6 +164,21 @@ export default class UsersManagement extends Component {
                         </div>
                     </div>
                 </div>
+                <Modal show={this.state.deleteModalVisible} onHide={this.onClickToggleDeleteModal}>
+                    <div class="modal-content">
+                        <div class="modal-body">
+                            <div class="py-3 text-center">
+                                <FontAwesomeIcon className='h1 text-secondary' icon={faBell} />
+                                <h4 class="text-gradient text-danger mt-4">Warning</h4>
+                                <p>This operation cannot be undone. If you proceed all the data related to the user will be deleted.</p>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" name="button" className="btn btn-light m-0" onClick={this.onClickToggleDeleteModal}>Cancel</button>
+                            <button type="button" name="button" className="btn bg-gradient-primary m-0 ms-2" onClick={this.onClickDelete}>Delete User</button>
+                        </div>
+                    </div>
+                </Modal>
             </div>
         )
     }

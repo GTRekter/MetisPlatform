@@ -89,6 +89,18 @@ namespace Metis.Models.Managers
         {
             return userManager.Users;
         }
+        public static async Task<User> GetUserById(UserManager<User> userManager, int id)
+        {
+            return await userManager.Users.FirstOrDefaultAsync(u => u.Id == id);
+        }
+        public static int GetUsersCount(UserManager<User> userManager)
+        {
+            return userManager.Users.Count();
+        }
+         public static async Task<IEnumerable<User>> GetUsersByPage(ApplicationDbContext context, int page, int itemsPerPage)
+        {
+            return await context.Users.Skip(page * itemsPerPage).Take(itemsPerPage).ToListAsync();
+        }
         // public static void SetDefaultLanguage(ApplicationDbContext context, int userId, int languageId)
         // {
         //     var user = context.Users.Where(u => u.Id == userId).FirstOrDefault();
