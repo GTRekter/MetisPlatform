@@ -22,7 +22,7 @@ namespace Metis.Models.Managers
             context.WordTypes.Remove(wordTypeToRemove);
             await context.SaveChangesAsync();
         }
-        public static async Task<IEnumerable<WordType>> GetAllWordTypes(ApplicationDbContext context)
+        public static async Task<IEnumerable<WordType>> GetWordTypes(ApplicationDbContext context)
         {
             return await context.WordTypes.ToListAsync();
         }

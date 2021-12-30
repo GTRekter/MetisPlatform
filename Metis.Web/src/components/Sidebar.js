@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faBook, faGlasses, faHome, faComment, faLanguage } from '@fortawesome/free-solid-svg-icons'
+import { faHome, faUsers } from '@fortawesome/free-solid-svg-icons'
 
 export default class Sidebar extends Component {
     render() {
@@ -17,42 +17,15 @@ export default class Sidebar extends Component {
                                     <span className="nav-link-text ms-1">Dashboard</span>
                                 </Link>
                             </li>
-                            <li className="nav-item">
-                                <Link className="nav-link" to='/dictionary'>
-                                    <div className="text-white text-center me-2 d-flex align-items-center justify-content-center">
-                                        <FontAwesomeIcon className='opacity-10' icon={faBook} />
-                                    </div>
-                                    <span className="nav-link-text ms-1">Dictionary</span>
-                                </Link>
-                            </li>
-                            <li className="nav-item mt-3">
-                                <h6 className="ps-4 ms-2 text-uppercase text-xs text-white font-weight-bolder opacity-8">Exercise</h6>
-                            </li>
-                            <li className="nav-item">
-                                <Link className="nav-link" to='/exercise/read'>
-                                    <div className="text-white text-center me-2 d-flex align-items-center justify-content-center">
-                                        <FontAwesomeIcon className='opacity-10' icon={faGlasses} />
-                                    </div>
-                                    <span className="nav-link-text ms-1">Reading</span>
-                                </Link>
-                            </li>
-                            <li className="nav-item">
-                                <Link className="nav-link" to='/exercise/speak'>
-                                    <div className="text-white text-center me-2 d-flex align-items-center justify-content-center">
-                                        <FontAwesomeIcon className='opacity-10' icon={faComment} />
-                                    </div>
-                                    <span className="nav-link-text ms-1">Speaking</span>
-                                </Link>
-                            </li>
                             <li className="nav-item mt-3">
                                 <h6 className="ps-4 ms-2 text-uppercase text-xs text-white font-weight-bolder opacity-8">Admin</h6>
                             </li>
                             <li className="nav-item">
-                                <Link className="nav-link" to='/admin/word'>
+                                <Link className="nav-link" to='/usermanagement'>
                                     <div className="text-white text-center me-2 d-flex align-items-center justify-content-center">
-                                        <FontAwesomeIcon className='opacity-10' icon={faLanguage} />
+                                        <FontAwesomeIcon className='opacity-10' icon={faUsers} />
                                     </div>
-                                    <span className="nav-link-text ms-1">Manage Words</span>
+                                    <span className="nav-link-text ms-1">Users</span>
                                 </Link>
                             </li>
                         </ul>

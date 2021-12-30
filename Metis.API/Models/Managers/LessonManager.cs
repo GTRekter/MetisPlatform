@@ -18,7 +18,7 @@ namespace Metis.Models.Managers
         {
             return await context.Lessons.FindAsync(id);
         }
-        public static async Task<IEnumerable<Lesson>> GetAllLesson(ApplicationDbContext context)
+        public static async Task<IEnumerable<Lesson>> GetLessons(ApplicationDbContext context)
         {
             return await context.Lessons.ToListAsync();
         }

@@ -87,9 +87,7 @@ namespace Metis.Models.Managers
         }
         public static IEnumerable<User> GetUsers(UserManager<User> userManager)
         {
-            return userManager.Users
-                .Include(u => u.UserRoles)
-                .ThenInclude(ur => ur.Role);
+            return userManager.Users;
         }
         // public static void SetDefaultLanguage(ApplicationDbContext context, int userId, int languageId)
         // {

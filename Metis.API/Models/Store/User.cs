@@ -16,13 +16,12 @@ namespace Metis.Models.Store
         public bool IsActive { get; set; }
 
         public Dictionary Dictionary { get; set; }
-        public ICollection<UserRole> UserRoles { get; set; }
+        public ICollection<Lesson> Lessons { get; set; }
 
         public User()
         {
             this.EmailConfirmed = false;
             this.PhoneNumberConfirmed = false;
         }
-
     }
 }

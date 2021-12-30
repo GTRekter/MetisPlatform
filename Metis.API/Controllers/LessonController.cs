@@ -33,10 +33,10 @@ namespace Metis.API.Controllers
 
         [AllowAnonymous]
         [HttpGet]
-        [Route("GetAllLessons")]
-        public async Task<IActionResult> GetAllLessonsAsync()
+        [Route("GetLessons")]
+        public async Task<IActionResult> GetLessonsAsync()
         {
-            IEnumerable<Lesson> lessons = await LessonManager.GetAllLesson(_context);
+            IEnumerable<Lesson> lessons = await LessonManager.GetLessons(_context);
             return Ok(lessons);
         }
 

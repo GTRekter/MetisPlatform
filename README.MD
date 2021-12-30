@@ -1,0 +1,1 @@
+To update the database use `dotnet ef migrations add {MMDDYYYY}-{INDEX}` and then `dotnet ef database update`

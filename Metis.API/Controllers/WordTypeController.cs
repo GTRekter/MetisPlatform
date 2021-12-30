@@ -36,7 +36,7 @@ namespace Metis.API.Controllers
         [Route("GetAllWordTypes")]
         public async Task<IActionResult> GetAllWordTypesAsync()
         {
-            IEnumerable<WordType> words = await WordTypeManager.GetAllWordTypes(_context);
+            IEnumerable<WordType> words = await WordTypeManager.GetWordTypes(_context);
             return Ok(words);
         }
 
