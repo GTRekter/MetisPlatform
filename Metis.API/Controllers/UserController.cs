@@ -167,36 +167,31 @@ namespace Metis.API.Controllers
 
         [HttpPost]
         [Route("EditUser")]
-        [Authorize(Roles = "Country Admin,Administrator")]
-        [ValidateAntiForgeryToken]
+        // [Authorize(Roles = "Country Admin,Administrator")]
+        // [ValidateAntiForgeryToken]
         public async Task<IActionResult> EditUserAsync(EditUserRequest model)
         {
-            await IsUserValidAsync(new string[] { "Country Admin", "Administrator" });
+            // await IsUserValidAsync(new string[] { "Country Admin", "Administrator" });
 
             var result = await UserManager.EditUser(_userManager, model.Id, model.FirstName, model.LastName, model.Email);
-            if (!result.Succeeded)
-            {
-                var error = string.Join(",", result.Errors.Select(e => e.Description));
-                throw new Exception(error);
-            }
+            
+            // var roles = RoleManager.GetRolesByUserId(_dataContext, model.Id).Select(r => r.Name);
+            // foreach (var role in roles)
+            // {
+            //     result = await UserManager.RemoveUserFromRole(_userManager, model.Email, role);
+            //     if (!result.Succeeded)
+            //     {
+            //         var error = string.Join(",", result.Errors.Select(e => e.Description));
+            //         throw new Exception(error);
+            //     }
+            // }
 
-            var roles = RoleManager.GetRolesByUserId(_dataContext, model.Id).Select(r => r.Name);
-            foreach (var role in roles)
-            {
-                result = await UserManager.RemoveUserFromRole(_userManager, model.Email, role);
-                if (!result.Succeeded)
-                {
-                    var error = string.Join(",", result.Errors.Select(e => e.Description));
-                    throw new Exception(error);
-                }
-            }
-
-            result = await UserManager.AddUserToRole(_userManager, model.Email, model.Role);
-            if (!result.Succeeded)
-            {
-                var error = string.Join(",", result.Errors.Select(e => e.Description));
-                throw new Exception(error);
-            }
+            // result = await UserManager.AddUserToRole(_userManager, model.Email, model.Role);
+            // if (!result.Succeeded)
+            // {
+            //     var error = string.Join(",", result.Errors.Select(e => e.Description));
+            //     throw new Exception(error);
+            // }
             return Ok();
         }
 
@@ -231,6 +226,17 @@ namespace Metis.API.Controllers
                     throw new Exception(error);
                 }
             }
+            return Ok();
+        }
+
+        [HttpDelete]
+        [Route("DeleteUserById")]
+        // [Authorize(Roles = "Country Admin,Administrator")]
+        // [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeleteUserByIdAsync(int id)
+        {
+            // await IsUserValidAsync(new string[] { "Country Admin", "Administrator" });
+            await UserManager.DeleteUserById(_userManager, id);
             return Ok();
         }
 

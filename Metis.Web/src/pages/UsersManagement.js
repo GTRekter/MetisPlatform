@@ -14,6 +14,7 @@ export default class UsersManagement extends Component {
         this.state = {
             users: 0,
             activeUsers: 0,
+            selectedUser: undefined,
             selectedUserId: undefined,
             displayedUsers: [],
             page: 0,
@@ -23,13 +24,17 @@ export default class UsersManagement extends Component {
             editFormVisible: false,
             deleteModalVisible: false
         }
-        this.onClickDelete = this.onClickDelete.bind(this);
-        this.onSubmitEditUser = this.onSubmitEditUser.bind(this);
+        this.onClickShowCreationForm = this.onClickShowCreationForm.bind(this);
+        this.onClickHideCreationForm = this.onClickHideCreationForm.bind(this);
         this.onSubmitCreationUser = this.onSubmitCreationUser.bind(this);
+
         this.onClickShowEditForm = this.onClickShowEditForm.bind(this);
-        this.onClickToggleEditForm = this.onClickToggleEditForm.bind(this);
-        this.onClickToggleCreationForm = this.onClickToggleCreationForm.bind(this);
-        this.onClickToggleDeleteModal = this.onClickToggleDeleteModal.bind(this);
+        this.onClickHideEditForm = this.onClickHideEditForm.bind(this);
+        this.onSubmitEditUser = this.onSubmitEditUser.bind(this);
+
+        this.onClickShowDeleteModal = this.onClickShowDeleteModal.bind(this);
+        this.onClickHideDeleteModal = this.onClickHideDeleteModal.bind(this);
+        this.onClickConfirmDelete = this.onClickConfirmDelete.bind(this);
     }
     componentDidMount() {
         UserService
@@ -48,10 +53,19 @@ export default class UsersManagement extends Component {
                 });
             })
     }
-    onSubmitEditUser() {
-        console.log("User edited");
+
+    onClickShowCreationForm() {
         this.setState({
-            editFormVisible: false
+            creationFormVisible: true,
+            editFormVisible: false,
+            deleteModalVisible: false
+        })
+    }
+    onClickHideCreationForm() {
+        this.setState({
+            creationFormVisible: false,
+            editFormVisible: false,
+            deleteModalVisible: false
         })
     }
     onSubmitCreationUser() {
@@ -65,33 +79,64 @@ export default class UsersManagement extends Component {
                 });
             })
     }
-    onClickToggleCreationForm() {
-        this.setState({
-            creationFormVisible: !this.state.creationFormVisible,
-            editFormVisible: false
-        })
-    }
+
     onClickShowEditForm(id) {
-        console.log("User selected: " + id);
         this.setState({
             selectedUserId: id,
             creationFormVisible: false,
             editFormVisible: true,
-        })  
+            deleteModalVisible: false
+        });
     }
-    onClickToggleEditForm() {
+    onClickHideEditForm() {
         this.setState({
+            selectedUserId: undefined,
             creationFormVisible: false,
-            editFormVisible: false
+            editFormVisible: false,
+            deleteModalVisible: false
         })
     }
-    onClickToggleDeleteModal() {
+    onSubmitEditUser() {
+        UserService
+            .getUsersByPage(this.state.page, this.state.usersPerPage)
+            .then(response => {
+                this.setState({
+                    displayedUsers: response,
+                    editFormVisible: false
+                });
+            })
+    }
+
+    onClickShowDeleteModal(id) {
         this.setState({
-            deleteModalVisible: !this.state.deleteModalVisible
+            selectedUserId: id,
+            creationFormVisible: false,
+            editFormVisible: false,
+            deleteModalVisible: true
+        });
+    }
+    onClickHideDeleteModal() {
+        this.setState({
+            selectedUserId: undefined,
+            creationFormVisible: false,
+            editFormVisible: false,
+            deleteModalVisible: false
         })
     }
-    onClickDelete = (id) => {
-        console.log("Delete user " + id)
+    onClickConfirmDelete = () => {
+        UserService
+            .deleteUserById(this.state.selectedUserId)
+            .then(() => {
+                UserService
+                    .getUsersByPage(this.state.page, this.state.usersPerPage)
+                    .then((response) => {
+                        this.setState({
+                            users: this.state.users - 1,
+                            displayedUsers: response,
+                            deleteModalVisible: false
+                        });
+                    })
+            })
     }
     render() {
         let rows = this.state.displayedUsers.map((user, index) =>
@@ -107,7 +152,7 @@ export default class UsersManagement extends Component {
                             <FontAwesomeIcon className='opacity-10' icon={faEdit} />
                         </span>
                     </button>
-                    <button className="btn btn-icon btn-2 btn-link btn-sm" type="button" onClick={() => this.onClickToggleDeleteModal(user.id)}>
+                    <button className="btn btn-icon btn-2 btn-link btn-sm" type="button" onClick={() => this.onClickShowDeleteModal(user.id)}>
                         <span className="btn-inner--icon">
                             <FontAwesomeIcon className='opacity-10' icon={faTrash} />
                         </span>
@@ -125,7 +170,7 @@ export default class UsersManagement extends Component {
                 <div className="row">
                     <div className="col-12">
                         <button className="btn btn-primary"
-                            onClick={() => this.onClickToggleCreationForm()}
+                            onClick={() => this.onClickShowCreationForm()}
                             aria-controls="example-collapse-text"
                             aria-expanded={this.state.creationFormVisible}>Add user</button>
                     </div>
@@ -133,7 +178,7 @@ export default class UsersManagement extends Component {
                         <div className="col-12 my-3">
                             <div className="card">
                                 <div className="card-body">
-                                    <UserEditForm id={this.state.selectedUserId} onSubmitCallback={this.onSubmitEditUser} onResetCallback={this.onClickToggleEditForm} />
+                                    <UserEditForm key={this.state.selectedUserId} id={this.state.selectedUserId} onSubmitCallback={this.onSubmitEditUser} onResetCallback={this.onClickHideEditForm} />
                                 </div>
                             </div>
                         </div>
@@ -169,7 +214,7 @@ export default class UsersManagement extends Component {
                         </div>
                     </div>
                 </div>
-                <Modal show={this.state.deleteModalVisible} onHide={this.onClickToggleDeleteModal}>
+                <Modal show={this.state.deleteModalVisible} onHide={this.onClickHideDeleteModal}>
                     <div class="modal-content">
                         <div class="modal-body">
                             <div class="py-3 text-center">
@@ -179,8 +224,8 @@ export default class UsersManagement extends Component {
                             </div>
                         </div>
                         <div class="modal-footer">
-                            <button type="button" name="button" className="btn btn-light m-0" onClick={this.onClickToggleDeleteModal}>Cancel</button>
-                            <button type="button" name="button" className="btn bg-gradient-primary m-0 ms-2" onClick={this.onClickDelete}>Delete User</button>
+                            <button type="button" name="button" className="btn btn-light m-0" onClick={this.onClickHideDeleteModal}>Cancel</button>
+                            <button type="button" name="button" className="btn bg-gradient-primary m-0 ms-2" onClick={this.onClickConfirmDelete}>Delete User</button>
                         </div>
                     </div>
                 </Modal>

@@ -19,8 +19,8 @@ namespace Metis.Models.Requests
         [Required]
         [DataType(DataType.EmailAddress)]
         public string Email { get; set; }
-        [Required]
-        [DataType(DataType.Text)]
-        public string Role { get; set; }
+        // [Required]
+        // [DataType(DataType.Text)]
+        // public string Role { get; set; }
     }
 }

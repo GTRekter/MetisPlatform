@@ -65,6 +65,16 @@ namespace Metis.Models.Managers
                 throw new Exception($"User not assigned to the {roleName} role");
             }
         }
+        public static async Task<IdentityResult> DeleteUserById(UserManager<User> userManager, int id)
+        {
+            string userId = id.ToString();
+            User user = await userManager.FindByIdAsync(userId);
+            if (user == null)
+            {
+                throw new Exception("User not found");
+            }
+            return await userManager.DeleteAsync(user);
+        }
         public static async Task<IdentityResult> DeleteUser(UserManager<User> userManager, string userName)
         {
             User user = await userManager.FindByNameAsync(userName);
@@ -99,7 +109,7 @@ namespace Metis.Models.Managers
         }
          public static async Task<IEnumerable<User>> GetUsersByPage(ApplicationDbContext context, int page, int itemsPerPage)
         {
-            return await context.Users.Skip(page * itemsPerPage).Take(itemsPerPage).ToListAsync();
+            return await context.Users.Skip(page * itemsPerPage).Take(itemsPerPage).OrderBy(u => u.FirstName).ToListAsync();
         }
         // public static void SetDefaultLanguage(ApplicationDbContext context, int userId, int languageId)
         // {

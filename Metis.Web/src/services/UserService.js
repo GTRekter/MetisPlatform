@@ -16,6 +16,23 @@ class UserService {
             })
         })
     }
+    editUser(id, firstname, lastname, email) {
+        return fetch(process.env.REACT_APP_API_BASEURL + "User/EditUser", {
+            method: 'post',
+            mode: 'cors',
+            headers: {
+                'Accept': 'application/json, text/plain, */*',
+                'Content-Type': 'application/json',
+                'Access-Control-Allow-Origin': '*'
+            },
+            body: JSON.stringify({
+                id: id,
+                firstname: firstname,
+                lastname: lastname,
+                email: email
+            })
+        })
+    }
     getUsers() {
         return fetch(process.env.REACT_APP_API_BASEURL + "User/GetUsers", {
             method: 'get',
@@ -63,6 +80,17 @@ class UserService {
             }
         })
             .then(res => res.json());
+    }
+    deleteUserById(id) {
+        return fetch(process.env.REACT_APP_API_BASEURL + "User/DeleteUserById?id=" + id, {
+            method: 'delete',
+            mode: 'cors',
+            headers: {
+                'Accept': 'application/json, text/plain, */*',
+                'Content-Type': 'application/json',
+                'Access-Control-Allow-Origin': '*'
+            }
+        })
     }
 }
 export default new UserService();
