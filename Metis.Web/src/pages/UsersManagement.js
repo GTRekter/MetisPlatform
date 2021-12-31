@@ -43,9 +43,9 @@ export default class UsersManagement extends Component {
             .getUsersCount()
             .then(response => {
                 this.setState({
-                    pages: response
+                    users: response,
+                    pages: Math.floor(response / this.state.itemsPerPage)
                 });
-
             })
     }
     onSubmitEditUser() {
@@ -55,10 +55,15 @@ export default class UsersManagement extends Component {
         })
     }
     onSubmitCreationUser() {
-        console.log("User added");
-        this.setState({
-            creationFormVisible: false
-        })
+        UserService
+            .getUsersByPage(this.state.page, this.state.usersPerPage)
+            .then(response => {
+                this.setState({
+                    users: this.state.users + 1,
+                    displayedUsers: response,
+                    creationFormVisible: false
+                });
+            })
     }
     onClickToggleCreationForm() {
         this.setState({
@@ -91,9 +96,9 @@ export default class UsersManagement extends Component {
     render() {
         let rows = this.state.displayedUsers.map((user, index) =>
             <tr key={index}>
-                <td className="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">{user.firstname} {user.lastname}</td>
+                <td className="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-4">{user.firstName} {user.lastName}</td>
                 <td className="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">{user.email}</td>
-                <td className="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">
+                <td className="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 td-icon">
                     <button className="btn btn-icon btn-2 btn-link btn-sm" type="button"
                         onClick={() => this.onClickShowEditForm(user.id)}
                         aria-controls="example-collapse-text"

@@ -1,4 +1,21 @@
 class UserService {
+    addUser(firstname, lastname, email, role) {
+        return fetch(process.env.REACT_APP_API_BASEURL + "User/AddUser", {
+            method: 'post',
+            mode: 'cors',
+            headers: {
+                'Accept': 'application/json, text/plain, */*',
+                'Content-Type': 'application/json',
+                'Access-Control-Allow-Origin': '*'
+            },
+            body: JSON.stringify({
+                firstname: firstname,
+                lastname: lastname,
+                email: email,
+                role: role
+            })
+        })
+    }
     getUsers() {
         return fetch(process.env.REACT_APP_API_BASEURL + "User/GetUsers", {
             method: 'get',

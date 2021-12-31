@@ -6,6 +6,7 @@ import { BrowserRouter } from 'react-router-dom';
 import "../node_modules/bootstrap/dist/js/bootstrap.bundle.min";
 import "../node_modules/bootstrap/dist/css/bootstrap.min.css";
 import './assets/css/material-dashboard.css';
+import './assets/css/custom.css';
 
 
 ReactDOM.render(
