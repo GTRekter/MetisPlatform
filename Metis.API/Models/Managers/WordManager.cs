@@ -35,7 +35,7 @@ namespace Metis.Models.Managers
         }
         public static async Task<int> GetWordsBySearchQueryCount(ApplicationDbContext context, string searchQuery)
         {
-            return await context.Words.Where(u => u.Description.Contains(searchQuery)).CountAsync();
+            return await context.Words.Where(u => u.Text.Contains(searchQuery) || u.Romanization.Contains(searchQuery) || u.Description.Contains(searchQuery)).CountAsync();
         }
         public static async Task<IEnumerable<Word>> GetWords(ApplicationDbContext context)
         {
@@ -78,7 +78,7 @@ namespace Metis.Models.Managers
         }
         public static async Task<IEnumerable<Word>> GetWordsByPageAndSearchQuery(ApplicationDbContext context, int page, int itemsPerPage, string searchQuery)
         {
-            return await context.Words.Include(w => w.Translations).Where(u => u.Description.Contains(searchQuery)).Skip(page * itemsPerPage).Take(itemsPerPage).OrderBy(u => u.Id).ToListAsync();
+            return await context.Words.Include(w => w.Translations).Where(u => u.Text.Contains(searchQuery) || u.Romanization.Contains(searchQuery) || u.Description.Contains(searchQuery)).Skip(page * itemsPerPage).Take(itemsPerPage).OrderBy(u => u.Id).ToListAsync();
         }
     }
 }
