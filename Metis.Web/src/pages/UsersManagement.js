@@ -334,7 +334,7 @@ export default class UsersManagement extends Component {
                         <div className="col-12 my-3">
                             <div className="card">
                                 <div className="card-body">
-                                    <UserCreationForm onSubmitCallback={this.onSubmitCreationUser} onResetCallback={this.onClickToggleCreationForm} />
+                                    <UserCreationForm onSubmitCallback={this.onSubmitCreationUser} onResetCallback={this.onClickHideCreationForm} />
                                 </div>
                             </div>
                         </div>
