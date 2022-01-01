@@ -33,8 +33,7 @@ namespace Metis.Models.Managers
         }
         public static async Task EditLesson(ApplicationDbContext context, int id,  string title, string description)
         {
-            string lessonId = id.ToString();
-            Lesson lesson = await context.Lessons.FindAsync(lessonId);
+            Lesson lesson = await context.Lessons.FindAsync(id);
             if (lesson == null)
             {
                 throw new Exception("User not found");
@@ -49,8 +48,7 @@ namespace Metis.Models.Managers
             var lessonToRemove = await context.Lessons.FindAsync(id);
             context.Lessons.Remove(lessonToRemove);
             await context.SaveChangesAsync();
-        }
-    
+        }  
         public static async Task<IEnumerable<Lesson>> GetLessonsByPage(ApplicationDbContext context, int page, int itemsPerPage)
         {
             return await context.Lessons.Skip(page * itemsPerPage).Take(itemsPerPage).OrderBy(u => u.Id).ToListAsync();
@@ -59,15 +57,5 @@ namespace Metis.Models.Managers
         {
             return await context.Lessons.Where(u => u.Description.Contains(searchQuery)).Skip(page * itemsPerPage).Take(itemsPerPage).OrderBy(u => u.Id).ToListAsync();
         }
-        // public static void SetDefaultLanguage(ApplicationDbContext context, int userId, int languageId)
-        // {
-        //     var user = context.Users.Where(u => u.Id == userId).FirstOrDefault();
-        //     if (user != null)
-        //     {
-        //         user.LanguageId = languageId;
-        //     }
-        //     dataContext.Update(user);
-        //     dataContext.SaveChanges();
-        // }
     }
 }

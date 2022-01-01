@@ -89,7 +89,7 @@ namespace Metis.API.Controllers
         }
 
         [HttpPost]
-        [Route("EditUser")]
+        [Route("EditLesson")]
         // [Authorize(Roles = "Country Admin,Administrator")]
         // [ValidateAntiForgeryToken]
         public async Task<IActionResult> EditLessonAsync(EditLessonRequest model)

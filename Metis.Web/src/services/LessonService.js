@@ -14,7 +14,7 @@ class LessonService {
             })
         })
     }
-    editLesson(title, description) {
+    editLesson(id, title, description) {
         return fetch(process.env.REACT_APP_API_BASEURL + "Lesson/EditLesson", {
             method: 'post',
             mode: 'cors',
@@ -24,6 +24,7 @@ class LessonService {
                 'Access-Control-Allow-Origin': '*'
             },
             body: JSON.stringify({
+                id: id,
                 title: title,
                 description: description
             })
