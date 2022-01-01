@@ -1,10 +1,11 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using Metis.Models.Managers;
-using Metis.Models.Store;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
-
+using Metis.Models.Store;
+using Metis.Models.Requests;
+using Metis.Models.Managers;
+using Metis.Models;
 
 namespace Metis.API.Controllers
 {
@@ -18,17 +19,17 @@ namespace Metis.API.Controllers
         {
             _context = context;
         }
-   
+
         [HttpPost]
         [Route("AddLesson")]
-        public async Task<IActionResult> AddLessonAsync(Lesson request)
+        public async Task<IActionResult> AddLessonAsync(AddLessonRequest request)
         {
-            if(request == null)
+            if (request == null)
             {
                 return NotFound();
             }
-            Lesson newLesson = await LessonManager.AddLesson(_context, request);
-            return Ok(newLesson);
+            await LessonManager.AddLesson(_context, request.Description);
+            return Ok();
         }
 
         [AllowAnonymous]
@@ -42,11 +43,60 @@ namespace Metis.API.Controllers
 
         [AllowAnonymous]
         [HttpGet]
-        [Route("GetLessonById/{id}")]
-        public async Task<IActionResult> GetLessonByIdAsync(int request)
+        [Route("GetLessonById")]
+        public async Task<IActionResult> GetLessonByIdAsync(int id)
         {
-            var lesson = await LessonManager.GetLessonById(_context, request);
+            var lesson = await LessonManager.GetLessonById(_context, id);
             return Ok(lesson);
+        }
+
+        [AllowAnonymous]
+        [HttpGet]
+        [Route("GetLessonsByPage")]
+        public async Task<IActionResult> GetUsersByPageAsync(int page, int itemsPerPage)
+        {
+            IEnumerable<Lesson> lessons = await LessonManager.GetLessonsByPage(_context, page, itemsPerPage);
+            return Ok(lessons);
+        }
+
+        [AllowAnonymous]
+        [HttpGet]
+        [Route("GetLessonsByPageAndSearchQuery")]
+        public async Task<IActionResult> GetLessonsByPageAndSearchQueryAsync(int page, int itemsPerPage, string searchQuery)
+        {
+            IEnumerable<Lesson> lessons = await LessonManager.GetLessonsByPageAndSearchQuery(_context, page, itemsPerPage, searchQuery);
+            return Ok(lessons);
+        }
+
+        [HttpGet]
+        [Route("GetLessonsCount")]
+        // [Authorize(Roles = "Country Admin,Administrator")]
+        public async Task<IActionResult> GetLessonsCountAsync()
+        {
+            // await IsUserValidAsync(new string[] { "Country Admin", "Administrator" });
+            int counter = await LessonManager.GetLessonsCount(_context);
+            return Ok(counter);
+        }
+
+        [HttpGet]
+        [Route("GetLessonsBySearchQueryCount")]
+        // [Authorize(Roles = "Country Admin,Administrator")]
+        public async Task<IActionResult> GetLessonsBySearchQueryCountAsync(string searchQuery)
+        {
+            // await IsUserValidAsync(new string[] { "Country Admin", "Administrator" });
+            int counter = await LessonManager.GetLessonsBySearchQueryCount(_context, searchQuery);
+            return Ok(counter);
+        }
+
+        [HttpPost]
+        [Route("EditUser")]
+        // [Authorize(Roles = "Country Admin,Administrator")]
+        // [ValidateAntiForgeryToken]
+        public async Task<IActionResult> EditLessonAsync(EditLessonRequest model)
+        {
+            // await IsUserValidAsync(new string[] { "Country Admin", "Administrator" });
+            await LessonManager.EditLesson(_context, model.Id, model.Description);
+            return Ok();
         }
 
         // [HttpPut("{id}")]
@@ -57,10 +107,10 @@ namespace Metis.API.Controllers
         // }
 
         [HttpDelete]
-        [Route("RemoveLessonById/{id}")]
-        public async Task<IActionResult> RemoveLessonByIdAsync(int request)
+        [Route("RemoveLessonById")]
+        public async Task<IActionResult> DeleteLessonByIdAsync(int id)
         {
-            await LessonManager.RemoveLessonById(_context, request);
+            await LessonManager.DeleteLessonById(_context, id);
             return Ok();
         }
     }
