@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Metis.Models.Requests
 {
-    public class AddNewRoleRequest
+    public class AddRoleRequest
     {
         [Required]
         [DataType(DataType.Text)]
