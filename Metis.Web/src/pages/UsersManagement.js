@@ -39,6 +39,7 @@ export default class UsersManagement extends Component {
 
         this.onClickUpdateUsersByPage = this.onClickUpdateUsersByPage.bind(this);
         this.onChangeQueryString = this.onChangeQueryString.bind(this);
+        this.onClickChangePage = this.onClickChangePage.bind(this);
     }
     componentDidMount() {
         UserService
@@ -53,7 +54,7 @@ export default class UsersManagement extends Component {
             .then(response => {
                 this.setState({
                     users: response,
-                    pages: Math.floor(response / this.state.itemsPerPage)
+                    pages: Math.floor(response / this.state.usersPerPage) + 1
                 });
             })
     }
@@ -144,14 +145,27 @@ export default class UsersManagement extends Component {
     }
 
     onClickUpdateUsersByPage = (usersPerPage) => {
-        UserService
-            .getUsersByPage(this.state.page, usersPerPage)
-            .then(response => {
-                this.setState({
-                    displayedUsers: response,
-                    usersPerPage: usersPerPage
-                });
-            })
+        if (this.state.searchQuery === '') {
+            UserService
+                .getUsersByPage(this.state.page, usersPerPage)
+                .then(response => {
+                    this.setState({
+                        ...this.state,
+                        displayedUsers: response,
+                        usersPerPage: usersPerPage
+                    });
+                })
+        } else {
+            UserService
+                .getUsersByPageAndSearchQuery(this.state.page, usersPerPage, this.state.searchQuery)
+                .then(response => {
+                    this.setState({
+                        ...this.state,
+                        displayedUsers: response,
+                        usersPerPage: usersPerPage
+                    });
+                })
+        }
     }
     onChangeQueryString = (event) => {
         this.setState({
@@ -174,6 +188,29 @@ export default class UsersManagement extends Component {
                     this.setState({
                         ...this.state,
                         displayedUsers: response
+                    });
+                })
+        }
+    }
+    onClickChangePage = (page) => {
+        if (this.state.searchQuery === '') {
+            UserService
+                .getUsersByPage(page, this.state.usersPerPage)
+                .then(response => {
+                    this.setState({
+                        ...this.state,
+                        displayedUsers: response,
+                        page: page
+                    });
+                })
+        } else {
+            UserService
+                .getUsersByPageAndSearchQuery(page, this.state.usersPerPage, this.state.searchQuery)
+                .then(response => {
+                    this.setState({
+                        ...this.state,
+                        displayedUsers: response,
+                        page: page
                     });
                 })
         }
@@ -271,7 +308,7 @@ export default class UsersManagement extends Component {
                                 </table>
                             </div>
                             <div className="mt-3">
-                                <Pagination page={this.state.page} pages={this.state.pages} />
+                                <Pagination page={this.state.page} pages={this.state.pages} onClickChangePageCallback={this.onClickChangePage} />
                             </div>
                         </div>
                     </div>

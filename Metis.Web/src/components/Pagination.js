@@ -21,9 +21,9 @@ export default class Pagination extends Component {
         this.props.onClickChangePageCallback(nextPage);
     }
     render() {
-        let limitLinks = 5;
+        let limitVisibleLinks = 5;
         let linkToPages = [];
-        if (this.props.page > 1) {
+        if (this.props.page > 0) {
             linkToPages.push(<li className="page-item">
                 <div className="page-link pointer" aria-label="Previous" onClick={() => this.onClickPrevious()}>
                     <FontAwesomeIcon key="0" className='position-relative opacity-10' icon={faChevronLeft} />
@@ -31,24 +31,24 @@ export default class Pagination extends Component {
                 </div>
             </li>);
         }
-        let startingIndex = this.props.page > 3 ? this.props.page - 2 : 1;
-        for (let index = startingIndex; index <= this.props.pages; index++) {
-            if (linkToPages.length > limitLinks && (index + 1 < this.props.pages)) {
+        let startingIndex = this.props.page > 3 ? this.props.page - 2 : 0;
+        for (let index = startingIndex; index < this.props.pages; index++) {
+            if (linkToPages.length > limitVisibleLinks && (index + 1 < this.props.pages)) {
                 linkToPages.push(<li key={index + 1} className="page-item">
                     <div className="page-link pointer" aria-label="Previous" onClick={() => this.onClickNext()}>
                         <FontAwesomeIcon className='position-relative opacity-10' icon={faChevronRight} />
                         <span className="sr-only">Next</span>
                     </div>
                 </li>);
-                break;
-            }
-            let active = false;
-            if (index -1 === this.props.page) {
-                active = true;
-            }
-            linkToPages.push(<li key={index + 1} className={`page-item ${(active ? 'active' : '')}`} onClick={() => this.onClickPageById(index)}>
-                <div className="page-link pointer">{index}</div>
-            </li>);
+            } else {
+                let active = false;
+                if (index === this.props.page) {
+                    active = true;
+                }
+                linkToPages.push(<li key={index + 1} className={`page-item ${(active ? 'active' : '')}`} onClick={() => this.onClickPageById(index)}>
+                    <div className="page-link pointer">{index+1}</div>
+                </li>);
+            }     
         }
         return (
             <nav aria-label="navigation">
