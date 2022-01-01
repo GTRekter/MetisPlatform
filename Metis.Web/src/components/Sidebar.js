@@ -36,6 +36,14 @@ export default class Sidebar extends Component {
                                     <span className="nav-link-text ms-1">Lessons</span>
                                 </Link>
                             </li>
+                            <li className="nav-item">
+                                <Link className="nav-link" to='/wordmanagement'>
+                                    <div className="text-white text-center me-2 d-flex align-items-center justify-content-center">
+                                        <FontAwesomeIcon className='opacity-10' icon={faUsers} />
+                                    </div>
+                                    <span className="nav-link-text ms-1">Words</span>
+                                </Link>
+                            </li>
                         </ul>
                     </div>
                 </aside>

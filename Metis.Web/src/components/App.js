@@ -5,6 +5,7 @@ import Home from './Home';
 import Login from '../pages/Login';
 import UsersManagement from '../pages/UsersManagement';
 import LessonsManagement from '../pages/LessonsManagement';
+import WordsManagement from '../pages/WordsManagement';
 
 export default class App extends Component {
     render() {
@@ -15,6 +16,7 @@ export default class App extends Component {
                     <Route exact path="/" component={Home} />
                     <Route path="/usermanagement" component={UsersManagement} />
                     <Route path="/lessonmanagement" component={LessonsManagement} />
+                    <Route path="/wordmanagement" component={WordsManagement} />
                 </Layout>
             </Switch>
         );
