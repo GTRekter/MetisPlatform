@@ -129,9 +129,20 @@ namespace Metis.API.Controllers
         public async Task<IActionResult> GetUsersCountAsync()
         {
             // await IsUserValidAsync(new string[] { "Country Admin", "Administrator" });
-            int counter = UserManager.GetUsersCount(_userManager);         
+            int counter = await UserManager.GetUsersCount(_userManager);         
             return Ok(counter);
         }
+
+       [HttpGet]
+        [Route("GetUsersBySearchQueryCount")]
+        // [Authorize(Roles = "Country Admin,Administrator")]
+        public async Task<IActionResult> GetUsersBySearchQueryCountAsync(string searchQuery)
+        {
+            // await IsUserValidAsync(new string[] { "Country Admin", "Administrator" });
+            int counter = await UserManager.GetUsersBySearchQueryCount(_userManager, searchQuery);         
+            return Ok(counter);
+        }
+
 
         [HttpPost]
         [Route("AddUser")]

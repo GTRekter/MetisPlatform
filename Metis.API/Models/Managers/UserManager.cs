@@ -103,15 +103,18 @@ namespace Metis.Models.Managers
         {
             return await userManager.Users.FirstOrDefaultAsync(u => u.Id == id);
         }
-        public static int GetUsersCount(UserManager<User> userManager)
+        public static async Task<int> GetUsersCount(UserManager<User> userManager)
         {
-            return userManager.Users.Count();
+            return await userManager.Users.CountAsync();
+        }
+        public static async Task<int> GetUsersBySearchQueryCount(UserManager<User> userManager, string searchQuery)
+        {
+            return await userManager.Users.Where(u => u.FirstName.Contains(searchQuery) || u.LastName.Contains(searchQuery) || u.UserName.Contains(searchQuery) || u.Email.Contains(searchQuery)).CountAsync();
         }
         public static async Task<IEnumerable<User>> GetUsersByPage(ApplicationDbContext context, int page, int itemsPerPage)
         {
             return await context.Users.Skip(page * itemsPerPage).Take(itemsPerPage).OrderBy(u => u.FirstName).ToListAsync();
         }
-
         public static async Task<IEnumerable<User>> GetUsersByPageAndSearchQuery(ApplicationDbContext context, int page, int itemsPerPage, string searchQuery)
         {
             return await context.Users.Where(u => u.FirstName.Contains(searchQuery) || u.LastName.Contains(searchQuery) || u.UserName.Contains(searchQuery) || u.Email.Contains(searchQuery)).Skip(page * itemsPerPage).Take(itemsPerPage).OrderBy(u => u.FirstName).ToListAsync();

@@ -147,6 +147,14 @@ export default class UsersManagement extends Component {
     onClickUpdateUsersByPage = (usersPerPage) => {
         if (this.state.searchQuery === '') {
             UserService
+                .getUsersCount()
+                .then(response => {
+                    this.setState({
+                        users: response,
+                        pages: Math.floor(response / usersPerPage) + 1
+                    });
+                })
+            UserService
                 .getUsersByPage(this.state.page, usersPerPage)
                 .then(response => {
                     this.setState({
@@ -156,6 +164,14 @@ export default class UsersManagement extends Component {
                     });
                 })
         } else {
+            UserService
+                .getUsersBySearchQueryCount(this.state.searchQuery)
+                .then(response => {
+                    this.setState({
+                        users: response,
+                        pages: Math.floor(response / usersPerPage) + 1
+                    });
+                })
             UserService
                 .getUsersByPageAndSearchQuery(this.state.page, usersPerPage, this.state.searchQuery)
                 .then(response => {
@@ -174,7 +190,15 @@ export default class UsersManagement extends Component {
         });
         if (event.target.value === '') {
             UserService
-                .getUsersByPage(this.state.page, this.state.usersPerPage, event.target.value)
+                .getUsersCount()
+                .then(response => {
+                    this.setState({
+                        users: response,
+                        pages: Math.floor(response / this.state.usersPerPage) + 1
+                    });
+                })
+            UserService
+                .getUsersByPage(this.state.page, this.state.usersPerPage)
                 .then(response => {
                     this.setState({
                         ...this.state,
@@ -182,6 +206,14 @@ export default class UsersManagement extends Component {
                     });
                 })
         } else {
+            UserService
+                .getUsersBySearchQueryCount(event.target.value)
+                .then(response => {
+                    this.setState({
+                        users: response,
+                        pages: Math.floor(response / this.state.usersPerPage) + 1
+                    });
+                })
             UserService
                 .getUsersByPageAndSearchQuery(this.state.page, this.state.usersPerPage, event.target.value)
                 .then(response => {
@@ -195,6 +227,14 @@ export default class UsersManagement extends Component {
     onClickChangePage = (page) => {
         if (this.state.searchQuery === '') {
             UserService
+                .getUsersCount()
+                .then(response => {
+                    this.setState({
+                        users: response,
+                        pages: Math.floor(response / this.state.usersPerPage) + 1
+                    });
+                })
+            UserService
                 .getUsersByPage(page, this.state.usersPerPage)
                 .then(response => {
                     this.setState({
@@ -204,6 +244,14 @@ export default class UsersManagement extends Component {
                     });
                 })
         } else {
+            UserService
+                .getUsersBySearchQueryCount(this.state.searchQuery)
+                .then(response => {
+                    this.setState({
+                        users: response,
+                        pages: Math.floor(response / this.state.usersPerPage) + 1
+                    });
+                })
             UserService
                 .getUsersByPageAndSearchQuery(page, this.state.usersPerPage, this.state.searchQuery)
                 .then(response => {

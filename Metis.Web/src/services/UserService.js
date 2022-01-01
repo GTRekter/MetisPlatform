@@ -93,6 +93,18 @@ class UserService {
         })
             .then(res => res.json());
     }
+    getUsersBySearchQueryCount(searchQuery) {
+        return fetch(process.env.REACT_APP_API_BASEURL + "User/GetUsersBySearchQueryCount?searchQuery=" + searchQuery, {
+            method: 'get',
+            mode: 'cors',
+            headers: {
+                'Accept': 'application/json, text/plain, */*',
+                'Content-Type': 'application/json',
+                'Access-Control-Allow-Origin': '*'
+            }
+        })
+            .then(res => res.json());
+    }
     deleteUserById(id) {
         return fetch(process.env.REACT_APP_API_BASEURL + "User/DeleteUserById?id=" + id, {
             method: 'delete',
