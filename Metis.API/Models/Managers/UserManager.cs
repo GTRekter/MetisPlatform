@@ -107,9 +107,14 @@ namespace Metis.Models.Managers
         {
             return userManager.Users.Count();
         }
-         public static async Task<IEnumerable<User>> GetUsersByPage(ApplicationDbContext context, int page, int itemsPerPage)
+        public static async Task<IEnumerable<User>> GetUsersByPage(ApplicationDbContext context, int page, int itemsPerPage)
         {
             return await context.Users.Skip(page * itemsPerPage).Take(itemsPerPage).OrderBy(u => u.FirstName).ToListAsync();
+        }
+
+        public static async Task<IEnumerable<User>> GetUsersByPageAndSearchQuery(ApplicationDbContext context, int page, int itemsPerPage, string searchQuery)
+        {
+            return await context.Users.Where(u => u.FirstName.Contains(searchQuery) || u.LastName.Contains(searchQuery) || u.UserName.Contains(searchQuery) || u.Email.Contains(searchQuery)).Skip(page * itemsPerPage).Take(itemsPerPage).OrderBy(u => u.FirstName).ToListAsync();
         }
         // public static void SetDefaultLanguage(ApplicationDbContext context, int userId, int languageId)
         // {

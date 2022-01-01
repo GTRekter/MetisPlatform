@@ -69,6 +69,18 @@ class UserService {
         })
             .then(res => res.json());
     }
+    getUsersByPageAndSearchQuery(page, itemsPerPage, searchQuery) {
+        return fetch(process.env.REACT_APP_API_BASEURL + "User/getUsersByPageAndSearchQuery?page=" + page + "&itemsPerPage=" + itemsPerPage + "&searchQuery=" + searchQuery, {
+            method: 'get',
+            mode: 'cors',
+            headers: {
+                'Accept': 'application/json, text/plain, */*',
+                'Content-Type': 'application/json',
+                'Access-Control-Allow-Origin': '*'
+            }
+        })
+            .then(res => res.json());
+    }
     getUsersCount() {
         return fetch(process.env.REACT_APP_API_BASEURL + "User/GetUsersCount", {
             method: 'get',

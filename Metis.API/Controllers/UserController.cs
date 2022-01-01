@@ -105,13 +105,21 @@ namespace Metis.API.Controllers
             return Ok(users);
         }
 
-
         [AllowAnonymous]
         [HttpGet]
         [Route("GetUsersByPage")]
         public async Task<IActionResult> GetUsersByPageAsync(int page, int itemsPerPage)
         {
             IEnumerable<User> users = await UserManager.GetUsersByPage(_dataContext, page, itemsPerPage);
+            return Ok(users);
+        }
+
+        [AllowAnonymous]
+        [HttpGet]
+        [Route("GetUsersByPageAndSearchQuery")]
+        public async Task<IActionResult> GetUsersByPageAndSearchQueryAsync(int page, int itemsPerPage, string searchQuery)
+        {
+            IEnumerable<User> users = await UserManager.GetUsersByPageAndSearchQuery(_dataContext, page, itemsPerPage, searchQuery);
             return Ok(users);
         }
 
@@ -174,7 +182,7 @@ namespace Metis.API.Controllers
             // await IsUserValidAsync(new string[] { "Country Admin", "Administrator" });
 
             var result = await UserManager.EditUser(_userManager, model.Id, model.FirstName, model.LastName, model.Email);
-            
+
             // var roles = RoleManager.GetRolesByUserId(_dataContext, model.Id).Select(r => r.Name);
             // foreach (var role in roles)
             // {
