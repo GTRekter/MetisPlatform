@@ -15,6 +15,8 @@ namespace Metis.Models.Store
         public string Code { get; set; }
         public bool Primary { get; set; }
         public bool Enabled { get; set; }
+
+        public ICollection<Word> Words { get; set; }
         public ICollection<Translation> Trsanslation { get; set; }
     }
 }
