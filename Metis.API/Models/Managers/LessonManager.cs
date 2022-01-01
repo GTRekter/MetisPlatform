@@ -25,7 +25,7 @@ namespace Metis.Models.Managers
         }
         public static async Task<int> GetLessonsBySearchQueryCount(ApplicationDbContext context, string searchQuery)
         {
-            return await context.Lessons.Where(u => u.Description.Contains(searchQuery)).CountAsync();
+            return await context.Lessons.Where(u => u.Title.Contains(searchQuery) || u.Description.Contains(searchQuery)).CountAsync();
         }
         public static async Task<IEnumerable<Lesson>> GetLessons(ApplicationDbContext context)
         {
@@ -55,7 +55,7 @@ namespace Metis.Models.Managers
         }
         public static async Task<IEnumerable<Lesson>> GetLessonsByPageAndSearchQuery(ApplicationDbContext context, int page, int itemsPerPage, string searchQuery)
         {
-            return await context.Lessons.Where(u => u.Description.Contains(searchQuery)).Skip(page * itemsPerPage).Take(itemsPerPage).OrderBy(u => u.Id).ToListAsync();
+            return await context.Lessons.Where(u => u.Title.Contains(searchQuery) || u.Description.Contains(searchQuery)).Skip(page * itemsPerPage).Take(itemsPerPage).OrderBy(u => u.Id).ToListAsync();
         }
     }
 }
