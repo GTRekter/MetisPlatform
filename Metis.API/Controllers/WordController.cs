@@ -21,16 +21,16 @@ namespace Metis.API.Controllers
 
         [HttpPost]
         [Route("AddWord")]
-        public async Task<IActionResult> AddWordAsync([FromBody]Word word)
+        public async Task<IActionResult> AddWordAsync(AddWordRequest request)
         {
-            if(word == null)
+            if (request == null)
             {
                 return NotFound();
             }
-            Word newWord = await WordManager.AddWord(_context, word);
-            return Ok(newWord);
+            await WordManager.AddWord(_context, request.Text, request.Romanization, request.Description, request.Example);
+            return Ok();
         }
-        
+
         [AllowAnonymous]
         [HttpGet]
         [Route("GetWords")]
@@ -42,18 +42,74 @@ namespace Metis.API.Controllers
 
         [AllowAnonymous]
         [HttpGet]
-        [Route("GetWordsWithTranslationsByPage")]
-        public async Task<IActionResult> GetWordsByPageAsync(int page, int itemsPerPage)
+        [Route("GetWordById")]
+        public async Task<IActionResult> GetWordByIdAsync(int id)
+        {
+            var word = await WordManager.GetWordById(_context, id);
+            return Ok(word);
+        }
+
+        [AllowAnonymous]
+        [HttpGet]
+        [Route("GetWordsByPage")]
+        public async Task<IActionResult> GetUsersByPageAsync(int page, int itemsPerPage)
         {
             IEnumerable<Word> words = await WordManager.GetWordsByPage(_context, page, itemsPerPage);
             return Ok(words);
         }
 
-        [HttpDelete]
-        [Route("RemoveWordById/{id}")]    
-        public async Task<IActionResult> RemoveWordByIdAsync(int id)
+        [AllowAnonymous]
+        [HttpGet]
+        [Route("GetWordsByPageAndSearchQuery")]
+        public async Task<IActionResult> GetWordsByPageAndSearchQueryAsync(int page, int itemsPerPage, string searchQuery)
         {
-            await WordManager.RemoveWordById(_context, id);
+            IEnumerable<Word> words = await WordManager.GetWordsByPageAndSearchQuery(_context, page, itemsPerPage, searchQuery);
+            return Ok(words);
+        }
+
+        [HttpGet]
+        [Route("GetWordsCount")]
+        // [Authorize(Roles = "Country Admin,Administrator")]
+        public async Task<IActionResult> GetWordsCountAsync()
+        {
+            // await IsUserValidAsync(new string[] { "Country Admin", "Administrator" });
+            int counter = await WordManager.GetWordsCount(_context);
+            return Ok(counter);
+        }
+
+        [HttpGet]
+        [Route("GetWordsBySearchQueryCount")]
+        // [Authorize(Roles = "Country Admin,Administrator")]
+        public async Task<IActionResult> GetWordsBySearchQueryCountAsync(string searchQuery)
+        {
+            // await IsUserValidAsync(new string[] { "Country Admin", "Administrator" });
+            int counter = await WordManager.GetWordsBySearchQueryCount(_context, searchQuery);
+            return Ok(counter);
+        }
+
+        [HttpPost]
+        [Route("EditWord")]
+        // [Authorize(Roles = "Country Admin,Administrator")]
+        // [ValidateAntiForgeryToken]
+        public async Task<IActionResult> EditWordAsync(EditWordRequest request)
+        {
+            // await IsUserValidAsync(new string[] { "Country Admin", "Administrator" });
+            await WordManager.EditWord(_context, request.Id, request.Text, request.Romanization, request.Description, request.Example);
+            return Ok();
+        }
+
+        // [HttpPut("{id}")]
+        // public IActionResult Update(int id, UpdateRequest model)
+        // {
+        //     WordManager.Update(id, model);
+        //     return Ok(new { message = "User updated" });
+        // }
+
+        [HttpDelete]
+        [Route("DeleteWordById")]
+        public async Task<IActionResult> DeleteWordByIdAsync(int id)
+        {
+            await WordManager.DeleteWordById(_context, id);
             return Ok();
         }
     }
