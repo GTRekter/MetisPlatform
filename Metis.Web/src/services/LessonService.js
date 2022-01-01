@@ -1,5 +1,5 @@
 class LessonService {
-    addLesson(firstname, lastname, email, role) {
+    addLesson(title, description) {
         return fetch(process.env.REACT_APP_API_BASEURL + "Lesson/AddLesson", {
             method: 'post',
             mode: 'cors',
@@ -9,14 +9,12 @@ class LessonService {
                 'Access-Control-Allow-Origin': '*'
             },
             body: JSON.stringify({
-                firstname: firstname,
-                lastname: lastname,
-                email: email,
-                role: role
+                title: title,
+                description: description
             })
         })
     }
-    editLesson(id, firstname, lastname, email) {
+    editLesson(title, description) {
         return fetch(process.env.REACT_APP_API_BASEURL + "Lesson/EditLesson", {
             method: 'post',
             mode: 'cors',
@@ -26,10 +24,8 @@ class LessonService {
                 'Access-Control-Allow-Origin': '*'
             },
             body: JSON.stringify({
-                id: id,
-                firstname: firstname,
-                lastname: lastname,
-                email: email
+                title: title,
+                description: description
             })
         })
     }

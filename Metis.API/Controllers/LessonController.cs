@@ -28,7 +28,7 @@ namespace Metis.API.Controllers
             {
                 return NotFound();
             }
-            await LessonManager.AddLesson(_context, request.Description);
+            await LessonManager.AddLesson(_context, request.Title, request.Description);
             return Ok();
         }
 
@@ -95,7 +95,7 @@ namespace Metis.API.Controllers
         public async Task<IActionResult> EditLessonAsync(EditLessonRequest model)
         {
             // await IsUserValidAsync(new string[] { "Country Admin", "Administrator" });
-            await LessonManager.EditLesson(_context, model.Id, model.Description);
+            await LessonManager.EditLesson(_context, model.Id, model.Title, model.Description);
             return Ok();
         }
 
@@ -107,7 +107,7 @@ namespace Metis.API.Controllers
         // }
 
         [HttpDelete]
-        [Route("RemoveLessonById")]
+        [Route("DeleteLessonById")]
         public async Task<IActionResult> DeleteLessonByIdAsync(int id)
         {
             await LessonManager.DeleteLessonById(_context, id);

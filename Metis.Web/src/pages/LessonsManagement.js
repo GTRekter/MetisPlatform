@@ -272,8 +272,7 @@ export default class LessonsManagement extends Component {
         }
         let rows = this.state.displayedLessons.map((lesson, index) =>
             <tr key={index}>
-                <td className="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-4">{lesson.firstName} {lesson.lastName}</td>
-                <td className="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">{lesson.email}</td>
+                <td className="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-4">{lesson.title}</td>
                 <td className="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 td-icon">
                     <button className="btn btn-icon btn-2 btn-link btn-sm" type="button"
                         onClick={() => this.onClickShowEditForm(lesson.id)}
@@ -345,8 +344,7 @@ export default class LessonsManagement extends Component {
                                 <table className="table align-items-center">
                                     <thead>
                                         <tr>
-                                            <th className="text-uppercase text-xxs font-weight-bolder opacity-7">Full Name</th>
-                                            <th className="text-uppercase text-xxs font-weight-bolder opacity-7 ps-2">Email</th>
+                                            <th className="text-uppercase text-xxs font-weight-bolder opacity-7">Title</th>
                                             <th className="text-uppercase text-xxs font-weight-bolder opacity-7 ps-2"></th>
                                         </tr>
                                     </thead>

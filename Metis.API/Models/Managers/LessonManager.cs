@@ -9,9 +9,9 @@ namespace Metis.Models.Managers
 {
     public static class LessonManager
     {
-        public static async Task AddLesson(ApplicationDbContext context, string description)
+        public static async Task AddLesson(ApplicationDbContext context, string title, string description)
         {
-            Lesson lesson = new Lesson { Description = description };
+            Lesson lesson = new Lesson { Title = title, Description = description };
             context.Lessons.Add(lesson);
             await context.SaveChangesAsync();
         }
@@ -31,7 +31,7 @@ namespace Metis.Models.Managers
         {
             return await context.Lessons.ToListAsync();
         }
-        public static async Task EditLesson(ApplicationDbContext context, int id, string description)
+        public static async Task EditLesson(ApplicationDbContext context, int id,  string title, string description)
         {
             string lessonId = id.ToString();
             Lesson lesson = await context.Lessons.FindAsync(lessonId);
@@ -39,6 +39,7 @@ namespace Metis.Models.Managers
             {
                 throw new Exception("User not found");
             }
+            lesson.Title = title; 
             lesson.Description = description;
             context.Update(lesson);
             await context.SaveChangesAsync();

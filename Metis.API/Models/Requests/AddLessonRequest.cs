@@ -9,6 +9,8 @@ namespace Metis.Models.Requests
     {
         [Required]
         [DataType(DataType.Text)]
+        public string Title { get; set; }
+        [DataType(DataType.Text)]
         public string Description { get; set; }
     }
 }

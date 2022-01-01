@@ -1,17 +1,13 @@
 import React, { Component } from 'react';
 import LessonService from '../services/LessonService';
-import RoleService from '../services/RoleService';
 
 export default class LessonEditForm extends Component {
     constructor(props) {
         super(props)
         this.state = {
             id: this.props.id,
-            firstName: "",
-            lastName: "",
-            email: "",
-            role: "",
-            roles: []
+            title: "",
+            description: ""
         }
         this.onChangeInput = this.onChangeInput.bind(this);
         this.onReset = this.onReset.bind(this);
@@ -23,18 +19,8 @@ export default class LessonEditForm extends Component {
                 .getLessonById(this.state.id)
                 .then(response => {
                     this.setState({
-                        firstName: response.firstName,
-                        lastName: response.lastName,
-                        email: response.email,
-                        role: response.role
-                    });
-                })
-            RoleService
-                .getRoles()
-                .then(response => {
-                    this.setState({
-                        roles: response,
-                        role: response[0].name
+                        title: response.title,
+                        description: response.description
                     });
                 })
         }
@@ -55,49 +41,30 @@ export default class LessonEditForm extends Component {
     onSubmit = (event) => {
         event.preventDefault();
         LessonService
-            .editLesson(this.state.id, this.state.firstName, this.state.lastName, this.state.email)
+            .editLesson(this.state.id, this.state.title, this.state.description)
             .then(() => {
                 this.props.onSubmitCallback();
             })
     }
     render() {
-        // let roles = this.state.roles.map((role, index) =>
-        //     <option key={index} value={role.name}>{role.name}</option>
-        // )
         return (
             <form className="text-start" onSubmit={this.onSubmit} onReset={this.onReset}>
                 <div className="row">
-                    <div className="col-12 col-xl-6">
-                        <div className="input-group input-group-static my-3">
-                            <label>First Name</label>
-                            <input type="text" className="form-control" name="firstName" value={this.state.firstName} onChange={this.onChangeInput} />
-                        </div>
-                    </div>
-                    <div className="col-12 col-xl-6">
-                        <div className="input-group input-group-static my-3">
-                            <label>Last Name</label>
-                            <input type="text" className="form-control" name="lastName" value={this.state.lastName} onChange={this.onChangeInput} />
-                        </div>
-                    </div>
-                    <div className="col-12 col-xl-6">
-                        <div className="input-group input-group-static my-3">
-                            <label>Email</label>
-                            <input type="text" className="form-control" name="email" value={this.state.email} onChange={this.onChangeInput} />
-                        </div>
-                    </div>
-                    {/* <div className="col-12 col-xl-6">
-                        <div className="input-group input-group-static my-3">
-                            <label className="ms-0">Roles</label>
-                            <select className="form-control" name="role" value={this.state.role} onChange={this.onChangeInput}>
-                                {roles}
-                            </select>
-                        </div>
-                    </div> */}
                     <div className="col-12">
-                        <div className="d-flex justify-content-end mt-4">
-                            <button type="reset" name="button" className="btn btn-light m-0">Cancel</button>
-                            <button type="submit" name="button" className="btn bg-gradient-primary m-0 ms-2">Edit Lesson</button>
+                        <div className="input-group input-group-static my-3">
+                            <label>Title</label>
+                            <input type="text" className="form-control" name="title" value={this.state.title} onChange={this.onChangeInput} />
                         </div>
+                    </div>
+                    <div className="input-group input-group-static my-3">
+                        <label>Description</label>
+                        <textarea className="form-control" name="description" value={this.state.description} onChange={this.onChangeInput} />
+                    </div>
+                </div>
+                <div className="col-12">
+                    <div className="d-flex justify-content-end mt-4">
+                        <button type="reset" name="button" className="btn btn-light m-0">Cancel</button>
+                        <button type="submit" name="button" className="btn bg-gradient-primary m-0 ms-2">Edit Lesson</button>
                     </div>
                 </div>
             </form>
