@@ -7,7 +7,8 @@ namespace Metis.Models.Store
 {
     public class EditWordRequest
     {
-        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        [Required]
+        [DataType(DataType.Text)]
         public int Id { get; set; }
         [Required]
         [StringLength(maximumLength: 100, MinimumLength = 2)]
