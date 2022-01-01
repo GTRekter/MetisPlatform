@@ -35,6 +35,14 @@ export default class Sidebar extends Component {
                                     </div>
                                     <span className="nav-link-text ms-1">Lessons</span>
                                 </Link>
+                            </li>                  
+                            <li className="nav-item">
+                                <Link className="nav-link" to='/grammarpointmanagement'>
+                                    <div className="text-white text-center me-2 d-flex align-items-center justify-content-center">
+                                        <FontAwesomeIcon className='opacity-10' icon={faUsers} />
+                                    </div>
+                                    <span className="nav-link-text ms-1">Grammar Points</span>
+                                </Link>
                             </li>
                             <li className="nav-item">
                                 <Link className="nav-link" to='/wordmanagement'>
