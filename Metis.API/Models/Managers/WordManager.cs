@@ -10,20 +10,33 @@ namespace Metis.Models.Managers
 {
     public static class WordManager
     {
-        public static async Task AddWord(ApplicationDbContext context, string text, string romanization, string description, string example)
+        public static async Task AddWord(ApplicationDbContext context, string text, string romanization, string description, string example, IEnumerable<KeyValuePair<int,string>> translations)
         {
-            Word word = new Word { Text = text, Romanization = romanization, Description = description, Example = example };
-            // using (TransactionScope scope = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled))
-            // {
-                context.Words.Add(word);
-                // await context.SaveChangesAsync();
-                // foreach (var translation in word.Translations)
-                // {
-                //     context.Translations.Add(translation);
-                // }
+            using (TransactionScope scope = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled))
+            {
+                var translationsToAdd = new List<Translation>();
+                foreach (var item in translations)
+                {
+                    var dictionary = await context.Dictionaries.FindAsync(item.Key);
+                    var translationToAdd = new Translation
+                    {
+                        Text = item.Value
+                    };
+                    translationsToAdd.Add(translationToAdd);
+                }
                 await context.SaveChangesAsync();
-            //     scope.Complete();
-            // }
+                Word word = new Word
+                {
+                    Text = text,
+                    Romanization = romanization,
+                    Description = description,
+                    Example = example,
+                    Translations = translationsToAdd
+                };
+                context.Words.Add(word);
+                await context.SaveChangesAsync();
+                scope.Complete();
+            }
         }
         public static async Task<Word> GetWordById(ApplicationDbContext context, int id)
         {

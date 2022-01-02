@@ -7,11 +7,13 @@ import Pagination from '../components/Pagination';
 import WordCreationForm from '../components/WordCreationForm';
 import WordEditForm from '../components/WordEditForm';
 import WordService from '../services/WordService';
+import DictionaryService from '../services/DictionaryService';
 
 export default class WordsManagement extends Component {
     constructor(props) {
         super(props)
         this.state = {
+            dictionaries: [],
             words: 0,
             activeWords: 0,
             selectedWord: undefined,
@@ -57,6 +59,16 @@ export default class WordsManagement extends Component {
                     pages: Math.floor(response / this.state.wordsPerPage) + 1
                 });
             })
+        DictionaryService
+            .getDictionaries()
+            .then((data) => {
+                this.setState({
+                    dictionaries: data.filter((dictionary) => dictionary.enabled === true && dictionary.primary === false)
+                })
+            })
+            .catch(function (ex) {
+                console.log('Response parsing failed. Error: ', ex);
+            });
     }
 
     onClickShowCreationForm() {
@@ -265,32 +277,47 @@ export default class WordsManagement extends Component {
     }
 
     render() {
+        let headers = this.state.dictionaries.map((dictionary, index) =>
+            <th key={index} className="text-uppercase text-xxs font-weight-bolder opacity-7">{dictionary.name}</th>
+        )
         var wordPerPageOptions = [];
         for (var index = 1; index <= 4; index++) {
             let value = index * 10;
             wordPerPageOptions.push(<li key={index}><span className="dropdown-item pointer" onClick={() => this.onClickUpdateWordsByPage(value)}>{value}</span></li>);
         }
-        let rows = this.state.displayedWords.map((word, index) =>
-            <tr key={index}>
-                <td className="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-4">{word.text}</td>
-                <td className="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-4">{word.romanization}</td>
-                <td className="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 td-icon">
-                    <button className="btn btn-icon btn-2 btn-link btn-sm" type="button"
-                        onClick={() => this.onClickShowEditForm(word.id)}
-                        aria-controls="example-collapse-text"
-                        aria-expanded={this.state.editFormVisible}>
-                        <span className="btn-inner--icon">
-                            <FontAwesomeIcon className='opacity-10' icon={faEdit} />
-                        </span>
-                    </button>
-                    <button className="btn btn-icon btn-2 btn-link btn-sm" type="button" onClick={() => this.onClickShowDeleteModal(word.id)}>
-                        <span className="btn-inner--icon">
-                            <FontAwesomeIcon className='opacity-10' icon={faTrash} />
-                        </span>
-                    </button>
-                </td>
-            </tr>
-        )
+        let rows = this.state.displayedWords.map((word, index) => {
+            let columns = [];
+            this.state.dictionaries.forEach((dictionary) => {
+                let translation = word.translations.filter((translation) => translation.id === dictionary.id);
+                if (translation.length > 0) {
+                    columns.push(<td className="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-4">{translation[0].text}</td>)
+                } else {
+                    columns.push(<td className="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-4"></td>)
+                }
+            })
+            return (
+                <tr key={index}>
+                    <td className="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-4">{word.text}</td>
+                    <td className="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-4">{word.romanization}</td>
+                    {columns}
+                    <td className="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 td-icon">
+                        <button className="btn btn-icon btn-2 btn-link btn-sm" type="button"
+                            onClick={() => this.onClickShowEditForm(word.id)}
+                            aria-controls="example-collapse-text"
+                            aria-expanded={this.state.editFormVisible}>
+                            <span className="btn-inner--icon">
+                                <FontAwesomeIcon className='opacity-10' icon={faEdit} />
+                            </span>
+                        </button>
+                        <button className="btn btn-icon btn-2 btn-link btn-sm" type="button" onClick={() => this.onClickShowDeleteModal(word.id)}>
+                            <span className="btn-inner--icon">
+                                <FontAwesomeIcon className='opacity-10' icon={faTrash} />
+                            </span>
+                        </button>
+                    </td>
+                </tr>
+            )
+        });
         return (
             <div>
                 <div className="row">
@@ -347,6 +374,7 @@ export default class WordsManagement extends Component {
                                         <tr>
                                             <th className="text-uppercase text-xxs font-weight-bolder opacity-7">Text</th>
                                             <th className="text-uppercase text-xxs font-weight-bolder opacity-7">Romanization</th>
+                                            {headers}
                                             <th className="text-uppercase text-xxs font-weight-bolder opacity-7 ps-2"></th>
                                         </tr>
                                     </thead>

@@ -18,5 +18,11 @@ namespace Metis.Models.Store
         public string Romanization { get; set; }
         public string Description { get; set; }
         public string Example { get; set; }
+        public IEnumerable<Translation> Translations { get; set; }
+        public class Translation 
+        {
+            public int Id { get; set; }
+            public string Text { get; set; }
+        }
     }
 }

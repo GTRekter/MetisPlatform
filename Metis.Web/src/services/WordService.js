@@ -1,5 +1,5 @@
 class WordService {
-    addWord(text, romanization, description, example) {
+    addWord(text, romanization, description, example, translations) {
         return fetch(process.env.REACT_APP_API_BASEURL + "Word/AddWord", {
             method: 'post',
             mode: 'cors',
@@ -12,7 +12,8 @@ class WordService {
                 text: text,
                 romanization: romanization,
                 description: description,
-                example: example
+                example: example,
+                translations: translations
             })
         })
     }

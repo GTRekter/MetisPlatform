@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System.Linq;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Metis.Models.Managers;
 using Metis.Models.Store;
@@ -27,7 +28,7 @@ namespace Metis.API.Controllers
             {
                 return NotFound();
             }
-            await WordManager.AddWord(_context, request.Text, request.Romanization, request.Description, request.Example);
+            await WordManager.AddWord(_context, request.Text, request.Romanization, request.Description, request.Example, request.Translations.Select(t => new KeyValuePair<int,string>(t.Id,t.Text)));
             return Ok();
         }
 
