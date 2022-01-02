@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import LessonService from '../services/LessonService';
-import RoleService from '../services/RoleService';
 
 export default class LessonCreationForm extends Component {
     constructor(props) {

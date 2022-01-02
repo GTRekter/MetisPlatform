@@ -287,12 +287,12 @@ export default class WordsManagement extends Component {
         }
         let rows = this.state.displayedWords.map((word, index) => {
             let columns = [];
-            this.state.dictionaries.forEach((dictionary) => {
+            this.state.dictionaries.forEach((dictionary, index) => {
                 let translation = word.translations.filter((translation) => translation.id === dictionary.id);
                 if (translation.length > 0) {
-                    columns.push(<td className="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-4">{translation[0].text}</td>)
+                    columns.push(<td key={index} className="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-4">{translation[0].text}</td>)
                 } else {
-                    columns.push(<td className="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-4"></td>)
+                    columns.push(<td key={index} className="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-4"></td>)
                 }
             })
             return (
