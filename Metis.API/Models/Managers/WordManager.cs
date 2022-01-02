@@ -14,28 +14,44 @@ namespace Metis.Models.Managers
         {
             using (TransactionScope scope = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled))
             {
-                var translationsToAdd = new List<Translation>();
-                foreach (var item in translations)
-                {
-                    var dictionary = await context.Dictionaries.FindAsync(item.Key);
-                    var translationToAdd = new Translation
-                    {
-                        Text = item.Value
-                    };
-                    translationsToAdd.Add(translationToAdd);
-                }
-                await context.SaveChangesAsync();
                 Word word = new Word
                 {
                     Text = text,
                     Romanization = romanization,
                     Description = description,
                     Example = example,
-                    Translations = translationsToAdd
+                    Translations = translations.Select(t => new Translation
+                    {
+                        DictionaryId = t.Key,
+                        Text = t.Value
+                    }).ToList()
                 };
                 context.Words.Add(word);
                 await context.SaveChangesAsync();
                 scope.Complete();
+
+                // var translationsToAdd = new List<Translation>();
+                // foreach (var item in translations)
+                // {
+                //     var dictionary = await context.Dictionaries.FindAsync(item.Key);
+                //     var translationToAdd = new Translation
+                //     {
+                //         Text = item.Value
+                //     };
+                //     translationsToAdd.Add(translationToAdd);
+                // }
+                // await context.SaveChangesAsync();
+                // Word word = new Word
+                // {
+                //     Text = text,
+                //     Romanization = romanization,
+                //     Description = description,
+                //     Example = example,
+                //     Translations = translationsToAdd
+                // };
+                // context.Words.Add(word);
+                // await context.SaveChangesAsync();
+                // scope.Complete();
             }
         }
         public static async Task<Word> GetWordById(ApplicationDbContext context, int id)
@@ -91,7 +107,14 @@ namespace Metis.Models.Managers
         }
         public static async Task<IEnumerable<Word>> GetWordsByPageAndSearchQuery(ApplicationDbContext context, int page, int itemsPerPage, string searchQuery)
         {
-            return await context.Words.Include(w => w.Translations).Where(u => u.Text.Contains(searchQuery) || u.Romanization.Contains(searchQuery) || u.Description.Contains(searchQuery)).Skip(page * itemsPerPage).Take(itemsPerPage).OrderBy(u => u.Id).ToListAsync();
+            return await context.Words
+                .Include(w => w.Translations)
+                .Where(u => u.Text.Contains(searchQuery) 
+                    || u.Romanization.Contains(searchQuery) 
+                    || u.Description.Contains(searchQuery))
+                .Skip(page * itemsPerPage)
+                .Take(itemsPerPage)
+                .OrderBy(u => u.Id).ToListAsync();
         }
     }
 }

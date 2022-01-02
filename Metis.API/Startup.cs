@@ -10,6 +10,9 @@ using Microsoft.EntityFrameworkCore.SqlServer;
 using Microsoft.OpenApi.Models;
 using Metis.Models.Store;
 using Metis.Middleware;
+using System.Collections.Generic;
+using System.Globalization;
+using Microsoft.AspNetCore.Localization;
 
 namespace Metis.API
 {
@@ -22,9 +25,9 @@ namespace Metis.API
         }
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddCors(c =>  
-            {  
-                c.AddPolicy("AllowOrigin", options => options.AllowAnyOrigin());  
+            services.AddCors(c =>
+            {
+                c.AddPolicy("AllowOrigin", options => options.AllowAnyOrigin());
             });
             services.AddDbContext<ApplicationDbContext>(options =>
             {
@@ -59,7 +62,7 @@ namespace Metis.API
                 options.Cookie.Expiration = TimeSpan.FromDays(150);
                 options.LoginPath = "/Account/Login";
                 options.LogoutPath = "/Account/Logout";
-                options.AccessDeniedPath = "/Account/AccessDenied"; 
+                options.AccessDeniedPath = "/Account/AccessDenied";
                 options.SlidingExpiration = true;
             });
 
@@ -67,6 +70,12 @@ namespace Metis.API
             {
                 // Antiforgety settings
                 options.HeaderName = "X-CSRF-TOKEN";
+            });
+
+            services.Configure<RequestLocalizationOptions>(options =>
+            {
+                options.DefaultRequestCulture = new RequestCulture("en-US");
+                options.SupportedCultures = new List<CultureInfo> { new CultureInfo("ko-KR") };
             });
 
             services.AddControllers();
@@ -89,7 +98,7 @@ namespace Metis.API
                 .AllowCredentials());
 
             app.UseSwagger();
-            app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Metis.API v1"));        
+            app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Metis.API v1"));
             app.UseRouting();
             app.UseAuthorization();
             app.UseMetisMiddleware();
