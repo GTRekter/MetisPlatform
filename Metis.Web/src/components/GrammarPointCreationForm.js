@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import GrammarPointService from '../services/GrammarPointService';
-import RoleService from '../services/RoleService';
 
 export default class GrammarPointCreationForm extends Component {
     constructor(props) {
