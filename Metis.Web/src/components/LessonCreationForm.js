@@ -29,7 +29,6 @@ export default class LessonCreationForm extends Component {
     }
     onReset = (event) => {
         event.preventDefault();
-        console.log("Reset creation lesson ")
         this.props.onResetCallback();
     }
     onSubmit = (event) => {

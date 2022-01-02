@@ -42,7 +42,6 @@ export default class LessonEditForm extends Component {
     }
     onReset = (event) => {
         event.preventDefault();
-        console.log("Reset edit lesson ")
         this.props.onResetCallback();
     }
     onSubmit = (event) => {
@@ -63,9 +62,9 @@ export default class LessonEditForm extends Component {
                             <input type="text" className="form-control" name="title" value={this.state.title} onChange={this.onChangeInput} />
                         </div>
                     </div>
-                    <div className="input-group input-group-static my-3">
+                    <div className="col-12">
                         <label>Description</label>
-                        <ReactQuill theme="snow" value={this.state.description} onChange={this.onChangeDescription} />   
+                        <ReactQuill theme="snow" value={this.state.description} onChange={this.onChangeDescription} />        
                     </div>
                 </div>
                 <div className="col-12">

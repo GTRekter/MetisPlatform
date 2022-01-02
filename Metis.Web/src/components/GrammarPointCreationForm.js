@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import GrammarPointService from '../services/GrammarPointService';
+import ReactQuill from 'react-quill';
 
 export default class GrammarPointCreationForm extends Component {
     constructor(props) {
@@ -9,6 +10,7 @@ export default class GrammarPointCreationForm extends Component {
             description: ""
         }
         this.onChangeInput = this.onChangeInput.bind(this);
+        this.onChangeDescription = this.onChangeDescription.bind(this);
         this.onReset = this.onReset.bind(this);
         this.onSubmit = this.onSubmit.bind(this);
     }
@@ -20,9 +22,13 @@ export default class GrammarPointCreationForm extends Component {
             [name]: value
         });
     }
+    onChangeDescription = (value) => {
+        this.setState({
+            description: value
+        });
+    }
     onReset = (event) => {
         event.preventDefault();
-        console.log("Reset creation grammarPoint ")
         this.props.onResetCallback();
     }
     onSubmit = (event) => {
@@ -44,10 +50,8 @@ export default class GrammarPointCreationForm extends Component {
                         </div>
                     </div>
                     <div className="col-12">
-                        <div className="input-group input-group-static my-3">
-                            <label>Description</label>
-                            <textarea type="text" className="form-control" name="description" value={this.state.description} onChange={this.onChangeInput} />
-                        </div>
+                        <label>Description</label>
+                        <ReactQuill theme="snow" value={this.state.description} onChange={this.onChangeDescription} />        
                     </div>
                     <div className="col-12">
                         <div className="d-flex justify-content-end mt-4">
