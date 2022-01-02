@@ -16,11 +16,20 @@ namespace Metis.Models.Managers
         }
         public static async Task<IEnumerable<Dictionary>> GetDictionaries(ApplicationDbContext context, int page, int itemsPerPage)
         {
-            return await context.Dictionaries.Skip(page*itemsPerPage).Take(itemsPerPage).OrderBy(c => c.Name).ToListAsync();
+            return await context.Dictionaries
+                .Skip(page*itemsPerPage)
+                .Take(itemsPerPage)
+                .OrderBy(c => c.Name)
+                .ToListAsync();
         }
         public static async Task<IEnumerable<Dictionary>> GetDictionaries(ApplicationDbContext context, bool enabled, int page, int itemsPerPage)
         {
-            return await context.Dictionaries.Where(d => d.Enabled == enabled).Skip(page*itemsPerPage).Take(itemsPerPage).OrderBy(c => c.Name).ToListAsync();
+            return await context.Dictionaries
+                .Where(d => d.Enabled == enabled)
+                .Skip(page*itemsPerPage)
+                .Take(itemsPerPage)
+                .OrderBy(c => c.Name)
+                .ToListAsync();
         }
     }
 }

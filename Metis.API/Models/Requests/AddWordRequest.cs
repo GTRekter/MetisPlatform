@@ -18,7 +18,7 @@ namespace Metis.Models.Store
         public IEnumerable<Translation> Translations { get; set; }
         public class Translation 
         {
-            public int Id { get; set; }
+            public int DictionaryId { get; set; }
             public string Text { get; set; }
         }
     }

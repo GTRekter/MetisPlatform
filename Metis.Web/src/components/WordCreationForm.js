@@ -34,7 +34,7 @@ export default class WordCreationForm extends Component {
     }
     onChangeTransition = (event, index, dictionaryId) => {
         let translations = this.state.translations;
-        translations.splice(index, 1, { id: dictionaryId, text: event.target.value })
+        translations.splice(index, 1, { dictionaryId: dictionaryId, text: event.target.value })
         this.setState({
             translations: translations
         })

@@ -10,7 +10,7 @@ namespace Metis.Models.Managers
 {
     public static class WordManager
     {
-        public static async Task AddWord(ApplicationDbContext context, string text, string romanization, string description, string example, IEnumerable<KeyValuePair<int,string>> translations)
+        public static async Task AddWord(ApplicationDbContext context, string text, string romanization, string description, string example, IEnumerable<KeyValuePair<int, string>> translations)
         {
             using (TransactionScope scope = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled))
             {
@@ -29,34 +29,13 @@ namespace Metis.Models.Managers
                 context.Words.Add(word);
                 await context.SaveChangesAsync();
                 scope.Complete();
-
-                // var translationsToAdd = new List<Translation>();
-                // foreach (var item in translations)
-                // {
-                //     var dictionary = await context.Dictionaries.FindAsync(item.Key);
-                //     var translationToAdd = new Translation
-                //     {
-                //         Text = item.Value
-                //     };
-                //     translationsToAdd.Add(translationToAdd);
-                // }
-                // await context.SaveChangesAsync();
-                // Word word = new Word
-                // {
-                //     Text = text,
-                //     Romanization = romanization,
-                //     Description = description,
-                //     Example = example,
-                //     Translations = translationsToAdd
-                // };
-                // context.Words.Add(word);
-                // await context.SaveChangesAsync();
-                // scope.Complete();
             }
         }
         public static async Task<Word> GetWordById(ApplicationDbContext context, int id)
         {
-            return await context.Words.FindAsync(id);
+            return await context.Words
+                .Include(w => w.Translations)
+                .FirstOrDefaultAsync(w => w.Id == id);
         }
         public static async Task<int> GetWordsCount(ApplicationDbContext context)
         {
@@ -64,25 +43,53 @@ namespace Metis.Models.Managers
         }
         public static async Task<int> GetWordsBySearchQueryCount(ApplicationDbContext context, string searchQuery)
         {
-            return await context.Words.Where(u => u.Text.Contains(searchQuery) || u.Romanization.Contains(searchQuery) || u.Description.Contains(searchQuery)).CountAsync();
+            return await context.Words
+                .Where(u => u.Text.Contains(searchQuery)
+                    || u.Romanization.Contains(searchQuery)
+                    || u.Description.Contains(searchQuery))
+                .CountAsync();
         }
         public static async Task<IEnumerable<Word>> GetWords(ApplicationDbContext context)
         {
-            return await context.Words.Include(w => w.Translations).ToListAsync();
+            return await context.Words
+                .Include(w => w.Translations)
+                .ToListAsync();
         }
-        public static async Task EditWord(ApplicationDbContext context, int id, string text, string romanization, string description, string example)
+        public static async Task EditWord(ApplicationDbContext context, int id, string text, string romanization, string description, string example, IEnumerable<KeyValuePair<int, string>> translationsToAdd, IEnumerable<KeyValuePair<int, string>> translationsToEdit)
         {
-            Word word = await context.Words.FindAsync(id);
-            if (word == null)
+            using (TransactionScope scope = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled))
             {
-                throw new Exception("Word not found");
+                Word wordToEdit = await context.Words.Include(w => w.Translations).FirstOrDefaultAsync(w => w.Id == id);
+                if (wordToEdit == null)
+                {
+                    throw new Exception("Word not found");
+                }
+                wordToEdit.Text = text;
+                wordToEdit.Romanization = romanization;
+                wordToEdit.Description = description;
+                wordToEdit.Example = example;
+                foreach (var item in translationsToAdd)
+                {
+                    wordToEdit.Translations.Add(new Translation
+                    {
+                        DictionaryId = item.Key,
+                        Text = item.Value
+                    });
+                }
+                context.Update(wordToEdit);
+                foreach (var translation in translationsToEdit)
+                {
+                    Translation translationToEdit = await context.Translations.FindAsync(translation.Key);
+                    if (translationToEdit == null)
+                    {
+                        throw new Exception("Translation not found");
+                    }
+                    translationToEdit.Text = translation.Value;
+                    context.Update(translationToEdit);
+                }
+                await context.SaveChangesAsync();
+                scope.Complete();
             }
-            word.Text = text;
-            word.Romanization = romanization;
-            word.Description = description;
-            word.Example = example;
-            context.Update(word);
-            await context.SaveChangesAsync();
         }
         public static async Task DeleteWordById(ApplicationDbContext context, int id)
         {
@@ -103,14 +110,19 @@ namespace Metis.Models.Managers
         }
         public static async Task<IEnumerable<Word>> GetWordsByPage(ApplicationDbContext context, int page, int itemsPerPage)
         {
-            return await context.Words.Include(w => w.Translations).Skip(page * itemsPerPage).Take(itemsPerPage).OrderBy(u => u.Id).ToListAsync();
+            return await context.Words
+                .Include(w => w.Translations)
+                .Skip(page * itemsPerPage)
+                .Take(itemsPerPage)
+                .OrderBy(u => u.Id)
+                .ToListAsync();
         }
         public static async Task<IEnumerable<Word>> GetWordsByPageAndSearchQuery(ApplicationDbContext context, int page, int itemsPerPage, string searchQuery)
         {
             return await context.Words
                 .Include(w => w.Translations)
-                .Where(u => u.Text.Contains(searchQuery) 
-                    || u.Romanization.Contains(searchQuery) 
+                .Where(u => u.Text.Contains(searchQuery)
+                    || u.Romanization.Contains(searchQuery)
                     || u.Description.Contains(searchQuery))
                 .Skip(page * itemsPerPage)
                 .Take(itemsPerPage)

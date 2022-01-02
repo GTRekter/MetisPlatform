@@ -17,7 +17,7 @@ class WordService {
             })
         })
     }
-    editWord(id, text, romanization, description, example) {
+    editWord(id, text, romanization, description, example, translations) {
         return fetch(process.env.REACT_APP_API_BASEURL + "Word/EditWord", {
             method: 'post',
             mode: 'cors',
@@ -31,7 +31,8 @@ class WordService {
                 text: text,
                 romanization: romanization,
                 description: description,
-                example: example
+                example: example,
+                translations: translations
             })
         })
     }

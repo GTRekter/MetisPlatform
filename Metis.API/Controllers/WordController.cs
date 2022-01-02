@@ -28,7 +28,7 @@ namespace Metis.API.Controllers
             {
                 return NotFound();
             }
-            await WordManager.AddWord(_context, request.Text, request.Romanization, request.Description, request.Example, request.Translations.Select(t => new KeyValuePair<int,string>(t.Id,t.Text)));
+            await WordManager.AddWord(_context, request.Text, request.Romanization, request.Description, request.Example, request.Translations.Select(t => new KeyValuePair<int,string>(t.DictionaryId, t.Text)));
             return Ok();
         }
 
@@ -94,8 +94,24 @@ namespace Metis.API.Controllers
         // [ValidateAntiForgeryToken]
         public async Task<IActionResult> EditWordAsync(EditWordRequest request)
         {
-            // await IsUserValidAsync(new string[] { "Country Admin", "Administrator" });
-            await WordManager.EditWord(_context, request.Id, request.Text, request.Romanization, request.Description, request.Example);
+            if (request == null)
+            {
+                return NotFound();
+            }
+            var translationsToAdd = new List<KeyValuePair<int, string>>();
+            var translationsToEdit = new List<KeyValuePair<int, string>>();
+            foreach (var translation in request.Translations)
+            {
+                if (translation.Id == null)
+                {
+                    translationsToAdd.Add(new KeyValuePair<int, string>(translation.DictionaryId, translation.Text));
+                }
+                else
+                {
+                    translationsToEdit.Add(new KeyValuePair<int, string>((int)translation.Id, translation.Text));
+                }
+            }    
+            await WordManager.EditWord(_context, request.Id, request.Text, request.Romanization, request.Description, request.Example, translationsToAdd, translationsToEdit);
             return Ok();
         }
 
