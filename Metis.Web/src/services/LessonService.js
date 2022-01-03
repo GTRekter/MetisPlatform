@@ -16,7 +16,7 @@ class LessonService {
             })
         })
     }
-    editLesson(id, title, description) {
+    editLesson(id, title, description, words, grammarPoints) {
         return fetch(process.env.REACT_APP_API_BASEURL + "Lesson/EditLesson", {
             method: 'post',
             mode: 'cors',
@@ -28,7 +28,9 @@ class LessonService {
             body: JSON.stringify({
                 id: id,
                 title: title,
-                description: description
+                description: description,
+                words: words,
+                grammarPoints: grammarPoints
             })
         })
     }

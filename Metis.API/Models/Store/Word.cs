@@ -16,7 +16,6 @@ namespace Metis.Models.Store
         public string Description { get; set; }
         public string Example { get; set; }
         public Dictionary Dictionary { get; set; }
-        public ICollection<Lesson> Lessons { get; set; }
         public ICollection<Translation> Translations { get; set; }
     }
 }

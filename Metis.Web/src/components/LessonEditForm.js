@@ -41,7 +41,9 @@ export default class LessonEditForm extends Component {
                 .then(response => {
                     this.setState({
                         title: response.title,
-                        description: response.description
+                        description: response.description,
+                        selectedGrammarPoints: response.grammarPoints,
+                        selectedWords: response.words
                     });
                 })
                 DictionaryService
@@ -132,7 +134,7 @@ export default class LessonEditForm extends Component {
     onSubmit = (event) => {
         event.preventDefault();
         LessonService
-            .editLesson(this.state.id, this.state.title, this.state.description)
+            .editLesson(this.state.id, this.state.title, this.state.description, this.state.selectedWords, this.state.selectedGrammarPoints)
             .then(() => {
                 this.props.onSubmitCallback();
             })
