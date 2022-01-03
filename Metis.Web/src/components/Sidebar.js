@@ -26,11 +26,11 @@ export default class Sidebar extends Component {
                                 </Link>
                             </li>
                             <li className="nav-item">
-                                <Link className="nav-link" to='/memorize'>
+                                <Link className="nav-link" to='/flashcards'>
                                     <div className="text-white text-center me-2 d-flex align-items-center justify-content-center">
                                         <FontAwesomeIcon className='opacity-10' icon={faHome} />
                                     </div>
-                                    <span className="nav-link-text ms-1">Memorize</span>
+                                    <span className="nav-link-text ms-1">Flashcards</span>
                                 </Link>
                             </li>
                             <li className="nav-item mt-3">

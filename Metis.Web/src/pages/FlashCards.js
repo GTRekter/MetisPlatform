@@ -7,7 +7,7 @@ import SpeechService from '../services/SpeechService';
 import WordService from '../services/WordService';
 import WordTypeService from '../services/WordTypeService';
 
-export default class Memorize extends Component {
+export default class FlashCards extends Component {
     constructor(props) {
         super(props)
         this.state = {
@@ -44,11 +44,9 @@ export default class Memorize extends Component {
             });
     }
     onClickViewTranslation = () => {
-        if (!this.state.viewTranslation) {
-            SpeechService.synthesizeSpeech(this.state.currentWord.text);
-        }
+        SpeechService.synthesizeSpeech(this.state.currentWord.text);
         this.setState({
-            viewTranslation: !this.state.viewTranslation
+            viewTranslation: true
         })
     };
     onClickAddError = () => {
@@ -111,16 +109,16 @@ export default class Memorize extends Component {
     // };
     updateWordsByWordType = (wordType) => {
         console.log(wordType);
-        var mappedJson = WordService.getWordsByWordType(wordType);
-        this.setState({
-            ...this.state,
-            words: this.shuffle(mappedJson),
-            viewTranslation: false,
-            errors: [],
-            correct: [],
-            currentWordType: wordType,
-            currentWord: mappedJson[0]
-        });
+        // var mappedJson = WordService.getWordsByWordType(wordType);
+        // this.setState({
+        //     ...this.state,
+        //     words: this.shuffle(mappedJson),
+        //     viewTranslation: false,
+        //     errors: [],
+        //     correct: [],
+        //     currentWordType: wordType,
+        //     currentWord: mappedJson[0]
+        // });
     };
     updateCounters = () => {
         if (this.state.words.length > (this.state.errors.length + this.state.correct.length) + 1) {
@@ -154,11 +152,16 @@ export default class Memorize extends Component {
         }
     }
     render() {
-        var transation = <h2>&nbsp;<br />&nbsp;</h2>;
-        var translationIcon = <FontAwesomeIcon className="link-light" icon={faEye} />;
+        var buttons = <button className="btn btn-secondary mx-3 mb-0 text-white" onClick={() => this.onClickViewTranslation()}><FontAwesomeIcon className="link-light" icon={faEye} /></button>;
         if (this.state.viewTranslation) {
-            transation = <h2 className="text-white">{this.state.currentWord.text} <br />({this.state.currentWord.romanization})</h2>
-            translationIcon = <FontAwesomeIcon className="link-light" icon={faEyeSlash} />
+            buttons = <div>
+                <button className="btn btn-success mx-3 mb-0 text-white" onClick={() => this.onClickAddCorrect()}>
+                    <FontAwesomeIcon icon={faThumbsUp} />
+                </button>
+                    <button className="btn btn-danger mx-3 mb-0 text-white" onClick={() => this.onClickAddError()}>
+                        <FontAwesomeIcon icon={faThumbsDown} />
+                    </button>
+                </div>
         }
         var backgroundClass = "bg-gradient-info shadow-info";
         if (this.state.isAnswerProvided) {
@@ -169,7 +172,7 @@ export default class Memorize extends Component {
             }
         }
         var currentWordTranslation = ''
-        if(this.state.currentWord.translations !== undefined){
+        if (this.state.currentWord.translations !== undefined) {
             currentWordTranslation = this.state.currentWord.translations[0].text;
         }
         return (
@@ -191,7 +194,7 @@ export default class Memorize extends Component {
                             <div className="card-header p-0 position-relative mt-n4 mx-3 z-index-2 bg-transparent">
                                 <div className={`border-radius-lg py-3 pe-1 py-5 text-center ${backgroundClass}`}>
                                     <h1 className="display-4 fst-italic text-white">{currentWordTranslation}</h1>
-                                    {transation}
+                                    <h2 className={`text-white ${!this.state.viewTranslation ? "invisible" : ""}`}>{this.state.currentWord.text} <br />({this.state.currentWord.romanization})</h2>
                                 </div>
                             </div>
                             <div className="card-body">
@@ -201,15 +204,7 @@ export default class Memorize extends Component {
                                 <p className="text-sm ">{this.state.currentWord.description}</p>
                                 <hr className="dark horizontal" />
                                 <div className="text-center">
-                                    <button className="btn btn-success mx-3 mb-0 text-white" onClick={() => this.onClickAddCorrect()}>
-                                        <FontAwesomeIcon icon={faThumbsUp} />
-                                    </button>
-                                    <button className="btn btn-secondary mx-3 mb-0 text-white" onClick={() => this.onClickViewTranslation()}>
-                                        {translationIcon}
-                                    </button>
-                                    <button className="btn btn-danger mx-3 mb-0 text-white" onClick={() => this.onClickAddError()}>
-                                        <FontAwesomeIcon icon={faThumbsDown} />
-                                    </button>
+                                    {buttons}
                                 </div>
                             </div>
                         </div>

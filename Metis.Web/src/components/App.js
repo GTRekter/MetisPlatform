@@ -8,7 +8,7 @@ import LessonsManagement from '../pages/LessonsManagement';
 import WordsManagement from '../pages/WordsManagement';
 import GrammarPointsManagement from '../pages/GrammarPointsManagement';
 import Dictionary from '../pages/Dictionary';
-import Memorize from '../pages/Memorize';
+import FlashCards from '../pages/FlashCards';
 
 export default class App extends Component {
     render() {
@@ -18,7 +18,7 @@ export default class App extends Component {
                 <Layout>
                     <Route exact path="/" component={Home} />
                     <Route exact path="/dictionary" component={Dictionary} />
-                    <Route exact path="/memorize" component={Memorize} />
+                    <Route exact path="/flashcards" component={FlashCards} />
                     <Route path="/usermanagement" component={UsersManagement} />
                     <Route path="/lessonmanagement" component={LessonsManagement} />
                     <Route path="/grammarpointmanagement" component={GrammarPointsManagement} />
