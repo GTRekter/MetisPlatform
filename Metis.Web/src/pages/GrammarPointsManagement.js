@@ -25,7 +25,7 @@ export default class GrammarPointsManagement extends Component {
             editFormVisible: false,
             deleteModalVisible: false
         }
-        this.onClickShowCreationForm = this.onClickShowCreationForm.bind(this);
+        this.onClickToggleCreationForm = this.onClickToggleCreationForm.bind(this);
         this.onClickHideCreationForm = this.onClickHideCreationForm.bind(this);
         this.onSubmitCreationGrammarPoint = this.onSubmitCreationGrammarPoint.bind(this);
 
@@ -59,9 +59,9 @@ export default class GrammarPointsManagement extends Component {
             })
     }
 
-    onClickShowCreationForm() {
+    onClickToggleCreationForm() {
         this.setState({
-            creationFormVisible: true,
+            creationFormVisible: !this.state.creationFormVisible,
             editFormVisible: false,
             deleteModalVisible: false
         })
@@ -300,7 +300,7 @@ export default class GrammarPointsManagement extends Component {
                 <div className="row">
                     <div className="col-8">
                         <button className="btn btn-primary"
-                            onClick={() => this.onClickShowCreationForm()}
+                            onClick={() => this.onClickToggleCreationForm()}
                             aria-controls="example-collapse-text"
                             aria-expanded={this.state.creationFormVisible}>Add grammarPoint</button>
                         <div className="dropdown d-inline mx-2">
