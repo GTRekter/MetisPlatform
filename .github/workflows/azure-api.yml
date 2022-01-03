@@ -6,7 +6,7 @@ on:
   workflow_dispatch:
 defaults:
   run:
-    working-directory: /Metis.API
+    working-directory: Metis.API
 jobs:
   build:
     runs-on: windows-latest
