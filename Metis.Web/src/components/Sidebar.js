@@ -17,6 +17,14 @@ export default class Sidebar extends Component {
                                     <span className="nav-link-text ms-1">Dashboard</span>
                                 </Link>
                             </li>
+                            <li className="nav-item">
+                                <Link className="nav-link" to='/dictionary'>
+                                    <div className="text-white text-center me-2 d-flex align-items-center justify-content-center">
+                                        <FontAwesomeIcon className='opacity-10' icon={faHome} />
+                                    </div>
+                                    <span className="nav-link-text ms-1">Dictionary</span>
+                                </Link>
+                            </li>
                             <li className="nav-item mt-3">
                                 <h6 className="ps-4 ms-2 text-uppercase text-xs text-white font-weight-bolder opacity-8">Admin</h6>
                             </li>
