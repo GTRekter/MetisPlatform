@@ -30,7 +30,10 @@ namespace Metis.Models.Managers
         }
         public static async Task<Lesson> GetLessonById(ApplicationDbContext context, int id)
         {
-            return await context.Lessons.FindAsync(id);
+            return await context.Lessons
+                .Include(l => l.GrammarPoints)
+                .Include(l => l.GrammarPoints)
+                .FirstOrDefaultAsync(g => g.Id == id);
         }
         public static async Task<int> GetLessonsCount(ApplicationDbContext context)
         {
