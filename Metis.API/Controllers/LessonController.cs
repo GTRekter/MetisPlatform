@@ -93,10 +93,11 @@ namespace Metis.API.Controllers
         [Route("EditLesson")]
         // [Authorize(Roles = "Country Admin,Administrator")]
         // [ValidateAntiForgeryToken]
-        public async Task<IActionResult> EditLessonAsync(EditLessonRequest model)
+        public async Task<IActionResult> EditLessonAsync(EditLessonRequest request)
         {
             // await IsUserValidAsync(new string[] { "Country Admin", "Administrator" });
-            await LessonManager.EditLesson(_context, model.Id, model.Title, model.Description);
+
+            await LessonManager.EditLesson(_context, request.Id, request.Title, request.Description, request.Words.Select(w => w.Id), request.GrammarPoints.Select(g => g.Id));
             return Ok();
         }
 

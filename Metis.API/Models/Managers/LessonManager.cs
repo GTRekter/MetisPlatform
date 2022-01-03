@@ -47,12 +47,45 @@ namespace Metis.Models.Managers
         {
             return await context.Lessons.ToListAsync();
         }
-        public static async Task EditLesson(ApplicationDbContext context, int id,  string title, string description)
+        public static async Task EditLesson(ApplicationDbContext context, int id,  string title, string description, IEnumerable<int> words, IEnumerable<int> grammarPoints)
         {
-            Lesson lesson = await context.Lessons.FindAsync(id);
+            Lesson lesson = await context.Lessons
+                .Include(l => l.Words)
+                .Include(l => l.GrammarPoints)
+                .FirstOrDefaultAsync(l => l.Id == id);
             if (lesson == null)
             {
                 throw new Exception("User not found");
+            }
+            foreach (var word in lesson.Words)
+            {
+                if(!words.Contains(word.Id))
+                {
+                    lesson.Words.Remove(word);
+                }
+            }
+            foreach (var word in words)
+            {
+                if(!lesson.Words.Any(w => w.Id == word))
+                {
+                    var wordToAdd = await context.Words.FirstOrDefaultAsync(w => w.Id == word);
+                    lesson.Words.Add(wordToAdd);
+                }
+            }
+            foreach (var grammarPoint in lesson.GrammarPoints)
+            {
+                if(!grammarPoints.Contains(grammarPoint.Id))
+                {
+                    lesson.GrammarPoints.Remove(grammarPoint);
+                }
+            }
+            foreach (var grammarPoint in grammarPoints)
+            {
+                if(!lesson.GrammarPoints.Any(w => w.Id == grammarPoint))
+                {
+                    var grammarPointToAdd = await context.GrammarPoints.FirstOrDefaultAsync(w => w.Id == grammarPoint);
+                    lesson.GrammarPoints.Add(grammarPointToAdd);
+                }
             }
             lesson.Title = title; 
             lesson.Description = description;
