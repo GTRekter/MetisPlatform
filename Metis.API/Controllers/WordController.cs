@@ -53,7 +53,7 @@ namespace Metis.API.Controllers
         [AllowAnonymous]
         [HttpGet]
         [Route("GetWordsByPage")]
-        public async Task<IActionResult> GetUsersByPageAsync(int page, int itemsPerPage)
+        public async Task<IActionResult> GetWordsByPageAsync(int page, int itemsPerPage)
         {
             IEnumerable<Word> words = await WordManager.GetWordsByPage(_context, page, itemsPerPage);
             return Ok(words);

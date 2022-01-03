@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faHome, faUsers } from '@fortawesome/free-solid-svg-icons'
+import { faHome, faUsers, faSpellCheck, faLayerGroup, faChalkboardTeacher, faProjectDiagram, faFont } from '@fortawesome/free-solid-svg-icons'
 
 export default class Sidebar extends Component {
     render() {
@@ -20,7 +20,7 @@ export default class Sidebar extends Component {
                             <li className="nav-item">
                                 <Link className="nav-link" to='/dictionary'>
                                     <div className="text-white text-center me-2 d-flex align-items-center justify-content-center">
-                                        <FontAwesomeIcon className='opacity-10' icon={faHome} />
+                                        <FontAwesomeIcon className='opacity-10' icon={faSpellCheck} />
                                     </div>
                                     <span className="nav-link-text ms-1">Dictionary</span>
                                 </Link>
@@ -28,7 +28,7 @@ export default class Sidebar extends Component {
                             <li className="nav-item">
                                 <Link className="nav-link" to='/flashcards'>
                                     <div className="text-white text-center me-2 d-flex align-items-center justify-content-center">
-                                        <FontAwesomeIcon className='opacity-10' icon={faHome} />
+                                        <FontAwesomeIcon className='opacity-10' icon={faLayerGroup} />
                                     </div>
                                     <span className="nav-link-text ms-1">Flashcards</span>
                                 </Link>
@@ -47,7 +47,7 @@ export default class Sidebar extends Component {
                             <li className="nav-item">
                                 <Link className="nav-link" to='/lessonmanagement'>
                                     <div className="text-white text-center me-2 d-flex align-items-center justify-content-center">
-                                        <FontAwesomeIcon className='opacity-10' icon={faUsers} />
+                                        <FontAwesomeIcon className='opacity-10' icon={faChalkboardTeacher} />
                                     </div>
                                     <span className="nav-link-text ms-1">Lessons</span>
                                 </Link>
@@ -55,7 +55,7 @@ export default class Sidebar extends Component {
                             <li className="nav-item">
                                 <Link className="nav-link" to='/grammarpointmanagement'>
                                     <div className="text-white text-center me-2 d-flex align-items-center justify-content-center">
-                                        <FontAwesomeIcon className='opacity-10' icon={faUsers} />
+                                        <FontAwesomeIcon className='opacity-10' icon={faProjectDiagram} />
                                     </div>
                                     <span className="nav-link-text ms-1">Grammar Points</span>
                                 </Link>
@@ -63,7 +63,7 @@ export default class Sidebar extends Component {
                             <li className="nav-item">
                                 <Link className="nav-link" to='/wordmanagement'>
                                     <div className="text-white text-center me-2 d-flex align-items-center justify-content-center">
-                                        <FontAwesomeIcon className='opacity-10' icon={faUsers} />
+                                        <FontAwesomeIcon className='opacity-10' icon={faFont} />
                                     </div>
                                     <span className="nav-link-text ms-1">Words</span>
                                 </Link>

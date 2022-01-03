@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import ReportCard from '../components/ReportCard';
 import ReportCardFilter from '../components/ReportCardFilter';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faFlag, faExclamationTriangle, faTags, faEye, faEyeSlash, faThumbsDown, faThumbsUp } from '@fortawesome/free-solid-svg-icons'
+import { faFlag, faExclamationTriangle, faTags, faEye, faThumbsDown, faThumbsUp } from '@fortawesome/free-solid-svg-icons'
 import SpeechService from '../services/SpeechService';
 import WordService from '../services/WordService';
 import WordTypeService from '../services/WordTypeService';
