@@ -24,7 +24,8 @@ class Autocomplete extends Component {
         });
     };
     onChange = (event) => {
-        let filteredSuggestions = this.props.suggestions.filter(suggestion => suggestion.toLowerCase().indexOf(event.currentTarget.value.toLowerCase()) > -1);
+        let filteredSuggestions = this.props.suggestions
+            .filter(suggestion => suggestion.toLowerCase().indexOf(event.currentTarget.value.toLowerCase()) > -1);
         this.setState({
             activeSuggestion: 0,
             filteredSuggestions,

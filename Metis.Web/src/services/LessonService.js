@@ -1,5 +1,5 @@
 class LessonService {
-    addLesson(title, description) {
+    addLesson(title, description, words, grammarPoints) {
         return fetch(process.env.REACT_APP_API_BASEURL + "Lesson/AddLesson", {
             method: 'post',
             mode: 'cors',
@@ -10,7 +10,9 @@ class LessonService {
             },
             body: JSON.stringify({
                 title: title,
-                description: description
+                description: description,
+                words: words,
+                grammarPoints: grammarPoints
             })
         })
     }

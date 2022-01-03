@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System.Linq;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
@@ -28,7 +29,7 @@ namespace Metis.API.Controllers
             {
                 return NotFound();
             }
-            await LessonManager.AddLesson(_context, request.Title, request.Description);
+            await LessonManager.AddLesson(_context, request.Title, request.Description, request.Words.Select(w => w.Id), request.GrammarPoints.Select(g => g.Id));
             return Ok();
         }
 

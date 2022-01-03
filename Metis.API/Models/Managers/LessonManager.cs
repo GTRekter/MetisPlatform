@@ -1,5 +1,6 @@
 using System;
 using System.Linq;
+using System.Transactions;
 using System.Threading.Tasks;
 using System.Collections.Generic;
 using Metis.Models.Store;
@@ -9,11 +10,23 @@ namespace Metis.Models.Managers
 {
     public static class LessonManager
     {
-        public static async Task AddLesson(ApplicationDbContext context, string title, string description)
+        public static async Task AddLesson(ApplicationDbContext context, string title, string description, IEnumerable<int> words, IEnumerable<int> grammarPoints)
         {
-            Lesson lesson = new Lesson { Title = title, Description = description };
-            context.Lessons.Add(lesson);
-            await context.SaveChangesAsync();
+            using (TransactionScope scope = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled))
+            {
+                var wordsToAdd = await context.Words.Where(g => words.Contains(g.Id)).ToListAsync();
+                var grammarPointsToAdd = await context.GrammarPoints.Where(g => grammarPoints.Contains(g.Id)).ToListAsync();
+                Lesson lesson = new Lesson 
+                { 
+                    Title = title, 
+                    Description = description,
+                    GrammarPoints = grammarPointsToAdd,
+                    Words = wordsToAdd
+                };
+                context.Lessons.Add(lesson);
+                await context.SaveChangesAsync();
+                scope.Complete();
+            }
         }
         public static async Task<Lesson> GetLessonById(ApplicationDbContext context, int id)
         {
