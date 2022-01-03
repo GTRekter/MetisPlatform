@@ -59,12 +59,12 @@ export default class LessonCreationForm extends Component {
                 });
             })
     }
-    onClickDeleteWord = (id)  => {
+    onClickDeleteWord = (id) => {
         this.setState({
             selectedWords: this.state.selectedWords.filter(word => word.id !== id),
         })
     }
-    onClickDeleteGrammarPoint = (id)  => {
+    onClickDeleteGrammarPoint = (id) => {
         this.setState({
             selectedGrammarPoints: this.state.selectedGrammarPoints.filter(word => word.id !== id),
         })
@@ -211,32 +211,32 @@ export default class LessonCreationForm extends Component {
                             </table>
                         </div>
                     </div>
-                    <div className="row mt-3">
-                        <div className="col-12">
-                            <label className='d-block'>Grammar Points</label>
-                            <span className="btn bg-gradient-secondary ms-2 btn-sm" role="button" onClick={() => this.onClickToggleGrammarPointAdditionForm()}>Add grammar point</span>
-                            <div className={!this.state.grammarPointAdditionFormVisible ? "d-none" : ""}>
-                                <Autocomplete label="Grammar Point Title" suggestions={grammarPoints} onChangeCallback={this.onClickAddGrammarPoint} />
-                            </div>
-                            <div className="table-responsive">
-                                <table className="table table-sm align-items-center">
-                                    <thead>
-                                        <tr>
-                                            <th className="text-uppercase text-xxs font-weight-bolder opacity-7">Title</th>
-                                            <th className="text-uppercase text-xxs font-weight-bolder opacity-7 ps-2"></th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        {selectedGrammarPointRows}
-                                    </tbody>
-                                </table>
-                            </div>
+                    <div className="col-12">
+                        <label className='d-block'>Grammar Points</label>
+                        <span className="btn bg-gradient-secondary ms-2 btn-sm" role="button" onClick={() => this.onClickToggleGrammarPointAdditionForm()}>Add grammar point</span>
+                        <div className={!this.state.grammarPointAdditionFormVisible ? "d-none" : ""}>
+                            <Autocomplete label="Grammar Point Title" suggestions={grammarPoints} onChangeCallback={this.onClickAddGrammarPoint} />
                         </div>
-                        <div className="col-12">
-                            <div className="d-flex justify-content-end mt-4">
-                                <button type="reset" name="button" className="btn btn-light m-0">Cancel</button>
-                                <button type="submit" name="button" className="btn bg-gradient-primary m-0 ms-2">Create Lesson</button>
-                            </div>
+                        <div className="table-responsive">
+                            <table className="table table-sm align-items-center">
+                                <thead>
+                                    <tr>
+                                        <th className="text-uppercase text-xxs font-weight-bolder opacity-7">Title</th>
+                                        <th className="text-uppercase text-xxs font-weight-bolder opacity-7 ps-2"></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {selectedGrammarPointRows}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div className="row mt-3">
+                    <div className="col-12">
+                        <div className="d-flex justify-content-end mt-4">
+                            <button type="reset" name="button" className="btn btn-light m-0">Cancel</button>
+                            <button type="submit" name="button" className="btn bg-gradient-primary m-0 ms-2">Create Lesson</button>
                         </div>
                     </div>
                 </div>
