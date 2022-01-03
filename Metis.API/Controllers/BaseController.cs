@@ -20,14 +20,12 @@ namespace Metis.API.Controllers
             _dataContext = dataContext;
             _userManager = userManager;
         }
-
         public BaseController(ApplicationDbContext dataContext, UserManager<User> userManager, RoleManager<Role> roleManager)
         {
             _dataContext = dataContext;
             _userManager = userManager;
             _roleManager = roleManager;
         }
-
         protected async Task IsUserValidAsync(int userId)
         {
             var currentUser = await _userManager.GetUserAsync(HttpContext.User);
