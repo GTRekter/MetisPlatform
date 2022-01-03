@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import UserService from '../services/UserService';
 import RoleService from '../services/RoleService';
+import FormHeader from './FormHeader';
 
 export default class UserCreationForm extends Component {
     constructor(props) {
@@ -54,6 +55,9 @@ export default class UserCreationForm extends Component {
         return (
             <form className="text-start" onSubmit={this.onSubmit} onReset={this.onReset}>
                 <div className="row">
+                    <div className="col-12">
+                        <FormHeader title="User" action="Creation" subtitle="Enter all the information about the user." />
+                    </div>
                     <div className="col-12 col-xl-6">
                         <div className="input-group input-group-static my-3">
                             <label>First Name</label>

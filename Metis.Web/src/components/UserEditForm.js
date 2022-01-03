@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import FormHeader from './FormHeader';
 import UserService from '../services/UserService';
 import RoleService from '../services/RoleService';
 
@@ -67,6 +68,9 @@ export default class UserEditForm extends Component {
         return (
             <form className="text-start" onSubmit={this.onSubmit} onReset={this.onReset}>
                 <div className="row">
+                    <div className="col-12">
+                        <FormHeader title="User" action="Update" subtitle={`Update the information about the user ${this.state.id}.`} />
+                    </div>
                     <div className="col-12 col-xl-6">
                         <div className="input-group input-group-static my-3">
                             <label>First Name</label>

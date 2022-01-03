@@ -40,7 +40,7 @@ namespace Metis.API.Controllers
             IEnumerable<Word> words = await WordManager.GetWords(_context);
             return Ok(words);
         }
-
+        
         [AllowAnonymous]
         [HttpGet]
         [Route("GetWordById")]

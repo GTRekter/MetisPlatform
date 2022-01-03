@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import FormHeader from './FormHeader';
 import LessonService from '../services/LessonService';
 import ReactQuill from 'react-quill';
 
@@ -56,6 +57,9 @@ export default class LessonEditForm extends Component {
         return (
             <form className="text-start" onSubmit={this.onSubmit} onReset={this.onReset}>
                 <div className="row">
+                    <div className="col-12">
+                        <FormHeader title="Lesson" action="Update" subtitle={`Update the information about the lesson ${this.state.id}.`} />
+                    </div>
                     <div className="col-12">
                         <div className="input-group input-group-static my-3">
                             <label>Title</label>

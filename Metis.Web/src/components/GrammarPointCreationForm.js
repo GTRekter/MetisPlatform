@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import FormHeader from './FormHeader';
 import GrammarPointService from '../services/GrammarPointService';
 import ReactQuill from 'react-quill';
 
@@ -43,6 +44,9 @@ export default class GrammarPointCreationForm extends Component {
         return (
             <form className="text-start" onSubmit={this.onSubmit} onReset={this.onReset}>
                 <div className="row">
+                <div className="col-12">
+                        <FormHeader title="Grammar Point" action="Creation" subtitle="Insert all the information about the grammar point." />
+                    </div>
                     <div className="col-12">
                         <div className="input-group input-group-static my-3">
                             <label>Title</label>

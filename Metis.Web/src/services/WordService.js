@@ -48,6 +48,18 @@ class WordService {
         })
             .then(res => res.json());
     }
+    getWordsByText(text) {
+        return fetch(process.env.REACT_APP_API_BASEURL + "Word/GetWordsByText?text=" + text, {
+            method: 'get',
+            mode: 'cors',
+            headers: {
+                'Accept': 'application/json, text/plain, */*',
+                'Content-Type': 'application/json',
+                'Access-Control-Allow-Origin': '*'
+            }
+        })
+            .then(res => res.json());
+    }
     getWordById(id) {
         return fetch(process.env.REACT_APP_API_BASEURL + "Word/GetWordById?id=" + id, {
             method: 'get',

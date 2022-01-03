@@ -70,7 +70,6 @@ export default class WordsManagement extends Component {
                 console.log('Response parsing failed. Error: ', ex);
             });
     }
-
     onClickShowCreationForm() {
         this.setState({
             creationFormVisible: true,
