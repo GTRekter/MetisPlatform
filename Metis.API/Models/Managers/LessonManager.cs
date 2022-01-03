@@ -32,7 +32,7 @@ namespace Metis.Models.Managers
         {
             return await context.Lessons
                 .Include(l => l.GrammarPoints)
-                .Include(l => l.GrammarPoints)
+                .Include(l => l.Words)
                 .FirstOrDefaultAsync(g => g.Id == id);
         }
         public static async Task<int> GetLessonsCount(ApplicationDbContext context)
