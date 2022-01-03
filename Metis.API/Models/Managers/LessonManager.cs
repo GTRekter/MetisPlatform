@@ -33,6 +33,7 @@ namespace Metis.Models.Managers
             return await context.Lessons
                 .Include(l => l.GrammarPoints)
                 .Include(l => l.Words)
+                .ThenInclude(w => w.Translations)
                 .FirstOrDefaultAsync(g => g.Id == id);
         }
         public static async Task<int> GetLessonsCount(ApplicationDbContext context)
@@ -100,11 +101,25 @@ namespace Metis.Models.Managers
         }  
         public static async Task<IEnumerable<Lesson>> GetLessonsByPage(ApplicationDbContext context, int page, int itemsPerPage)
         {
-            return await context.Lessons.Skip(page * itemsPerPage).Take(itemsPerPage).OrderBy(u => u.Id).ToListAsync();
+            return await context.Lessons
+                .Include(l => l.Words)
+                .Include(l => l.GrammarPoints)
+                .Skip(page * itemsPerPage)
+                .Take(itemsPerPage)
+                .OrderBy(u => u.Id)
+                .ToListAsync();
         }
         public static async Task<IEnumerable<Lesson>> GetLessonsByPageAndSearchQuery(ApplicationDbContext context, int page, int itemsPerPage, string searchQuery)
         {
-            return await context.Lessons.Where(u => u.Title.Contains(searchQuery) || u.Description.Contains(searchQuery)).Skip(page * itemsPerPage).Take(itemsPerPage).OrderBy(u => u.Id).ToListAsync();
+            return await context.Lessons
+                .Include(l => l.Words)
+                .Include(l => l.GrammarPoints)
+                .Where(u => u.Title.Contains(searchQuery) 
+                    || u.Description.Contains(searchQuery))
+                .Skip(page * itemsPerPage)
+                .Take(itemsPerPage)
+                .OrderBy(u => u.Id)
+                .ToListAsync();
         }
     }
 }

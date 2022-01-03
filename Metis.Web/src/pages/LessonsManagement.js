@@ -265,14 +265,16 @@ export default class LessonsManagement extends Component {
     }
 
     render() {
-        var lessonPerPageOptions = [];
+        let lessonPerPageOptions = [];
         for (var index = 1; index <= 4; index++) {
             let value = index * 10;
             lessonPerPageOptions.push(<li key={index}><span className="dropdown-item pointer" onClick={() => this.onClickUpdateLessonsByPage(value)}>{value}</span></li>);
         }
-        let rows = this.state.displayedLessons.map((lesson, index) =>
-            <tr key={index}>
+        let rows = this.state.displayedLessons.map((lesson, index) => {
+             return <tr key={index}>
                 <td className="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-4">{lesson.title}</td>
+                <td className="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-4">{lesson.words.length}</td>
+                <td className="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-4">{lesson.grammarPoints.length}</td>
                 <td className="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 td-icon">
                     <button className="btn btn-icon btn-2 btn-link btn-sm" type="button"
                         onClick={() => this.onClickShowEditForm(lesson.id)}
@@ -289,6 +291,7 @@ export default class LessonsManagement extends Component {
                     </button>
                 </td>
             </tr>
+            }
         )
         return (
             <div>
@@ -345,6 +348,8 @@ export default class LessonsManagement extends Component {
                                     <thead>
                                         <tr>
                                             <th className="text-uppercase text-xxs font-weight-bolder opacity-7">Title</th>
+                                            <th className="text-uppercase text-xxs font-weight-bolder opacity-7">Words</th>
+                                            <th className="text-uppercase text-xxs font-weight-bolder opacity-7">Grammar Points</th>
                                             <th className="text-uppercase text-xxs font-weight-bolder opacity-7 ps-2"></th>
                                         </tr>
                                     </thead>
