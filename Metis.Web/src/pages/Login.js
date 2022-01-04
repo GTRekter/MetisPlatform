@@ -1,18 +1,18 @@
 import React, { Component } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faHeart } from '@fortawesome/free-solid-svg-icons'
+import UserService from '../services/UserService';
 
 export default class Login extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            username: "",
+            email: "",
             password: "",
             rememberMe: false
         }
         this.onChangeInput = this.onChangeInput.bind(this);
     }
-
     onChangeInput = (event) => {
         const target = event.target;
         const value = target.type === 'checkbox' ? target.checked : target.value;
@@ -23,6 +23,12 @@ export default class Login extends Component {
     }
     onSubmit = (event) => {
         event.preventDefault();
+        UserService
+            .loginUser(this.state.email, this.state.password)
+            .then((data) => {
+                sessionStorage.setItem('token', data);
+                this.props.history.push('/dashboard');
+            });
     }
     render() {
         return (
@@ -42,7 +48,7 @@ export default class Login extends Component {
                                         <form className="text-start" onSubmit={this.onSubmit}>
                                             <div className="input-group input-group-static my-3">
                                                 <label>Email</label>
-                                                <input type="email" className="form-control" name="username" value={this.state.username} onChange={this.onChangeInput} />
+                                                <input type="email" className="form-control" name="email" value={this.state.email} onChange={this.onChangeInput} />
                                             </div>
                                             <div className="input-group input-group-static mb-3">
                                                 <label>Password</label>
@@ -53,7 +59,7 @@ export default class Login extends Component {
                                                 <label className="form-check-label mb-0 ms-2" for="rememberMe">Remember me</label>
                                             </div>
                                             <div className="text-center">
-                                                <button type="button" className="btn bg-gradient-primary w-100 my-4 mb-2">Sign in</button>
+                                                <button type="submit" className="btn bg-gradient-primary w-100 my-4 mb-2">Sign in</button>
                                             </div>
                                         </form>
                                     </div>

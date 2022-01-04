@@ -73,7 +73,6 @@ namespace Metis.API.Controllers
         // [Authorize(Roles = "Country Admin,Administrator")]
         public async Task<IActionResult> GetWordsCountAsync()
         {
-            // await IsUserValidAsync(new string[] { "Country Admin", "Administrator" });
             int counter = await WordManager.GetWordsCount(_context);
             return Ok(counter);
         }
@@ -83,7 +82,6 @@ namespace Metis.API.Controllers
         // [Authorize(Roles = "Country Admin,Administrator")]
         public async Task<IActionResult> GetWordsBySearchQueryCountAsync(string searchQuery)
         {
-            // await IsUserValidAsync(new string[] { "Country Admin", "Administrator" });
             int counter = await WordManager.GetWordsBySearchQueryCount(_context, searchQuery);
             return Ok(counter);
         }
@@ -114,13 +112,6 @@ namespace Metis.API.Controllers
             await WordManager.EditWord(_context, request.Id, request.Text, request.Romanization, request.Description, request.Example, translationsToAdd, translationsToEdit);
             return Ok();
         }
-
-        // [HttpPut("{id}")]
-        // public IActionResult Update(int id, UpdateRequest model)
-        // {
-        //     WordManager.Update(id, model);
-        //     return Ok(new { message = "User updated" });
-        // }
 
         [HttpDelete]
         [Route("DeleteWordById")]

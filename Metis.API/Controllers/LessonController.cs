@@ -74,7 +74,6 @@ namespace Metis.API.Controllers
         // [Authorize(Roles = "Country Admin,Administrator")]
         public async Task<IActionResult> GetLessonsCountAsync()
         {
-            // await IsUserValidAsync(new string[] { "Country Admin", "Administrator" });
             int counter = await LessonManager.GetLessonsCount(_context);
             return Ok(counter);
         }
@@ -84,7 +83,6 @@ namespace Metis.API.Controllers
         // [Authorize(Roles = "Country Admin,Administrator")]
         public async Task<IActionResult> GetLessonsBySearchQueryCountAsync(string searchQuery)
         {
-            // await IsUserValidAsync(new string[] { "Country Admin", "Administrator" });
             int counter = await LessonManager.GetLessonsBySearchQueryCount(_context, searchQuery);
             return Ok(counter);
         }
@@ -95,18 +93,9 @@ namespace Metis.API.Controllers
         // [ValidateAntiForgeryToken]
         public async Task<IActionResult> EditLessonAsync(EditLessonRequest request)
         {
-            // await IsUserValidAsync(new string[] { "Country Admin", "Administrator" });
-
             await LessonManager.EditLesson(_context, request.Id, request.Title, request.Description, request.Words.Select(w => w.Id), request.GrammarPoints.Select(g => g.Id));
             return Ok();
         }
-
-        // [HttpPut("{id}")]
-        // public IActionResult Update(int id, UpdateRequest model)
-        // {
-        //     LessonManager.Update(id, model);
-        //     return Ok(new { message = "User updated" });
-        // }
 
         [HttpDelete]
         [Route("DeleteLessonById")]

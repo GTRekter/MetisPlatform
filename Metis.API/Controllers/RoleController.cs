@@ -36,7 +36,6 @@ namespace Metis.API.Controllers
         // [Authorize(Roles = "Country Admin,Administrator")]
         public async Task<IActionResult> GetRolesAsync()
         {
-            // await IsUserValidAsync(new string[] { "Country Admin", "Administrator" });
             var roles = RoleManager.GetRoles(_dataContext).Select(r => new { r.Id, r.Name });
             return Ok(roles);
         }

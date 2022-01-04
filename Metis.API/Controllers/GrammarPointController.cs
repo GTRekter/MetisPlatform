@@ -72,7 +72,6 @@ namespace Metis.API.Controllers
         // [Authorize(Roles = "Country Admin,Administrator")]
         public async Task<IActionResult> GetGrammarPointsCountAsync()
         {
-            // await IsUserValidAsync(new string[] { "Country Admin", "Administrator" });
             int counter = await GrammarPointManager.GetGrammarPointsCount(_context);
             return Ok(counter);
         }
@@ -82,7 +81,6 @@ namespace Metis.API.Controllers
         // [Authorize(Roles = "Country Admin,Administrator")]
         public async Task<IActionResult> GetGrammarPointsBySearchQueryCountAsync(string searchQuery)
         {
-            // await IsUserValidAsync(new string[] { "Country Admin", "Administrator" });
             int counter = await GrammarPointManager.GetGrammarPointsBySearchQueryCount(_context, searchQuery);
             return Ok(counter);
         }
@@ -93,18 +91,10 @@ namespace Metis.API.Controllers
         // [ValidateAntiForgeryToken]
         public async Task<IActionResult> EditGrammarPointAsync(EditGrammarPointRequest model)
         {
-            // await IsUserValidAsync(new string[] { "Country Admin", "Administrator" });
             await GrammarPointManager.EditGrammarPoint(_context, model.Id, model.Title, model.Description);
             return Ok();
         }
-
-        // [HttpPut("{id}")]
-        // public IActionResult Update(int id, UpdateRequest model)
-        // {
-        //     GrammarPointManager.Update(id, model);
-        //     return Ok(new { message = "User updated" });
-        // }
-
+        
         [HttpDelete]
         [Route("DeleteGrammarPointById")]
         public async Task<IActionResult> DeleteGrammarPointByIdAsync(int id)

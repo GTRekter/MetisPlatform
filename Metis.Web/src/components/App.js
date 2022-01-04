@@ -9,6 +9,7 @@ import WordsManagement from '../pages/WordsManagement';
 import GrammarPointsManagement from '../pages/GrammarPointsManagement';
 import Dictionary from '../pages/Dictionary';
 import FlashCards from '../pages/FlashCards';
+import PrivateRoute from './PrivateRoute';
 
 export default class App extends Component {
     render() {
@@ -16,7 +17,7 @@ export default class App extends Component {
             <Switch>
                 <Route path='/login' component={Login} />
                 <Layout>
-                    <Route exact path="/" component={Home} />
+                    <PrivateRoute exact path="/" component={Home} />
                     <Route exact path="/dictionary" component={Dictionary} />
                     <Route exact path="/flashcards" component={FlashCards} />
                     <Route path="/usermanagement" component={UsersManagement} />
