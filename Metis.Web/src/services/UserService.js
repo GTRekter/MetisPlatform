@@ -13,7 +13,14 @@ class UserService {
                 password: password
             })
         })
-            .then(res => res.json());
+            .then(async (res) => {
+                if (!res.ok) {
+                    await res.text().then((text) => {
+                        throw Error(text);
+                    })
+                }
+                return res.json();
+            })
     }
     addUser(firstname, lastname, email, role) {
         return fetch(process.env.REACT_APP_API_BASEURL + "User/AddUser", {

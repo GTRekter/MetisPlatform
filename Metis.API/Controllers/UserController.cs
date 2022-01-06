@@ -88,7 +88,7 @@ namespace Metis.API.Controllers
             }
             else
             {
-                return NotFound();
+                return BadRequest("Invalid login attempt.");
             }  
         }
 

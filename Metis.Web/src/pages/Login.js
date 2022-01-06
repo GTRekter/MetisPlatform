@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faHeart } from '@fortawesome/free-solid-svg-icons'
 import UserService from '../services/UserService';
+import video from '../videos/streets.mp4';
 
 export default class Login extends Component {
     constructor(props) {
@@ -9,7 +10,9 @@ export default class Login extends Component {
         this.state = {
             email: "",
             password: "",
-            rememberMe: false
+            rememberMe: false,
+            errorMessage: "",
+            errorVisible: true
         }
         this.onChangeInput = this.onChangeInput.bind(this);
     }
@@ -28,12 +31,21 @@ export default class Login extends Component {
             .then((data) => {
                 sessionStorage.setItem('token', data);
                 this.props.history.push('/dashboard');
+            })
+            .catch((error) => { 
+                this.setState({ 
+                    errorMessage: error.message, 
+                    errorModalVisible: true 
+                }) 
             });
     }
     render() {
         return (
             <main className="main-content mt-0 ps">
                 <div className="page-header align-items-start min-vh-100">
+                    <video className="background-video" autoPlay loop muted>
+                        <source src={video} type="video/mp4" />
+                    </video>
                     <span className="mask bg-gradient-dark opacity-6"></span>
                     <div className="container my-auto">
                         <div className="row">
@@ -45,6 +57,9 @@ export default class Login extends Component {
                                         </div>
                                     </div>
                                     <div className="card-body">
+                                        <p className={`text-danger ${this.state.errorVisible ? "visible" : "invisible"}`}>
+                                            {this.state.errorMessage}
+                                        </p>
                                         <form className="text-start" onSubmit={this.onSubmit}>
                                             <div className="input-group input-group-static my-3">
                                                 <label>Email</label>
@@ -56,7 +71,7 @@ export default class Login extends Component {
                                             </div>
                                             <div className="form-check form-switch d-flex align-items-center mb-3">
                                                 <input className="form-check-input" type="checkbox" name="rememberMe" value={this.state.rememberMe} onChange={this.onChangeInput} />
-                                                <label className="form-check-label mb-0 ms-2" for="rememberMe">Remember me</label>
+                                                <label className="form-check-label mb-0 ms-2">Remember me</label>
                                             </div>
                                             <div className="text-center">
                                                 <button type="submit" className="btn bg-gradient-primary w-100 my-4 mb-2">Sign in</button>
@@ -73,7 +88,7 @@ export default class Login extends Component {
                                 <div className="col-12 col-md-6 my-auto">
                                     <div className="copyright text-center text-sm text-white text-lg-start">
                                         © 2021, made with <FontAwesomeIcon className='opacity-10' icon={faHeart} /> by
-                                        <a href="https://ivanporta.net/" rel="noreferrer" className="font-weight-bold text" target="_blank"> Ivan Porta</a>.
+                                        <a href="https://ivanporta.net/" rel="noreferrer" className="font-weight-bold text text-white" target="_blank"> Ivan Porta</a>.
                                     </div>
                                 </div>
                             </div>
