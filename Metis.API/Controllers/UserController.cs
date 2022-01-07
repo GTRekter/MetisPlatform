@@ -67,14 +67,6 @@ namespace Metis.API.Controllers
             }  
         }
 
-        // [HttpGet]
-        // public async Task<IActionResult> LogOut()
-        // {
-        //     await _signInManager.SignOutAsync();
-        //     return RedirectToAction(nameof(HomeController.Index), "Home");
-        // }
-
-
         [HttpPost]
         [Authorize(AuthenticationSchemes = Microsoft.AspNetCore.Authentication.JwtBearer.JwtBearerDefaults.AuthenticationScheme, Roles = "Administrator, Teacher")]
         [Route("AddUser")]

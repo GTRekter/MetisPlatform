@@ -2,4 +2,4 @@
 */obj
 /Metis.API/Migrations
 /Metis.API/.vs/Metis.API/DesignTimeBuild
-/Metis.API/appsettings.Production.json
+/Metis.API/appsettings.Release.json
