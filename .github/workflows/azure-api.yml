@@ -1,6 +1,8 @@
 name: Build and deploy ASP.Net Core app to Azure Web App
 on:
   push:
+    paths:
+      - 'Metis.API/**'
     branches:
       - main
   workflow_dispatch:
