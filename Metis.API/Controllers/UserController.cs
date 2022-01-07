@@ -90,17 +90,17 @@ namespace Metis.API.Controllers
                 throw new Exception(error);
             }
 
-            // var smptServer = _configuration["Email:SmptServer"];
-            // var smptPort = int.Parse(_configuration["Email:SmptPort"]);
-            // var enableSsl = bool.Parse(_configuration["Email:EnableSsl"]);
-            // var smptUsername = _configuration["Email:SmptUsername"];
-            // var smptPassword = _configuration["Email:SmptPassword"];
-            // var sender = _configuration["Email:Sender"];
-            // Email email = new Email(smptServer, smptPort, enableSsl, smptUsername, smptPassword, sender);
-            // var filePath = Path.Combine(Directory.GetCurrentDirectory(), "Templates", "email.html");
-            // string message = System.IO.File.ReadAllText(filePath);
-            // message = message.Replace("{{TEMPORARYPASSWORD}}", password);
-            // email.Send(new string[] { model.Email }, message, "Temporary password", true, System.Net.Mail.MailPriority.High);
+            var smptServer = _configuration["Email:SmptServer"];
+            var smptPort = int.Parse(_configuration["Email:SmptPort"]);
+            var enableSsl = bool.Parse(_configuration["Email:EnableSsl"]);
+            var smptUsername = _configuration["Email:SmptUsername"];
+            var smptPassword = _configuration["Email:SmptPassword"];
+            var sender = _configuration["Email:Sender"];
+            Email email = new Email(smptServer, smptPort, enableSsl, smptUsername, smptPassword, sender);
+            var filePath = Path.Combine(Directory.GetCurrentDirectory(), "Templates", "email.html");
+            string message = System.IO.File.ReadAllText(filePath);
+            message = message.Replace("{{TEMPORARYPASSWORD}}", password);
+            email.Send(new string[] { model.Email }, message, "Temporary password", true, System.Net.Mail.MailPriority.High);
 
             return Ok();
         }
