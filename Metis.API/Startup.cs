@@ -31,9 +31,12 @@ namespace Metis.API
         }
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddCors(c =>
+            services.AddCors(options =>
             {
-                c.AddPolicy("AllowOrigin", options => options.AllowAnyOrigin());
+                options.AddPolicy(name: "AllowOrigin", builder =>
+                    {
+                        builder.WithOrigins("https://korean.ivanporta.net/");
+                    });
             });
             services.AddDbContext<ApplicationDbContext>(options =>
             {
