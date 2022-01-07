@@ -1,4 +1,4 @@
-name: Build and deploy ASP.Net Core app to Azure Web App
+name: Azure API CI/CD
 on:
   push:
     paths:
