@@ -1,4 +1,4 @@
-name: Azure API CI/CD
+name: Azure API 
 on:
   push:
     paths:
