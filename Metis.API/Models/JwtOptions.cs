@@ -15,6 +15,6 @@ namespace Metis.Models
         public bool ValidateAudience { get; set; }
         public string Audience { get; set; }
         public bool SaveToken { get; set; }
-        public string TokenLifetime { get; set; }
+        public int ExpirationMinutes { get; set; }
     }
 }

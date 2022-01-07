@@ -31,7 +31,7 @@ namespace Metis.Models.Managers
             var tokenDescriptor = new SecurityTokenDescriptor
             {
                 Subject = new ClaimsIdentity(claims),
-                Expires = DateTime.UtcNow.AddMinutes(5),
+                Expires = DateTime.UtcNow.AddMinutes(_jwtOptions.ExpirationMinutes),
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(Encoding.ASCII.GetBytes(_jwtOptions.IssuerSigningKey)), SecurityAlgorithms.HmacSha256Signature)
             };
             var tokenDescription = tokenHandler.CreateToken(tokenDescriptor);
