@@ -31,7 +31,7 @@ export default class Login extends Component {
             .then((data) => {
                 console.log(data);
                 sessionStorage.setItem('token', data);
-                this.props.history.push('/dashboard');
+                this.props.history.push('/');
             })
             .catch((error) => { 
                 this.setState({ 
