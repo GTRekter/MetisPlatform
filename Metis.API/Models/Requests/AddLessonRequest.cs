@@ -12,8 +12,8 @@ namespace Metis.Models.Requests
         public string Title { get; set; }
         [DataType(DataType.Text)]
         public string Description { get; set; }
-        public IEnumerable<AddLessonRequest.Word> Words { get; set; }
-        public IEnumerable<AddLessonRequest.GrammarPoint> GrammarPoints { get; set; }
+        public IEnumerable<Word> Words { get; set; }
+        public IEnumerable<GrammarPoint> GrammarPoints { get; set; }
         public class Word 
         {
             public int Id { get; set; }

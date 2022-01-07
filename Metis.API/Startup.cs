@@ -123,6 +123,7 @@ namespace Metis.API
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {
+                c.CustomSchemaIds(x => x.FullName);
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Metis.API", Version = "v1" });
             });
         }
