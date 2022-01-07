@@ -35,7 +35,7 @@ namespace Metis.API
             {
                 options.AddPolicy(name: "AllowOrigin", builder =>
                     {
-                        builder.WithOrigins("https://korean.ivanporta.net")
+                        builder.WithOrigins(Configuration["WebApplication:Url"])
                             .AllowAnyMethod()
                             .AllowAnyHeader()
                             .AllowCredentials();
