@@ -56,7 +56,7 @@ namespace Metis.API.Controllers
             // {
             //     return NotFound();
             // }
-            var result = await _signInManager.PasswordSignInAsync(model.Email, model.Password, false, false);
+            var result = await _signInManager.PasswordSignInAsync(user.UserName, model.Password, false, false);
             if (result.Succeeded)
             {
                 var tokenHandler = new JwtSecurityTokenHandler();

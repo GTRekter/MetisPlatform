@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
@@ -86,17 +87,20 @@ namespace Metis.Models.Store
         public void SeedUsers(ModelBuilder builder)
         {
             var hasher = new PasswordHasher<User>();
-            builder.Entity<User>().HasData(new User
+            var user = new User
             {
                 Id = 1,
                 UserName = "admin",
-                NormalizedUserName = "admin",
+                NormalizedUserName = "ADMIN",
                 Email = "admin@metis.com",
-                NormalizedEmail = "admin@metis.com",
+                NormalizedEmail = "ADMIN@METIS.COM",
                 EmailConfirmed = true,
-                PasswordHash = hasher.HashPassword(null, "P@ssw0rd"),
-                SecurityStamp = string.Empty
-            });       
+                PhoneNumberConfirmed = true,
+                SecurityStamp = new Guid().ToString("D")
+            }; 
+            user.PasswordHash = hasher.HashPassword(user, "P@ssw0rd");
+            
+            builder.Entity<User>().HasData(user);   
         }
 
         public void SeedUserRoles(ModelBuilder builder)
