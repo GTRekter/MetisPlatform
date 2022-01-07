@@ -21,7 +21,7 @@ using System.Text;
 
 namespace Metis.API.Controllers
 {
-    //[Authorize]
+    [Authorize]
     [ApiController]
     [Route("[controller]")]
     public class UserController : BaseController
@@ -47,8 +47,8 @@ namespace Metis.API.Controllers
         // }
 
         [HttpPost]
-        [Route("LoginUser")]
         [AllowAnonymous]
+        [Route("LoginUser")]
         public async Task<IActionResult> Login(LoginRequest model)
         {
             var user = _userManager.FindByEmailAsync(model.Email).Result;
@@ -101,8 +101,8 @@ namespace Metis.API.Controllers
 
 
         [HttpPost]
+        [Authorize(Roles = "Administrator, Teacher")]
         [Route("AddUser")]
-        // [Authorize(Roles = "Country Admin,Administrator")]
         // [ValidateAntiForgeryToken]
         public async Task<IActionResult> AddUserAsync(AddUserRequest model)
         {
@@ -139,6 +139,7 @@ namespace Metis.API.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "Administrator, Teacher")]
         [Route("GetCurrentUsers")]
         [Authorize]
         public async Task<IActionResult> GetCurrentUsersAsync()
@@ -148,6 +149,7 @@ namespace Metis.API.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "Administrator, Teacher")]
         [Route("GetUsers")]
         [Authorize(Roles = "Country Admin,Administrator")]
         public async Task<IActionResult> GetUsersAsync()
@@ -158,16 +160,16 @@ namespace Metis.API.Controllers
         }
 
         [HttpGet]
+        [Authorize]
         [Route("GetUserById")]
-        // [Authorize(Roles = "Country Admin,Administrator")]
         public async Task<IActionResult> GetUserByIdAsync(int id)
         {
             User users = await UserManager.GetUserById(_userManager, id);
             return Ok(users);
         }
 
-        [AllowAnonymous]
         [HttpGet]
+        [Authorize(Roles = "Administrator, Teacher")]
         [Route("GetUsersByPage")]
         public async Task<IActionResult> GetUsersByPageAsync(int page, int itemsPerPage)
         {
@@ -175,8 +177,8 @@ namespace Metis.API.Controllers
             return Ok(users);
         }
 
-        [Authorize(Roles = "Administrator")]
         [HttpGet]
+        [Authorize(Roles = "Administrator, Teacher")]
         [Route("GetUsersByPageAndSearchQuery")]
         public async Task<IActionResult> GetUsersByPageAndSearchQueryAsync(int page, int itemsPerPage, string searchQuery)
         {
@@ -185,8 +187,8 @@ namespace Metis.API.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "Administrator, Teacher")]
         [Route("GetUsersCount")]
-        // [Authorize(Roles = "Country Admin,Administrator")]
         public async Task<IActionResult> GetUsersCountAsync()
         {
             int counter = await UserManager.GetUsersCount(_userManager);
@@ -194,8 +196,8 @@ namespace Metis.API.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "Administrator, Teacher")]
         [Route("GetUsersBySearchQueryCount")]
-        // [Authorize(Roles = "Country Admin,Administrator")]
         public async Task<IActionResult> GetUsersBySearchQueryCountAsync(string searchQuery)
         {
             int counter = await UserManager.GetUsersBySearchQueryCount(_userManager, searchQuery);
@@ -203,8 +205,8 @@ namespace Metis.API.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "Administrator, Teacher")]
         [Route("EditUser")]
-        // [Authorize(Roles = "Country Admin,Administrator")]
         // [ValidateAntiForgeryToken]
         public async Task<IActionResult> EditUserAsync(EditUserRequest model)
         {
@@ -233,7 +235,6 @@ namespace Metis.API.Controllers
         [HttpPost]
         [Route("DeleteUsers")]
         [Authorize(Roles = "Country Admin,Administrator")]
-        [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteUsersAsync(DeleteUsersRequest model)
         {
             IdentityResult result = null;
@@ -251,8 +252,7 @@ namespace Metis.API.Controllers
 
         [HttpDelete]
         [Route("DeleteUserById")]
-        // [Authorize(Roles = "Country Admin,Administrator")]
-        // [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Administrator, Teacher")]
         public async Task<IActionResult> DeleteUserByIdAsync(int id)
         {
             await UserManager.DeleteUserById(_userManager, id);
@@ -292,7 +292,6 @@ namespace Metis.API.Controllers
         [HttpPost]
         [Route("ChangePassword")]
         [Authorize]
-        [ValidateAntiForgeryToken]
         public async Task<IActionResult> ChangePasswordAsync(ChangePasswordRequest model)
         {
             await UserManager.EditUserPassword(_userManager, model.UserId, model.OldPassword, model.NewPassword);

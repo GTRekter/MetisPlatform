@@ -8,7 +8,7 @@ using Metis.API.Models;
 
 namespace Metis.API.Controllers
 {
-    //[Authorize]
+    [Authorize]
     [ApiController]
     [Route("[controller]")]
     public class DictionaryController : ControllerBase
@@ -19,8 +19,8 @@ namespace Metis.API.Controllers
             _context = context;
         }
 
-        [AllowAnonymous]
         [HttpGet]
+        [Authorize(Roles = "Administrator, Teacher")]
         [Route("GetDictionaries")]
         public async Task<IActionResult> GetDictionariesAsync()
         {
@@ -28,8 +28,8 @@ namespace Metis.API.Controllers
             return Ok(words);
         }
 
-        [AllowAnonymous]
         [HttpGet]
+        [Authorize(Roles = "Administrator, Teacher")]
         [Route("GetDictionariesByPage")]
         public async Task<IActionResult> GetDictionariesByPageAsync(int page, int itemsPerPage)
         {

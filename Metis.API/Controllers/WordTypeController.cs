@@ -8,7 +8,7 @@ using Metis.API.Models;
 
 namespace Metis.API.Controllers
 {
-    //[Authorize]
+    [Authorize]
     [ApiController]
     [Route("[controller]")]
     public class WordTypeController : ControllerBase
@@ -20,6 +20,7 @@ namespace Metis.API.Controllers
         }
    
         [HttpPost]
+        [Authorize(Roles = "Administrator, Teacher")]
         [Route("AddWordType")]
         public async Task<IActionResult> AddWordTypeAsync(WordType request)
         {
@@ -31,8 +32,8 @@ namespace Metis.API.Controllers
             return Ok(newWordType);
         }
 
-        [AllowAnonymous]
         [HttpGet]
+        [Authorize]
         [Route("GetAllWordTypes")]
         public async Task<IActionResult> GetAllWordTypesAsync()
         {
@@ -41,6 +42,7 @@ namespace Metis.API.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "Administrator, Teacher")]
         [Route("RemoveWordTypeById")]
         public async Task<IActionResult> RemoveWordTypeById([FromBody] int request)
         {

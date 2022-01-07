@@ -8,7 +8,7 @@ using Metis.Models.Requests;
 
 namespace Metis.API.Controllers
 {
-    //[Authorize]
+    [Authorize]
     [ApiController]
     [Route("[controller]")]
     public class GrammarPointController : ControllerBase
@@ -20,6 +20,7 @@ namespace Metis.API.Controllers
         }
         
         [HttpPost]
+        [Authorize(Roles = "Administrator, Teacher")]
         [Route("AddGrammarPoint")]
         public async Task<IActionResult> AddGrammarPointAsync(AddGrammarPointRequest request)
         {
@@ -31,8 +32,8 @@ namespace Metis.API.Controllers
             return Ok();
         }
 
-        [AllowAnonymous]
         [HttpGet]
+        [Authorize]
         [Route("GetGrammarPoints")]
         public async Task<IActionResult> GetGrammarPointsAsync()
         {
@@ -40,8 +41,8 @@ namespace Metis.API.Controllers
             return Ok(grammarPoints);
         }
 
-        [AllowAnonymous]
         [HttpGet]
+        [Authorize]
         [Route("GetGrammarPointById")]
         public async Task<IActionResult> GetGrammarPointByIdAsync(int id)
         {
@@ -49,8 +50,8 @@ namespace Metis.API.Controllers
             return Ok(grammarPoint);
         }
 
-        [AllowAnonymous]
         [HttpGet]
+        [Authorize(Roles = "Administrator, Teacher")]
         [Route("GetGrammarPointsByPage")]
         public async Task<IActionResult> GetUsersByPageAsync(int page, int itemsPerPage)
         {
@@ -58,8 +59,8 @@ namespace Metis.API.Controllers
             return Ok(grammarPoints);
         }
 
-        [AllowAnonymous]
         [HttpGet]
+        [Authorize(Roles = "Administrator, Teacher")]
         [Route("GetGrammarPointsByPageAndSearchQuery")]
         public async Task<IActionResult> GetGrammarPointsByPageAndSearchQueryAsync(int page, int itemsPerPage, string searchQuery)
         {
@@ -68,8 +69,8 @@ namespace Metis.API.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "Administrator, Teacher")]
         [Route("GetGrammarPointsCount")]
-        // [Authorize(Roles = "Country Admin,Administrator")]
         public async Task<IActionResult> GetGrammarPointsCountAsync()
         {
             int counter = await GrammarPointManager.GetGrammarPointsCount(_context);
@@ -77,8 +78,8 @@ namespace Metis.API.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "Administrator, Teacher")]
         [Route("GetGrammarPointsBySearchQueryCount")]
-        // [Authorize(Roles = "Country Admin,Administrator")]
         public async Task<IActionResult> GetGrammarPointsBySearchQueryCountAsync(string searchQuery)
         {
             int counter = await GrammarPointManager.GetGrammarPointsBySearchQueryCount(_context, searchQuery);
@@ -86,9 +87,8 @@ namespace Metis.API.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "Administrator, Teacher")]
         [Route("EditGrammarPoint")]
-        // [Authorize(Roles = "Country Admin,Administrator")]
-        // [ValidateAntiForgeryToken]
         public async Task<IActionResult> EditGrammarPointAsync(EditGrammarPointRequest model)
         {
             await GrammarPointManager.EditGrammarPoint(_context, model.Id, model.Title, model.Description);
@@ -96,6 +96,7 @@ namespace Metis.API.Controllers
         }
         
         [HttpDelete]
+        [Authorize(Roles = "Administrator, Teacher")]
         [Route("DeleteGrammarPointById")]
         public async Task<IActionResult> DeleteGrammarPointByIdAsync(int id)
         {

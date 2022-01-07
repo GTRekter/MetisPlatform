@@ -10,7 +10,7 @@ using Metis.Models;
 
 namespace Metis.API.Controllers
 {
-    //[Authorize]
+    [Authorize]
     [ApiController]
     [Route("[controller]")]
     public class LessonController : ControllerBase
@@ -22,6 +22,7 @@ namespace Metis.API.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "Administrator, Teacher")]
         [Route("AddLesson")]
         public async Task<IActionResult> AddLessonAsync(AddLessonRequest request)
         {
@@ -33,8 +34,8 @@ namespace Metis.API.Controllers
             return Ok();
         }
 
-        [AllowAnonymous]
         [HttpGet]
+        [Authorize]
         [Route("GetLessons")]
         public async Task<IActionResult> GetLessonsAsync()
         {
@@ -42,8 +43,8 @@ namespace Metis.API.Controllers
             return Ok(lessons);
         }
 
-        [AllowAnonymous]
         [HttpGet]
+        [Authorize]
         [Route("GetLessonById")]
         public async Task<IActionResult> GetLessonByIdAsync(int id)
         {
@@ -51,8 +52,8 @@ namespace Metis.API.Controllers
             return Ok(lesson);
         }
 
-        [AllowAnonymous]
         [HttpGet]
+        [Authorize(Roles = "Administrator, Teacher")]
         [Route("GetLessonsByPage")]
         public async Task<IActionResult> GetUsersByPageAsync(int page, int itemsPerPage)
         {
@@ -60,8 +61,8 @@ namespace Metis.API.Controllers
             return Ok(lessons);
         }
 
-        [AllowAnonymous]
         [HttpGet]
+        [Authorize(Roles = "Administrator, Teacher")]
         [Route("GetLessonsByPageAndSearchQuery")]
         public async Task<IActionResult> GetLessonsByPageAndSearchQueryAsync(int page, int itemsPerPage, string searchQuery)
         {
@@ -70,8 +71,8 @@ namespace Metis.API.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "Administrator, Teacher")]
         [Route("GetLessonsCount")]
-        // [Authorize(Roles = "Country Admin,Administrator")]
         public async Task<IActionResult> GetLessonsCountAsync()
         {
             int counter = await LessonManager.GetLessonsCount(_context);
@@ -79,8 +80,8 @@ namespace Metis.API.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "Administrator, Teacher")]
         [Route("GetLessonsBySearchQueryCount")]
-        // [Authorize(Roles = "Country Admin,Administrator")]
         public async Task<IActionResult> GetLessonsBySearchQueryCountAsync(string searchQuery)
         {
             int counter = await LessonManager.GetLessonsBySearchQueryCount(_context, searchQuery);
@@ -88,9 +89,8 @@ namespace Metis.API.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "Administrator, Teacher")]
         [Route("EditLesson")]
-        // [Authorize(Roles = "Country Admin,Administrator")]
-        // [ValidateAntiForgeryToken]
         public async Task<IActionResult> EditLessonAsync(EditLessonRequest request)
         {
             await LessonManager.EditLesson(_context, request.Id, request.Title, request.Description, request.Words.Select(w => w.Id), request.GrammarPoints.Select(g => g.Id));
@@ -98,6 +98,7 @@ namespace Metis.API.Controllers
         }
 
         [HttpDelete]
+        [Authorize(Roles = "Administrator, Teacher")]
         [Route("DeleteLessonById")]
         public async Task<IActionResult> DeleteLessonByIdAsync(int id)
         {

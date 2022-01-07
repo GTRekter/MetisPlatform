@@ -16,7 +16,7 @@ using Metis.Models;
 
 namespace Metis.API.Controllers
 {
-    //[Authorize]
+    [Authorize]
     [ApiController]
     [Route("[controller]")]
     public class RoleController : BaseController
@@ -33,7 +33,7 @@ namespace Metis.API.Controllers
 
         [HttpGet]
         [Route("GetRoles")]
-        // [Authorize(Roles = "Country Admin,Administrator")]
+        [Authorize(Roles = "Administrator, Teacher")]
         public async Task<IActionResult> GetRolesAsync()
         {
             var roles = RoleManager.GetRoles(_dataContext).Select(r => new { r.Id, r.Name });

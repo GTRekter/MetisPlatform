@@ -9,7 +9,7 @@ using Metis.API.Models;
 
 namespace Metis.API.Controllers
 {
-    //[Authorize]
+    [Authorize]
     [ApiController]
     [Route("[controller]")]
     public class WordController : ControllerBase
@@ -21,6 +21,7 @@ namespace Metis.API.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "Administrator, Teacher")]
         [Route("AddWord")]
         public async Task<IActionResult> AddWordAsync(AddWordRequest request)
         {
@@ -32,8 +33,8 @@ namespace Metis.API.Controllers
             return Ok();
         }
 
-        [AllowAnonymous]
         [HttpGet]
+        [Authorize]
         [Route("GetWords")]
         public async Task<IActionResult> GetWordsAsync()
         {
@@ -41,8 +42,8 @@ namespace Metis.API.Controllers
             return Ok(words);
         }
         
-        [AllowAnonymous]
         [HttpGet]
+        [Authorize]
         [Route("GetWordById")]
         public async Task<IActionResult> GetWordByIdAsync(int id)
         {
@@ -50,8 +51,8 @@ namespace Metis.API.Controllers
             return Ok(word);
         }
 
-        [AllowAnonymous]
         [HttpGet]
+        [Authorize]
         [Route("GetWordsByPage")]
         public async Task<IActionResult> GetWordsByPageAsync(int page, int itemsPerPage)
         {
@@ -59,8 +60,8 @@ namespace Metis.API.Controllers
             return Ok(words);
         }
 
-        [AllowAnonymous]
         [HttpGet]
+        [Authorize]
         [Route("GetWordsByPageAndSearchQuery")]
         public async Task<IActionResult> GetWordsByPageAndSearchQueryAsync(int page, int itemsPerPage, string searchQuery)
         {
@@ -69,8 +70,8 @@ namespace Metis.API.Controllers
         }
 
         [HttpGet]
+        [Authorize]
         [Route("GetWordsCount")]
-        // [Authorize(Roles = "Country Admin,Administrator")]
         public async Task<IActionResult> GetWordsCountAsync()
         {
             int counter = await WordManager.GetWordsCount(_context);
@@ -78,8 +79,8 @@ namespace Metis.API.Controllers
         }
 
         [HttpGet]
+        [Authorize]
         [Route("GetWordsBySearchQueryCount")]
-        // [Authorize(Roles = "Country Admin,Administrator")]
         public async Task<IActionResult> GetWordsBySearchQueryCountAsync(string searchQuery)
         {
             int counter = await WordManager.GetWordsBySearchQueryCount(_context, searchQuery);
@@ -87,8 +88,8 @@ namespace Metis.API.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "Administrator, Teacher")]
         [Route("EditWord")]
-        // [Authorize(Roles = "Country Admin,Administrator")]
         // [ValidateAntiForgeryToken]
         public async Task<IActionResult> EditWordAsync(EditWordRequest request)
         {
@@ -114,6 +115,7 @@ namespace Metis.API.Controllers
         }
 
         [HttpDelete]
+        [Authorize(Roles = "Administrator, Teacher")]
         [Route("DeleteWordById")]
         public async Task<IActionResult> DeleteWordByIdAsync(int id)
         {
