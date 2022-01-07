@@ -8,7 +8,7 @@ using Metis.Models.Requests;
 
 namespace Metis.API.Controllers
 {
-    [Authorize]
+    [Authorize(AuthenticationSchemes = Microsoft.AspNetCore.Authentication.JwtBearer.JwtBearerDefaults.AuthenticationScheme)]
     [ApiController]
     [Route("[controller]")]
     public class GrammarPointController : ControllerBase
@@ -20,7 +20,7 @@ namespace Metis.API.Controllers
         }
         
         [HttpPost]
-        [Authorize(Roles = "Administrator, Teacher")]
+        [Authorize(AuthenticationSchemes = Microsoft.AspNetCore.Authentication.JwtBearer.JwtBearerDefaults.AuthenticationScheme, Roles = "Administrator, Teacher")]
         [Route("AddGrammarPoint")]
         public async Task<IActionResult> AddGrammarPointAsync(AddGrammarPointRequest request)
         {
@@ -33,7 +33,7 @@ namespace Metis.API.Controllers
         }
 
         [HttpGet]
-        [Authorize]
+        [Authorize(AuthenticationSchemes = Microsoft.AspNetCore.Authentication.JwtBearer.JwtBearerDefaults.AuthenticationScheme)]
         [Route("GetGrammarPoints")]
         public async Task<IActionResult> GetGrammarPointsAsync()
         {
@@ -42,7 +42,7 @@ namespace Metis.API.Controllers
         }
 
         [HttpGet]
-        [Authorize]
+        [Authorize(AuthenticationSchemes = Microsoft.AspNetCore.Authentication.JwtBearer.JwtBearerDefaults.AuthenticationScheme)]
         [Route("GetGrammarPointById")]
         public async Task<IActionResult> GetGrammarPointByIdAsync(int id)
         {
@@ -51,7 +51,7 @@ namespace Metis.API.Controllers
         }
 
         [HttpGet]
-        [Authorize(Roles = "Administrator, Teacher")]
+        [Authorize(AuthenticationSchemes = Microsoft.AspNetCore.Authentication.JwtBearer.JwtBearerDefaults.AuthenticationScheme, Roles = "Administrator, Teacher")]
         [Route("GetGrammarPointsByPage")]
         public async Task<IActionResult> GetUsersByPageAsync(int page, int itemsPerPage)
         {
@@ -60,7 +60,7 @@ namespace Metis.API.Controllers
         }
 
         [HttpGet]
-        [Authorize(Roles = "Administrator, Teacher")]
+        [Authorize(AuthenticationSchemes = Microsoft.AspNetCore.Authentication.JwtBearer.JwtBearerDefaults.AuthenticationScheme, Roles = "Administrator, Teacher")]
         [Route("GetGrammarPointsByPageAndSearchQuery")]
         public async Task<IActionResult> GetGrammarPointsByPageAndSearchQueryAsync(int page, int itemsPerPage, string searchQuery)
         {
@@ -69,7 +69,7 @@ namespace Metis.API.Controllers
         }
 
         [HttpGet]
-        [Authorize(Roles = "Administrator, Teacher")]
+        [Authorize(AuthenticationSchemes = Microsoft.AspNetCore.Authentication.JwtBearer.JwtBearerDefaults.AuthenticationScheme, Roles = "Administrator, Teacher")]
         [Route("GetGrammarPointsCount")]
         public async Task<IActionResult> GetGrammarPointsCountAsync()
         {
@@ -78,7 +78,7 @@ namespace Metis.API.Controllers
         }
 
         [HttpGet]
-        [Authorize(Roles = "Administrator, Teacher")]
+        [Authorize(AuthenticationSchemes = Microsoft.AspNetCore.Authentication.JwtBearer.JwtBearerDefaults.AuthenticationScheme, Roles = "Administrator, Teacher")]
         [Route("GetGrammarPointsBySearchQueryCount")]
         public async Task<IActionResult> GetGrammarPointsBySearchQueryCountAsync(string searchQuery)
         {
@@ -87,7 +87,7 @@ namespace Metis.API.Controllers
         }
 
         [HttpPost]
-        [Authorize(Roles = "Administrator, Teacher")]
+        [Authorize(AuthenticationSchemes = Microsoft.AspNetCore.Authentication.JwtBearer.JwtBearerDefaults.AuthenticationScheme, Roles = "Administrator, Teacher")]
         [Route("EditGrammarPoint")]
         public async Task<IActionResult> EditGrammarPointAsync(EditGrammarPointRequest model)
         {
@@ -96,7 +96,7 @@ namespace Metis.API.Controllers
         }
         
         [HttpDelete]
-        [Authorize(Roles = "Administrator, Teacher")]
+        [Authorize(AuthenticationSchemes = Microsoft.AspNetCore.Authentication.JwtBearer.JwtBearerDefaults.AuthenticationScheme, Roles = "Administrator, Teacher")]
         [Route("DeleteGrammarPointById")]
         public async Task<IActionResult> DeleteGrammarPointByIdAsync(int id)
         {

@@ -10,7 +10,7 @@ using Metis.Models;
 
 namespace Metis.API.Controllers
 {
-    [Authorize]
+    [Authorize(AuthenticationSchemes = Microsoft.AspNetCore.Authentication.JwtBearer.JwtBearerDefaults.AuthenticationScheme)]
     [ApiController]
     [Route("[controller]")]
     public class LessonController : ControllerBase
@@ -22,7 +22,7 @@ namespace Metis.API.Controllers
         }
 
         [HttpPost]
-        [Authorize(Roles = "Administrator, Teacher")]
+        [Authorize(AuthenticationSchemes = Microsoft.AspNetCore.Authentication.JwtBearer.JwtBearerDefaults.AuthenticationScheme, Roles = "Administrator, Teacher")]
         [Route("AddLesson")]
         public async Task<IActionResult> AddLessonAsync(AddLessonRequest request)
         {
@@ -35,7 +35,7 @@ namespace Metis.API.Controllers
         }
 
         [HttpGet]
-        [Authorize]
+        [Authorize(AuthenticationSchemes = Microsoft.AspNetCore.Authentication.JwtBearer.JwtBearerDefaults.AuthenticationScheme)]
         [Route("GetLessons")]
         public async Task<IActionResult> GetLessonsAsync()
         {
@@ -44,7 +44,7 @@ namespace Metis.API.Controllers
         }
 
         [HttpGet]
-        [Authorize]
+        [Authorize(AuthenticationSchemes = Microsoft.AspNetCore.Authentication.JwtBearer.JwtBearerDefaults.AuthenticationScheme)]
         [Route("GetLessonById")]
         public async Task<IActionResult> GetLessonByIdAsync(int id)
         {
@@ -53,7 +53,7 @@ namespace Metis.API.Controllers
         }
 
         [HttpGet]
-        [Authorize(Roles = "Administrator, Teacher")]
+        [Authorize(AuthenticationSchemes = Microsoft.AspNetCore.Authentication.JwtBearer.JwtBearerDefaults.AuthenticationScheme, Roles = "Administrator, Teacher")]
         [Route("GetLessonsByPage")]
         public async Task<IActionResult> GetUsersByPageAsync(int page, int itemsPerPage)
         {
@@ -62,7 +62,7 @@ namespace Metis.API.Controllers
         }
 
         [HttpGet]
-        [Authorize(Roles = "Administrator, Teacher")]
+        [Authorize(AuthenticationSchemes = Microsoft.AspNetCore.Authentication.JwtBearer.JwtBearerDefaults.AuthenticationScheme, Roles = "Administrator, Teacher")]
         [Route("GetLessonsByPageAndSearchQuery")]
         public async Task<IActionResult> GetLessonsByPageAndSearchQueryAsync(int page, int itemsPerPage, string searchQuery)
         {
@@ -71,7 +71,7 @@ namespace Metis.API.Controllers
         }
 
         [HttpGet]
-        [Authorize(Roles = "Administrator, Teacher")]
+        [Authorize(AuthenticationSchemes = Microsoft.AspNetCore.Authentication.JwtBearer.JwtBearerDefaults.AuthenticationScheme, Roles = "Administrator, Teacher")]
         [Route("GetLessonsCount")]
         public async Task<IActionResult> GetLessonsCountAsync()
         {
@@ -80,7 +80,7 @@ namespace Metis.API.Controllers
         }
 
         [HttpGet]
-        [Authorize(Roles = "Administrator, Teacher")]
+        [Authorize(AuthenticationSchemes = Microsoft.AspNetCore.Authentication.JwtBearer.JwtBearerDefaults.AuthenticationScheme, Roles = "Administrator, Teacher")]
         [Route("GetLessonsBySearchQueryCount")]
         public async Task<IActionResult> GetLessonsBySearchQueryCountAsync(string searchQuery)
         {
@@ -89,7 +89,7 @@ namespace Metis.API.Controllers
         }
 
         [HttpPost]
-        [Authorize(Roles = "Administrator, Teacher")]
+        [Authorize(AuthenticationSchemes = Microsoft.AspNetCore.Authentication.JwtBearer.JwtBearerDefaults.AuthenticationScheme, Roles = "Administrator, Teacher")]
         [Route("EditLesson")]
         public async Task<IActionResult> EditLessonAsync(EditLessonRequest request)
         {
@@ -98,7 +98,7 @@ namespace Metis.API.Controllers
         }
 
         [HttpDelete]
-        [Authorize(Roles = "Administrator, Teacher")]
+        [Authorize(AuthenticationSchemes = Microsoft.AspNetCore.Authentication.JwtBearer.JwtBearerDefaults.AuthenticationScheme, Roles = "Administrator, Teacher")]
         [Route("DeleteLessonById")]
         public async Task<IActionResult> DeleteLessonByIdAsync(int id)
         {

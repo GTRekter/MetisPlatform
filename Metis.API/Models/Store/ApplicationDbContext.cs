@@ -26,36 +26,29 @@ namespace Metis.Models.Store
             this.SeedDictionaries(builder);
             this.SeedWordTypes(builder);
             this.SeedRoles(builder);
-            this.SeedUsers(builder);
-            this.SeedUserRoles(builder);
+            // this.SeedUsers(builder);
+            // this.SeedUserRoles(builder);
 
             builder.Entity<User>()
                 .ToTable("Users");
-
             builder.Entity<Role>()
                 .ToTable("Roles");
-
             builder.Entity<IdentityUserRole<int>>()
                 .ToTable("UserRoles")
                 .HasKey(r => new { r.UserId, r.RoleId });
-
             builder.Entity<IdentityUserClaim<int>>()
                 .ToTable("UserClaims");
-
             builder.Entity<IdentityRoleClaim<int>>()
                 .ToTable("RoleClaims");
 
             builder.Entity<IdentityUserToken<int>>()
                 .ToTable("UserTokens");
-
             builder.Entity<IdentityUserLogin<int>>()
                 .ToTable("UserLogins")
                 .HasKey(l => new { l.LoginProvider, l.ProviderKey, l.UserId });
-
             builder.Entity<Word>()
                 .HasMany(w => w.Translations);
         }
-
         private void SeedDictionaries(ModelBuilder builder)
         {
             builder.Entity<Dictionary>().HasData(new List<Dictionary>(){
@@ -63,7 +56,6 @@ namespace Metis.Models.Store
                 new Dictionary(){ Id = 2, Name = "English (en-US)", Code = "en-US", Enabled = true, Primary = false }
             });
         }
-
         private void SeedWordTypes(ModelBuilder builder)
         {
             builder.Entity<WordType>().HasData(new List<WordType>(){
@@ -74,7 +66,6 @@ namespace Metis.Models.Store
                 new WordType(){ Id = 5, Name = "Adjective", Description = "" }
             });
         }
-
         private void SeedRoles(ModelBuilder builder)
         {
             builder.Entity<Role>().HasData(new List<Role>(){
@@ -83,33 +74,31 @@ namespace Metis.Models.Store
                 new Role(){ Id = 3, Name = "Student", NormalizedName = "Student", Description = "" }
             });
         }
-
-        public void SeedUsers(ModelBuilder builder)
-        {
-            var hasher = new PasswordHasher<User>();
-            var user = new User
-            {
-                Id = 1,
-                UserName = "admin",
-                NormalizedUserName = "ADMIN",
-                Email = "admin@metis.com",
-                NormalizedEmail = "ADMIN@METIS.COM",
-                EmailConfirmed = true,
-                PhoneNumberConfirmed = true,
-                SecurityStamp = new Guid().ToString("D")
-            }; 
-            user.PasswordHash = hasher.HashPassword(user, "P@ssw0rd");
-            
-            builder.Entity<User>().HasData(user);   
-        }
-
-        public void SeedUserRoles(ModelBuilder builder)
-        {
-            builder.Entity<IdentityUserRole<int>>().HasData(new IdentityUserRole<int>
-            {
-                RoleId = 1,
-                UserId = 1
-            });
-        }
+        // Not working. It creates a new user every time but it doesn't hash the password correctly.
+        // public void SeedUsers(ModelBuilder builder)
+        // {
+        //     var hasher = new PasswordHasher<User>();
+        //     var user = new User
+        //     {
+        //         Id = 1,
+        //         UserName = "admin",
+        //         NormalizedUserName = "ADMIN",
+        //         Email = "admin@metis.com",
+        //         NormalizedEmail = "ADMIN@METIS.COM",
+        //         EmailConfirmed = true,
+        //         PhoneNumberConfirmed = true,
+        //         SecurityStamp = new Guid().ToString("D")
+        //     }; 
+        //     user.PasswordHash = hasher.HashPassword(user, "P@ssw0rd");  
+        //     builder.Entity<User>().HasData(user);   
+        // }
+        // public void SeedUserRoles(ModelBuilder builder)
+        // {
+        //     builder.Entity<IdentityUserRole<int>>().HasData(new IdentityUserRole<int>
+        //     {
+        //         RoleId = 1,
+        //         UserId = 1
+        //     });
+        // }
     }
 }

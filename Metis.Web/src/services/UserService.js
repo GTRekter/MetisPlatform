@@ -19,7 +19,7 @@ class UserService {
                         throw Error(text);
                     })
                 }
-                return res.json();
+                return await res.text();
             })
     }
     addUser(firstname, lastname, email, role) {

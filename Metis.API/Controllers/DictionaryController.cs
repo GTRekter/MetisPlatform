@@ -8,7 +8,7 @@ using Metis.API.Models;
 
 namespace Metis.API.Controllers
 {
-    [Authorize]
+    [Authorize(AuthenticationSchemes = Microsoft.AspNetCore.Authentication.JwtBearer.JwtBearerDefaults.AuthenticationScheme)]
     [ApiController]
     [Route("[controller]")]
     public class DictionaryController : ControllerBase
@@ -20,7 +20,7 @@ namespace Metis.API.Controllers
         }
 
         [HttpGet]
-        [Authorize(Roles = "Administrator, Teacher")]
+        [Authorize(AuthenticationSchemes = Microsoft.AspNetCore.Authentication.JwtBearer.JwtBearerDefaults.AuthenticationScheme, Roles = "Administrator, Teacher")]
         [Route("GetDictionaries")]
         public async Task<IActionResult> GetDictionariesAsync()
         {
@@ -29,7 +29,7 @@ namespace Metis.API.Controllers
         }
 
         [HttpGet]
-        [Authorize(Roles = "Administrator, Teacher")]
+        [Authorize(AuthenticationSchemes = Microsoft.AspNetCore.Authentication.JwtBearer.JwtBearerDefaults.AuthenticationScheme, Roles = "Administrator, Teacher")]
         [Route("GetDictionariesByPage")]
         public async Task<IActionResult> GetDictionariesByPageAsync(int page, int itemsPerPage)
         {

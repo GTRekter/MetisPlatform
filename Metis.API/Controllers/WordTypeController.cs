@@ -8,7 +8,7 @@ using Metis.API.Models;
 
 namespace Metis.API.Controllers
 {
-    [Authorize]
+    [Authorize(AuthenticationSchemes = Microsoft.AspNetCore.Authentication.JwtBearer.JwtBearerDefaults.AuthenticationScheme)]
     [ApiController]
     [Route("[controller]")]
     public class WordTypeController : ControllerBase
@@ -20,7 +20,7 @@ namespace Metis.API.Controllers
         }
    
         [HttpPost]
-        [Authorize(Roles = "Administrator, Teacher")]
+        [Authorize(AuthenticationSchemes = Microsoft.AspNetCore.Authentication.JwtBearer.JwtBearerDefaults.AuthenticationScheme, Roles = "Administrator, Teacher")]
         [Route("AddWordType")]
         public async Task<IActionResult> AddWordTypeAsync(WordType request)
         {
@@ -33,7 +33,7 @@ namespace Metis.API.Controllers
         }
 
         [HttpGet]
-        [Authorize]
+        [Authorize(AuthenticationSchemes = Microsoft.AspNetCore.Authentication.JwtBearer.JwtBearerDefaults.AuthenticationScheme)]     
         [Route("GetAllWordTypes")]
         public async Task<IActionResult> GetAllWordTypesAsync()
         {
@@ -42,7 +42,7 @@ namespace Metis.API.Controllers
         }
 
         [HttpPost]
-        [Authorize(Roles = "Administrator, Teacher")]
+        [Authorize(AuthenticationSchemes = Microsoft.AspNetCore.Authentication.JwtBearer.JwtBearerDefaults.AuthenticationScheme, Roles = "Administrator, Teacher")]
         [Route("RemoveWordTypeById")]
         public async Task<IActionResult> RemoveWordTypeById([FromBody] int request)
         {

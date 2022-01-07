@@ -16,7 +16,7 @@ using Metis.Models;
 
 namespace Metis.API.Controllers
 {
-    [Authorize]
+    [Authorize(AuthenticationSchemes = Microsoft.AspNetCore.Authentication.JwtBearer.JwtBearerDefaults.AuthenticationScheme)]
     [ApiController]
     [Route("[controller]")]
     public class RoleController : BaseController
@@ -33,7 +33,7 @@ namespace Metis.API.Controllers
 
         [HttpGet]
         [Route("GetRoles")]
-        [Authorize(Roles = "Administrator, Teacher")]
+        [Authorize(AuthenticationSchemes = Microsoft.AspNetCore.Authentication.JwtBearer.JwtBearerDefaults.AuthenticationScheme, Roles = "Administrator, Teacher")]
         public async Task<IActionResult> GetRolesAsync()
         {
             var roles = RoleManager.GetRoles(_dataContext).Select(r => new { r.Id, r.Name });

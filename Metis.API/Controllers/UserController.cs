@@ -21,7 +21,7 @@ using System.Text;
 
 namespace Metis.API.Controllers
 {
-    [Authorize]
+    [Authorize(AuthenticationSchemes = Microsoft.AspNetCore.Authentication.JwtBearer.JwtBearerDefaults.AuthenticationScheme)]
     [ApiController]
     [Route("[controller]")]
     public class UserController : BaseController
@@ -36,54 +36,29 @@ namespace Metis.API.Controllers
             _configuration = configuration;
         }
 
-        // [HttpGet]
-        // [AllowAnonymous]
-        // public async Task<IActionResult> Login(string returnUrl = null)
-        // {
-        //     // Clear the existing external cookie to ensure a clean login process
-        //     await HttpContext.SignOutAsync(IdentityConstants.ExternalScheme);
-        //     ViewData["ReturnUrl"] = returnUrl;
-        //     return Ok();
-        // }
-
         [HttpPost]
         [AllowAnonymous]
         [Route("LoginUser")]
         public async Task<IActionResult> Login(LoginRequest model)
         {
             var user = _userManager.FindByEmailAsync(model.Email).Result;
-            // if (!user.IsActive)
-            // {
-            //     return NotFound();
-            // }
+            if(user == null)
+            {
+                // User userToAdd = new User { FirstName = "", LastName = "", UserName = "admin@metis.com", Email = "admin@metis.com" };
+                // await _userManager.CreateAsync(userToAdd, "P@ssw0rd");
+                // await _userManager.AddToRoleAsync(userToAdd, "Administrator");
+                // await UserManager.AddUser(_userManager, "", "", model.Email, "P@ssw0rd");
+                // await UserManager.AddUserToRole(_userManager, model.Email, "Administrator");
+
+                return BadRequest("User not found");
+            }
             var result = await _signInManager.PasswordSignInAsync(user.UserName, model.Password, false, false);
             if (result.Succeeded)
             {
-                var tokenHandler = new JwtSecurityTokenHandler();
-                ClaimsIdentity Subject = new ClaimsIdentity(new Claim[]  
-                {  
-                    new Claim("UserId", user.Id.ToString()),  
-                    new Claim("FirstName", user.FirstName),  
-                    new Claim("LastName",user.LastName),  
-                    new Claim("EmailId",user.Email == null ? "" : user.Email),  
-                    new Claim("UserName",user.UserName == null ? "" : user.UserName),  
-                    new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),  
-                });  
-                IEnumerable<Role> roles = RoleManager.GetRolesByUserId(_dataContext, user.Id);
-                foreach (var item in roles)  
-                {  
-                    Subject.AddClaim(new Claim(ClaimTypes.Role, item.Name));
-                }  
-                var key = Encoding.ASCII.GetBytes(_configuration["jwt:Secret"]);
-                var tokenLifetime = TimeSpan.FromSeconds(Double.Parse(_configuration["jwt:TokenLifetime"]));
-                var tokenDescriptor = new SecurityTokenDescriptor
-                {
-                    Subject = Subject,
-                    Expires = DateTime.UtcNow.Add(tokenLifetime),
-                    SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
-                };
-                var tokenDescription = tokenHandler.CreateToken(tokenDescriptor);
-                var token = tokenHandler.WriteToken(tokenDescription); 
+                var jwtOptions = new JwtOptions();
+                _configuration.GetSection(nameof(JwtOptions)).Bind(jwtOptions); 
+                var authenticationManager = new AuthenticationManager(_userManager, _roleManager, jwtOptions, _dataContext);
+                var token = await authenticationManager.GenerateToken(user);
                 return Ok(token);
             }
             else
@@ -101,7 +76,7 @@ namespace Metis.API.Controllers
 
 
         [HttpPost]
-        [Authorize(Roles = "Administrator, Teacher")]
+        [Authorize(AuthenticationSchemes = Microsoft.AspNetCore.Authentication.JwtBearer.JwtBearerDefaults.AuthenticationScheme, Roles = "Administrator, Teacher")]
         [Route("AddUser")]
         // [ValidateAntiForgeryToken]
         public async Task<IActionResult> AddUserAsync(AddUserRequest model)
@@ -139,9 +114,9 @@ namespace Metis.API.Controllers
         }
 
         [HttpGet]
-        [Authorize(Roles = "Administrator, Teacher")]
+        [Authorize(AuthenticationSchemes = Microsoft.AspNetCore.Authentication.JwtBearer.JwtBearerDefaults.AuthenticationScheme, Roles = "Administrator, Teacher")]
         [Route("GetCurrentUsers")]
-        [Authorize]
+        [Authorize(AuthenticationSchemes = Microsoft.AspNetCore.Authentication.JwtBearer.JwtBearerDefaults.AuthenticationScheme)]
         public async Task<IActionResult> GetCurrentUsersAsync()
         {
             var data = await _userManager.GetUserAsync(HttpContext.User);
@@ -149,7 +124,7 @@ namespace Metis.API.Controllers
         }
 
         [HttpGet]
-        [Authorize(Roles = "Administrator, Teacher")]
+        [Authorize(AuthenticationSchemes = Microsoft.AspNetCore.Authentication.JwtBearer.JwtBearerDefaults.AuthenticationScheme, Roles = "Administrator, Teacher")]
         [Route("GetUsers")]
         [Authorize(Roles = "Country Admin,Administrator")]
         public async Task<IActionResult> GetUsersAsync()
@@ -160,7 +135,7 @@ namespace Metis.API.Controllers
         }
 
         [HttpGet]
-        [Authorize]
+        [Authorize(AuthenticationSchemes = Microsoft.AspNetCore.Authentication.JwtBearer.JwtBearerDefaults.AuthenticationScheme)]
         [Route("GetUserById")]
         public async Task<IActionResult> GetUserByIdAsync(int id)
         {
@@ -169,7 +144,7 @@ namespace Metis.API.Controllers
         }
 
         [HttpGet]
-        [Authorize(Roles = "Administrator, Teacher")]
+        [Authorize(AuthenticationSchemes = Microsoft.AspNetCore.Authentication.JwtBearer.JwtBearerDefaults.AuthenticationScheme, Roles = "Administrator, Teacher")]
         [Route("GetUsersByPage")]
         public async Task<IActionResult> GetUsersByPageAsync(int page, int itemsPerPage)
         {
@@ -178,7 +153,7 @@ namespace Metis.API.Controllers
         }
 
         [HttpGet]
-        [Authorize(Roles = "Administrator, Teacher")]
+        [Authorize(AuthenticationSchemes = Microsoft.AspNetCore.Authentication.JwtBearer.JwtBearerDefaults.AuthenticationScheme, Roles = "Administrator, Teacher")]
         [Route("GetUsersByPageAndSearchQuery")]
         public async Task<IActionResult> GetUsersByPageAndSearchQueryAsync(int page, int itemsPerPage, string searchQuery)
         {
@@ -187,7 +162,7 @@ namespace Metis.API.Controllers
         }
 
         [HttpGet]
-        [Authorize(Roles = "Administrator, Teacher")]
+        [Authorize(AuthenticationSchemes = Microsoft.AspNetCore.Authentication.JwtBearer.JwtBearerDefaults.AuthenticationScheme, Roles = "Administrator, Teacher")]
         [Route("GetUsersCount")]
         public async Task<IActionResult> GetUsersCountAsync()
         {
@@ -196,7 +171,7 @@ namespace Metis.API.Controllers
         }
 
         [HttpGet]
-        [Authorize(Roles = "Administrator, Teacher")]
+        [Authorize(AuthenticationSchemes = Microsoft.AspNetCore.Authentication.JwtBearer.JwtBearerDefaults.AuthenticationScheme, Roles = "Administrator, Teacher")]
         [Route("GetUsersBySearchQueryCount")]
         public async Task<IActionResult> GetUsersBySearchQueryCountAsync(string searchQuery)
         {
@@ -205,7 +180,7 @@ namespace Metis.API.Controllers
         }
 
         [HttpPost]
-        [Authorize(Roles = "Administrator, Teacher")]
+        [Authorize(AuthenticationSchemes = Microsoft.AspNetCore.Authentication.JwtBearer.JwtBearerDefaults.AuthenticationScheme, Roles = "Administrator, Teacher")]
         [Route("EditUser")]
         // [ValidateAntiForgeryToken]
         public async Task<IActionResult> EditUserAsync(EditUserRequest model)
@@ -252,7 +227,7 @@ namespace Metis.API.Controllers
 
         [HttpDelete]
         [Route("DeleteUserById")]
-        [Authorize(Roles = "Administrator, Teacher")]
+        [Authorize(AuthenticationSchemes = Microsoft.AspNetCore.Authentication.JwtBearer.JwtBearerDefaults.AuthenticationScheme, Roles = "Administrator, Teacher")]
         public async Task<IActionResult> DeleteUserByIdAsync(int id)
         {
             await UserManager.DeleteUserById(_userManager, id);
@@ -273,7 +248,7 @@ namespace Metis.API.Controllers
         // }
 
         // [HttpPost]
-        // [Authorize]
+        // [Authorize(AuthenticationSchemes = Microsoft.AspNetCore.Authentication.JwtBearer.JwtBearerDefaults.AuthenticationScheme)]
         // public JsonResult SetDefaultLanguage([FromBody] SetDefaultLanguageRequest request)
         // {
         //     BaseResponseViewModel viewModel = new BaseResponseViewModel();
@@ -291,7 +266,7 @@ namespace Metis.API.Controllers
 
         [HttpPost]
         [Route("ChangePassword")]
-        [Authorize]
+        [Authorize(AuthenticationSchemes = Microsoft.AspNetCore.Authentication.JwtBearer.JwtBearerDefaults.AuthenticationScheme)]
         public async Task<IActionResult> ChangePasswordAsync(ChangePasswordRequest model)
         {
             await UserManager.EditUserPassword(_userManager, model.UserId, model.OldPassword, model.NewPassword);

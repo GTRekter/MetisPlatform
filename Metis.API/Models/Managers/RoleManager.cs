@@ -9,7 +9,7 @@ using Metis.Models.Store;
 
 namespace Metis.Models.Managers
 {
-    public partial class RoleManager 
+    public partial class RoleManager
     {
         public static IEnumerable<Role> GetRoles(ApplicationDbContext context)
         {

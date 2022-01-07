@@ -29,6 +29,7 @@ export default class Login extends Component {
         UserService
             .loginUser(this.state.email, this.state.password)
             .then((data) => {
+                console.log(data);
                 sessionStorage.setItem('token', data);
                 this.props.history.push('/dashboard');
             })

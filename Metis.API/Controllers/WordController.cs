@@ -9,7 +9,7 @@ using Metis.API.Models;
 
 namespace Metis.API.Controllers
 {
-    [Authorize]
+    [Authorize(AuthenticationSchemes = Microsoft.AspNetCore.Authentication.JwtBearer.JwtBearerDefaults.AuthenticationScheme)]
     [ApiController]
     [Route("[controller]")]
     public class WordController : ControllerBase
@@ -21,7 +21,7 @@ namespace Metis.API.Controllers
         }
 
         [HttpPost]
-        [Authorize(Roles = "Administrator, Teacher")]
+        [Authorize(AuthenticationSchemes = Microsoft.AspNetCore.Authentication.JwtBearer.JwtBearerDefaults.AuthenticationScheme, Roles = "Administrator, Teacher")]
         [Route("AddWord")]
         public async Task<IActionResult> AddWordAsync(AddWordRequest request)
         {
@@ -34,7 +34,7 @@ namespace Metis.API.Controllers
         }
 
         [HttpGet]
-        [Authorize]
+        [Authorize(AuthenticationSchemes = Microsoft.AspNetCore.Authentication.JwtBearer.JwtBearerDefaults.AuthenticationScheme)]
         [Route("GetWords")]
         public async Task<IActionResult> GetWordsAsync()
         {
@@ -43,7 +43,7 @@ namespace Metis.API.Controllers
         }
         
         [HttpGet]
-        [Authorize]
+        [Authorize(AuthenticationSchemes = Microsoft.AspNetCore.Authentication.JwtBearer.JwtBearerDefaults.AuthenticationScheme)]
         [Route("GetWordById")]
         public async Task<IActionResult> GetWordByIdAsync(int id)
         {
@@ -52,7 +52,7 @@ namespace Metis.API.Controllers
         }
 
         [HttpGet]
-        [Authorize]
+        [Authorize(AuthenticationSchemes = Microsoft.AspNetCore.Authentication.JwtBearer.JwtBearerDefaults.AuthenticationScheme)]
         [Route("GetWordsByPage")]
         public async Task<IActionResult> GetWordsByPageAsync(int page, int itemsPerPage)
         {
@@ -61,7 +61,7 @@ namespace Metis.API.Controllers
         }
 
         [HttpGet]
-        [Authorize]
+        [Authorize(AuthenticationSchemes = Microsoft.AspNetCore.Authentication.JwtBearer.JwtBearerDefaults.AuthenticationScheme)]
         [Route("GetWordsByPageAndSearchQuery")]
         public async Task<IActionResult> GetWordsByPageAndSearchQueryAsync(int page, int itemsPerPage, string searchQuery)
         {
@@ -70,7 +70,7 @@ namespace Metis.API.Controllers
         }
 
         [HttpGet]
-        [Authorize]
+        [Authorize(AuthenticationSchemes = Microsoft.AspNetCore.Authentication.JwtBearer.JwtBearerDefaults.AuthenticationScheme)]
         [Route("GetWordsCount")]
         public async Task<IActionResult> GetWordsCountAsync()
         {
@@ -79,7 +79,7 @@ namespace Metis.API.Controllers
         }
 
         [HttpGet]
-        [Authorize]
+        [Authorize(AuthenticationSchemes = Microsoft.AspNetCore.Authentication.JwtBearer.JwtBearerDefaults.AuthenticationScheme)]
         [Route("GetWordsBySearchQueryCount")]
         public async Task<IActionResult> GetWordsBySearchQueryCountAsync(string searchQuery)
         {
@@ -88,7 +88,7 @@ namespace Metis.API.Controllers
         }
 
         [HttpPost]
-        [Authorize(Roles = "Administrator, Teacher")]
+        [Authorize(AuthenticationSchemes = Microsoft.AspNetCore.Authentication.JwtBearer.JwtBearerDefaults.AuthenticationScheme, Roles = "Administrator, Teacher")]
         [Route("EditWord")]
         // [ValidateAntiForgeryToken]
         public async Task<IActionResult> EditWordAsync(EditWordRequest request)
@@ -115,7 +115,7 @@ namespace Metis.API.Controllers
         }
 
         [HttpDelete]
-        [Authorize(Roles = "Administrator, Teacher")]
+        [Authorize(AuthenticationSchemes = Microsoft.AspNetCore.Authentication.JwtBearer.JwtBearerDefaults.AuthenticationScheme, Roles = "Administrator, Teacher")]
         [Route("DeleteWordById")]
         public async Task<IActionResult> DeleteWordByIdAsync(int id)
         {
