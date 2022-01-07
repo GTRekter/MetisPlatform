@@ -35,7 +35,10 @@ namespace Metis.API
             {
                 options.AddPolicy(name: "AllowOrigin", builder =>
                     {
-                        builder.WithOrigins("https://korean.ivanporta.net/");
+                        builder.WithOrigins("https://korean.ivanporta.net/")
+                            .AllowAnyMethod()
+                            .AllowAnyHeader()
+                            .AllowCredentials();
                     });
             });
             services.AddDbContext<ApplicationDbContext>(options =>
@@ -107,11 +110,7 @@ namespace Metis.API
             {
                 app.UseDeveloperExceptionPage();
             }
-            app.UseCors(x => x
-                .AllowAnyMethod()
-                .AllowAnyHeader()
-                .SetIsOriginAllowed(origin => true)
-                .AllowCredentials());
+            app.UseCors("AllowOrigin");
             app.UseSwagger();
             app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Metis.API v1"));
             app.UseRouting();
