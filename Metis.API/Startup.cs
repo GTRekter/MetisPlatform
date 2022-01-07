@@ -41,13 +41,6 @@ namespace Metis.API
                             .AllowCredentials();
                     });
             });
-            services.AddDbContext<ApplicationDbContext>(options =>
-            {
-                options.UseSqlServer(
-                    Configuration.GetConnectionString("DefaultConnection"),
-                    options => options.MigrationsAssembly("Metis.API")
-                        .EnableRetryOnFailure());
-            });
             services.AddIdentity<User, Role>()
                 .AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddDefaultTokenProviders();
@@ -97,6 +90,13 @@ namespace Metis.API
                 options.DefaultRequestCulture = new RequestCulture("en-US");
                 options.SupportedCultures = new List<CultureInfo> { new CultureInfo("ko-KR") };
             });
+            services.AddDbContext<ApplicationDbContext>(options =>
+            {
+                options.UseSqlServer(
+                    Configuration.GetConnectionString("DefaultConnection"),
+                    options => options.MigrationsAssembly("Metis.API")
+                        .EnableRetryOnFailure());
+            });
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {
@@ -110,11 +110,11 @@ namespace Metis.API
             {
                 app.UseDeveloperExceptionPage();
             }
-            app.UseCors("AllowOrigin");
             app.UseSwagger();
             app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Metis.API v1"));
             app.UseRouting();
             app.UseAuthorization();
+            app.UseCors("AllowOrigin");
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
