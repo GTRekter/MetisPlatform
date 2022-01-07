@@ -35,7 +35,9 @@ namespace Metis.API
             });
             services.AddDbContext<ApplicationDbContext>(options =>
             {
-                options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"), b => b.MigrationsAssembly("Metis.API"));
+                options.UseSqlServer(
+                    Configuration.GetConnectionString("DefaultConnection"),
+                    options => options.MigrationsAssembly("Metis.API").EnableRetryOnFailure());
             });
             services.AddIdentity<User, Role>()
                 .AddEntityFrameworkStores<ApplicationDbContext>()
