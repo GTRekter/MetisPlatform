@@ -56,7 +56,8 @@ class WordService {
             headers: {
                 'Accept': 'application/json, text/plain, */*',
                 'Content-Type': 'application/json',
-                'Access-Control-Allow-Origin': '*'
+                'Access-Control-Allow-Origin': '*',
+                'Authorization': 'Bearer ' + sessionStorage.getItem('token')
             }
         })
             .then(res => res.json());
@@ -68,7 +69,8 @@ class WordService {
             headers: {
                 'Accept': 'application/json, text/plain, */*',
                 'Content-Type': 'application/json',
-                'Access-Control-Allow-Origin': '*'
+                'Access-Control-Allow-Origin': '*',
+                'Authorization': 'Bearer ' + sessionStorage.getItem('token')
             }
         })
             .then(res => res.json());
@@ -80,7 +82,8 @@ class WordService {
             headers: {
                 'Accept': 'application/json, text/plain, */*',
                 'Content-Type': 'application/json',
-                'Access-Control-Allow-Origin': '*'
+                'Access-Control-Allow-Origin': '*',
+                'Authorization': 'Bearer ' + sessionStorage.getItem('token')
             }
         })
             .then(res => res.json());
@@ -92,7 +95,8 @@ class WordService {
             headers: {
                 'Accept': 'application/json, text/plain, */*',
                 'Content-Type': 'application/json',
-                'Access-Control-Allow-Origin': '*'
+                'Access-Control-Allow-Origin': '*',
+                'Authorization': 'Bearer ' + sessionStorage.getItem('token')
             }
         })
             .then(res => res.json());
@@ -104,7 +108,8 @@ class WordService {
             headers: {
                 'Accept': 'application/json, text/plain, */*',
                 'Content-Type': 'application/json',
-                'Access-Control-Allow-Origin': '*'
+                'Access-Control-Allow-Origin': '*',
+                'Authorization': 'Bearer ' + sessionStorage.getItem('token')
             }
         })
             .then(res => res.json());
@@ -116,7 +121,8 @@ class WordService {
             headers: {
                 'Accept': 'application/json, text/plain, */*',
                 'Content-Type': 'application/json',
-                'Access-Control-Allow-Origin': '*'
+                'Access-Control-Allow-Origin': '*',
+                'Authorization': 'Bearer ' + sessionStorage.getItem('token')
             }
         })
             .then(res => res.json());
@@ -128,7 +134,8 @@ class WordService {
             headers: {
                 'Accept': 'application/json, text/plain, */*',
                 'Content-Type': 'application/json',
-                'Access-Control-Allow-Origin': '*'
+                'Access-Control-Allow-Origin': '*',
+                'Authorization': 'Bearer ' + sessionStorage.getItem('token')
             }
         })
     }
