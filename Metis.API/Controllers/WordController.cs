@@ -29,7 +29,7 @@ namespace Metis.API.Controllers
             {
                 return NotFound();
             }
-            await WordManager.AddWord(_context, request.Text, request.Romanization, request.Description, request.Example, request.Translations.Select(t => new KeyValuePair<int,string>(t.DictionaryId, t.Text)));
+            await WordManager.AddWord(_context, request.Text, request.Romanization, request.DictionaryId, request.WordTypeId, request.Description, request.Example, request.Translations.Select(t => new KeyValuePair<int,string>(t.DictionaryId, t.Text)));
             return Ok();
         }
 

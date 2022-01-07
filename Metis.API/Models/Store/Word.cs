@@ -15,7 +15,10 @@ namespace Metis.Models.Store
         public string Romanization { get; set; }
         public string Description { get; set; }
         public string Example { get; set; }
-        public Dictionary Dictionary { get; set; }
+        public int DictionaryId { get; set; }
+        public int WordTypeId { get; set; }
+        public Dictionary Dictionary { get; set; }    
+        public WordType WordType { get; set; }
         public ICollection<Translation> Translations { get; set; }
     }
 }

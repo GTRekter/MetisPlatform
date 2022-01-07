@@ -10,7 +10,7 @@ namespace Metis.Models.Managers
 {
     public static class WordManager
     {
-        public static async Task AddWord(ApplicationDbContext context, string text, string romanization, string description, string example, IEnumerable<KeyValuePair<int, string>> translations)
+        public static async Task AddWord(ApplicationDbContext context, string text, string romanization, int dictionaryId, int wordTypeId, string description, string example, IEnumerable<KeyValuePair<int, string>> translations)
         {
             using (TransactionScope scope = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled))
             {
@@ -20,6 +20,8 @@ namespace Metis.Models.Managers
                     Romanization = romanization,
                     Description = description,
                     Example = example,
+                    WordType = await context.WordTypes.FindAsync(wordTypeId),
+                    Dictionary = await context.Dictionaries.FindAsync(dictionaryId),
                     Translations = translations.Select(t => new Translation
                     {
                         DictionaryId = t.Key,

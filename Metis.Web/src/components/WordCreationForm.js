@@ -11,6 +11,8 @@ export default class WordCreationForm extends Component {
             description: "",
             example: "",
             dictionaryId: 0,
+            wordTypeId: 0,
+            wordTypes: [],
             dictionaries: [],
             translations: []
         }
@@ -26,6 +28,17 @@ export default class WordCreationForm extends Component {
                 this.setState({
                     dictionaries: data.filter((dictionary) => dictionary.enabled === true),
                     dictionaryId: data.filter((dictionary) => dictionary.primary === true)[0].id
+                })
+            })
+            .catch(function (ex) {
+                console.log('Response parsing failed. Error: ', ex);
+            });
+        wordTypeService
+            .getWordTypes()
+            .then((data) => {
+                this.setState({
+                    wordTypes: data,
+                    wordTypeId: data[0].id
                 })
             })
             .catch(function (ex) {
@@ -55,7 +68,7 @@ export default class WordCreationForm extends Component {
     onSubmit = (event) => {
         event.preventDefault();
         WordService
-            .addWord(this.state.text, this.state.romanization, this.state.description, this.state.example, this.state.translations)
+            .addWord(this.state.text, this.state.romanization, this.state.dictionaryId, this.state.wordTypeId, this.state.description, this.state.example, this.state.translations)
             .then(() => {
                 this.props.onSubmitCallback();
             })
@@ -71,6 +84,12 @@ export default class WordCreationForm extends Component {
                     </div>
                 </div>
             )
+        let wordTypes = this.state.wordTypes.map((wordType, index) =>
+            <option key={index} value={wordType.id}>{wordType.name}</option>
+        )
+        let dictionaries = this.state.dictionaries.map((dictionary, index) =>
+            <option key={index} value={dictionary.id}>{dictionary.name}</option>
+        )
         return (
             <form className="text-start" onSubmit={this.onSubmit} onReset={this.onReset}>
                 <div className="row">
@@ -84,6 +103,22 @@ export default class WordCreationForm extends Component {
                         <div className="input-group input-group-static my-3">
                             <label>Romanization</label>
                             <input type="text" className="form-control" name="romanization" value={this.state.romanization} onChange={this.onChangeInput} />
+                        </div>
+                    </div>
+                    <div className="col-12 col-xl-6">
+                        <div className="input-group input-group-static mb-4">
+                            <label className="ms-0">Dictionary</label>
+                            <select className="form-control" name="dictionaryId" disabled value={this.state.dictionaryId} onChange={this.onChangeInput}>
+                                {dictionaries}
+                            </select>
+                        </div>
+                    </div>
+                    <div className="col-12 col-xl-4">
+                        <div className="input-group input-group-static mb-4">
+                            <label className="ms-0">Type</label>
+                            <select className="form-control" name="wordTypeId" value={this.state.wordTypes} onChange={this.onChangeInput}>
+                                {wordTypes}
+                            </select>
                         </div>
                     </div>
                     <div className="col-12">
