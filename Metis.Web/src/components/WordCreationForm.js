@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import WordService from '../services/WordService';
 import DictionaryService from '../services/DictionaryService';
+import WordTypeService from '../services/WordTypeService';
 
 export default class WordCreationForm extends Component {
     constructor(props) {
@@ -33,7 +34,7 @@ export default class WordCreationForm extends Component {
             .catch(function (ex) {
                 console.log('Response parsing failed. Error: ', ex);
             });
-        wordTypeService
+        WordTypeService
             .getWordTypes()
             .then((data) => {
                 this.setState({
@@ -113,10 +114,10 @@ export default class WordCreationForm extends Component {
                             </select>
                         </div>
                     </div>
-                    <div className="col-12 col-xl-4">
+                    <div className="col-12 col-xl-6">
                         <div className="input-group input-group-static mb-4">
                             <label className="ms-0">Type</label>
-                            <select className="form-control" name="wordTypeId" value={this.state.wordTypes} onChange={this.onChangeInput}>
+                            <select className="form-control" name="wordTypeId" value={this.state.wordTypeId} onChange={this.onChangeInput}>
                                 {wordTypes}
                             </select>
                         </div>

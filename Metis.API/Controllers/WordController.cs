@@ -110,7 +110,7 @@ namespace Metis.API.Controllers
                     translationsToEdit.Add(new KeyValuePair<int, string>((int)translation.Id, translation.Text));
                 }
             }    
-            await WordManager.EditWord(_context, request.Id, request.Text, request.Romanization, request.Description, request.Example, translationsToAdd, translationsToEdit);
+            await WordManager.EditWord(_context, request.Id, request.Text, request.Romanization, request.DictionaryId, request.WordTypeId, request.Description, request.Example, translationsToAdd, translationsToEdit);
             return Ok();
         }
 

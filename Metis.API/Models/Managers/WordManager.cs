@@ -12,8 +12,8 @@ namespace Metis.Models.Managers
     {
         public static async Task AddWord(ApplicationDbContext context, string text, string romanization, int dictionaryId, int wordTypeId, string description, string example, IEnumerable<KeyValuePair<int, string>> translations)
         {
-            using (TransactionScope scope = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled))
-            {
+            // using (TransactionScope scope = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled))
+            // {
                 Word word = new Word
                 {
                     Text = text,
@@ -30,8 +30,8 @@ namespace Metis.Models.Managers
                 };
                 context.Words.Add(word);
                 await context.SaveChangesAsync();
-                scope.Complete();
-            }
+            //     scope.Complete();
+            // }
         }
         public static async Task<Word> GetWordById(ApplicationDbContext context, int id)
         {
@@ -57,10 +57,10 @@ namespace Metis.Models.Managers
                 .Include(w => w.Translations)
                 .ToListAsync();
         }
-        public static async Task EditWord(ApplicationDbContext context, int id, string text, string romanization, string description, string example, IEnumerable<KeyValuePair<int, string>> translationsToAdd, IEnumerable<KeyValuePair<int, string>> translationsToEdit)
+        public static async Task EditWord(ApplicationDbContext context, int id, string text, string romanization, int dictionaryId, int wordTypeId, string description, string example, IEnumerable<KeyValuePair<int, string>> translationsToAdd, IEnumerable<KeyValuePair<int, string>> translationsToEdit)
         {
-            using (TransactionScope scope = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled))
-            {
+            // using (TransactionScope scope = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled))
+            // {
                 Word wordToEdit = await context.Words.Include(w => w.Translations).FirstOrDefaultAsync(w => w.Id == id);
                 if (wordToEdit == null)
                 {
@@ -70,6 +70,8 @@ namespace Metis.Models.Managers
                 wordToEdit.Romanization = romanization;
                 wordToEdit.Description = description;
                 wordToEdit.Example = example;
+                wordToEdit.WordType = await context.WordTypes.FindAsync(wordTypeId);
+                wordToEdit.Dictionary = await context.Dictionaries.FindAsync(dictionaryId);
                 foreach (var item in translationsToAdd)
                 {
                     wordToEdit.Translations.Add(new Translation
@@ -90,8 +92,8 @@ namespace Metis.Models.Managers
                     context.Update(translationToEdit);
                 }
                 await context.SaveChangesAsync();
-                scope.Complete();
-            }
+            //     scope.Complete();
+            // }
         }
         public static async Task DeleteWordById(ApplicationDbContext context, int id)
         {
