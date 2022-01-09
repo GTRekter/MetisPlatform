@@ -15,6 +15,7 @@ export default class LessonEditForm extends Component {
             id: this.props.id,
             title: "",
             description: "",
+            dictionaryId: 0,
             dictionaries: [],
             selectedWords: [],
             selectedGrammarPoints: [],
@@ -42,6 +43,7 @@ export default class LessonEditForm extends Component {
                     this.setState({
                         title: response.title,
                         description: response.description,
+                        dictionaryId: response.dictionaryId,
                         selectedGrammarPoints: response.grammarPoints,
                         selectedWords: response.words
                     });
@@ -180,6 +182,9 @@ export default class LessonEditForm extends Component {
                 </td>
             </tr>
         )
+        let dictionaries = this.state.dictionaries.map((dictionary, index) =>
+            <option key={index} value={dictionary.id}>{dictionary.name}</option>
+        )
         let words = this.state.words.map((word) => word.text);
         let grammarPoints = this.state.grammarPoints.map((grammarPoint) => grammarPoint.title);
         return (
@@ -188,10 +193,18 @@ export default class LessonEditForm extends Component {
                     <div className="col-12">
                         <FormHeader title="Lesson" action="Update" subtitle={`Update the information about the lesson ${this.state.id}.`} />
                     </div>
-                    <div className="col-12">
+                    <div className="col-12 col-xl-6">
                         <div className="input-group input-group-static my-3">
                             <label>Title</label>
                             <input type="text" className="form-control" name="title" value={this.state.title} onChange={this.onChangeInput} />
+                        </div>
+                    </div>
+                    <div className="col-12 col-xl-6">
+                        <div className="input-group input-group-static my-3">
+                            <label className="ms-0">Dictionary</label>
+                            <select className="form-control" name="dictionaryId" disabled value={this.state.dictionaryId} onChange={this.onChangeInput}>
+                                {dictionaries}
+                            </select>
                         </div>
                     </div>
                     <div className="col-12">

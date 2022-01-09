@@ -1,5 +1,5 @@
 class LessonService {
-    addLesson(title, description, words, grammarPoints) {
+    addLesson(title, description, dictionaryId, words, grammarPoints) {
         return fetch(process.env.REACT_APP_API_BASEURL + "Lesson/AddLesson", {
             method: 'post',
             mode: 'cors',
@@ -12,12 +12,13 @@ class LessonService {
             body: JSON.stringify({
                 title: title,
                 description: description,
+                dictionaryId: dictionaryId,
                 words: words,
                 grammarPoints: grammarPoints
             })
         })
     }
-    editLesson(id, title, description, words, grammarPoints) {
+    editLesson(id, title, description, dictionaryId, words, grammarPoints) {
         return fetch(process.env.REACT_APP_API_BASEURL + "Lesson/EditLesson", {
             method: 'post',
             mode: 'cors',
@@ -31,6 +32,7 @@ class LessonService {
                 id: id,
                 title: title,
                 description: description,
+                dictionaryId: dictionaryId,
                 words: words,
                 grammarPoints: grammarPoints
             })

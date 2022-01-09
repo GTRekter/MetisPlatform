@@ -10,7 +10,7 @@ namespace Metis.Models.Managers
 {
     public static class LessonManager
     {
-        public static async Task AddLesson(ApplicationDbContext context, string title, string description, IEnumerable<int> words, IEnumerable<int> grammarPoints)
+        public static async Task AddLesson(ApplicationDbContext context, string title,  int dictionaryId, string description, IEnumerable<int> words, IEnumerable<int> grammarPoints)
         {
             using (TransactionScope scope = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled))
             {
@@ -20,6 +20,7 @@ namespace Metis.Models.Managers
                 { 
                     Title = title, 
                     Description = description,
+                    Dictionary = await context.Dictionaries.FindAsync(dictionaryId),
                     GrammarPoints = grammarPointsToAdd,
                     Words = wordsToAdd
                 };
@@ -48,7 +49,7 @@ namespace Metis.Models.Managers
         {
             return await context.Lessons.ToListAsync();
         }
-        public static async Task EditLesson(ApplicationDbContext context, int id,  string title, string description, IEnumerable<int> words, IEnumerable<int> grammarPoints)
+        public static async Task EditLesson(ApplicationDbContext context, int id,  string title,  int dictionaryId, string description, IEnumerable<int> words, IEnumerable<int> grammarPoints)
         {
             Lesson lesson = await context.Lessons
                 .Include(l => l.Words)
@@ -90,6 +91,7 @@ namespace Metis.Models.Managers
             }
             lesson.Title = title; 
             lesson.Description = description;
+            lesson.Dictionary = await context.Dictionaries.FindAsync(dictionaryId);
             context.Update(lesson);
             await context.SaveChangesAsync();
         }

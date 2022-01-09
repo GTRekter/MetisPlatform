@@ -30,7 +30,7 @@ namespace Metis.API.Controllers
             {
                 return NotFound();
             }
-            await LessonManager.AddLesson(_context, request.Title, request.Description, request.Words.Select(w => w.Id), request.GrammarPoints.Select(g => g.Id));
+            await LessonManager.AddLesson(_context, request.Title, request.DictionaryId, request.Description, request.Words.Select(w => w.Id), request.GrammarPoints.Select(g => g.Id));
             return Ok();
         }
 
@@ -93,7 +93,7 @@ namespace Metis.API.Controllers
         [Route("EditLesson")]
         public async Task<IActionResult> EditLessonAsync(EditLessonRequest request)
         {
-            await LessonManager.EditLesson(_context, request.Id, request.Title, request.Description, request.Words.Select(w => w.Id), request.GrammarPoints.Select(g => g.Id));
+            await LessonManager.EditLesson(_context, request.Id, request.Title, request.DictionaryId, request.Description, request.Words.Select(w => w.Id), request.GrammarPoints.Select(g => g.Id));
             return Ok();
         }
 

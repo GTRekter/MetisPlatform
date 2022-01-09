@@ -14,15 +14,14 @@ export default class WordsManagement extends Component {
         super(props)
         this.state = {
             dictionaries: [],
+            displayedWords: [],
             words: 0,
             activeWords: 0,
-            selectedWord: undefined,
-            selectedWordId: undefined,
-            displayedWords: [],
             page: 0,
             pages: undefined,
             wordsPerPage: 10,
             searchQuery: '',
+            selectedWordId: undefined,
             creationFormVisible: false,
             editFormVisible: false,
             deleteModalVisible: false
@@ -63,7 +62,7 @@ export default class WordsManagement extends Component {
             .getDictionaries()
             .then((data) => {
                 this.setState({
-                    dictionaries: data.filter((dictionary) => dictionary.enabled === true && dictionary.primary === false)
+                    dictionaries: data,
                 })
             })
             .catch(function (ex) {
@@ -272,9 +271,11 @@ export default class WordsManagement extends Component {
         }
     }
     render() {
-        let headers = this.state.dictionaries.map((dictionary, index) =>
-            <th key={index} className="text-uppercase text-xxs font-weight-bolder opacity-7">{dictionary.name}</th>
-        )
+        let headers = this.state.dictionaries
+            .filter((dictionary) => dictionary.enabled === true && dictionary.primary === false)
+            .map((dictionary, index) =>
+                <th key={index} className="text-uppercase text-xxs font-weight-bolder opacity-7">{dictionary.name}</th>
+            )
         var wordPerPageOptions = [];
         for (var index = 1; index <= 4; index++) {
             let value = index * 10;
@@ -282,13 +283,15 @@ export default class WordsManagement extends Component {
         }
         let rows = this.state.displayedWords.map((word, index) => {
             let columns = [];
-            this.state.dictionaries.forEach((dictionary, index) => {
-                let translation = word.translations.filter((translation) => translation.dictionaryId === dictionary.id);
-                if (translation.length > 0) {
-                    columns.push(<td key={index} className="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-4">{translation[0].text}</td>)
-                } else {
-                    columns.push(<td key={index} className="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-4"></td>)
-                }
+            this.state.dictionaries
+                .filter((dictionary) => dictionary.enabled === true && dictionary.primary === false)
+                .forEach((dictionary, index) => {
+                    let translation = word.translations.filter((translation) => translation.dictionaryId === dictionary.id);
+                    if (translation.length > 0) {
+                        columns.push(<td key={index} className="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-4">{translation[0].text}</td>)
+                    } else {
+                        columns.push(<td key={index} className="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-4"></td>)
+                    }
             })
             return (
                 <tr key={index}>
@@ -327,11 +330,11 @@ export default class WordsManagement extends Component {
                             aria-controls="example-collapse-text"
                             aria-expanded={this.state.creationFormVisible}>Add word</button>
                         <div className="dropdown d-inline mx-2">
-                            <button className="btn bg-gradient-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
+                            <button className="btn bg-gradient-primary dropdown-toggle" type="button" id="itemsPerPageDropdown" data-bs-toggle="dropdown" aria-expanded="false">
                                 Words per page: {this.state.wordsPerPage}
                                 <FontAwesomeIcon className='text-secondary text-white ms-2' icon={faChevronDown} />
                             </button>
-                            <ul className="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                            <ul className="dropdown-menu" aria-labelledby="itemsPerPageDropdown">
                                 {wordPerPageOptions}
                             </ul>
                         </div>

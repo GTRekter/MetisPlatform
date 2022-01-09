@@ -14,6 +14,7 @@ export default class LessonCreationForm extends Component {
         this.state = {
             title: "",
             description: "",
+            dictionaryId: 0,
             dictionaries: [],
             selectedWords: [],
             selectedGrammarPoints: [],
@@ -38,7 +39,8 @@ export default class LessonCreationForm extends Component {
             .getDictionaries()
             .then((data) => {
                 this.setState({
-                    dictionaries: data.filter((dictionary) => dictionary.enabled === true && dictionary.primary === false)
+                    dictionaries: data.filter((dictionary) => dictionary.enabled === true),
+                    dictionaryId: data.filter((dictionary) => dictionary.primary === true)[0].id
                 })
             })
             .catch(function (ex) {
@@ -167,6 +169,9 @@ export default class LessonCreationForm extends Component {
                 </td>
             </tr>
         )
+        let dictionaries = this.state.dictionaries.map((dictionary, index) =>
+            <option key={index} value={dictionary.id}>{dictionary.name}</option>
+        )
         let words = this.state.words.map((word) => word.text);
         let grammarPoints = this.state.grammarPoints.map((grammarPoint) => grammarPoint.title);
         return (
@@ -175,10 +180,18 @@ export default class LessonCreationForm extends Component {
                     <div className="col-12">
                         <FormHeader title="Lesson" action="Creation" subtitle="Insert all the information about the lesson." />
                     </div>
-                    <div className="col-12">
+                    <div className="col-12 col-xl-6">
                         <div className="input-group input-group-static my-3">
                             <label>Title</label>
                             <input type="text" className="form-control" name="title" value={this.state.title} onChange={this.onChangeInput} />
+                        </div>
+                    </div>
+                    <div className="col-12 col-xl-6">
+                        <div className="input-group input-group-static my-3">
+                            <label className="ms-0">Dictionary</label>
+                            <select className="form-control" name="dictionaryId" disabled value={this.state.dictionaryId} onChange={this.onChangeInput}>
+                                {dictionaries}
+                            </select>
                         </div>
                     </div>
                     <div className="col-12">
