@@ -18,6 +18,7 @@ using Microsoft.IdentityModel.Tokens;
 using System.Security.Claims;
 using System.Globalization;
 using System.Text;
+using Metis.Models.Response;
 
 namespace Metis.API.Controllers
 {
@@ -131,8 +132,10 @@ namespace Metis.API.Controllers
         [Route("GetUserById")]
         public async Task<IActionResult> GetUserByIdAsync(int id)
         {
-            User users = await UserManager.GetUserById(_userManager, id);
-            return Ok(users);
+            UserWithRoles model = new UserWithRoles();
+            model.User = await UserManager.GetUserById(_userManager, id);
+            model.Roles = RoleManager.GetRolesByUserId(_dataContext, id);
+            return Ok(model);
         }
 
         [HttpGet]
@@ -174,28 +177,18 @@ namespace Metis.API.Controllers
         [HttpPost]
         [Authorize(AuthenticationSchemes = Microsoft.AspNetCore.Authentication.JwtBearer.JwtBearerDefaults.AuthenticationScheme, Roles = "Administrator, Teacher")]
         [Route("EditUser")]
-        // [ValidateAntiForgeryToken]
         public async Task<IActionResult> EditUserAsync(EditUserRequest model)
         {
             var result = await UserManager.EditUser(_dataContext, _userManager, model.Id, model.FirstName, model.LastName, model.Email, model.Dictionaries.Select(d => d.Id));
-
-            // var roles = RoleManager.GetRolesByUserId(_dataContext, model.Id).Select(r => r.Name);
-            // foreach (var role in roles)
-            // {
-            //     result = await UserManager.RemoveUserFromRole(_userManager, model.Email, role);
-            //     if (!result.Succeeded)
-            //     {
-            //         var error = string.Join(",", result.Errors.Select(e => e.Description));
-            //         throw new Exception(error);
-            //     }
-            // }
-
-            // result = await UserManager.AddUserToRole(_userManager, model.Email, model.Role);
-            // if (!result.Succeeded)
-            // {
-            //     var error = string.Join(",", result.Errors.Select(e => e.Description));
-            //     throw new Exception(error);
-            // }
+            var roles = RoleManager.GetRolesByUserId(_dataContext, model.Id).Select(r => r.Name);
+            if(!roles.Contains(model.Role))
+            {
+                foreach (var role in roles)
+                {
+                    await UserManager.RemoveUserFromRole(_userManager, model.Email, role);
+                }
+                await UserManager.AddUserToRole(_userManager, model.Email, model.Role);
+            }
             return Ok();
         }
 

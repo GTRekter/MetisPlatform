@@ -42,7 +42,7 @@ class UserService {
             })
         })
     }
-    editUser(id, firstname, lastname, email, dictionaries) {
+    editUser(id, firstname, lastname, email, role, dictionaries) {
         return fetch(process.env.REACT_APP_API_BASEURL + "User/EditUser", {
             method: 'post',
             mode: 'cors',
@@ -57,6 +57,7 @@ class UserService {
                 firstname: firstname,
                 lastname: lastname,
                 email: email,
+                role: role,
                 dictionaries: dictionaries
             })
         })

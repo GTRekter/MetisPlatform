@@ -33,11 +33,11 @@ export default class UserEditForm extends Component {
                 .getUserById(this.state.id)
                 .then(response => {
                     this.setState({
-                        firstName: response.firstName,
-                        lastName: response.lastName,
-                        email: response.email,
-                        role: response.role,
-                        selectedDictionaries: response.dictionaries,
+                        firstName: response.user.firstName,
+                        lastName: response.user.lastName,
+                        email: response.user.email,
+                        role: response.roles[0].name,
+                        selectedDictionaries: response.user.dictionaries,
                     });
                 })
             DictionaryService
@@ -76,7 +76,7 @@ export default class UserEditForm extends Component {
     onSubmit = (event) => {
         event.preventDefault();
         UserService
-            .editUser(this.state.id, this.state.firstName, this.state.lastName, this.state.email, this.state.selectedDictionaries)
+            .editUser(this.state.id, this.state.firstName, this.state.lastName, this.state.email, this.state.role, this.state.selectedDictionaries)
             .then(() => {
                 this.props.onSubmitCallback();
             })
@@ -103,9 +103,9 @@ export default class UserEditForm extends Component {
         })
     }
     render() {
-        // let roles = this.state.roles.map((role, index) =>
-        //     <option key={index} value={role.name}>{role.name}</option>
-        // )
+        let roles = this.state.roles.map((role, index) =>
+            <option key={index} value={role.name}>{role.name}</option>
+        )
         let selectedDictionariesRows = this.state.selectedDictionaries.map((dictionary, index) =>
             <tr key={index}>
                 <td className="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-4">{dictionary.name}</td>
@@ -143,14 +143,14 @@ export default class UserEditForm extends Component {
                             <input type="text" className="form-control" name="email" value={this.state.email} onChange={this.onChangeInput} />
                         </div>
                     </div>
-                    {/* <div className="col-12 col-xl-6">
+                    <div className="col-12 col-xl-6">
                         <div className="input-group input-group-static my-3">
                             <label className="ms-0">Roles</label>
                             <select className="form-control" name="role" value={this.state.role} onChange={this.onChangeInput}>
                                 {roles}
                             </select>
                         </div>
-                    </div> */}
+                    </div>
                     <div className="col-12">
                         <label className='d-block'>Dictionaries</label>
                         <span className="btn bg-gradient-secondary ms-2 btn-sm" role="button" onClick={() => this.onClickToggleDictionaryAdditionForm()}>Add dictionary</span>
