@@ -48,11 +48,11 @@ export default class LessonEditForm extends Component {
                         selectedWords: response.words
                     });
                 })
-                DictionaryService
+            DictionaryService
                 .getDictionaries()
                 .then((data) => {
                     this.setState({
-                        dictionaries: data.filter((dictionary) => dictionary.enabled === true && dictionary.primary === false)
+                        dictionaries: data
                     })
                 })
                 .catch(function (ex) {
@@ -136,18 +136,22 @@ export default class LessonEditForm extends Component {
     onSubmit = (event) => {
         event.preventDefault();
         LessonService
-            .editLesson(this.state.id, this.state.title, this.state.description, this.state.selectedWords, this.state.selectedGrammarPoints)
+            .editLesson(this.state.id, this.state.title, this.state.description, this.state.dictionaryId, this.state.selectedWords, this.state.selectedGrammarPoints)
             .then(() => {
                 this.props.onSubmitCallback();
             })
     }
     render() {
-        let selectedWordsPointHeaders = this.state.dictionaries.map((dictionary, index) =>
+        let selectedWordsPointHeaders = this.state.dictionaries
+            .filter((dictionary) => dictionary.enabled === true && dictionary.primary === false)
+            .map((dictionary, index) =>
             <th key={index} className="text-uppercase text-xxs font-weight-bolder opacity-7">{dictionary.name}</th>
         )
         let selectedWordsPointRows = this.state.selectedWords.map((word, index) => {
             let columns = [];
-            this.state.dictionaries.forEach((dictionary, index) => {
+            this.state.dictionaries
+                .filter((dictionary) => dictionary.enabled === true && dictionary.primary === false)
+                .forEach((dictionary, index) => {
                 let translation = word.translations.filter((translation) => translation.dictionaryId === dictionary.id);
                 if (translation.length > 0) {
                     columns.push(<td className="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-4">{translation[0].text}</td>)
@@ -182,7 +186,9 @@ export default class LessonEditForm extends Component {
                 </td>
             </tr>
         )
-        let dictionaries = this.state.dictionaries.map((dictionary, index) =>
+        let dictionaries = this.state.dictionaries
+            .filter((dictionary) => dictionary.enabled === true)
+            .map((dictionary, index) =>
             <option key={index} value={dictionary.id}>{dictionary.name}</option>
         )
         let words = this.state.words.map((word) => word.text);

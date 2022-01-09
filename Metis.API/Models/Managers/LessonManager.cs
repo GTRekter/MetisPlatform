@@ -12,8 +12,8 @@ namespace Metis.Models.Managers
     {
         public static async Task AddLesson(ApplicationDbContext context, string title,  int dictionaryId, string description, IEnumerable<int> words, IEnumerable<int> grammarPoints)
         {
-            using (TransactionScope scope = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled))
-            {
+            // using (TransactionScope scope = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled))
+            // {
                 var wordsToAdd = await context.Words.Where(g => words.Contains(g.Id)).ToListAsync();
                 var grammarPointsToAdd = await context.GrammarPoints.Where(g => grammarPoints.Contains(g.Id)).ToListAsync();
                 Lesson lesson = new Lesson 
@@ -26,8 +26,8 @@ namespace Metis.Models.Managers
                 };
                 context.Lessons.Add(lesson);
                 await context.SaveChangesAsync();
-                scope.Complete();
-            }
+                // scope.Complete();
+            // }
         }
         public static async Task<Lesson> GetLessonById(ApplicationDbContext context, int id)
         {
