@@ -21,5 +21,10 @@ namespace Metis.Models.Requests
         public string Role { get; set; }
         [Obsolete]
         public string Password { get; set; }
+        public IEnumerable<Dictionary> Dictionaries { get; set; }
+        public class Dictionary 
+        {
+            public int Id { get; set; }
+        }
     }
 }

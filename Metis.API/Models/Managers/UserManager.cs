@@ -11,18 +11,42 @@ namespace Metis.Models.Managers
 {
     public static class UserManager
     {
-        public static async Task<IdentityResult> AddUser(UserManager<User> userManager, string name, string surname, string email, string password)
+        public static async Task<IdentityResult> AddUser(ApplicationDbContext context, UserManager<User> userManager, string name, string surname, string email, string password, IEnumerable<int> dictionaryIds)
         {
-            User user = new User { FirstName = name, LastName = surname, UserName = email, Email = email };
+            var dictionariesToAdd = await context.Dictionaries.Where(d => dictionaryIds.Contains(d.Id)).ToListAsync();
+            User user = new User { 
+                FirstName = name, 
+                LastName = surname, 
+                UserName = email, 
+                Email = email,
+                Dictionaries = dictionariesToAdd
+            };
             return await userManager.CreateAsync(user, password);
         }
-        public static async Task<IdentityResult> EditUser(UserManager<User> userManager, int id, string name, string surname, string email)
+        public static async Task<IdentityResult> EditUser(ApplicationDbContext context, UserManager<User> userManager, int id, string name, string surname, string email, IEnumerable<int> dictionaryIds)
         {
             string userId = id.ToString();
-            User user = await userManager.FindByIdAsync(userId);
+            User user = await context.Users
+                .Include(l => l.Dictionaries)
+                .FirstOrDefaultAsync(l => l.Id == id);
             if (user == null)
             {
                 throw new Exception("User not found");
+            }
+            foreach (var dictionary in user.Dictionaries)
+            {
+                if(!dictionaryIds.Contains(dictionary.Id))
+                {
+                    user.Dictionaries.Remove(dictionary);
+                }
+            }
+            foreach (var dicationary in dictionaryIds)
+            {
+                if(!user.Dictionaries.Any(w => w.Id == dicationary))
+                {
+                    var dicationaryToAdd = await context.Dictionaries.FirstOrDefaultAsync(w => w.Id == dicationary);
+                    user.Dictionaries.Add(dicationaryToAdd);
+                }
             }
             user.FirstName = name;
             user.LastName = surname;
@@ -101,7 +125,9 @@ namespace Metis.Models.Managers
         }
         public static async Task<User> GetUserById(UserManager<User> userManager, int id)
         {
-            return await userManager.Users.FirstOrDefaultAsync(u => u.Id == id);
+            return await userManager.Users
+                .Include(u => u.Dictionaries)
+                .FirstOrDefaultAsync(u => u.Id == id);
         }
         public static async Task<int> GetUsersCount(UserManager<User> userManager)
         {

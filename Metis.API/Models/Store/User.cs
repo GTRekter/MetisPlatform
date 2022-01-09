@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Microsoft.AspNetCore.Identity;
+using System.Text.Json.Serialization;
 
 namespace Metis.Models.Store
 {
@@ -14,10 +15,8 @@ namespace Metis.Models.Store
         public string LastName { get; set; }
         public DateTime DateOfBirth { get; set; }
         public bool IsActive { get; set; }
-
-        public Dictionary Dictionary { get; set; }
+        public ICollection<Dictionary> Dictionaries { get; set; }
         public ICollection<Lesson> Lessons { get; set; }
-
         public User()
         {
             this.EmailConfirmed = false;

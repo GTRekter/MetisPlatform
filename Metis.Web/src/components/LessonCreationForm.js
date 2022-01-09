@@ -129,12 +129,12 @@ export default class LessonCreationForm extends Component {
             })
     }
     render() {
-        let selectedWordsPointHeaders = this.state.dictionaries
+        let selectedWordsHeaders = this.state.dictionaries
             .filter((dictionary) => dictionary.enabled === true && dictionary.primary === false)
             .map((dictionary, index) =>
                 <th key={index} className="text-uppercase text-xxs font-weight-bolder opacity-7">{dictionary.name}</th>
             )
-        let selectedWordsPointRows = this.state.selectedWords.map((word, index) => {
+        let selectedWordsRows = this.state.selectedWords.map((word, index) => {
             let columns = [];
             this.state.dictionaries
                 .filter((dictionary) => dictionary.enabled === true && dictionary.primary === false)
@@ -220,12 +220,12 @@ export default class LessonCreationForm extends Component {
                                     <tr>
                                         <th className="text-uppercase text-xxs font-weight-bolder opacity-7">Text</th>
                                         <th className="text-uppercase text-xxs font-weight-bolder opacity-7">Romanization</th>
-                                        {selectedWordsPointHeaders}
+                                        {selectedWordsHeaders}
                                         <th className="text-uppercase text-xxs font-weight-bolder opacity-7 ps-2"></th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    {selectedWordsPointRows}
+                                    {selectedWordsRows}
                                 </tbody>
                             </table>
                         </div>

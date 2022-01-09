@@ -22,5 +22,10 @@ namespace Metis.Models.Requests
         // [Required]
         // [DataType(DataType.Text)]
         // public string Role { get; set; }
+        public IEnumerable<Dictionary> Dictionaries { get; set; }
+        public class Dictionary 
+        {
+            public int Id { get; set; }
+        }
     }
 }
