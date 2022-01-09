@@ -76,7 +76,9 @@ export default class WordCreationForm extends Component {
     }
     render() {
         let translations = this.state.dictionaries
-            .filter((dictionary) => dictionary.id !== this.state.dictionaryId)
+            .filter((dictionary) => {
+                return Number(dictionary.id) !== Number(this.state.dictionaryId)
+            })
             .map((dictionary, index) =>
                 <div key={index} className="col-12 col-xl-4">
                     <div className="input-group input-group-static">
@@ -109,7 +111,7 @@ export default class WordCreationForm extends Component {
                     <div className="col-12 col-xl-6">
                         <div className="input-group input-group-static mb-4">
                             <label className="ms-0">Dictionary</label>
-                            <select className="form-control" name="dictionaryId" disabled value={this.state.dictionaryId} onChange={this.onChangeInput}>
+                            <select className="form-control" name="dictionaryId" value={this.state.dictionaryId} onChange={this.onChangeInput}>
                                 {dictionaries}
                             </select>
                         </div>
