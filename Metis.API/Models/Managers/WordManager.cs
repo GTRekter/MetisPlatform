@@ -60,9 +60,9 @@ namespace Metis.Models.Managers
 
         public static async Task<IEnumerable<Word>> GetWordsByUserId(ApplicationDbContext context, int id)
         {
-            User user = await context.Users
-                .Include(u => u.Dictionaries)
-                .FirstOrDefaultAsync(u => u.Id == id);
+            // User user = await context.Users
+            //     .Include(u => u.Dictionaries)
+            //     .FirstOrDefaultAsync(u => u.Id == id);
 
             return await context.Words
                 .Include(w => w.Translations)

@@ -25,7 +25,7 @@ class UserService {
                 return await res.text();
             })
     }
-    addUser(firstname, lastname, email, role, dictionaries) {
+    addUser(firstname, lastname, email, role, lessons) {
         return fetch(process.env.REACT_APP_API_BASEURL + "User/AddUser", {
             method: 'post',
             mode: 'cors',
@@ -40,11 +40,11 @@ class UserService {
                 lastname: lastname,
                 email: email,
                 role: role,
-                dictionaries: dictionaries
+                lessons: lessons
             })
         })
     }
-    editUser(id, firstname, lastname, email, role, dictionaries) {
+    editUser(id, firstname, lastname, email, role, lessons) {
         return fetch(process.env.REACT_APP_API_BASEURL + "User/EditUser", {
             method: 'post',
             mode: 'cors',
@@ -60,7 +60,7 @@ class UserService {
                 lastname: lastname,
                 email: email,
                 role: role,
-                dictionaries: dictionaries
+                lessons: lessons
             })
         })
     }

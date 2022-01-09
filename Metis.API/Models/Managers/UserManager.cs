@@ -11,41 +11,42 @@ namespace Metis.Models.Managers
 {
     public static class UserManager
     {
-        public static async Task<IdentityResult> AddUser(ApplicationDbContext context, UserManager<User> userManager, string name, string surname, string email, string password, IEnumerable<int> dictionaryIds)
+        public static async Task<IdentityResult> AddUser(ApplicationDbContext context, UserManager<User> userManager, string name, string surname, string email, string password, IEnumerable<int> lessonsIds)
         {
-            var dictionariesToAdd = await context.Dictionaries.Where(d => dictionaryIds.Contains(d.Id)).ToListAsync();
+            var lessonsToAdd = await context.Lessons.Where(d => lessonsIds.Contains(d.Id)).ToListAsync();
             User user = new User { 
                 FirstName = name, 
                 LastName = surname, 
                 UserName = email, 
                 Email = email,
-                Dictionaries = dictionariesToAdd
+                Lessons = lessonsToAdd
             };
             return await userManager.CreateAsync(user, password);
         }
-        public static async Task<IdentityResult> EditUser(ApplicationDbContext context, UserManager<User> userManager, int id, string name, string surname, string email, IEnumerable<int> dictionaryIds)
+        public static async Task<IdentityResult> EditUser(ApplicationDbContext context, UserManager<User> userManager, int id, string name, string surname, string email, IEnumerable<int> lessonsIds)
         {
             string userId = id.ToString();
             User user = await context.Users
-                .Include(l => l.Dictionaries)
+                .Include(l => l.Lessons)
+                .ThenInclude(u => u.Dictionary)
                 .FirstOrDefaultAsync(l => l.Id == id);
             if (user == null)
             {
                 throw new Exception("User not found");
             }
-            foreach (var dictionary in user.Dictionaries)
+            foreach (var lesson in user.Lessons)
             {
-                if(!dictionaryIds.Contains(dictionary.Id))
+                if(!lessonsIds.Contains(lesson.Id))
                 {
-                    user.Dictionaries.Remove(dictionary);
+                    user.Lessons.Remove(lesson);
                 }
             }
-            foreach (var dicationary in dictionaryIds)
+            foreach (var lesson in lessonsIds)
             {
-                if(!user.Dictionaries.Any(w => w.Id == dicationary))
+                if(!user.Lessons.Any(w => w.Id == lesson))
                 {
-                    var dicationaryToAdd = await context.Dictionaries.FirstOrDefaultAsync(w => w.Id == dicationary);
-                    user.Dictionaries.Add(dicationaryToAdd);
+                    var lessonToAdd = await context.Lessons.FirstOrDefaultAsync(w => w.Id == lesson);
+                    user.Lessons.Add(lessonToAdd);
                 }
             }
             user.FirstName = name;
@@ -123,10 +124,11 @@ namespace Metis.Models.Managers
         {
             return userManager.Users;
         }
-        public static async Task<User> GetUserById(UserManager<User> userManager, int id)
+        public static async Task<User> GetUserById(ApplicationDbContext context, int id)
         {
-            return await userManager.Users
-                .Include(u => u.Dictionaries)
+            return await context.Users
+                .Include(l => l.Lessons)
+                .ThenInclude(u => u.Dictionary)
                 .FirstOrDefaultAsync(u => u.Id == id);
         }
         public static async Task<int> GetUsersCount(UserManager<User> userManager)

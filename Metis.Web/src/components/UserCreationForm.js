@@ -17,7 +17,7 @@ export default class UserCreationForm extends Component {
             role: "",
             roles: [],
             dictionaries: [],
-            selectedDictionaries: [],
+            selectedLessons: [],
             dictionaryAdditionFormVisible: false
         }
         this.onChangeInput = this.onChangeInput.bind(this);
@@ -68,7 +68,7 @@ export default class UserCreationForm extends Component {
                 this.props.onSubmitCallback();
             })
     }
-    onClickToggleDictionaryAdditionForm = () => {
+    onClickToggleLessonsAdditionForm = () => {
         this.setState({
             dictionaryAdditionFormVisible: !this.state.dictionaryAdditionFormVisible
         })
@@ -86,15 +86,15 @@ export default class UserCreationForm extends Component {
     }
     onClickDeleteDictionary = (id) => {
         this.setState({
-            selectedDictionaries: this.state.selectedDictionaries.filter(dictionary => dictionary.id !== id),
+            selectedLessons: this.state.selectedLessons.filter(lesson => lesson.id !== id),
         })
     }
     render() {
-        let selectedDictionariesRows = this.state.selectedDictionaries.map((dictionary, index) =>
+        let selectedLessonsRows = this.state.selectedLessons.map((lesson, index) =>
             <tr key={index}>
-                <td className="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-4">{dictionary.name}</td>
+                <td className="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-4">{lesson.name}</td>
                 <td className="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 td-icon">
-                    <button className="btn btn-icon btn-2 btn-link btn-sm" type="button" onClick={() => this.onClickDeleteDictionary(dictionary.id)}>
+                    <button className="btn btn-icon btn-2 btn-link btn-sm" type="button" onClick={() => this.onClickDeleteLesson(lesson.id)}>
                         <span className="btn-inner--icon">
                             <FontAwesomeIcon className='opacity-10' icon={faTrash} />
                         </span>

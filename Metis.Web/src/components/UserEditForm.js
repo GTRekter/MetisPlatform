@@ -18,7 +18,7 @@ export default class UserEditForm extends Component {
             role: "",
             roles: [],
             dictionaries: [],
-            selectedDictionaries: [],
+            selectedLessons: [],
             dictionaryAdditionFormVisible: false
         }
         this.onChangeInput = this.onChangeInput.bind(this);
@@ -37,7 +37,7 @@ export default class UserEditForm extends Component {
                         lastName: response.user.lastName,
                         email: response.user.email,
                         role: response.roles[0].name,
-                        selectedDictionaries: response.user.dictionaries,
+                        selectedLessons: response.user.lessons,
                     });
                 })
             DictionaryService

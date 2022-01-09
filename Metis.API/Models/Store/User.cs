@@ -15,7 +15,6 @@ namespace Metis.Models.Store
         public string LastName { get; set; }
         public DateTime DateOfBirth { get; set; }
         public bool IsActive { get; set; }
-        public ICollection<Dictionary> Dictionaries { get; set; }
         public ICollection<Lesson> Lessons { get; set; }
         public User()
         {
