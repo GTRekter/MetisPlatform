@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faHome, faUsers, faSpellCheck, faLayerGroup, faChalkboardTeacher, faProjectDiagram, faFont } from '@fortawesome/free-solid-svg-icons'
+import JwtService from '../services/JwtService';
 
 export default class Sidebar extends Component {
     constructor(props) {
@@ -11,10 +12,8 @@ export default class Sidebar extends Component {
         }
     }
     componentDidMount() {
-        let jwt = sessionStorage.getItem("token").split('.')[1]
-        let decodedJwt = JSON.parse(window.atob(jwt))
         this.setState({
-            isAdmin: decodedJwt.role === "Administrator"
+            isAdmin: JwtService.isAdmin()
         })
     }
     render() {

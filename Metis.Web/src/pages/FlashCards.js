@@ -6,6 +6,7 @@ import { faFlag, faExclamationTriangle, faTags, faEye, faThumbsDown, faThumbsUp 
 import SpeechService from '../services/SpeechService';
 import WordService from '../services/WordService';
 import WordTypeService from '../services/WordTypeService';
+import JwtService from '../services/JwtService';
 
 export default class FlashCards extends Component {
     constructor(props) {
@@ -29,7 +30,8 @@ export default class FlashCards extends Component {
         // this.onClickUpdateWordsByAll = this.onClickUpdateWordsByAll.bind(this);
     }
     componentDidMount() {
-        WordService.getWords()
+        var id = JwtService.getCurrentUserId();
+        WordService.getWordsByUserId(id)
             .then(data => {
                 this.setState({
                     words: this.shuffle(data),
@@ -42,6 +44,7 @@ export default class FlashCards extends Component {
                     wordTypes: data
                 });
             });
+        
     }
     onClickViewTranslation = () => {
         SpeechService.synthesizeSpeech(this.state.currentWord.text);

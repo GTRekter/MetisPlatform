@@ -1,3 +1,5 @@
+import JwtService from '../services/JwtService';
+
 class LessonService {
     addLesson(title, description, dictionaryId, words, grammarPoints) {
         return fetch(process.env.REACT_APP_API_BASEURL + "Lesson/AddLesson", {
@@ -7,7 +9,7 @@ class LessonService {
                 'Accept': 'application/json, text/plain, */*',
                 'Content-Type': 'application/json',
                 'Access-Control-Allow-Origin': '*',
-                'Authorization': 'Bearer ' + sessionStorage.getItem('token')
+                'Authorization': 'Bearer ' + JwtService.getToken()
             },
             body: JSON.stringify({
                 title: title,
@@ -26,7 +28,7 @@ class LessonService {
                 'Accept': 'application/json, text/plain, */*',
                 'Content-Type': 'application/json',
                 'Access-Control-Allow-Origin': '*',
-                'Authorization': 'Bearer ' + sessionStorage.getItem('token')
+                'Authorization': 'Bearer ' + JwtService.getToken()
             },
             body: JSON.stringify({
                 id: id,
@@ -46,7 +48,7 @@ class LessonService {
                 'Accept': 'application/json, text/plain, */*',
                 'Content-Type': 'application/json',
                 'Access-Control-Allow-Origin': '*',
-                'Authorization': 'Bearer ' + sessionStorage.getItem('token')
+                'Authorization': 'Bearer ' + JwtService.getToken()
             }
         })
             .then(res => res.json());
@@ -59,7 +61,7 @@ class LessonService {
                 'Accept': 'application/json, text/plain, */*',
                 'Content-Type': 'application/json',
                 'Access-Control-Allow-Origin': '*',
-                'Authorization': 'Bearer ' + sessionStorage.getItem('token')
+                'Authorization': 'Bearer ' + JwtService.getToken()
             }
         })
             .then(res => res.json());
@@ -72,7 +74,7 @@ class LessonService {
                 'Accept': 'application/json, text/plain, */*',
                 'Content-Type': 'application/json',
                 'Access-Control-Allow-Origin': '*',
-                'Authorization': 'Bearer ' + sessionStorage.getItem('token')
+                'Authorization': 'Bearer ' + JwtService.getToken()
             }
         })
             .then(res => res.json());
@@ -85,7 +87,7 @@ class LessonService {
                 'Accept': 'application/json, text/plain, */*',
                 'Content-Type': 'application/json',
                 'Access-Control-Allow-Origin': '*',
-                'Authorization': 'Bearer ' + sessionStorage.getItem('token')
+                'Authorization': 'Bearer ' + JwtService.getToken()
             }
         })
             .then(res => res.json());
@@ -98,7 +100,7 @@ class LessonService {
                 'Accept': 'application/json, text/plain, */*',
                 'Content-Type': 'application/json',
                 'Access-Control-Allow-Origin': '*',
-                'Authorization': 'Bearer ' + sessionStorage.getItem('token')
+                'Authorization': 'Bearer ' + JwtService.getToken()
             }
         })
             .then(res => res.json());
@@ -111,7 +113,7 @@ class LessonService {
                 'Accept': 'application/json, text/plain, */*',
                 'Content-Type': 'application/json',
                 'Access-Control-Allow-Origin': '*',
-                'Authorization': 'Bearer ' + sessionStorage.getItem('token')
+                'Authorization': 'Bearer ' + JwtService.getToken()
             }
         })
             .then(res => res.json());
@@ -124,7 +126,7 @@ class LessonService {
                 'Accept': 'application/json, text/plain, */*',
                 'Content-Type': 'application/json',
                 'Access-Control-Allow-Origin': '*',
-                'Authorization': 'Bearer ' + sessionStorage.getItem('token')
+                'Authorization': 'Bearer ' + JwtService.getToken()
             }
         })
     }

@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faHeart } from '@fortawesome/free-solid-svg-icons'
-import UserService from '../services/UserService';
 import video from '../videos/streets.mp4';
+import UserService from '../services/UserService';
+import JwtService from '../services/JwtService';
 
 export default class Login extends Component {
     constructor(props) {
@@ -29,7 +30,7 @@ export default class Login extends Component {
         UserService
             .loginUser(this.state.email, this.state.password)
             .then((data) => {
-                sessionStorage.setItem('token', data);
+                JwtService.setToken(data);
                 this.props.history.push('/');
             })
             .catch((error) => { 

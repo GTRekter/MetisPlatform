@@ -1,3 +1,5 @@
+import JwtService from '../services/JwtService';
+
 class UserService {
     loginUser(email, password) {
         return fetch(process.env.REACT_APP_API_BASEURL + "User/LoginUser", {
@@ -7,7 +9,7 @@ class UserService {
                 'Accept': 'application/json, text/plain, */*',
                 'Content-Type': 'application/json',
                 'Access-Control-Allow-Origin': '*',
-                'Authorization': 'Bearer ' + sessionStorage.getItem('token')
+                'Authorization': 'Bearer ' + JwtService.getToken()
             },
             body: JSON.stringify({
                 email: email,
@@ -31,7 +33,7 @@ class UserService {
                 'Accept': 'application/json, text/plain, */*',
                 'Content-Type': 'application/json',
                 'Access-Control-Allow-Origin': '*',
-                'Authorization': 'Bearer ' + sessionStorage.getItem('token')
+                'Authorization': 'Bearer ' + JwtService.getToken()
             },
             body: JSON.stringify({
                 firstname: firstname,
@@ -50,7 +52,7 @@ class UserService {
                 'Accept': 'application/json, text/plain, */*',
                 'Content-Type': 'application/json',
                 'Access-Control-Allow-Origin': '*',
-                'Authorization': 'Bearer ' + sessionStorage.getItem('token')
+                'Authorization': 'Bearer ' + JwtService.getToken()
             },
             body: JSON.stringify({
                 id: id,
@@ -70,7 +72,7 @@ class UserService {
                 'Accept': 'application/json, text/plain, */*',
                 'Content-Type': 'application/json',
                 'Access-Control-Allow-Origin': '*',
-                'Authorization': 'Bearer ' + sessionStorage.getItem('token')
+                'Authorization': 'Bearer ' + JwtService.getToken()
             }
         })
             .then(res => res.json());
@@ -83,7 +85,7 @@ class UserService {
                 'Accept': 'application/json, text/plain, */*',
                 'Content-Type': 'application/json',
                 'Access-Control-Allow-Origin': '*',
-                'Authorization': 'Bearer ' + sessionStorage.getItem('token')
+                'Authorization': 'Bearer ' + JwtService.getToken()
             }
         })
             .then(res => res.json());
@@ -96,7 +98,7 @@ class UserService {
                 'Accept': 'application/json, text/plain, */*',
                 'Content-Type': 'application/json',
                 'Access-Control-Allow-Origin': '*',
-                'Authorization': 'Bearer ' + sessionStorage.getItem('token')
+                'Authorization': 'Bearer ' + JwtService.getToken()
             }
         })
             .then(res => res.json());
@@ -109,7 +111,7 @@ class UserService {
                 'Accept': 'application/json, text/plain, */*',
                 'Content-Type': 'application/json',
                 'Access-Control-Allow-Origin': '*',
-                'Authorization': 'Bearer ' + sessionStorage.getItem('token')
+                'Authorization': 'Bearer ' + JwtService.getToken()
             }
         })
             .then(res => res.json());
@@ -122,7 +124,7 @@ class UserService {
                 'Accept': 'application/json, text/plain, */*',
                 'Content-Type': 'application/json',
                 'Access-Control-Allow-Origin': '*',
-                'Authorization': 'Bearer ' + sessionStorage.getItem('token')
+                'Authorization': 'Bearer ' + JwtService.getToken()
             }
         })
             .then(res => res.json());
@@ -135,7 +137,7 @@ class UserService {
                 'Accept': 'application/json, text/plain, */*',
                 'Content-Type': 'application/json',
                 'Access-Control-Allow-Origin': '*',
-                'Authorization': 'Bearer ' + sessionStorage.getItem('token')
+                'Authorization': 'Bearer ' + JwtService.getToken()
             }
         })
             .then(res => res.json());
@@ -148,7 +150,7 @@ class UserService {
                 'Accept': 'application/json, text/plain, */*',
                 'Content-Type': 'application/json',
                 'Access-Control-Allow-Origin': '*',
-                'Authorization': 'Bearer ' + sessionStorage.getItem('token')
+                'Authorization': 'Bearer ' + JwtService.getToken()
             }
         })
     }

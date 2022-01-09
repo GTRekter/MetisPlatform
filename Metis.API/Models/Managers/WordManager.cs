@@ -57,6 +57,19 @@ namespace Metis.Models.Managers
                 .Include(w => w.Translations)
                 .ToListAsync();
         }
+
+        public static async Task<IEnumerable<Word>> GetWordsByUserId(ApplicationDbContext context, int id)
+        {
+            User user = await context.Users
+                .Include(u => u.Dictionaries)
+                .FirstOrDefaultAsync(u => u.Id == id);
+
+            return await context.Words
+                .Include(w => w.Translations)
+                .Include(w => w.Dictionary)
+                .ToListAsync();
+        }
+
         public static async Task EditWord(ApplicationDbContext context, int id, string text, string romanization, int dictionaryId, int wordTypeId, string description, string example, IEnumerable<KeyValuePair<int, string>> translationsToAdd, IEnumerable<KeyValuePair<int, string>> translationsToEdit)
         {
             // using (TransactionScope scope = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled))

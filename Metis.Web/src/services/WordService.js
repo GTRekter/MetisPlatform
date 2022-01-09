@@ -1,3 +1,5 @@
+import JwtService from '../services/JwtService';
+
 class WordService {
     addWord(text, romanization, dictionaryId, wordTypeId, description, example, translations) {
         return fetch(process.env.REACT_APP_API_BASEURL + "Word/AddWord", {
@@ -7,7 +9,7 @@ class WordService {
                 'Accept': 'application/json, text/plain, */*',
                 'Content-Type': 'application/json',
                 'Access-Control-Allow-Origin': '*',
-                'Authorization': 'Bearer ' + sessionStorage.getItem('token')
+                'Authorization': 'Bearer ' + JwtService.getToken()
             },
             body: JSON.stringify({
                 text: text,
@@ -28,7 +30,7 @@ class WordService {
                 'Accept': 'application/json, text/plain, */*',
                 'Content-Type': 'application/json',
                 'Access-Control-Allow-Origin': '*',
-                'Authorization': 'Bearer ' + sessionStorage.getItem('token')
+                'Authorization': 'Bearer ' + JwtService.getToken()
             },
             body: JSON.stringify({
                 id: id,
@@ -50,7 +52,20 @@ class WordService {
                 'Accept': 'application/json, text/plain, */*',
                 'Content-Type': 'application/json',
                 'Access-Control-Allow-Origin': '*',
-                'Authorization': 'Bearer ' + sessionStorage.getItem('token')
+                'Authorization': 'Bearer ' + JwtService.getToken()
+            }
+        })
+            .then(res => res.json());
+    }
+    getWordsByUserId(id) {
+        return fetch(process.env.REACT_APP_API_BASEURL + "Word/GetWordsByUserId?Id=" + id, {
+            method: 'get',
+            mode: 'cors',
+            headers: {
+                'Accept': 'application/json, text/plain, */*',
+                'Content-Type': 'application/json',
+                'Access-Control-Allow-Origin': '*',
+                'Authorization': 'Bearer ' + JwtService.getToken()
             }
         })
             .then(res => res.json());
@@ -63,7 +78,7 @@ class WordService {
                 'Accept': 'application/json, text/plain, */*',
                 'Content-Type': 'application/json',
                 'Access-Control-Allow-Origin': '*',
-                'Authorization': 'Bearer ' + sessionStorage.getItem('token')
+                'Authorization': 'Bearer ' + JwtService.getToken()
             }
         })
             .then(res => res.json());
@@ -76,7 +91,7 @@ class WordService {
                 'Accept': 'application/json, text/plain, */*',
                 'Content-Type': 'application/json',
                 'Access-Control-Allow-Origin': '*',
-                'Authorization': 'Bearer ' + sessionStorage.getItem('token')
+                'Authorization': 'Bearer ' + JwtService.getToken()
             }
         })
             .then(res => res.json());
@@ -89,7 +104,7 @@ class WordService {
                 'Accept': 'application/json, text/plain, */*',
                 'Content-Type': 'application/json',
                 'Access-Control-Allow-Origin': '*',
-                'Authorization': 'Bearer ' + sessionStorage.getItem('token')
+                'Authorization': 'Bearer ' + JwtService.getToken()
             }
         })
             .then(res => res.json());
@@ -102,7 +117,7 @@ class WordService {
                 'Accept': 'application/json, text/plain, */*',
                 'Content-Type': 'application/json',
                 'Access-Control-Allow-Origin': '*',
-                'Authorization': 'Bearer ' + sessionStorage.getItem('token')
+                'Authorization': 'Bearer ' + JwtService.getToken()
             }
         })
             .then(res => res.json());
@@ -115,7 +130,7 @@ class WordService {
                 'Accept': 'application/json, text/plain, */*',
                 'Content-Type': 'application/json',
                 'Access-Control-Allow-Origin': '*',
-                'Authorization': 'Bearer ' + sessionStorage.getItem('token')
+                'Authorization': 'Bearer ' + JwtService.getToken()
             }
         })
             .then(res => res.json());
@@ -128,7 +143,7 @@ class WordService {
                 'Accept': 'application/json, text/plain, */*',
                 'Content-Type': 'application/json',
                 'Access-Control-Allow-Origin': '*',
-                'Authorization': 'Bearer ' + sessionStorage.getItem('token')
+                'Authorization': 'Bearer ' + JwtService.getToken()
             }
         })
             .then(res => res.json());
@@ -141,7 +156,7 @@ class WordService {
                 'Accept': 'application/json, text/plain, */*',
                 'Content-Type': 'application/json',
                 'Access-Control-Allow-Origin': '*',
-                'Authorization': 'Bearer ' + sessionStorage.getItem('token')
+                'Authorization': 'Bearer ' + JwtService.getToken()
             }
         })
     }
