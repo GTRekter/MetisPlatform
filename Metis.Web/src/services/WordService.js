@@ -70,6 +70,19 @@ class WordService {
         })
             .then(res => res.json());
     }
+    getWordsByDictionaryId(id) {
+        return fetch(process.env.REACT_APP_API_BASEURL + "Word/GetWordsByDictionaryId?id=" + id, {
+            method: 'get',
+            mode: 'cors',
+            headers: {
+                'Accept': 'application/json, text/plain, */*',
+                'Content-Type': 'application/json',
+                'Access-Control-Allow-Origin': '*',
+                'Authorization': 'Bearer ' + JwtService.getToken()
+            }
+        })
+            .then(res => res.json());
+    }
     getWordsByText(text) {
         return fetch(process.env.REACT_APP_API_BASEURL + "Word/GetWordsByText?text=" + text, {
             method: 'get',

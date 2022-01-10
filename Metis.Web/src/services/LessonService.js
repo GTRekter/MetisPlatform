@@ -53,6 +53,19 @@ class LessonService {
         })
             .then(res => res.json());
     }
+    getLessonsByDictionaryId(id) {
+        return fetch(process.env.REACT_APP_API_BASEURL + "Lesson/GetLessonsByDictionaryId?id=" + id, {
+            method: 'get',
+            mode: 'cors',
+            headers: {
+                'Accept': 'application/json, text/plain, */*',
+                'Content-Type': 'application/json',
+                'Access-Control-Allow-Origin': '*',
+                'Authorization': 'Bearer ' + JwtService.getToken()
+            }
+        })
+            .then(res => res.json());
+    }
     getLessonById(id) {
         return fetch(process.env.REACT_APP_API_BASEURL + "Lesson/GetLessonById?id=" + id, {
             method: 'get',

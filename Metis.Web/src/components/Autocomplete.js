@@ -2,7 +2,8 @@ import React, { Component } from "react";
 
 class Autocomplete extends Component {
     static defaultProps = {
-        suggestions: []
+        suggestions: [],
+        disabled: false
     };
     constructor(props) {
         super(props);
@@ -75,9 +76,9 @@ class Autocomplete extends Component {
         )
         return (
             <div className="dropdown">
-                <div className="input-group input-group-static mb-4">
+                <div className="input-group input-group-static my-3">
                     <label>{this.props.label}</label>
-                    <input type="text" className="form-control" onBlur={this.onBlur} onChange={this.onChange} onKeyDown={this.onKeyDown} value={this.state.userInput} />
+                    <input type="text" className="form-control" value={this.state.userInput} disabled={this.props.disabled} onBlur={this.onBlur} onChange={this.onChange} onKeyDown={this.onKeyDown} />
                     <ul className={`mt-3 dropdown-menu ${this.state.showSuggestions ? 'show' : ''}`}>
                         {suggestions}
                     </ul>

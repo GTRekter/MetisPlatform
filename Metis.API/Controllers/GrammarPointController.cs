@@ -43,6 +43,15 @@ namespace Metis.API.Controllers
 
         [HttpGet]
         [Authorize(AuthenticationSchemes = Microsoft.AspNetCore.Authentication.JwtBearer.JwtBearerDefaults.AuthenticationScheme)]
+        [Route("GetGrammarPointsByDictionaryId")]
+        public async Task<IActionResult> GetGrammarPointsByDictionaryIdAsync(int id)
+        {
+            var grammarPoint = await GrammarPointManager.GetGrammarPointsByDictionaryId(_context, id);
+            return Ok(grammarPoint);
+        }
+
+        [HttpGet]
+        [Authorize(AuthenticationSchemes = Microsoft.AspNetCore.Authentication.JwtBearer.JwtBearerDefaults.AuthenticationScheme)]
         [Route("GetGrammarPointById")]
         public async Task<IActionResult> GetGrammarPointByIdAsync(int id)
         {

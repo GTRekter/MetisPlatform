@@ -15,6 +15,14 @@ namespace Metis.Models.Managers
             context.GrammarPoints.Add(grammarPoint);
             await context.SaveChangesAsync();
         }
+        public static async Task<IEnumerable<GrammarPoint>> GetGrammarPointsByDictionaryId(ApplicationDbContext context, int id)
+        {
+            return await context.GrammarPoints
+                .Include(g => g.Dictionary)
+                .Where(g => g.Dictionary.Id == id)
+                .ToListAsync();
+        }
+
         public static async Task<GrammarPoint> GetGrammarPointById(ApplicationDbContext context, int id)
         {
             return await context.GrammarPoints.FindAsync(id);

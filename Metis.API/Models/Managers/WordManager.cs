@@ -39,6 +39,13 @@ namespace Metis.Models.Managers
                 .Include(w => w.Translations)
                 .FirstOrDefaultAsync(w => w.Id == id);
         }
+        public static async Task<IEnumerable<Word>> GetWordsByDictionaryId(ApplicationDbContext context, int id)
+        {
+            return await context.Words
+                .Include(w => w.Translations)
+                .Where(w => w.Dictionary.Id == id)
+                .ToListAsync();
+        }
         public static async Task<int> GetWordsCount(ApplicationDbContext context)
         {
             return await context.Words.CountAsync();

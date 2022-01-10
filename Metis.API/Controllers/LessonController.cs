@@ -45,6 +45,15 @@ namespace Metis.API.Controllers
 
         [HttpGet]
         [Authorize(AuthenticationSchemes = Microsoft.AspNetCore.Authentication.JwtBearer.JwtBearerDefaults.AuthenticationScheme)]
+        [Route("GetLessonsByDictionaryId")]
+        public async Task<IActionResult> GetLessonsByDictionaryIdAsync(int id)
+        {
+            var lesson = await LessonManager.GetLessonsByDictionaryId(_context, id);
+            return Ok(lesson);
+        }
+
+        [HttpGet]
+        [Authorize(AuthenticationSchemes = Microsoft.AspNetCore.Authentication.JwtBearer.JwtBearerDefaults.AuthenticationScheme)]
         [Route("GetLessonById")]
         public async Task<IActionResult> GetLessonByIdAsync(int id)
         {

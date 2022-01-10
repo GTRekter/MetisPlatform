@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import FormHeader from './FormHeader';
 import GrammarPointService from '../services/GrammarPointService';
+import DictionaryService from '../services/DictionaryService';
 import ReactQuill from 'react-quill';
 
 export default class GrammarPointCreationForm extends Component {
@@ -8,12 +9,24 @@ export default class GrammarPointCreationForm extends Component {
         super(props)
         this.state = {
             title: "",
-            description: ""
+            description: "",
+            dictionaryId: "",
+            dictionaries: []
         }
         this.onChangeInput = this.onChangeInput.bind(this);
         this.onChangeDescription = this.onChangeDescription.bind(this);
         this.onReset = this.onReset.bind(this);
         this.onSubmit = this.onSubmit.bind(this);
+    }
+    componentDidMount() {
+        DictionaryService
+            .getDictionaries()
+            .then((data) => {
+                this.setState({
+                    dictionaries: data,
+                    dictionaryId: data[0].id
+                })
+            })
     }
     onChangeInput = (event) => {
         const target = event.target;
@@ -41,16 +54,27 @@ export default class GrammarPointCreationForm extends Component {
             })
     }
     render() {
+        let dictionaries = this.state.dictionaries.map((dictionary, index) =>
+            <option key={index} value={dictionary.id}>{dictionary.name}</option>
+        )
         return (
             <form className="text-start" onSubmit={this.onSubmit} onReset={this.onReset}>
                 <div className="row">
                 <div className="col-12">
                         <FormHeader title="Grammar Point" action="Creation" subtitle="Insert all the information about the grammar point." />
                     </div>
-                    <div className="col-12">
+                    <div className="col-12 col-xl-6">
                         <div className="input-group input-group-static my-3">
                             <label>Title</label>
                             <input type="text" className="form-control" name="title" value={this.state.title} onChange={this.onChangeInput} />
+                        </div>
+                    </div>
+                    <div className="col-12 col-xl-6">
+                        <div className="input-group input-group-static my-3">
+                            <label className="ms-0">Dictionary</label>
+                            <select className="form-control" name="dictionaryId" value={this.state.dictionaryId} onChange={this.onChangeDictionary}>
+                                {dictionaries}
+                            </select>
                         </div>
                     </div>
                     <div className="col-12">

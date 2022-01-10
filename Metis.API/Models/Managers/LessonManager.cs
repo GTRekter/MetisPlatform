@@ -28,6 +28,14 @@ namespace Metis.Models.Managers
                 await context.SaveChangesAsync();
                 // scope.Complete();
             // }
+        }     
+        public static async Task<IEnumerable<Lesson>> GetLessonsByDictionaryId(ApplicationDbContext context, int id)
+        {
+            return await context.Lessons
+                .Include(l => l.Words)
+                .Include(l => l.GrammarPoints)
+                .Where(l => l.Dictionary.Id == id)
+                .ToListAsync();
         }
         public static async Task<Lesson> GetLessonById(ApplicationDbContext context, int id)
         {
@@ -47,7 +55,9 @@ namespace Metis.Models.Managers
         }
         public static async Task<IEnumerable<Lesson>> GetLessons(ApplicationDbContext context)
         {
-            return await context.Lessons.ToListAsync();
+            return await context.Lessons
+                .Include(l => l.Dictionary)
+                .ToListAsync();
         }
         public static async Task EditLesson(ApplicationDbContext context, int id,  string title,  int dictionaryId, string description, IEnumerable<int> words, IEnumerable<int> grammarPoints)
         {
@@ -106,6 +116,7 @@ namespace Metis.Models.Managers
             return await context.Lessons
                 .Include(l => l.Words)
                 .Include(l => l.GrammarPoints)
+                .Include(l => l.Dictionary)
                 .Skip(page * itemsPerPage)
                 .Take(itemsPerPage)
                 .OrderBy(u => u.Id)
@@ -116,6 +127,7 @@ namespace Metis.Models.Managers
             return await context.Lessons
                 .Include(l => l.Words)
                 .Include(l => l.GrammarPoints)
+                .Include(l => l.Dictionary)
                 .Where(u => u.Title.Contains(searchQuery) 
                     || u.Description.Contains(searchQuery))
                 .Skip(page * itemsPerPage)

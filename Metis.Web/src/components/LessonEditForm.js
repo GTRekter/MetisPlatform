@@ -24,6 +24,7 @@ export default class LessonEditForm extends Component {
             wordAdditionFormVisible: false,
             grammarPointAdditionFormVisible: false,
         }
+        this.onChangeDictionary = this.onChangeDictionary.bind(this);
         this.onClickAddWord = this.onClickAddWord.bind(this);
         this.onClickAddGrammarPoint = this.onClickAddGrammarPoint.bind(this);
         this.onClickDeleteWord = this.onClickDeleteWord.bind(this);
@@ -54,26 +55,42 @@ export default class LessonEditForm extends Component {
                     this.setState({
                         dictionaries: data
                     })
-                })
-                .catch(function (ex) {
-                    console.log('Response parsing failed. Error: ', ex);
-                });
-            WordService
-                .getWords()
-                .then((data) => {
-                    this.setState({
-                        words: data
-                    });
-                })
-            GrammarPointService
-                .getGrammarPoints()
-                .then((data) => {
-                    this.setState({
-                        grammarPoints: data
-                    });
+                    WordService
+                        .getWordsByDictionaryId(data[0].id)
+                        .then((data) => {
+                            this.setState({
+                                words: data
+                            });
+                        })
+                    GrammarPointService
+                        .getGrammarPointsByDictionaryId(data[0].id)
+                        .then((data) => {
+                            this.setState({
+                                grammarPoints: data
+                            });
+                        })
                 })
         }
     }   
+    onChangeDictionary(event) {
+        this.setState({
+            dictionaryId: event.target.value
+        });
+        WordService
+            .getWordsByDictionaryId(event.target.value)
+            .then((data) => {
+                this.setState({
+                    words: data
+                });
+            })
+        GrammarPointService
+            .getGrammarPointsByDictionaryId(event.target.value)
+            .then((data) => {
+                this.setState({
+                    grammarPoints: data
+                });
+            })
+    }
     onClickDeleteWord = (id) => {
         this.setState({
             selectedWords: this.state.selectedWords.filter(word => word.id !== id),
@@ -208,7 +225,7 @@ export default class LessonEditForm extends Component {
                     <div className="col-12 col-xl-6">
                         <div className="input-group input-group-static my-3">
                             <label className="ms-0">Dictionary</label>
-                            <select className="form-control" name="dictionaryId" disabled value={this.state.dictionaryId} onChange={this.onChangeInput}>
+                            <select className="form-control" name="dictionaryId" disabled value={this.state.dictionaryId} onChange={this.onChangeDictionary}>
                                 {dictionaries}
                             </select>
                         </div>

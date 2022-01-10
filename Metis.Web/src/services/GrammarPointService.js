@@ -46,6 +46,19 @@ class GrammarPointService {
         })
             .then(res => res.json());
     }
+    getGrammarPointsByDictionaryId (id) {
+        return fetch(process.env.REACT_APP_API_BASEURL + "GrammarPoint/getGrammarPointsByDictionaryId?id=" + id, {
+            method: 'get',
+            mode: 'cors',
+            headers: {
+                'Accept': 'application/json, text/plain, */*',
+                'Content-Type': 'application/json',
+                'Access-Control-Allow-Origin': '*',
+                'Authorization': 'Bearer ' + JwtService.getToken()
+            }
+        })
+            .then(res => res.json());
+    }
     getGrammarPointById(id) {
         return fetch(process.env.REACT_APP_API_BASEURL + "GrammarPoint/GetGrammarPointById?id=" + id, {
             method: 'get',

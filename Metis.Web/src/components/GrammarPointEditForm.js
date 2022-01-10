@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import FormHeader from './FormHeader';
 import GrammarPointService from '../services/GrammarPointService';
+import DictionaryService from '../services/DictionaryService';
 import ReactQuill from 'react-quill';
 
 export default class GrammarPointEditForm extends Component {
@@ -9,7 +10,9 @@ export default class GrammarPointEditForm extends Component {
         this.state = {
             id: this.props.id,
             title: "",
-            description: ""
+            description: "",
+            dictionaryId: "",
+            dictionaries: []
         }
         this.onChangeInput = this.onChangeInput.bind(this);
         this.onChangeDescription = this.onChangeDescription.bind(this);
@@ -18,12 +21,20 @@ export default class GrammarPointEditForm extends Component {
     }
     componentDidMount() {
         if (this.state.id !== undefined) {
+            DictionaryService
+                .getDictionaries()
+                .then((data) => {
+                    this.setState({
+                        dictionaries: data
+                    })
+                })
             GrammarPointService
                 .getGrammarPointById(this.state.id)
                 .then(response => {
                     this.setState({
                         title: response.title,
-                        description: response.description
+                        description: response.description,
+                        dictionaryId: response.dictionaryId
                     });
                 })
         }
@@ -54,16 +65,27 @@ export default class GrammarPointEditForm extends Component {
             })
     }
     render() {
+        let dictionaries = this.state.dictionaries.map((dictionary, index) =>
+            <option key={index} value={dictionary.id}>{dictionary.name}</option>
+        )
         return (
             <form className="text-start" onSubmit={this.onSubmit} onReset={this.onReset}>
                 <div className="row">
                     <div className="col-12">
                         <FormHeader title="Grammar Point" action="Update" subtitle={`Update the information about the grammar point ${this.state.id}.`} />
                     </div>
-                    <div className="col-12">
+                    <div className="col-12 col-xl-6">
                         <div className="input-group input-group-static my-3">
                             <label>Title</label>
                             <input type="text" className="form-control" name="title" value={this.state.title} onChange={this.onChangeInput} />
+                        </div>
+                    </div>
+                    <div className="col-12 col-xl-6">
+                        <div className="input-group input-group-static my-3">
+                            <label className="ms-0">Dictionary</label>
+                            <select className="form-control" name="dictionaryId" value={this.state.dictionaryId} onChange={this.onChangeDictionary}>
+                                {dictionaries}
+                            </select>
                         </div>
                     </div>
                     <div className="col-12">

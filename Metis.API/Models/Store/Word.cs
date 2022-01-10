@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 
 namespace Metis.Models.Store
 {
@@ -17,6 +18,7 @@ namespace Metis.Models.Store
         public string Example { get; set; }
         public int DictionaryId { get; set; }
         public int WordTypeId { get; set; }
+        [JsonIgnore]
         public Dictionary Dictionary { get; set; }    
         public WordType WordType { get; set; }
         public ICollection<Translation> Translations { get; set; }

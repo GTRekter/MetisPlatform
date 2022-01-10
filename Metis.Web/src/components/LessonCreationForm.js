@@ -23,6 +23,7 @@ export default class LessonCreationForm extends Component {
             wordAdditionFormVisible: false,
             grammarPointAdditionFormVisible: false,
         }
+        this.onChangeDictionary = this.onChangeDictionary.bind(this);
         this.onClickAddWord = this.onClickAddWord.bind(this);
         this.onClickAddGrammarPoint = this.onClickAddGrammarPoint.bind(this);
         this.onClickDeleteWord = this.onClickDeleteWord.bind(this);
@@ -40,21 +41,37 @@ export default class LessonCreationForm extends Component {
             .then((data) => {
                 this.setState({
                     dictionaries: data,
-                    dictionaryId: data.filter((dictionary) => dictionary.primary === true)[0].id
+                    dictionaryId: data[0].id
                 })
+                WordService
+                    .getWordsByDictionaryId(data[0].id)
+                    .then((data) => {
+                        this.setState({
+                            words: data
+                        });
+                    })
+                GrammarPointService
+                    .getGrammarPointsByDictionaryId(data[0].id)
+                    .then((data) => {
+                        this.setState({
+                            grammarPoints: data
+                        });
+                    })
             })
-            .catch(function (ex) {
-                console.log('Response parsing failed. Error: ', ex);
-            });
+    }
+    onChangeDictionary(event) {
+        this.setState({
+            dictionaryId: event.target.value
+        });
         WordService
-            .getWords()
+            .getWordsByDictionaryId(event.target.value)
             .then((data) => {
                 this.setState({
                     words: data
                 });
             })
         GrammarPointService
-            .getGrammarPoints()
+            .getGrammarPointsByDictionaryId(event.target.value)
             .then((data) => {
                 this.setState({
                     grammarPoints: data
@@ -137,7 +154,7 @@ export default class LessonCreationForm extends Component {
         let selectedWordsRows = this.state.selectedWords.map((word, index) => {
             let columns = [];
             this.state.dictionaries
-                .filter((dictionary) => dictionary.enabled === true && dictionary.primary === false)
+                .filter((dictionary) => dictionary.enabled === true && Number(dictionary.id) !== Number(this.state.dictionaryId))
                 .forEach((dictionary, index) => {
                     let translation = word.translations.filter((translation) => translation.dictionaryId === dictionary.id);
                     if (translation.length > 0) {
@@ -174,7 +191,6 @@ export default class LessonCreationForm extends Component {
             </tr>
         )
         let dictionaries = this.state.dictionaries
-            .filter((dictionary) => dictionary.enabled === true && dictionary.primary === false)
             .map((dictionary, index) =>
                 <option key={index} value={dictionary.id}>{dictionary.name}</option>
             )
@@ -195,7 +211,7 @@ export default class LessonCreationForm extends Component {
                     <div className="col-12 col-xl-6">
                         <div className="input-group input-group-static my-3">
                             <label className="ms-0">Dictionary</label>
-                            <select className="form-control" name="dictionaryId" disabled value={this.state.dictionaryId} onChange={this.onChangeInput}>
+                            <select className="form-control" name="dictionaryId" value={this.state.dictionaryId} onChange={this.onChangeDictionary}>
                                 {dictionaries}
                             </select>
                         </div>
