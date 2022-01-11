@@ -1,10 +1,10 @@
 import * as sdk from "microsoft-cognitiveservices-speech-sdk";
 
 class SpeechService {
-    synthesizeSpeech = (string) => {
+    synthesizeSpeech = (string, languageCode) => {
         const speechConfig = sdk.SpeechConfig.fromSubscription(process.env.REACT_APP_AZURE_CS_SPEECH_KEY, process.env.REACT_APP_AZURE_CS_SPEECH_REGION);
-        speechConfig.speechRecognitionLanguage = "ko-KR";
-        speechConfig.speechSynthesisLanguage = "ko-KR";
+        speechConfig.speechRecognitionLanguage = languageCode;
+        speechConfig.speechSynthesisLanguage = languageCode;
         const audioConfig = sdk.AudioConfig.fromDefaultSpeakerOutput();
         const synthesizer = new sdk.SpeechSynthesizer(speechConfig, audioConfig);
         synthesizer.speakTextAsync(
@@ -20,9 +20,9 @@ class SpeechService {
                 synthesizer.close();
             });
     };
-    recognizeSpeech = () => {
+    recognizeSpeech = (languageCode) => {
         const speechConfig = sdk.SpeechConfig.fromSubscription(process.env.REACT_APP_AZURE_CS_SPEECH_KEY, process.env.REACT_APP_AZURE_CS_SPEECH_REGION);
-        speechConfig.speechRecognitionLanguage = "ko-KR";
+        speechConfig.speechRecognitionLanguage = languageCode;
         const audioConfig = sdk.AudioConfig.fromDefaultMicrophoneInput();
         const recognizer = new sdk.SpeechRecognizer(speechConfig, audioConfig);
         return new Promise((resolve, reject) => {

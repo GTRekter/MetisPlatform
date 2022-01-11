@@ -52,8 +52,9 @@ namespace Metis.Models.Store
         private void SeedDictionaries(ModelBuilder builder)
         {
             builder.Entity<Dictionary>().HasData(new List<Dictionary>(){
-                new Dictionary(){ Id = 1, Name = "Korean", Code = "ko-KO", Enabled = true, Primary = true },
-                new Dictionary(){ Id = 2, Name = "English (en-US)", Code = "en-US", Enabled = true, Primary = false }
+                new Dictionary(){ Id = 1, Name = "Korean", Code = "ko-KR", Enabled = true, Primary = true },
+                new Dictionary(){ Id = 2, Name = "English", Code = "en-US", Enabled = true, Primary = false },
+                new Dictionary(){ Id = 3, Name = "Italian", Code = "it-IT", Enabled = true, Primary = false }
             });
         }
         private void SeedWordTypes(ModelBuilder builder)

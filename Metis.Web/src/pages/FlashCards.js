@@ -7,6 +7,7 @@ import { faFlag, faExclamationTriangle, faTags, faEye, faThumbsDown, faThumbsUp,
 import SpeechService from '../services/SpeechService';
 import WordService from '../services/WordService';
 import WordTypeService from '../services/WordTypeService';
+import DictionaryService from '../services/DictionaryService';
 import JwtService from '../services/JwtService';
 
 export default class FlashCards extends Component {
@@ -18,6 +19,7 @@ export default class FlashCards extends Component {
             errors: [],
             correct: [],
             wordTypes: [],
+            dictionaries: [],
             currentWord: "",
             currentWordType: "",
             viewTranslation: false,
@@ -34,6 +36,12 @@ export default class FlashCards extends Component {
     }
     componentDidMount() {
         var id = JwtService.getCurrentUserId();
+        DictionaryService.getDictionaries()
+            .then(data => {
+                this.setState({
+                    dictionaries: data
+                });
+            });
         WordService.getWordsByUserId(id)
             .then(data => {
                 let shuffledWords = this.shuffle(data);
@@ -56,7 +64,8 @@ export default class FlashCards extends Component {
         });
     }
     onClickViewTranslation = () => {
-        SpeechService.synthesizeSpeech(this.state.currentWord.text);
+        var dictionary = this.state.dictionaries.filter(d => d.id === this.state.currentWord.dictionaryId);
+        SpeechService.synthesizeSpeech(this.state.currentWord.text, dictionary[0].code);
         this.setState({
             viewTranslation: true
         })
@@ -81,7 +90,8 @@ export default class FlashCards extends Component {
             isAnswerProvided: true,
             isAnswerCorrect: true
         })
-        SpeechService.synthesizeSpeech(this.state.currentWord.text);
+        var dictionary = this.state.dictionaries.filter(d => d.id === this.state.currentWord.dictionaryId);
+        SpeechService.synthesizeSpeech(this.state.currentWord.text, dictionary[0].code);
         setTimeout(function () {
             self.updateCounters(true);
             self.resetValues();
