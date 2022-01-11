@@ -9,7 +9,7 @@ class HttpService {
             body: data
         })
         .catch((error) => {
-            if (error.response && error.response.status === 401 && JwtService.isExpired()) {
+            if (error.response && error.response.status === 401) {
                 JwtService.removeToken();
                 window.location.reload();
             } else {

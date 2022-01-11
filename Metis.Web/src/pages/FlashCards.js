@@ -113,15 +113,15 @@ export default class FlashCards extends Component {
     };
     onClickUpdateWordsByWordType = (value) => {
         let id = JwtService.getCurrentUserId();
-        let wordTypeIds = this.state.wordTypes.filter((wordType) => wordType.name === value);
-        console.log(wordTypeIds);
-        WordService.getWordsByUserIdAndWordTypeId(id, wordTypeIds[0].id)
+        if(value === "" || value === "All") {
+            WordService.getWordsByUserId(id)
             .then(data => {
                 let shuffledWords = this.shuffle(data);
                 this.setState({
-                    words: shuffledWords,
+                    words: data,
                     analyzedWords: shuffledWords,
                     currentWord: shuffledWords[0],
+                    currentWordType: value,
                     errors: [],
                     correct: [],
                     topic: "",
@@ -129,6 +129,24 @@ export default class FlashCards extends Component {
                     isAnswerCorrect: false
                 });
             });
+        } else {
+            let wordTypeIds = this.state.wordTypes.filter((wordType) => wordType.name === value);
+            WordService.getWordsByUserIdAndWordTypeId(id, wordTypeIds[0].id)
+                .then(data => {
+                    let shuffledWords = this.shuffle(data);
+                    this.setState({
+                        words: data,
+                        analyzedWords: shuffledWords,
+                        currentWord: shuffledWords[0],
+                        currentWordType: value,
+                        errors: [],
+                        correct: [],
+                        topic: "",
+                        isAnswerProvided: false,
+                        isAnswerCorrect: false
+                    });
+                });
+        }
     };
     updateCounters = () => {
         let errors = this.state.errors;

@@ -154,10 +154,11 @@ namespace Metis.Models.Managers
         {
             var lessons = await context.Users
                 .Include(u => u.Lessons)
-                .ThenInclude(l => l.Words)
-                .ThenInclude(w => w.WordType)
-                // TODO: Find a way to add translations
-                // .ThenInclude(w => w.Translations)
+                    .ThenInclude(l => l.Words)
+                    .ThenInclude(w => w.WordType)
+                .Include(u => u.Lessons)
+                    .ThenInclude(l => l.Words)
+                    .ThenInclude(w => w.Translations)
                 .FirstOrDefaultAsync(u => u.Id == id);
 
             return lessons.Lessons
