@@ -1,141 +1,113 @@
 import JwtService from '../services/JwtService';
+import HttpService from '../services/HttpService';
 
 class GrammarPointService {
     addGrammarPoint(title, description) {
-        return fetch(process.env.REACT_APP_API_BASEURL + "GrammarPoint/AddGrammarPoint", {
-            method: 'post',
-            mode: 'cors',
-            headers: {
-                'Accept': 'application/json, text/plain, */*',
-                'Content-Type': 'application/json',
-                'Access-Control-Allow-Origin': '*',
-                'Authorization': 'Bearer ' + JwtService.getToken()
-            },
-            body: JSON.stringify({
-                title: title,
-                description: description
-            })
-        })
+        let headers = {
+            'Accept': 'application/json, text/plain, */*',
+            'Content-Type': 'application/json',
+            'Access-Control-Allow-Origin': '*',
+            'Authorization': 'Bearer ' + JwtService.getToken()
+        };
+        let body = JSON.stringify({
+            title: title,
+            description: description
+        });
+        return HttpService.request('post', process.env.REACT_APP_API_BASEURL + "GrammarPoint/AddGrammarPoint", body, headers);
     }
     editGrammarPoint(id, title, description) {
-        return fetch(process.env.REACT_APP_API_BASEURL + "GrammarPoint/EditGrammarPoint", {
-            method: 'post',
-            mode: 'cors',
-            headers: {
-                'Accept': 'application/json, text/plain, */*',
-                'Content-Type': 'application/json',
-                'Access-Control-Allow-Origin': '*',
-                'Authorization': 'Bearer ' + JwtService.getToken()
-            },
-            body: JSON.stringify({
-                id: id,
-                title: title,
-                description: description
-            })
+        let headers = {
+            'Accept': 'application/json, text/plain, */*',
+            'Content-Type': 'application/json',
+            'Access-Control-Allow-Origin': '*',
+            'Authorization': 'Bearer ' + JwtService.getToken()
+        };
+        let body = JSON.stringify({
+            id: id,
+            title: title,
+            description: description
         })
+        return HttpService.request('post', process.env.REACT_APP_API_BASEURL + "GrammarPoint/EditGrammarPoint", body, headers);
     }
     getGrammarPoints() {
-        return fetch(process.env.REACT_APP_API_BASEURL + "GrammarPoint/GetGrammarPoints", {
-            method: 'get',
-            mode: 'cors',
-            headers: {
-                'Accept': 'application/json, text/plain, */*',
-                'Content-Type': 'application/json',
-                'Access-Control-Allow-Origin': '*',
-                'Authorization': 'Bearer ' + JwtService.getToken()
-            }
-        })
-            .then(res => res.json());
+        let headers = {
+            'Accept': 'application/json, text/plain, */*',
+            'Content-Type': 'application/json',
+            'Access-Control-Allow-Origin': '*',
+            'Authorization': 'Bearer ' + JwtService.getToken()
+        };
+        return HttpService.request('get', process.env.REACT_APP_API_BASEURL + "GrammarPoint/GetGrammarPoints", null, headers)
+            .then(res => res.json());            
     }
     getGrammarPointsByDictionaryId (id) {
-        return fetch(process.env.REACT_APP_API_BASEURL + "GrammarPoint/getGrammarPointsByDictionaryId?id=" + id, {
-            method: 'get',
-            mode: 'cors',
-            headers: {
-                'Accept': 'application/json, text/plain, */*',
-                'Content-Type': 'application/json',
-                'Access-Control-Allow-Origin': '*',
-                'Authorization': 'Bearer ' + JwtService.getToken()
-            }
-        })
-            .then(res => res.json());
+        let headers = {
+            'Accept': 'application/json, text/plain, */*',
+            'Content-Type': 'application/json',
+            'Access-Control-Allow-Origin': '*',
+            'Authorization': 'Bearer ' + JwtService.getToken()
+        };
+        return HttpService.request('get', process.env.REACT_APP_API_BASEURL + "GrammarPoint/getGrammarPointsByDictionaryId?id=" + id, null, headers)
+            .then(res => res.json());  
     }
     getGrammarPointById(id) {
-        return fetch(process.env.REACT_APP_API_BASEURL + "GrammarPoint/GetGrammarPointById?id=" + id, {
-            method: 'get',
-            mode: 'cors',
-            headers: {
-                'Accept': 'application/json, text/plain, */*',
-                'Content-Type': 'application/json',
-                'Access-Control-Allow-Origin': '*',
-                'Authorization': 'Bearer ' + JwtService.getToken()
-            }
-        })
-            .then(res => res.json());
+        let headers = {
+            'Accept': 'application/json, text/plain, */*',
+            'Content-Type': 'application/json',
+            'Access-Control-Allow-Origin': '*',
+            'Authorization': 'Bearer ' + JwtService.getToken()
+        };
+        return HttpService.request('get', process.env.REACT_APP_API_BASEURL + "GrammarPoint/GetGrammarPointById?id=" + id, null, headers)
+            .then(res => res.json());  
     }
     getGrammarPointsByPage(page, itemsPerPage) {
-        return fetch(process.env.REACT_APP_API_BASEURL + "GrammarPoint/GetGrammarPointsByPage?page=" + page + "&itemsPerPage=" + itemsPerPage, {
-            method: 'get',
-            mode: 'cors',
-            headers: {
-                'Accept': 'application/json, text/plain, */*',
-                'Content-Type': 'application/json',
-                'Access-Control-Allow-Origin': '*',
-                'Authorization': 'Bearer ' + JwtService.getToken()
-            }
-        })
-            .then(res => res.json());
+        let headers = {
+            'Accept': 'application/json, text/plain, */*',
+            'Content-Type': 'application/json',
+            'Access-Control-Allow-Origin': '*',
+            'Authorization': 'Bearer ' + JwtService.getToken()
+        };
+        return HttpService.request('get', process.env.REACT_APP_API_BASEURL + "GrammarPoint/GetGrammarPointsByPage?page=" + page + "&itemsPerPage=" + itemsPerPage, null, headers)
+            .then(res => res.json());  
     }
     getGrammarPointsByPageAndSearchQuery(page, itemsPerPage, searchQuery) {
-        return fetch(process.env.REACT_APP_API_BASEURL + "GrammarPoint/getGrammarPointsByPageAndSearchQuery?page=" + page + "&itemsPerPage=" + itemsPerPage + "&searchQuery=" + searchQuery, {
-            method: 'get',
-            mode: 'cors',
-            headers: {
-                'Accept': 'application/json, text/plain, */*',
-                'Content-Type': 'application/json',
-                'Access-Control-Allow-Origin': '*',
-                'Authorization': 'Bearer ' + JwtService.getToken()
-            }
-        })
-            .then(res => res.json());
+        let headers = {
+            'Accept': 'application/json, text/plain, */*',
+            'Content-Type': 'application/json',
+            'Access-Control-Allow-Origin': '*',
+            'Authorization': 'Bearer ' + JwtService.getToken()
+        };
+        return HttpService.request('get', process.env.REACT_APP_API_BASEURL + "GrammarPoint/getGrammarPointsByPageAndSearchQuery?page=" + page + "&itemsPerPage=" + itemsPerPage + "&searchQuery=" + searchQuery, null, headers)
+            .then(res => res.json());  
     }
     getGrammarPointsCount() {
-        return fetch(process.env.REACT_APP_API_BASEURL + "GrammarPoint/GetGrammarPointsCount", {
-            method: 'get',
-            mode: 'cors',
-            headers: {
-                'Accept': 'application/json, text/plain, */*',
-                'Content-Type': 'application/json',
-                'Access-Control-Allow-Origin': '*',
-                'Authorization': 'Bearer ' + JwtService.getToken()
-            }
-        })
-            .then(res => res.json());
+        let headers = {
+            'Accept': 'application/json, text/plain, */*',
+            'Content-Type': 'application/json',
+            'Access-Control-Allow-Origin': '*',
+            'Authorization': 'Bearer ' + JwtService.getToken()
+        };
+        return HttpService.request('get', process.env.REACT_APP_API_BASEURL + "GrammarPoint/GetGrammarPointsCount", null, headers)
+            .then(res => res.json());  
     }
     getGrammarPointsBySearchQueryCount(searchQuery) {
-        return fetch(process.env.REACT_APP_API_BASEURL + "GrammarPoint/GetGrammarPointsBySearchQueryCount?searchQuery=" + searchQuery, {
-            method: 'get',
-            mode: 'cors',
-            headers: {
-                'Accept': 'application/json, text/plain, */*',
-                'Content-Type': 'application/json',
-                'Access-Control-Allow-Origin': '*',
-                'Authorization': 'Bearer ' + JwtService.getToken()
-            }
-        })
-            .then(res => res.json());
+        let headers = {
+            'Accept': 'application/json, text/plain, */*',
+            'Content-Type': 'application/json',
+            'Access-Control-Allow-Origin': '*',
+            'Authorization': 'Bearer ' + JwtService.getToken()
+        };
+        return HttpService.request('get', process.env.REACT_APP_API_BASEURL + "GrammarPoint/GetGrammarPointsBySearchQueryCount?searchQuery=" + searchQuery, null, headers)
+            .then(res => res.json());  
     }
     deleteGrammarPointById(id) {
-        return fetch(process.env.REACT_APP_API_BASEURL + "GrammarPoint/DeleteGrammarPointById?id=" + id, {
-            method: 'delete',
-            mode: 'cors',
-            headers: {
-                'Accept': 'application/json, text/plain, */*',
-                'Content-Type': 'application/json',
-                'Access-Control-Allow-Origin': '*',
-                'Authorization': 'Bearer ' + JwtService.getToken()
-            }
-        })
+        let headers = {
+            'Accept': 'application/json, text/plain, */*',
+            'Content-Type': 'application/json',
+            'Access-Control-Allow-Origin': '*',
+            'Authorization': 'Bearer ' + JwtService.getToken()
+        };
+        return HttpService.request('get', process.env.REACT_APP_API_BASEURL + "GrammarPoint/DeleteGrammarPointById?id=" + id, null, headers)
+            .then(res => res.json());  
     }
 }
 export default new GrammarPointService();

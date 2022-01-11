@@ -6,6 +6,7 @@ import Pagination from '../components/Pagination';
 import WordService from '../services/WordService';
 import DictionaryService from '../services/DictionaryService';
 import SpeechService from '../services/SpeechService';
+import JwtService from '../services/JwtService';
 
 export default class Dictionary extends Component {
     constructor(props) {
@@ -25,15 +26,16 @@ export default class Dictionary extends Component {
         this.onClickChangePage = this.onClickChangePage.bind(this);
     }
     componentDidMount() {
+        var id = JwtService.getCurrentUserId();
         WordService
-            .getWordsByPage(this.state.page, this.state.wordsPerPage)
+            .getWordsByUserIdAndPage(id, this.state.page, this.state.wordsPerPage)
             .then(response => {
                 this.setState({
                     displayedWords: response
                 });
             })
         WordService
-            .getWordsCount()
+            .getWordsByUserIdCount(id)
             .then(response => {
                 this.setState({
                     words: response,
@@ -47,28 +49,15 @@ export default class Dictionary extends Component {
                     dictionaries: data.filter((dictionary) => dictionary.enabled === true && dictionary.primary === false)
                 })
             })
-            .catch(function (ex) {
-                console.log('Response parsing failed. Error: ', ex);
-            });
     }
     onClickPronounceWords = (string) => {
         SpeechService.synthesizeSpeech(string);
     }
-    onSubmitCreationWord() {
-        WordService
-            .getWordsByPage(this.state.page, this.state.wordsPerPage)
-            .then(response => {
-                this.setState({
-                    words: this.state.words + 1,
-                    displayedWords: response,
-                    creationFormVisible: false
-                });
-            })
-    }
     onClickUpdateWordsByPage = (wordsPerPage) => {
+        var id = JwtService.getCurrentUserId();
         if (this.state.searchQuery === '') {
             WordService
-                .getWordsCount()
+                .getWordsByUserIdCount(id)
                 .then(response => {
                     this.setState({
                         words: response,
@@ -76,7 +65,7 @@ export default class Dictionary extends Component {
                     });
                 })
             WordService
-                .getWordsByPage(this.state.page, wordsPerPage)
+                .getWordsByUserIdAndPage(id, this.state.page, wordsPerPage)
                 .then(response => {
                     this.setState({
                         ...this.state,
@@ -86,7 +75,7 @@ export default class Dictionary extends Component {
                 })
         } else {
             WordService
-                .getWordsBySearchQueryCount(this.state.searchQuery)
+                .getWordsByUserIdAndSearchQueryCount(id, this.state.searchQuery)
                 .then(response => {
                     this.setState({
                         words: response,
@@ -94,7 +83,7 @@ export default class Dictionary extends Component {
                     });
                 })
             WordService
-                .getWordsByPageAndSearchQuery(this.state.page, wordsPerPage, this.state.searchQuery)
+                .getWordsByUserIdAndPageAndSearchQuery(id, this.state.page, wordsPerPage, this.state.searchQuery)
                 .then(response => {
                     this.setState({
                         ...this.state,
@@ -109,9 +98,10 @@ export default class Dictionary extends Component {
             ...this.state,
             searchQuery: event.target.value
         });
+        var id = JwtService.getCurrentUserId();
         if (event.target.value === '') {
             WordService
-                .getWordsCount()
+                .getWordsByUserIdCount(id)
                 .then(response => {
                     this.setState({
                         words: response,
@@ -119,7 +109,7 @@ export default class Dictionary extends Component {
                     });
                 })
             WordService
-                .getWordsByPage(this.state.page, this.state.wordsPerPage)
+                .getWordsByUserIdAndPage(id, this.state.page, this.state.wordsPerPage)
                 .then(response => {
                     this.setState({
                         ...this.state,
@@ -128,7 +118,7 @@ export default class Dictionary extends Component {
                 })
         } else {
             WordService
-                .getWordsBySearchQueryCount(event.target.value)
+                .getWordsByUserIdAndSearchQueryCount(id, event.target.value)
                 .then(response => {
                     this.setState({
                         words: response,
@@ -136,7 +126,7 @@ export default class Dictionary extends Component {
                     });
                 })
             WordService
-                .getWordsByPageAndSearchQuery(this.state.page, this.state.wordsPerPage, event.target.value)
+                .getWordsByUserIdAndPageAndSearchQuery(id, this.state.page, this.state.wordsPerPage, event.target.value)
                 .then(response => {
                     this.setState({
                         ...this.state,
@@ -146,9 +136,10 @@ export default class Dictionary extends Component {
         }
     }
     onClickChangePage = (page) => {
+        var id = JwtService.getCurrentUserId();
         if (this.state.searchQuery === '') {
             WordService
-                .getWordsCount()
+                .getWordsByUserIdCount(id)
                 .then(response => {
                     this.setState({
                         words: response,
@@ -156,7 +147,7 @@ export default class Dictionary extends Component {
                     });
                 })
             WordService
-                .getWordsByPage(page, this.state.wordsPerPage)
+                .getWordsByUserIdAndPage(id, page, this.state.wordsPerPage)
                 .then(response => {
                     this.setState({
                         ...this.state,
@@ -166,7 +157,7 @@ export default class Dictionary extends Component {
                 })
         } else {
             WordService
-                .getWordsBySearchQueryCount(this.state.searchQuery)
+                .getWordsByUserIdAndSearchQueryCount(id, this.state.searchQuery)
                 .then(response => {
                     this.setState({
                         words: response,
@@ -174,7 +165,7 @@ export default class Dictionary extends Component {
                     });
                 })
             WordService
-                .getWordsByPageAndSearchQuery(page, this.state.wordsPerPage, this.state.searchQuery)
+                .getWordsByUserIdAndPageAndSearchQuery(id, page, this.state.wordsPerPage, this.state.searchQuery)
                 .then(response => {
                     this.setState({
                         ...this.state,

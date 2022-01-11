@@ -32,6 +32,42 @@ namespace Metis.API.Controllers
             await WordManager.AddWord(_context, request.Text, request.Romanization, request.DictionaryId, request.WordTypeId, request.Description, request.Example, request.Translations.Select(t => new KeyValuePair<int,string>(t.DictionaryId, t.Text)));
             return Ok();
         }
+        
+        [HttpPost]
+        [Authorize(AuthenticationSchemes = Microsoft.AspNetCore.Authentication.JwtBearer.JwtBearerDefaults.AuthenticationScheme, Roles = "Administrator, Teacher")]
+        [Route("EditWord")]
+        public async Task<IActionResult> EditWordAsync(EditWordRequest request)
+        {
+            if (request == null)
+            {
+                return NotFound();
+            }
+            var translationsToAdd = new List<KeyValuePair<int, string>>();
+            var translationsToEdit = new List<KeyValuePair<int, string>>();
+            foreach (var translation in request.Translations)
+            {
+                if (translation.Id == null)
+                {
+                    translationsToAdd.Add(new KeyValuePair<int, string>(translation.DictionaryId, translation.Text));
+                }
+                else
+                {
+                    translationsToEdit.Add(new KeyValuePair<int, string>((int)translation.Id, translation.Text));
+                }
+            }    
+            await WordManager.EditWord(_context, request.Id, request.Text, request.Romanization, request.DictionaryId, request.WordTypeId, request.Description, request.Example, translationsToAdd, translationsToEdit);
+            return Ok();
+        }
+
+        [HttpDelete]
+        [Authorize(AuthenticationSchemes = Microsoft.AspNetCore.Authentication.JwtBearer.JwtBearerDefaults.AuthenticationScheme, Roles = "Administrator, Teacher")]
+        [Route("DeleteWordById")]
+        public async Task<IActionResult> DeleteWordByIdAsync(int id)
+        {
+            await WordManager.DeleteWordById(_context, id);
+            return Ok();
+        }
+
 
         [HttpGet]
         [Authorize(AuthenticationSchemes = Microsoft.AspNetCore.Authentication.JwtBearer.JwtBearerDefaults.AuthenticationScheme)]
@@ -89,10 +125,28 @@ namespace Metis.API.Controllers
 
         [HttpGet]
         [Authorize(AuthenticationSchemes = Microsoft.AspNetCore.Authentication.JwtBearer.JwtBearerDefaults.AuthenticationScheme)]
+        [Route("GetWordsByUserIdAndPage")]
+        public async Task<IActionResult> GetWordsByUserIdAndPageAsync(int id, int page, int itemsPerPage)
+        {
+            IEnumerable<Word> words = await WordManager.GetWordsByUserIdAndPage(_context, id, page, itemsPerPage);
+            return Ok(words);
+        }
+
+        [HttpGet]
+        [Authorize(AuthenticationSchemes = Microsoft.AspNetCore.Authentication.JwtBearer.JwtBearerDefaults.AuthenticationScheme)]
         [Route("GetWordsByPageAndSearchQuery")]
         public async Task<IActionResult> GetWordsByPageAndSearchQueryAsync(int page, int itemsPerPage, string searchQuery)
         {
             IEnumerable<Word> words = await WordManager.GetWordsByPageAndSearchQuery(_context, page, itemsPerPage, searchQuery);
+            return Ok(words);
+        }
+
+        [HttpGet]
+        [Authorize(AuthenticationSchemes = Microsoft.AspNetCore.Authentication.JwtBearer.JwtBearerDefaults.AuthenticationScheme)]
+        [Route("GetWordsByUserIdAndPageAndSearchQuery")]
+        public async Task<IActionResult> GetWordsByUserIdAndPageAndSearchQueryAsync(int id, int page, int itemsPerPage, string searchQuery)
+        {
+            IEnumerable<Word> words = await WordManager.GetWordsByUserIdAndPageAndSearchQuery(_context, id, page, itemsPerPage, searchQuery);
             return Ok(words);
         }
 
@@ -107,6 +161,15 @@ namespace Metis.API.Controllers
 
         [HttpGet]
         [Authorize(AuthenticationSchemes = Microsoft.AspNetCore.Authentication.JwtBearer.JwtBearerDefaults.AuthenticationScheme)]
+        [Route("GetWordsByUserIdCount")]
+        public async Task<IActionResult> GetWordsByUserIdCountAsync(int id)
+        {
+            int counter = await WordManager.GetWordsByUserIdCount(_context, id);
+            return Ok(counter);
+        }
+
+        [HttpGet]
+        [Authorize(AuthenticationSchemes = Microsoft.AspNetCore.Authentication.JwtBearer.JwtBearerDefaults.AuthenticationScheme)]
         [Route("GetWordsBySearchQueryCount")]
         public async Task<IActionResult> GetWordsBySearchQueryCountAsync(string searchQuery)
         {
@@ -114,40 +177,13 @@ namespace Metis.API.Controllers
             return Ok(counter);
         }
 
-        [HttpPost]
-        [Authorize(AuthenticationSchemes = Microsoft.AspNetCore.Authentication.JwtBearer.JwtBearerDefaults.AuthenticationScheme, Roles = "Administrator, Teacher")]
-        [Route("EditWord")]
-        // [ValidateAntiForgeryToken]
-        public async Task<IActionResult> EditWordAsync(EditWordRequest request)
+        [HttpGet]
+        [Authorize(AuthenticationSchemes = Microsoft.AspNetCore.Authentication.JwtBearer.JwtBearerDefaults.AuthenticationScheme)]
+        [Route("GetWordsByUserIdAndSearchQueryCount")]
+        public async Task<IActionResult> GetWordsByUserIdAndSearchQueryCountAsync(int id, string searchQuery)
         {
-            if (request == null)
-            {
-                return NotFound();
-            }
-            var translationsToAdd = new List<KeyValuePair<int, string>>();
-            var translationsToEdit = new List<KeyValuePair<int, string>>();
-            foreach (var translation in request.Translations)
-            {
-                if (translation.Id == null)
-                {
-                    translationsToAdd.Add(new KeyValuePair<int, string>(translation.DictionaryId, translation.Text));
-                }
-                else
-                {
-                    translationsToEdit.Add(new KeyValuePair<int, string>((int)translation.Id, translation.Text));
-                }
-            }    
-            await WordManager.EditWord(_context, request.Id, request.Text, request.Romanization, request.DictionaryId, request.WordTypeId, request.Description, request.Example, translationsToAdd, translationsToEdit);
-            return Ok();
-        }
-
-        [HttpDelete]
-        [Authorize(AuthenticationSchemes = Microsoft.AspNetCore.Authentication.JwtBearer.JwtBearerDefaults.AuthenticationScheme, Roles = "Administrator, Teacher")]
-        [Route("DeleteWordById")]
-        public async Task<IActionResult> DeleteWordByIdAsync(int id)
-        {
-            await WordManager.DeleteWordById(_context, id);
-            return Ok();
+            int counter = await WordManager.GetWordsByUserIdAndSearchQueryCount(_context, id, searchQuery);
+            return Ok(counter);
         }
     }
 }

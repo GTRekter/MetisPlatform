@@ -1,21 +1,19 @@
 import JwtService from '../services/JwtService';
+import HttpService from '../services/HttpService';
 
 class UserService {
     loginUser(email, password) {
-        return fetch(process.env.REACT_APP_API_BASEURL + "User/LoginUser", {
-            method: 'post',
-            mode: 'cors',
-            headers: {
-                'Accept': 'application/json, text/plain, */*',
-                'Content-Type': 'application/json',
-                'Access-Control-Allow-Origin': '*',
-                'Authorization': 'Bearer ' + JwtService.getToken()
-            },
-            body: JSON.stringify({
-                email: email,
-                password: password
-            })
+        let headers = {
+            'Accept': 'application/json, text/plain, */*',
+            'Content-Type': 'application/json',
+            'Access-Control-Allow-Origin': '*',
+            'Authorization': 'Bearer ' + JwtService.getToken()
+        };
+        let body = JSON.stringify({
+            email: email,
+            password: password
         })
+        return HttpService.request('post', process.env.REACT_APP_API_BASEURL + "User/LoginUser", body, headers)
             .then(async (res) => {
                 if (!res.ok) {
                     await res.text().then((text) => {
@@ -26,133 +24,106 @@ class UserService {
             })
     }
     addUser(firstname, lastname, email, role, lessons) {
-        return fetch(process.env.REACT_APP_API_BASEURL + "User/AddUser", {
-            method: 'post',
-            mode: 'cors',
-            headers: {
-                'Accept': 'application/json, text/plain, */*',
-                'Content-Type': 'application/json',
-                'Access-Control-Allow-Origin': '*',
-                'Authorization': 'Bearer ' + JwtService.getToken()
-            },
-            body: JSON.stringify({
-                firstname: firstname,
-                lastname: lastname,
-                email: email,
-                role: role,
-                lessons: lessons
-            })
+        let headers = {
+            'Accept': 'application/json, text/plain, */*',
+            'Content-Type': 'application/json',
+            'Access-Control-Allow-Origin': '*',
+            'Authorization': 'Bearer ' + JwtService.getToken()
+        };
+        let body = JSON.stringify({
+            firstname: firstname,
+            lastname: lastname,
+            email: email,
+            role: role,
+            lessons: lessons
         })
+        return HttpService.request('post', process.env.REACT_APP_API_BASEURL + "User/AddUser", body, headers);
     }
     editUser(id, firstname, lastname, email, role, lessons) {
-        return fetch(process.env.REACT_APP_API_BASEURL + "User/EditUser", {
-            method: 'post',
-            mode: 'cors',
-            headers: {
-                'Accept': 'application/json, text/plain, */*',
-                'Content-Type': 'application/json',
-                'Access-Control-Allow-Origin': '*',
-                'Authorization': 'Bearer ' + JwtService.getToken()
-            },
-            body: JSON.stringify({
-                id: id,
-                firstname: firstname,
-                lastname: lastname,
-                email: email,
-                role: role,
-                lessons: lessons
-            })
+        let headers = {
+            'Accept': 'application/json, text/plain, */*',
+            'Content-Type': 'application/json',
+            'Access-Control-Allow-Origin': '*',
+            'Authorization': 'Bearer ' + JwtService.getToken()
+        };
+        let body = JSON.stringify({
+            id: id,
+            firstname: firstname,
+            lastname: lastname,
+            email: email,
+            role: role,
+            lessons: lessons
         })
+        return HttpService.request('post', process.env.REACT_APP_API_BASEURL + "User/EditUser", body, headers);
     }
     getUsers() {
-        return fetch(process.env.REACT_APP_API_BASEURL + "User/GetUsers", {
-            method: 'get',
-            mode: 'cors',
-            headers: {
-                'Accept': 'application/json, text/plain, */*',
-                'Content-Type': 'application/json',
-                'Access-Control-Allow-Origin': '*',
-                'Authorization': 'Bearer ' + JwtService.getToken()
-            }
-        })
-            .then(res => res.json());
+        let headers = {
+            'Accept': 'application/json, text/plain, */*',
+            'Content-Type': 'application/json',
+            'Access-Control-Allow-Origin': '*',
+            'Authorization': 'Bearer ' + JwtService.getToken()
+        };
+        return HttpService.request('get', process.env.REACT_APP_API_BASEURL + "User/GetUsers", null, headers)
+            .then(res => res.json());  
     }
     getUserById(id) {
-        return fetch(process.env.REACT_APP_API_BASEURL + "User/GetUserById?id=" + id, {
-            method: 'get',
-            mode: 'cors',
-            headers: {
-                'Accept': 'application/json, text/plain, */*',
-                'Content-Type': 'application/json',
-                'Access-Control-Allow-Origin': '*',
-                'Authorization': 'Bearer ' + JwtService.getToken()
-            }
-        })
-            .then(res => res.json());
+        let headers = {
+            'Accept': 'application/json, text/plain, */*',
+            'Content-Type': 'application/json',
+            'Access-Control-Allow-Origin': '*',
+            'Authorization': 'Bearer ' + JwtService.getToken()
+        };
+        return HttpService.request('get', process.env.REACT_APP_API_BASEURL + "User/GetUserById?id=" + id, null, headers)
+            .then(res => res.json());  
     }
     getUsersByPage(page, itemsPerPage) {
-        return fetch(process.env.REACT_APP_API_BASEURL + "User/GetUsersByPage?page=" + page + "&itemsPerPage=" + itemsPerPage, {
-            method: 'get',
-            mode: 'cors',
-            headers: {
-                'Accept': 'application/json, text/plain, */*',
-                'Content-Type': 'application/json',
-                'Access-Control-Allow-Origin': '*',
-                'Authorization': 'Bearer ' + JwtService.getToken()
-            }
-        })
-            .then(res => res.json());
+        let headers = {
+            'Accept': 'application/json, text/plain, */*',
+            'Content-Type': 'application/json',
+            'Access-Control-Allow-Origin': '*',
+            'Authorization': 'Bearer ' + JwtService.getToken()
+        };
+        return HttpService.request('get', process.env.REACT_APP_API_BASEURL + "User/GetUsersByPage?page=" + page + "&itemsPerPage=" + itemsPerPage, null, headers)
+            .then(res => res.json());  
     }
     getUsersByPageAndSearchQuery(page, itemsPerPage, searchQuery) {
-        return fetch(process.env.REACT_APP_API_BASEURL + "User/getUsersByPageAndSearchQuery?page=" + page + "&itemsPerPage=" + itemsPerPage + "&searchQuery=" + searchQuery, {
-            method: 'get',
-            mode: 'cors',
-            headers: {
-                'Accept': 'application/json, text/plain, */*',
-                'Content-Type': 'application/json',
-                'Access-Control-Allow-Origin': '*',
-                'Authorization': 'Bearer ' + JwtService.getToken()
-            }
-        })
-            .then(res => res.json());
+        let headers = {
+            'Accept': 'application/json, text/plain, */*',
+            'Content-Type': 'application/json',
+            'Access-Control-Allow-Origin': '*',
+            'Authorization': 'Bearer ' + JwtService.getToken()
+        };
+        return HttpService.request('get', process.env.REACT_APP_API_BASEURL + "User/getUsersByPageAndSearchQuery?page=" + page + "&itemsPerPage=" + itemsPerPage + "&searchQuery=" + searchQuery, null, headers)
+            .then(res => res.json());  
     }
     getUsersCount() {
-        return fetch(process.env.REACT_APP_API_BASEURL + "User/GetUsersCount", {
-            method: 'get',
-            mode: 'cors',
-            headers: {
-                'Accept': 'application/json, text/plain, */*',
-                'Content-Type': 'application/json',
-                'Access-Control-Allow-Origin': '*',
-                'Authorization': 'Bearer ' + JwtService.getToken()
-            }
-        })
-            .then(res => res.json());
+        let headers = {
+            'Accept': 'application/json, text/plain, */*',
+            'Content-Type': 'application/json',
+            'Access-Control-Allow-Origin': '*',
+            'Authorization': 'Bearer ' + JwtService.getToken()
+        };
+        return HttpService.request('get', process.env.REACT_APP_API_BASEURL + "User/GetUsersCount", null, headers)
+            .then(res => res.json());  
     }
     getUsersBySearchQueryCount(searchQuery) {
-        return fetch(process.env.REACT_APP_API_BASEURL + "User/GetUsersBySearchQueryCount?searchQuery=" + searchQuery, {
-            method: 'get',
-            mode: 'cors',
-            headers: {
-                'Accept': 'application/json, text/plain, */*',
-                'Content-Type': 'application/json',
-                'Access-Control-Allow-Origin': '*',
-                'Authorization': 'Bearer ' + JwtService.getToken()
-            }
-        })
-            .then(res => res.json());
+        let headers = {
+            'Accept': 'application/json, text/plain, */*',
+            'Content-Type': 'application/json',
+            'Access-Control-Allow-Origin': '*',
+            'Authorization': 'Bearer ' + JwtService.getToken()
+        };
+        return HttpService.request('get', process.env.REACT_APP_API_BASEURL + "User/GetUsersBySearchQueryCount?searchQuery=" + searchQuery, null, headers)
+            .then(res => res.json());  
     }
     deleteUserById(id) {
-        return fetch(process.env.REACT_APP_API_BASEURL + "User/DeleteUserById?id=" + id, {
-            method: 'delete',
-            mode: 'cors',
-            headers: {
-                'Accept': 'application/json, text/plain, */*',
-                'Content-Type': 'application/json',
-                'Access-Control-Allow-Origin': '*',
-                'Authorization': 'Bearer ' + JwtService.getToken()
-            }
-        })
+        let headers = {
+            'Accept': 'application/json, text/plain, */*',
+            'Content-Type': 'application/json',
+            'Access-Control-Allow-Origin': '*',
+            'Authorization': 'Bearer ' + JwtService.getToken()
+        };
+        return HttpService.request('delete', process.env.REACT_APP_API_BASEURL + "User/DeleteUserById?id=" + id, null, headers);  
     }
 }
 export default new UserService();

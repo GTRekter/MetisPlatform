@@ -1,18 +1,16 @@
 import JwtService from '../services/JwtService';
+import HttpService from '../services/HttpService';
 
 class RoleService {
     getRoles() {
-        return fetch(process.env.REACT_APP_API_BASEURL + "Role/GetRoles", {
-            method: 'get',
-            mode: 'cors',
-            headers: {
-                'Accept': 'application/json, text/plain, */*',
-                'Content-Type': 'application/json',
-                'Access-Control-Allow-Origin': '*',
-                'Authorization': 'Bearer ' + JwtService.getToken()
-            }
-        })
-            .then(res => res.json());
+        let headers = {
+            'Accept': 'application/json, text/plain, */*',
+            'Content-Type': 'application/json',
+            'Access-Control-Allow-Origin': '*',
+            'Authorization': 'Bearer ' + JwtService.getToken()
+        };
+        return HttpService.request('get', process.env.REACT_APP_API_BASEURL + "Role/GetRoles", null, headers)
+            .then(res => res.json());  
     }
 }
 export default new RoleService();
