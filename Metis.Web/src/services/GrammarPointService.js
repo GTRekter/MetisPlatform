@@ -8,7 +8,8 @@ class GrammarPointService {
             headers: {
                 'Accept': 'application/json, text/plain, */*',
                 'Content-Type': 'application/json',
-                'Access-Control-Allow-Origin': '*'
+                'Access-Control-Allow-Origin': '*',
+                'Authorization': 'Bearer ' + JwtService.getToken()
             },
             body: JSON.stringify({
                 title: title,

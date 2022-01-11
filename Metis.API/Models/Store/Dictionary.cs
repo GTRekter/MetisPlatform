@@ -19,6 +19,7 @@ namespace Metis.Models.Store
         [JsonIgnore]
         public ICollection<User> Users { get; set; }
         public ICollection<Word> Words { get; set; }
+        public ICollection<GrammarPoint> GrammarPoints { get; set; }
         public ICollection<Translation> Trsanslations { get; set; }
     }
 }

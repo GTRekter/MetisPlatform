@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import ReportCard from '../components/ReportCard';
 import ReportCardFilter from '../components/ReportCardFilter';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faFlag, faExclamationTriangle, faTags, faEye, faThumbsDown, faThumbsUp } from '@fortawesome/free-solid-svg-icons'
+import { Modal } from 'react-bootstrap';
+import { faFlag, faExclamationTriangle, faTags, faEye, faThumbsDown, faThumbsUp, faGlassCheers } from '@fortawesome/free-solid-svg-icons'
 import SpeechService from '../services/SpeechService';
 import WordService from '../services/WordService';
 import WordTypeService from '../services/WordTypeService';
@@ -13,6 +14,7 @@ export default class FlashCards extends Component {
         super(props)
         this.state = {
             words: [],
+            analyzedWords: [],
             errors: [],
             correct: [],
             wordTypes: [],
@@ -20,22 +22,25 @@ export default class FlashCards extends Component {
             currentWordType: "",
             viewTranslation: false,
             isAnswerProvided: false,
-            isAnswerCorrect: false
+            isAnswerCorrect: false,
+            congratulationsModalVisible: false,
         }
+        this.onClickHideCongratulationsModal = this.onClickHideCongratulationsModal.bind(this);
         this.onClickAddError = this.onClickAddError.bind(this);
         this.onClickAddCorrect = this.onClickAddCorrect.bind(this);
         this.onClickViewTranslation = this.onClickViewTranslation.bind(this);
-        // this.onClickReset = this.onClickReset.bind(this);
-        // this.onClickUpdateWordsByTopic = this.onClickUpdateWordsByTopic.bind(this);
-        // this.onClickUpdateWordsByAll = this.onClickUpdateWordsByAll.bind(this);
+        this.onClickUpdateWordsByWordType = this.onClickUpdateWordsByWordType.bind(this);
+        this.onClickUpdateWordsByAll = this.onClickUpdateWordsByAll.bind(this);
     }
     componentDidMount() {
         var id = JwtService.getCurrentUserId();
         WordService.getWordsByUserId(id)
             .then(data => {
+                let shuffledWords = this.shuffle(data);
                 this.setState({
-                    words: this.shuffle(data),
-                    currentWord: data[0]
+                    words: data,
+                    analyzedWords: shuffledWords,
+                    currentWord: shuffledWords[0]
                 });
             });
         WordTypeService.getWordTypes()
@@ -44,7 +49,11 @@ export default class FlashCards extends Component {
                     wordTypes: data
                 });
             });
-        
+    }
+    onClickHideCongratulationsModal = () => {
+        this.setState({
+            congratulationsModalVisible: false
+        });
     }
     onClickViewTranslation = () => {
         SpeechService.synthesizeSpeech(this.state.currentWord.text);
@@ -85,66 +94,83 @@ export default class FlashCards extends Component {
             isAnswerCorrect: false
         });
     }
-    // onClickReset = () => {
-    //     var mappedJson = DictionaryService.getAllWords();
-    //     this.setState({
-    //         words: this.shuffle(mappedJson),
-    //         currentWord: mappedJson[0],
-    //         viewTranslation: false,
-    //         errors: [],
-    //         correct: [],
-    //         topic: "",
-    //         isAnswerProvided: false,
-    //         isAnswerCorrect: false
-    //     });
-    // };
-    // onClickUpdateWordsByAll = () => {
-    //     var mappedJson = DictionaryService.getAllWords();
-    //     this.setState({
-    //         words: this.shuffle(mappedJson),
-    //         currentWord: mappedJson[0],
-    //         errors: [],
-    //         correct: [],
-    //         topic: "",
-    //         isAnswerProvided: false,
-    //         isAnswerCorrect: false
-    //     });
-    // };
-    updateWordsByWordType = (wordType) => {
-        console.log(wordType);
-        // var mappedJson = WordService.getWordsByWordType(wordType);
-        // this.setState({
-        //     ...this.state,
-        //     words: this.shuffle(mappedJson),
-        //     viewTranslation: false,
-        //     errors: [],
-        //     correct: [],
-        //     currentWordType: wordType,
-        //     currentWord: mappedJson[0]
-        // });
+    onClickUpdateWordsByAll = () => {
+        let id = JwtService.getCurrentUserId();
+        WordService.getWordsByUserId(id)
+            .then(data => {
+                let shuffledWords = this.shuffle(data);
+                this.setState({
+                    words: shuffledWords,
+                    analyzedWords: shuffledWords,
+                    currentWord: shuffledWords[0],
+                    errors: [],
+                    correct: [],
+                    topic: "",
+                    isAnswerProvided: false,
+                    isAnswerCorrect: false
+                });
+            });
+    };
+    onClickUpdateWordsByWordType = (value) => {
+        let id = JwtService.getCurrentUserId();
+        let wordTypeIds = this.state.wordTypes.filter((wordType) => wordType.name === value);
+        console.log(wordTypeIds);
+        WordService.getWordsByUserIdAndWordTypeId(id, wordTypeIds[0].id)
+            .then(data => {
+                let shuffledWords = this.shuffle(data);
+                this.setState({
+                    words: shuffledWords,
+                    analyzedWords: shuffledWords,
+                    currentWord: shuffledWords[0],
+                    errors: [],
+                    correct: [],
+                    topic: "",
+                    isAnswerProvided: false,
+                    isAnswerCorrect: false
+                });
+            });
     };
     updateCounters = () => {
-        if (this.state.words.length > (this.state.errors.length + this.state.correct.length) + 1) {
-            if (!this.state.isAnswerCorrect) {
-                this.setState({
-                    errors: [...this.state.errors, this.state.currentWord],
-                    currentWord: this.state.words[this.state.errors.length + this.state.correct.length + 1]
-                })
+        let errors = this.state.errors;
+        let correct = this.state.correct;
+        let currentWord = this.state.currentWord;
+        let analyzedWords = this.state.analyzedWords;
+
+        if (!this.state.isAnswerCorrect) {
+            errors.push(currentWord);
+        } else {
+            correct.push(currentWord);
+        }
+        let isLastWord = analyzedWords.length <= (errors.length + correct.length) + 1;
+        if (!isLastWord) {
+            currentWord = analyzedWords[errors.length + correct.length + 1];
+        } else {
+            console.log(errors.length);
+            if (errors.length > 0) {
+                var shuffledWords = this.shuffle(this.state.errors);
+                analyzedWords = shuffledWords;
+                currentWord = shuffledWords[0];
+                errors = [];
+                correct = [];
             } else {
+                analyzedWords = this.shuffle(this.state.words);
+                currentWord = analyzedWords[0];
+                errors = [];
+                correct = [];
                 this.setState({
-                    correct: [...this.state.correct, this.state.currentWord],
-                    currentWord: this.state.words[this.state.errors.length + this.state.correct.length + 1]
+                    viewTranslation: false,
+                    isAnswerProvided: false,
+                    isAnswerCorrect: false,
+                    congratulationsModalVisible: true
                 })
             }
-        } else {
-            var shuffledDictionary = this.shuffle(this.state.errors);
-            this.setState({
-                words: shuffledDictionary,
-                currentWord: shuffledDictionary[0],
-                errors: [],
-                correct: []
-            })
         }
+        this.setState({
+            analyzedWords: analyzedWords,
+            currentWord: currentWord,
+            errors: errors,
+            correct: correct
+        })
     };
     shuffle = (array) => {
         return array.sort(() => Math.random() - 0.5);
@@ -155,18 +181,18 @@ export default class FlashCards extends Component {
         }
     }
     render() {
-        var buttons = <button className="btn btn-secondary mx-3 mb-0 text-white" onClick={() => this.onClickViewTranslation()}><FontAwesomeIcon className="link-light" icon={faEye} /></button>;
-        if (this.state.viewTranslation) {
-            buttons = <div>
-                <button className="btn btn-success mx-3 mb-0 text-white" onClick={() => this.onClickAddCorrect()}>
-                    <FontAwesomeIcon icon={faThumbsUp} />
-                </button>
-                    <button className="btn btn-danger mx-3 mb-0 text-white" onClick={() => this.onClickAddError()}>
-                        <FontAwesomeIcon icon={faThumbsDown} />
-                    </button>
-                </div>
-        }
-        var backgroundClass = "bg-gradient-info shadow-info";
+        let backgroundClass = "bg-gradient-info shadow-info";
+        let buttons = <div>
+            <button className="btn btn-success mx-3 mb-0 text-white" onClick={() => this.onClickAddCorrect()}>
+                <FontAwesomeIcon icon={faThumbsUp} />
+            </button>
+            <button className="btn btn-secondary mx-3 mb-0 text-white" onClick={() => this.onClickViewTranslation()}>
+                <FontAwesomeIcon className="link-light" icon={faEye} />
+            </button>
+            <button className="btn btn-danger mx-3 mb-0 text-white" onClick={() => this.onClickAddError()}>
+                <FontAwesomeIcon icon={faThumbsDown} />
+            </button>
+        </div>
         if (this.state.isAnswerProvided) {
             if (this.state.isAnswerCorrect) {
                 backgroundClass = "bg-gradient-success shadow-success";
@@ -174,18 +200,27 @@ export default class FlashCards extends Component {
                 backgroundClass = "bg-gradient-danger shadow-danger";
             }
         }
-        var currentWordTranslation = ''
-        if (this.state.currentWord.translations !== undefined) {
-            currentWordTranslation = this.state.currentWord.translations[0].text;
+        var text = '';
+        var romanization = "";
+        var translation = '';
+        var example = '';
+        var description = '';
+        if (this.state.currentWord !== undefined && this.state.currentWord.translations !== undefined) {
+            text = this.state.currentWord.text;
+            romanization = this.state.currentWord.romanization;
+            translation = this.state.currentWord.translations[0].text;
+            example = this.state.currentWord.translations[0].example;
+            description = this.state.currentWord.translations[0].description;
         }
+        let wordTypes = this.state.wordTypes.map((wordType) => wordType.name);
         return (
             <div>
                 <div className="row">
                     <div className="col-12 col-sm-4 py-4">
-                        <ReportCardFilter title="Type" icon={faTags} color="dark" value={this.state.currentWordType === "" ? "All" : this.capitalizeFirstLetter(this.state.currentWordType)} options={this.state.wordTypes} onOptionChangeCallback={this.updateWordsByWordType} />
+                        <ReportCardFilter title="Type" icon={faTags} color="dark" value={this.state.currentWordType === "" ? "All" : this.capitalizeFirstLetter(this.state.currentWordType)} options={wordTypes} onOptionChangeCallback={this.onClickUpdateWordsByWordType} />
                     </div>
                     <div className="col-12 col-sm-4 py-4">
-                        <ReportCard title="Remaining" icon={faFlag} color="primary" value={this.state.errors.length + this.state.correct.length + "/" + this.state.words.length} footer="Number of remaining words" />
+                        <ReportCard title="Remaining" icon={faFlag} color="primary" value={this.state.errors.length + this.state.correct.length + "/" + this.state.analyzedWords.length} footer="Number of remaining words" />
                     </div>
                     <div className="col-12 col-sm-4 py-4">
                         <ReportCard title="errors" icon={faExclamationTriangle} color="info" value={this.state.errors.length} footer="Number of errors" />
@@ -196,15 +231,15 @@ export default class FlashCards extends Component {
                         <div className="card z-index-2">
                             <div className="card-header p-0 position-relative mt-n4 mx-3 z-index-2 bg-transparent">
                                 <div className={`border-radius-lg py-3 pe-1 py-5 text-center ${backgroundClass}`}>
-                                    <h1 className="display-4 fst-italic text-white">{currentWordTranslation}</h1>
-                                    <h2 className={`text-white ${!this.state.viewTranslation ? "invisible" : ""}`}>{this.state.currentWord.text} <br />({this.state.currentWord.romanization})</h2>
+                                    <h1 className="display-4 fst-italic text-white">{translation}</h1>
+                                    <h2 className={`text-white ${!this.state.viewTranslation ? "invisible" : ""}`}>{text} <br />({romanization})</h2>
                                 </div>
                             </div>
                             <div className="card-body">
                                 <h6 className="mb-0 ">Examples</h6>
-                                <p className="text-sm ">{this.state.currentWord.example}</p>
+                                <p className="text-sm ">{example}</p>
                                 <h6 className="mb-0 ">Description</h6>
-                                <p className="text-sm ">{this.state.currentWord.description}</p>
+                                <p className="text-sm ">{description}</p>
                                 <hr className="dark horizontal" />
                                 <div className="text-center">
                                     {buttons}
@@ -213,6 +248,17 @@ export default class FlashCards extends Component {
                         </div>
                     </div>
                 </div>
+                <Modal show={this.state.congratulationsModalVisible} onHide={this.onClickHideCongratulationsModal}>
+                    <div className="modal-content">
+                        <div className="modal-body">
+                            <div className="py-3 text-center">
+                                <FontAwesomeIcon className='h1 text-success' icon={faGlassCheers} />
+                                <h4 className="text-gradient text-success mt-4">Congratulations!</h4>
+                                <p>You have reviewed all your cards.</p>
+                            </div>
+                        </div>
+                    </div>
+                </Modal>
             </div>
         )
     }

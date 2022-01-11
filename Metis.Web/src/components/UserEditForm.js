@@ -91,12 +91,14 @@ export default class UserEditForm extends Component {
             })
     }
     onChangeDictionary = (event) => {
+        this.setState({
+            dictionary: event.target.value
+        });
         LessonService
             .getLessonsByDictionaryId(event.target.value)
             .then(response => {
                 this.setState({
-                    lessons: response,
-                    dictionary: event.target.value
+                    lessons: response
                 });
             })
     }
@@ -126,9 +128,8 @@ export default class UserEditForm extends Component {
             <option key={index} value={role.name}>{role.name}</option>
         )
         let selectedLessonsRows = this.state.selectedLessons.map((lesson, index) => {
-            let dictionary = this.state.dictionaries.filter(dictionary => dictionary.id === lesson.dictionaryId);
             return <tr key={index}>
-                <td className="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-4">{dictionary[0].name}</td>
+                <td className="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-4">{lesson.dictionary.name}</td>
                 <td className="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-4">{lesson.title}</td>
                 <td className="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 td-icon">
                     <button className="btn btn-icon btn-2 btn-link btn-sm" type="button" onClick={() => this.onClickDeleteLesson(lesson.id)}>

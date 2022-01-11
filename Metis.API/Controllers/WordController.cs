@@ -62,6 +62,15 @@ namespace Metis.API.Controllers
 
         [HttpGet]
         [Authorize(AuthenticationSchemes = Microsoft.AspNetCore.Authentication.JwtBearer.JwtBearerDefaults.AuthenticationScheme)]
+        [Route("GetWordsByUserIdAndWordTypeId")]
+        public async Task<IActionResult> GetWordsByUserIdAndWordTypeIdAsync(int id, int wordTypeId)
+        {
+            IEnumerable<Word> words = await WordManager.GetWordsByUserIdAndWordTypeId(_context, id, wordTypeId);
+            return Ok(words);
+        }   
+
+        [HttpGet]
+        [Authorize(AuthenticationSchemes = Microsoft.AspNetCore.Authentication.JwtBearer.JwtBearerDefaults.AuthenticationScheme)]
         [Route("GetWordById")]
         public async Task<IActionResult> GetWordByIdAsync(int id)
         {

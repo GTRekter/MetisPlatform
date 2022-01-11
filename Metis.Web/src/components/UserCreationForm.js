@@ -81,12 +81,14 @@ export default class UserCreationForm extends Component {
         })
     }
     onChangeDictionary = (event) => {
+        this.setState({
+            dictionary: event.target.value
+        });
         LessonService
             .getLessonsByDictionaryId(event.target.value)
             .then(response => {
                 this.setState({
-                    lessons: response,
-                    dictionary: event.target.value
+                    lessons: response
                 });
             })
     }

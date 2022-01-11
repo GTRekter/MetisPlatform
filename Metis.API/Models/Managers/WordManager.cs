@@ -14,22 +14,22 @@ namespace Metis.Models.Managers
         {
             // using (TransactionScope scope = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled))
             // {
-                Word word = new Word
+            Word word = new Word
+            {
+                Text = text,
+                Romanization = romanization,
+                Description = description,
+                Example = example,
+                WordType = await context.WordTypes.FindAsync(wordTypeId),
+                Dictionary = await context.Dictionaries.FindAsync(dictionaryId),
+                Translations = translations.Select(t => new Translation
                 {
-                    Text = text,
-                    Romanization = romanization,
-                    Description = description,
-                    Example = example,
-                    WordType = await context.WordTypes.FindAsync(wordTypeId),
-                    Dictionary = await context.Dictionaries.FindAsync(dictionaryId),
-                    Translations = translations.Select(t => new Translation
-                    {
-                        DictionaryId = t.Key,
-                        Text = t.Value
-                    }).ToList()
-                };
-                context.Words.Add(word);
-                await context.SaveChangesAsync();
+                    DictionaryId = t.Key,
+                    Text = t.Value
+                }).ToList()
+            };
+            context.Words.Add(word);
+            await context.SaveChangesAsync();
             //     scope.Complete();
             // }
         }
@@ -67,51 +67,64 @@ namespace Metis.Models.Managers
 
         public static async Task<IEnumerable<Word>> GetWordsByUserId(ApplicationDbContext context, int id)
         {
-            // User user = await context.Users
-            //     .Include(u => u.Dictionaries)
-            //     .FirstOrDefaultAsync(u => u.Id == id);
+            var lessons = await context.Users
+                .Include(u => u.Lessons)
+                .ThenInclude(l => l.Words)
+                .ThenInclude(w => w.Translations)
+                .FirstOrDefaultAsync(u => u.Id == id);
+            return lessons.Lessons.SelectMany(l => l.Words);
+        }
 
-            return await context.Words
-                .Include(w => w.Translations)
-                .Include(w => w.Dictionary)
-                .ToListAsync();
+        public static async Task<IEnumerable<Word>> GetWordsByUserIdAndWordTypeId(ApplicationDbContext context, int id, int wordTypeId)
+        {
+            var lessons = await context.Users
+                .Include(u => u.Lessons)
+                .ThenInclude(l => l.Words)
+                .ThenInclude(w => w.WordType)
+                // TODO: Find a way to add translations
+                // .ThenInclude(w => w.Translations)
+                .FirstOrDefaultAsync(u => u.Id == id);
+
+            return lessons.Lessons
+                    .SelectMany(l => l.Words)
+                    .Where(w => w.WordType.Id == wordTypeId);
         }
 
         public static async Task EditWord(ApplicationDbContext context, int id, string text, string romanization, int dictionaryId, int wordTypeId, string description, string example, IEnumerable<KeyValuePair<int, string>> translationsToAdd, IEnumerable<KeyValuePair<int, string>> translationsToEdit)
         {
             // using (TransactionScope scope = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled))
             // {
-                Word wordToEdit = await context.Words.Include(w => w.Translations).FirstOrDefaultAsync(w => w.Id == id);
-                if (wordToEdit == null)
+            Word wordToEdit = await context.Words.Include(w => w.Translations).FirstOrDefaultAsync(w => w.Id == id);
+            if (wordToEdit == null)
+            {
+                throw new Exception("Word not found");
+            }
+            wordToEdit.Text = text;
+            wordToEdit.Romanization = romanization;
+            wordToEdit.Description = description;
+            wordToEdit.Example = example;
+            wordToEdit.WordType = await context.WordTypes.FindAsync(wordTypeId);
+            wordToEdit.Dictionary = await context.Dictionaries.FindAsync(dictionaryId);
+            foreach (var item in translationsToAdd)
+            {
+                wordToEdit.Translations.Add(new Translation
                 {
-                    throw new Exception("Word not found");
-                }
-                wordToEdit.Text = text;
-                wordToEdit.Romanization = romanization;
-                wordToEdit.Description = description;
-                wordToEdit.Example = example;
-                wordToEdit.WordType = await context.WordTypes.FindAsync(wordTypeId);
-                wordToEdit.Dictionary = await context.Dictionaries.FindAsync(dictionaryId);
-                foreach (var item in translationsToAdd)
+                    DictionaryId = item.Key,
+                    Text = item.Value
+                });
+            }
+            context.Update(wordToEdit);
+            foreach (var translation in translationsToEdit)
+            {
+                Translation translationToEdit = await context.Translations.FindAsync(translation.Key);
+                if (translationToEdit == null)
                 {
-                    wordToEdit.Translations.Add(new Translation
-                    {
-                        DictionaryId = item.Key,
-                        Text = item.Value
-                    });
+                    throw new Exception("Translation not found");
                 }
-                context.Update(wordToEdit);
-                foreach (var translation in translationsToEdit)
-                {
-                    Translation translationToEdit = await context.Translations.FindAsync(translation.Key);
-                    if (translationToEdit == null)
-                    {
-                        throw new Exception("Translation not found");
-                    }
-                    translationToEdit.Text = translation.Value;
-                    context.Update(translationToEdit);
-                }
-                await context.SaveChangesAsync();
+                translationToEdit.Text = translation.Value;
+                context.Update(translationToEdit);
+            }
+            await context.SaveChangesAsync();
             //     scope.Complete();
             // }
         }

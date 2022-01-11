@@ -32,6 +32,7 @@ namespace Metis.Models.Managers
         public static async Task<IEnumerable<Lesson>> GetLessonsByDictionaryId(ApplicationDbContext context, int id)
         {
             return await context.Lessons
+                .Include(l => l.Dictionary)
                 .Include(l => l.Words)
                 .Include(l => l.GrammarPoints)
                 .Where(l => l.Dictionary.Id == id)
@@ -40,6 +41,7 @@ namespace Metis.Models.Managers
         public static async Task<Lesson> GetLessonById(ApplicationDbContext context, int id)
         {
             return await context.Lessons
+                .Include(l => l.Dictionary)
                 .Include(l => l.GrammarPoints)
                 .Include(l => l.Words)
                 .ThenInclude(w => w.Translations)
