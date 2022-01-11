@@ -19,6 +19,8 @@ using System.Security.Claims;
 using System.Globalization;
 using System.Text;
 using Metis.Models.Response;
+using SendGrid;
+using SendGrid.Helpers.Mail;
 
 namespace Metis.API.Controllers
 {
@@ -91,17 +93,19 @@ namespace Metis.API.Controllers
                 throw new Exception(error);
             }
 
-            var smptServer = _configuration["Email:SmptServer"];
-            var smptPort = int.Parse(_configuration["Email:SmptPort"]);
-            var enableSsl = bool.Parse(_configuration["Email:EnableSsl"]);
-            var smptUsername = _configuration["Email:SmptUsername"];
-            var smptPassword = _configuration["Email:SmptPassword"];
-            var sender = _configuration["Email:Sender"];
-            Email email = new Email(smptServer, smptPort, enableSsl, smptUsername, smptPassword, sender);
-            var filePath = Path.Combine(Directory.GetCurrentDirectory(), "Templates", "email.html");
-            string message = System.IO.File.ReadAllText(filePath);
-            message = message.Replace("{{TEMPORARYPASSWORD}}", password);
-            email.Send(new string[] { model.Email }, message, "Temporary password", true, System.Net.Mail.MailPriority.High);
+            var apiKey = _configuration["SendGrid:Key"];
+            var client = new SendGridClient(apiKey);
+            var msg = new SendGridMessage();
+            msg.SetFrom(new EmailAddress("ivan.porta.web@gmail.com", "Ivan Porta"));
+            msg.AddTo(new EmailAddress(model.Email, $"{model.FirstName} {model.LastName}"));
+            msg.SetTemplateId("d-91d610861edb4a2cb48075c7f9c2b9fd");
+            var dynamicTemplateData = new 
+            {
+                FirstName = model.FirstName,
+                Password = password
+            };
+            msg.SetTemplateData(dynamicTemplateData);
+            await client.SendEmailAsync(msg);
 
             return Ok();
         }
