@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faHome, faUsers, faSpellCheck, faLayerGroup, faChalkboardTeacher, faProjectDiagram, faFont } from '@fortawesome/free-solid-svg-icons'
+import { faHome, faUsers, faSpellCheck, faLayerGroup, faChalkboardTeacher, faProjectDiagram, faFont, faComments } from '@fortawesome/free-solid-svg-icons'
 import JwtService from '../services/JwtService';
 
 export default class Sidebar extends Component {
@@ -80,6 +80,14 @@ export default class Sidebar extends Component {
                                     <FontAwesomeIcon className='opacity-10' icon={faLayerGroup} />
                                 </div>
                                 <span className="nav-link-text ms-1">Flashcards</span>
+                            </Link>
+                        </li>
+                        <li className="nav-item">
+                            <Link className="nav-link" to='/pronunciation'>
+                                <div className="text-white text-center me-2 d-flex align-items-center justify-content-center">
+                                    <FontAwesomeIcon className='opacity-10' icon={faComments} />
+                                </div>
+                                <span className="nav-link-text ms-1">Pronunciation</span>
                             </Link>
                         </li>
                     </ul>

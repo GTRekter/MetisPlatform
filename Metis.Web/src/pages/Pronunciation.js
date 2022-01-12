@@ -1,16 +1,16 @@
 import React, { Component } from 'react';
 import ReportCard from '../components/ReportCard';
 import ReportCardFilter from '../components/ReportCardFilter';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Modal } from 'react-bootstrap';
-import { faFlag, faExclamationTriangle, faTags, faEye, faThumbsDown, faThumbsUp, faGlassCheers } from '@fortawesome/free-solid-svg-icons'
+import { faFlag, faExclamationTriangle, faTags, faMicrophone, faMicrophoneSlash, faEye, faVolumeUp, faVolumeMute, faGlassCheers } from '@fortawesome/free-solid-svg-icons';
 import SpeechService from '../services/SpeechService';
 import WordService from '../services/WordService';
 import WordTypeService from '../services/WordTypeService';
 import DictionaryService from '../services/DictionaryService';
 import JwtService from '../services/JwtService';
 
-export default class FlashCards extends Component {
+export default class Pronunciation extends Component {
     constructor(props) {
         super(props)
         this.state = {
@@ -20,16 +20,20 @@ export default class FlashCards extends Component {
             correct: [],
             wordTypes: [],
             dictionaries: [],
+            userAnswer: "",
             currentWord: "",
             currentWordType: "",
             viewTranslation: false,
             isAnswerProvided: false,
+            isPlaying: false,
             isAnswerCorrect: false,
-            congratulationsModalVisible: false,
+            isRecordingMicrophone: false,
+            congratulationsModalVisible: false
         }
+        this.onClickToggleMicrophone = this.onClickToggleMicrophone.bind(this);
+        this.onClickViewTranslation = this.onClickViewTranslation.bind(this);
+        this.onClickPlayTranslation = this.onClickPlayTranslation.bind(this);
         this.onClickHideCongratulationsModal = this.onClickHideCongratulationsModal.bind(this);
-        this.onClickAddError = this.onClickAddError.bind(this);
-        this.onClickAddCorrect = this.onClickAddCorrect.bind(this);
         this.onClickViewTranslation = this.onClickViewTranslation.bind(this);
         this.onClickUpdateWordsByWordType = this.onClickUpdateWordsByWordType.bind(this);
         this.onClickUpdateWordsByAll = this.onClickUpdateWordsByAll.bind(this);
@@ -64,38 +68,42 @@ export default class FlashCards extends Component {
         });
     }
     onClickViewTranslation = () => {
-        var dictionary = this.state.dictionaries.filter(d => d.id === this.state.currentWord.dictionaryId);
-        SpeechService.synthesizeSpeech(this.state.currentWord.text, dictionary[0].code);
         this.setState({
             viewTranslation: true
         })
     };
-    onClickAddError = () => {
-        var self = this;
+    onClickPlayTranslation = () => {
+        let self = this;
         this.setState({
-            viewTranslation: true,
-            isAnswerProvided: true,
-            isAnswerCorrect: false
-        })
+            isPlaying: true
+        });
         var dictionary = this.state.dictionaries.filter(d => d.id === this.state.currentWord.dictionaryId);
         SpeechService.synthesizeSpeech(this.state.currentWord.text, dictionary[0].code);
         setTimeout(function () {
-            self.updateCounters();
+            self.setState({
+                isPlaying: false
+            })
         }, 2000);
     };
-    onClickAddCorrect = () => {
+    onClickToggleMicrophone = async () => {
         var self = this;
         this.setState({
-            viewTranslation: true,
-            isAnswerProvided: true,
-            isAnswerCorrect: true
-        })
+            isRecordingMicrophone: true
+        });
         var dictionary = this.state.dictionaries.filter(d => d.id === this.state.currentWord.dictionaryId);
-        SpeechService.synthesizeSpeech(this.state.currentWord.text, dictionary[0].code);
-        setTimeout(function () {
-            self.updateCounters();
-        }, 2000);
-    };
+        await SpeechService.recognizeSpeech(dictionary[0].code)
+            .then((result) => {
+                this.setState({
+                    userAnswer: result,
+                    viewTranslation: true,
+                    isRecordingMicrophone: false,
+                    isAnswerCorrect: result === this.state.currentWord.text
+                });
+                setTimeout(function () {
+                    self.updateCounters();
+                }, 4000);
+            });
+    }
     onClickUpdateWordsByAll = () => {
         let id = JwtService.getCurrentUserId();
         WordService.getWordsByUserId(id)
@@ -115,22 +123,22 @@ export default class FlashCards extends Component {
     };
     onClickUpdateWordsByWordType = (value) => {
         let id = JwtService.getCurrentUserId();
-        if(value === "" || value === "All") {
+        if (value === "" || value === "All") {
             WordService.getWordsByUserId(id)
-            .then(data => {
-                let shuffledWords = this.shuffle(data);
-                this.setState({
-                    words: data,
-                    analyzedWords: shuffledWords,
-                    currentWord: shuffledWords[0],
-                    currentWordType: value,
-                    errors: [],
-                    correct: [],
-                    topic: "",
-                    isAnswerProvided: false,
-                    isAnswerCorrect: false
+                .then(data => {
+                    let shuffledWords = this.shuffle(data);
+                    this.setState({
+                        words: data,
+                        analyzedWords: shuffledWords,
+                        currentWord: shuffledWords[0],
+                        currentWordType: value,
+                        errors: [],
+                        correct: [],
+                        topic: "",
+                        isAnswerProvided: false,
+                        isAnswerCorrect: false
+                    });
                 });
-            });
         } else {
             let wordTypeIds = this.state.wordTypes.filter((wordType) => wordType.name === value);
             WordService.getWordsByUserIdAndWordTypeId(id, wordTypeIds[0].id)
@@ -184,6 +192,7 @@ export default class FlashCards extends Component {
             currentWord: currentWord,
             errors: errors,
             correct: correct,
+            userAnswer: "",
             viewTranslation: false,
             isAnswerProvided: false,
             isAnswerCorrect: false,
@@ -200,17 +209,25 @@ export default class FlashCards extends Component {
     }
     render() {
         let backgroundClass = "bg-gradient-info shadow-info";
+        var playIcon = <FontAwesomeIcon className="link-light" icon={faVolumeUp} />;
+        if (this.state.isPlaying) {
+            playIcon = <FontAwesomeIcon className="link-light" icon={faVolumeMute} />
+        }
+        var microphoneIcon = <FontAwesomeIcon className="link-light" icon={faMicrophone} />;
+        if (this.state.isRecordingMicrophone) {
+            microphoneIcon = <FontAwesomeIcon className="link-light" icon={faMicrophoneSlash} />
+        }
         let buttons = <div>
-                <button className="btn btn-success mx-3 mb-0 text-white" onClick={() => this.onClickAddCorrect()}>
-                    <FontAwesomeIcon icon={faThumbsUp} />
-                </button>
-                <button className="btn btn-secondary mx-3 mb-0 text-white" onClick={() => this.onClickViewTranslation()}>
-                    <FontAwesomeIcon className="link-light" icon={faEye} />
-                </button>
-                <button className="btn btn-danger mx-3 mb-0 text-white" onClick={() => this.onClickAddError()}>
-                    <FontAwesomeIcon icon={faThumbsDown} />
-                </button>
-            </div>  
+            <button className="btn btn-secondary mx-3 mb-0 text-white" onClick={() => this.onClickToggleMicrophone()}>
+                {microphoneIcon}
+            </button>
+            <button className="btn btn-secondary mx-3 mb-0 text-white" onClick={() => this.onClickPlayTranslation()}>
+                {playIcon}
+            </button>
+            <button className="btn btn-secondary mx-3 mb-0 text-white" onClick={() => this.onClickViewTranslation()}>
+                <FontAwesomeIcon className="link-light" icon={faEye} />
+            </button>
+        </div>
         if (this.state.isAnswerProvided) {
             if (this.state.isAnswerCorrect) {
                 backgroundClass = "bg-gradient-success shadow-success";
@@ -254,10 +271,14 @@ export default class FlashCards extends Component {
                                 </div>
                             </div>
                             <div className={`card-body ${this.state.analyzedWords.length > 0 ? 'visible' : `invisible`}`}>
-                                <h6 className="mb-0">Examples</h6>
+                                <div className={`card-body ${this.state.userAnswer !== "" ? 'visible' : `invisible`}`}>
+                                    <h6 className="mb-0 ">Answer recognized</h6>
+                                    <p className="text-sm ">{this.state.userAnswer}</p>
+                                </div>
+                                {/* <h6 className="mb-0 ">Examples</h6>
                                 <p className="text-sm ">{example}</p>
                                 <h6 className="mb-0 ">Description</h6>
-                                <p className="text-sm ">{description}</p>
+                                <p className="text-sm ">{description}</p> */}
                                 <hr className="dark horizontal" />
                                 <div className="text-center">
                                     {buttons}

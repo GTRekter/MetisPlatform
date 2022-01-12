@@ -10,6 +10,7 @@ import GrammarPointsManagement from '../pages/GrammarPointsManagement';
 import Dictionary from '../pages/Dictionary';
 import FlashCards from '../pages/FlashCards';
 import PrivateRoute from './PrivateRoute';
+import Pronunciation from '../pages/Pronunciation';
 
 export default class App extends Component {
     render() {
@@ -20,6 +21,7 @@ export default class App extends Component {
                     <PrivateRoute exact path="/" component={Home} />
                     <Route exact path="/dictionary" component={Dictionary} />
                     <Route exact path="/flashcards" component={FlashCards} />
+                    <Route exact path="/pronunciation" component={Pronunciation} />
                     <Route path="/usermanagement" component={UsersManagement} />
                     <Route path="/lessonmanagement" component={LessonsManagement} />
                     <Route path="/grammarpointmanagement" component={GrammarPointsManagement} />
