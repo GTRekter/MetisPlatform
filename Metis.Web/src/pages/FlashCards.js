@@ -169,7 +169,7 @@ export default class FlashCards extends Component {
         } else {
             correct.push(currentWord);
         }
-        let isLastWord = analyzedWords.length <= (errors.length + correct.length) + 1;
+        let isLastWord = analyzedWords.length < (errors.length + correct.length) + 1;
         if (!isLastWord) {
             currentWord = analyzedWords[errors.length + correct.length + 1];
         } else {
