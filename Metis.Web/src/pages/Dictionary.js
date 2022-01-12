@@ -51,7 +51,8 @@ export default class Dictionary extends Component {
             })
     }
     onClickPronounceWords = (string) => {
-        SpeechService.synthesizeSpeech(string);
+        var dictionary = this.state.dictionaries.filter(d => d.id === this.state.currentWord.dictionaryId);
+        SpeechService.synthesizeSpeech(string, dictionary[0].code);
     }
     onClickUpdateWordsByPage = (wordsPerPage) => {
         var id = JwtService.getCurrentUserId();

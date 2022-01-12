@@ -77,7 +77,8 @@ export default class FlashCards extends Component {
             isAnswerProvided: true,
             isAnswerCorrect: false
         })
-        SpeechService.synthesizeSpeech(this.state.currentWord.text);
+        var dictionary = this.state.dictionaries.filter(d => d.id === this.state.currentWord.dictionaryId);
+        SpeechService.synthesizeSpeech(this.state.currentWord.text, dictionary[0].code);
         setTimeout(function () {
             self.updateCounters(false);
             self.resetValues();
