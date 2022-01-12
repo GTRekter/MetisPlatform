@@ -10,11 +10,12 @@ namespace Metis.Models.Store
     {
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
+        [Required]
         [StringLength(maximumLength: 100, MinimumLength = 2)]
         public string Name { get; set; }
-        [StringLength(maximumLength: 25, MinimumLength = 25)]
+        [Required]
+        [StringLength(maximumLength: 25, MinimumLength = 2)]
         public string Code { get; set; }
-        public bool Primary { get; set; }
         public bool Enabled { get; set; }
         [JsonIgnore]
         public ICollection<User> Users { get; set; }

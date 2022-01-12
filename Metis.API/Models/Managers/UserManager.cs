@@ -11,7 +11,7 @@ namespace Metis.Models.Managers
 {
     public static class UserManager
     {
-        public static async Task<IdentityResult> AddUser(ApplicationDbContext context, UserManager<User> userManager, string name, string surname, string email, string password, IEnumerable<int> lessonsIds)
+        public static async Task<IdentityResult> AddUser(ApplicationDbContext context, UserManager<User> userManager, string name, string surname, string email, int dictionaryId, string password, IEnumerable<int> lessonsIds)
         {
             var lessonsToAdd = await context.Lessons.Where(d => lessonsIds.Contains(d.Id)).ToListAsync();
             User user = new User { 
@@ -19,11 +19,12 @@ namespace Metis.Models.Managers
                 LastName = surname, 
                 UserName = email, 
                 Email = email,
-                Lessons = lessonsToAdd
+                Lessons = lessonsToAdd,
+                Dictionary = await context.Dictionaries.FirstOrDefaultAsync(d => d.Id == dictionaryId)
             };
             return await userManager.CreateAsync(user, password);
         }
-        public static async Task<IdentityResult> EditUser(ApplicationDbContext context, UserManager<User> userManager, int id, string name, string surname, string email, IEnumerable<int> lessonsIds)
+        public static async Task<IdentityResult> EditUser(ApplicationDbContext context, UserManager<User> userManager, int id, string name, string surname, string email,int dictionaryId, IEnumerable<int> lessonsIds)
         {
             string userId = id.ToString();
             User user = await context.Users
@@ -52,6 +53,7 @@ namespace Metis.Models.Managers
             user.FirstName = name;
             user.LastName = surname;
             user.Email = email;
+            user.Dictionary = await context.Dictionaries.FirstOrDefaultAsync(d => d.Id == dictionaryId);
             return await userManager.UpdateAsync(user);
         }
         public static async Task<IdentityResult> EditUserPassword(UserManager<User> userManager, int id, string oldPassword, string newPassword)

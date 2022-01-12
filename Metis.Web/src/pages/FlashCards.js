@@ -161,9 +161,9 @@ export default class FlashCards extends Component {
         } else {
             correct.push(currentWord);
         }
-        let isLastWord = analyzedWords.length <= (errors.length + correct.length) + 1;
+        let isLastWord = analyzedWords.length <= (errors.length + correct.length);
         if (!isLastWord) {
-            currentWord = analyzedWords[errors.length + correct.length + 1];
+            currentWord = analyzedWords[errors.length + correct.length];
         } else {
             if (errors.length > 0) {
                 var shuffledWords = this.shuffle(this.state.errors);
@@ -201,16 +201,16 @@ export default class FlashCards extends Component {
     render() {
         let backgroundClass = "bg-gradient-info shadow-info";
         let buttons = <div>
-            <button className="btn btn-success mx-3 mb-0 text-white" onClick={() => this.onClickAddCorrect()}>
-                <FontAwesomeIcon icon={faThumbsUp} />
-            </button>
-            <button className="btn btn-secondary mx-3 mb-0 text-white" onClick={() => this.onClickViewTranslation()}>
-                <FontAwesomeIcon className="link-light" icon={faEye} />
-            </button>
-            <button className="btn btn-danger mx-3 mb-0 text-white" onClick={() => this.onClickAddError()}>
-                <FontAwesomeIcon icon={faThumbsDown} />
-            </button>
-        </div>
+                <button className="btn btn-success mx-3 mb-0 text-white" onClick={() => this.onClickAddCorrect()}>
+                    <FontAwesomeIcon icon={faThumbsUp} />
+                </button>
+                <button className="btn btn-secondary mx-3 mb-0 text-white" onClick={() => this.onClickViewTranslation()}>
+                    <FontAwesomeIcon className="link-light" icon={faEye} />
+                </button>
+                <button className="btn btn-danger mx-3 mb-0 text-white" onClick={() => this.onClickAddError()}>
+                    <FontAwesomeIcon icon={faThumbsDown} />
+                </button>
+            </div>  
         if (this.state.isAnswerProvided) {
             if (this.state.isAnswerCorrect) {
                 backgroundClass = "bg-gradient-success shadow-success";
@@ -253,7 +253,7 @@ export default class FlashCards extends Component {
                                     <h2 className={`text-white ${!this.state.viewTranslation ? "invisible" : ""}`}>{text} <br />({romanization})</h2>
                                 </div>
                             </div>
-                            <div className="card-body">
+                            <div className={`card-body ${this.state.analyzedWords.length > 0 ? 'visible' : `invisible`}`}>
                                 <h6 className="mb-0 ">Examples</h6>
                                 <p className="text-sm ">{example}</p>
                                 <h6 className="mb-0 ">Description</h6>

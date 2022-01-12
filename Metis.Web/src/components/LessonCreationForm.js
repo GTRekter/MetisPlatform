@@ -40,8 +40,8 @@ export default class LessonCreationForm extends Component {
             .getDictionaries()
             .then((data) => {
                 this.setState({
-                    dictionaries: data,
-                    dictionaryId: data[0].id
+                    dictionaries: data.filter((dictionary) => dictionary.enabled === true),
+                    dictionaryId: data.filter((dictionary) => dictionary.enabled === true)[0].id
                 })
                 WordService
                     .getWordsByDictionaryId(data[0].id)
@@ -147,7 +147,7 @@ export default class LessonCreationForm extends Component {
     }
     render() {
         let selectedWordsHeaders = this.state.dictionaries
-            .filter((dictionary) => dictionary.enabled === true && dictionary.primary === false)
+            .filter((dictionary) => dictionary.enabled === true && Number(dictionary.id) !== Number(this.state.dictionaryId))
             .map((dictionary, index) =>
                 <th key={index} className="text-uppercase text-xxs font-weight-bolder opacity-7">{dictionary.name}</th>
             )
@@ -155,8 +155,8 @@ export default class LessonCreationForm extends Component {
             let columns = [];
             this.state.dictionaries
                 .filter((dictionary) => dictionary.enabled === true && Number(dictionary.id) !== Number(this.state.dictionaryId))
-                .forEach((dictionary, index) => {
-                    let translation = word.translations.filter((translation) => translation.dictionaryId === dictionary.id);
+                .forEach((dictionary) => {
+                    let translation = word.translations.filter((translation) => Number(translation.dictionaryId) === Number(dictionary.id));
                     if (translation.length > 0) {
                         columns.push(<td className="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-4">{translation[0].text}</td>)
                     } else {
@@ -190,10 +190,7 @@ export default class LessonCreationForm extends Component {
                 </td>
             </tr>
         )
-        let dictionaries = this.state.dictionaries
-            .map((dictionary, index) =>
-                <option key={index} value={dictionary.id}>{dictionary.name}</option>
-            )
+        let dictionaries = this.state.dictionaries.map((dictionary, index) => <option key={index} value={dictionary.id}>{dictionary.name}</option>)
         let words = this.state.words.map((word) => word.text);
         let grammarPoints = this.state.grammarPoints.map((grammarPoint) => grammarPoint.title);
         return (

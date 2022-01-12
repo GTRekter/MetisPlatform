@@ -186,8 +186,7 @@ class WordService {
             'Access-Control-Allow-Origin': '*',
             'Authorization': 'Bearer ' + JwtService.getToken()
         };
-        return HttpService.request('delete', process.env.REACT_APP_API_BASEURL + "Word/DeleteWordById?id=" + id, null, headers)
-            .then(res => res.json());  
+        return HttpService.request('delete', process.env.REACT_APP_API_BASEURL + "Word/DeleteWordById?id=" + id, null, headers);
     }
 }
 export default new WordService();

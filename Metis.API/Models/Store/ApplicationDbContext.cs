@@ -26,8 +26,8 @@ namespace Metis.Models.Store
             this.SeedDictionaries(builder);
             this.SeedWordTypes(builder);
             this.SeedRoles(builder);
-            // this.SeedUsers(builder);
-            // this.SeedUserRoles(builder);
+            this.SeedUsers(builder);
+            this.SeedUserRoles(builder);
 
             builder.Entity<User>()
                 .ToTable("Users");
@@ -40,7 +40,6 @@ namespace Metis.Models.Store
                 .ToTable("UserClaims");
             builder.Entity<IdentityRoleClaim<int>>()
                 .ToTable("RoleClaims");
-
             builder.Entity<IdentityUserToken<int>>()
                 .ToTable("UserTokens");
             builder.Entity<IdentityUserLogin<int>>()
@@ -52,9 +51,9 @@ namespace Metis.Models.Store
         private void SeedDictionaries(ModelBuilder builder)
         {
             builder.Entity<Dictionary>().HasData(new List<Dictionary>(){
-                new Dictionary(){ Id = 1, Name = "Korean", Code = "ko-KR", Enabled = true, Primary = true },
-                new Dictionary(){ Id = 2, Name = "English", Code = "en-US", Enabled = true, Primary = false },
-                new Dictionary(){ Id = 3, Name = "Italian", Code = "it-IT", Enabled = true, Primary = false }
+                new Dictionary(){ Id = 1, Name = "English", Code = "en-US", Enabled = true },
+                new Dictionary(){ Id = 2, Name = "Korean", Code = "ko-KR", Enabled = true },
+                new Dictionary(){ Id = 3, Name = "Italian", Code = "it-IT", Enabled = true }
             });
         }
         private void SeedWordTypes(ModelBuilder builder)
@@ -75,31 +74,31 @@ namespace Metis.Models.Store
                 new Role(){ Id = 3, Name = "Student", NormalizedName = "Student", Description = "" }
             });
         }
-        // Not working. It creates a new user every time but it doesn't hash the password correctly.
-        // public void SeedUsers(ModelBuilder builder)
-        // {
-        //     var hasher = new PasswordHasher<User>();
-        //     var user = new User
-        //     {
-        //         Id = 1,
-        //         UserName = "admin",
-        //         NormalizedUserName = "ADMIN",
-        //         Email = "admin@metis.com",
-        //         NormalizedEmail = "ADMIN@METIS.COM",
-        //         EmailConfirmed = true,
-        //         PhoneNumberConfirmed = true,
-        //         SecurityStamp = new Guid().ToString("D")
-        //     }; 
-        //     user.PasswordHash = hasher.HashPassword(user, "P@ssw0rd");  
-        //     builder.Entity<User>().HasData(user);   
-        // }
-        // public void SeedUserRoles(ModelBuilder builder)
-        // {
-        //     builder.Entity<IdentityUserRole<int>>().HasData(new IdentityUserRole<int>
-        //     {
-        //         RoleId = 1,
-        //         UserId = 1
-        //     });
-        // }
+        public void SeedUsers(ModelBuilder builder)
+        {
+            var hasher = new PasswordHasher<User>();
+            var user = new User
+            {
+                Id = 1,
+                DictionaryId = 1,
+                UserName = "admin",
+                NormalizedUserName = "ADMIN",
+                Email = "admin@metis.com",
+                NormalizedEmail = "ADMIN@METIS.COM",
+                EmailConfirmed = true,
+                PhoneNumberConfirmed = true,
+                SecurityStamp = new Guid().ToString("D")
+            }; 
+            builder.Entity<User>().HasData(user);  
+            user.PasswordHash = hasher.HashPassword(user, "P@ssw0rd");   
+        }
+        public void SeedUserRoles(ModelBuilder builder)
+        {
+            builder.Entity<IdentityUserRole<int>>().HasData(new IdentityUserRole<int>
+            {
+                RoleId = 1,
+                UserId = 1
+            });
+        }
     }
 }

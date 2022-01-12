@@ -28,7 +28,7 @@ export default class WordCreationForm extends Component {
             .then((data) => {
                 this.setState({
                     dictionaries: data.filter((dictionary) => dictionary.enabled === true),
-                    dictionaryId: data.filter((dictionary) => dictionary.primary === true)[0].id
+                    dictionaryId: data.filter((dictionary) => dictionary.enabled === true)[0].id
                 })
             })
             .catch(function (ex) {

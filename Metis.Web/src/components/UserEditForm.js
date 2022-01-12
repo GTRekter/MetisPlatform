@@ -17,8 +17,9 @@ export default class UserEditForm extends Component {
             lastName: "",
             email: "",
             role: "",
+            dictionary: "", 
+            dictionaryId: 0,
             roles: [],
-            dictionary: "",
             dictionaries: [],
             lessons: [],
             selectedLessons: [],
@@ -42,7 +43,8 @@ export default class UserEditForm extends Component {
                         lastName: response.user.lastName,
                         email: response.user.email,
                         role: response.roles[0].name,
-                        selectedLessons: response.user.lessons,
+                        dictionaryId: response.dictionaryId,
+                        selectedLessons: response.user.lessons
                     });
                 })
             DictionaryService
@@ -85,7 +87,7 @@ export default class UserEditForm extends Component {
     onSubmit = (event) => {
         event.preventDefault();
         UserService
-            .editUser(this.state.id, this.state.firstName, this.state.lastName, this.state.email, this.state.role, this.state.selectedLessons)
+            .editUser(this.state.id, this.state.firstName, this.state.lastName, this.state.email, this.state.role, this.state.dictionaryId, this.state.selectedLessons)
             .then(() => {
                 this.props.onSubmitCallback();
             })
@@ -166,6 +168,14 @@ export default class UserEditForm extends Component {
                         <div className="input-group input-group-static my-3">
                             <label>Email</label>
                             <input type="text" className="form-control" name="email" value={this.state.email} onChange={this.onChangeInput} />
+                        </div>
+                    </div>
+                    <div className="col-12 col-xl-6">
+                        <div className="input-group input-group-static my-3">
+                            <label className="ms-0">Dictionary</label>
+                            <select className="form-control" name="dictionaryId" value={this.state.dictionaryId} onChange={this.onChangeInput}>
+                                {dictionaries}
+                            </select>
                         </div>
                     </div>
                     <div className="col-12 col-xl-6">

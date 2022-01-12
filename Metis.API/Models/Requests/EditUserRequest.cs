@@ -20,6 +20,8 @@ namespace Metis.Models.Requests
         [DataType(DataType.EmailAddress)]
         public string Email { get; set; }
         [Required]
+        public int DictionaryId { get; set; }
+        [Required]
         [DataType(DataType.Text)]
         public string Role { get; set; }
         public IEnumerable<Lesson> Lessons { get; set; }

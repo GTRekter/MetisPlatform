@@ -16,6 +16,7 @@ export default class UserCreationForm extends Component {
             lastname: "",
             email: "",
             role: "",
+            dictionaryId: 0,
             roles: [],
             dictionaries: [],
             lessons: [],
@@ -35,7 +36,8 @@ export default class UserCreationForm extends Component {
             .getDictionaries()
             .then((data) => {
                 this.setState({
-                    dictionaries: data
+                    dictionaries: data.filter((dictionary) => dictionary.enabled === true),
+                    dictionaryId: data.filter((dictionary) => dictionary.enabled === true)[0].id
                 })
                 LessonService
                     .getLessonsByDictionaryId(data[0].id)
@@ -70,7 +72,7 @@ export default class UserCreationForm extends Component {
     onSubmit = (event) => {
         event.preventDefault();
         UserService
-            .addUser(this.state.firstname, this.state.lastname, this.state.email, this.state.role, this.state.selectedLessons)
+            .addUser(this.state.firstname, this.state.lastname, this.state.email, this.state.role, this.state.dictionaryId, this.state.selectedLessons)
             .then(() => {
                 this.props.onSubmitCallback();
             })
@@ -152,6 +154,14 @@ export default class UserCreationForm extends Component {
                         <div className="input-group input-group-static my-3">
                             <label>Email</label>
                             <input type="text" className="form-control" name="email" value={this.state.email} onChange={this.onChangeInput} />
+                        </div>
+                    </div>
+                    <div className="col-12 col-xl-6">
+                        <div className="input-group input-group-static my-3">
+                            <label className="ms-0">Dictionary</label>
+                            <select className="form-control" name="dictionaryId" value={this.state.dictionaryId} onChange={this.onChangeInput}>
+                                {dictionaries}
+                            </select>
                         </div>
                     </div>
                     <div className="col-12 col-xl-6">

@@ -93,11 +93,13 @@ export default class WordEditForm extends Component {
     }
     render() {
         let translations = this.state.dictionaries
-            .filter((dictionary) => dictionary.id !== this.state.dictionaryId)
+            .filter((dictionary) => {
+                return Number(dictionary.id) !== Number(this.state.dictionaryId)
+            })
             .map((dictionary, index) => {
-                let translation = this.state.translations.filter((translation) => translation.dictionaryId === dictionary.id);
-                let id = translation.length > 0 ? translation[0].id : null;
-                let value = translation.length > 0 ? translation[0].text : "";
+                let translation = this.state.translations.filter((translation) => Number(translation.dictionaryId) === Number(dictionary.id));
+                let id = translation.length > index ? translation[0].id : null;
+                let value = translation.length > index ? translation[0].text : "";
                 return <div key={index} className="col-12 col-xl-4">
                     <div className="input-group input-group-static">
                         <label>{dictionary.name}</label>

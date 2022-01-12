@@ -20,7 +20,7 @@ namespace Metis.API.Controllers
         }
 
         [HttpGet]
-        [Authorize(AuthenticationSchemes = Microsoft.AspNetCore.Authentication.JwtBearer.JwtBearerDefaults.AuthenticationScheme, Roles = "Administrator, Teacher")]
+        [Authorize(AuthenticationSchemes = Microsoft.AspNetCore.Authentication.JwtBearer.JwtBearerDefaults.AuthenticationScheme)]
         [Route("GetDictionaries")]
         public async Task<IActionResult> GetDictionariesAsync()
         {

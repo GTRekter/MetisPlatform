@@ -11,10 +11,10 @@ namespace Metis.Models.Store
         [DataType(DataType.Text)]
         public int Id { get; set; }
         [Required]
-        [StringLength(maximumLength: 100, MinimumLength = 2)]
+        [StringLength(maximumLength: 100, MinimumLength = 1)]
         public string Text { get; set; }
         [Required]
-        [StringLength(maximumLength: 100, MinimumLength = 2)]
+        [StringLength(maximumLength: 100, MinimumLength = 1)]
         public string Romanization { get; set; }
         public int DictionaryId { get; set; }
         public int WordTypeId { get; set; }

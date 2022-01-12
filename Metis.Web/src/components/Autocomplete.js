@@ -13,10 +13,22 @@ class Autocomplete extends Component {
             showSuggestions: false,
             userInput: ""
         };
+        this.onFocus = this.onFocus.bind(this);
         this.onBlur = this.onBlur.bind(this);
         this.onChange = this.onChange.bind(this);
         this.onMouseDown = this.onMouseDown.bind(this);
         this.onKeyDown = this.onKeyDown.bind(this);
+    }
+    onFocus = () => {
+        var filteredSuggestions = this.state.filteredSuggestions;
+        if(this.state.userInput === "") {
+            filteredSuggestions = this.props.suggestions;
+        }
+        this.setState({
+            ...this.state,
+            filteredSuggestions: filteredSuggestions,
+            showSuggestions: true
+        });
     }
     onBlur = () => {
         this.setState({
@@ -25,8 +37,7 @@ class Autocomplete extends Component {
         });
     };
     onChange = (event) => {
-        let filteredSuggestions = this.props.suggestions
-            .filter(suggestion => suggestion.toLowerCase().indexOf(event.currentTarget.value.toLowerCase()) > -1);
+        let filteredSuggestions = this.props.suggestions.filter(suggestion => suggestion.toLowerCase().indexOf(event.currentTarget.value.toLowerCase()) > -1);
         this.setState({
             activeSuggestion: 0,
             filteredSuggestions,
@@ -78,7 +89,7 @@ class Autocomplete extends Component {
             <div className="dropdown">
                 <div className="input-group input-group-static my-3">
                     <label>{this.props.label}</label>
-                    <input type="text" className="form-control" value={this.state.userInput} disabled={this.props.disabled} onBlur={this.onBlur} onChange={this.onChange} onKeyDown={this.onKeyDown} />
+                    <input type="text" className="form-control" value={this.state.userInput} disabled={this.props.disabled} onFocus={this.onFocus} onBlur={this.onBlur} onChange={this.onChange} onKeyDown={this.onKeyDown} />
                     <ul className={`mt-3 dropdown-menu ${this.state.showSuggestions ? 'show' : ''}`}>
                         {suggestions}
                     </ul>

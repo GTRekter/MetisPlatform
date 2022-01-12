@@ -225,7 +225,7 @@ export default class LessonEditForm extends Component {
                     <div className="col-12 col-xl-6">
                         <div className="input-group input-group-static my-3">
                             <label className="ms-0">Dictionary</label>
-                            <select className="form-control" name="dictionaryId" disabled value={this.state.dictionaryId} onChange={this.onChangeDictionary}>
+                            <select className="form-control" name="dictionaryId" value={this.state.dictionaryId} onChange={this.onChangeDictionary}>
                                 {dictionaries}
                             </select>
                         </div>

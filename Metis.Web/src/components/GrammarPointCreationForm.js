@@ -23,8 +23,8 @@ export default class GrammarPointCreationForm extends Component {
             .getDictionaries()
             .then((data) => {
                 this.setState({
-                    dictionaries: data,
-                    dictionaryId: data[0].id
+                    dictionaries: data.filter((dictionary) => dictionary.enabled === true),
+                    dictionaryId: data.filter((dictionary) => dictionary.enabled === true)[0].id
                 })
             })
     }
