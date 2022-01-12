@@ -8,14 +8,24 @@ class HttpService {
             headers: headers,
             body: data
         })
-        .catch((error) => {
-            if (error.response && error.response.status === 401) {
-                JwtService.removeToken();
-                window.location.reload();
-            } else {
-                throw error;
-            }
+        .then(async(res) => {
+            if (!res.ok) {
+                if (res.response && res.response.status === 401) {
+                    JwtService.removeToken();
+                    window.location = window.location.host + "/login";
+                } else {
+                    await res.text().then((text) => {
+                        throw Error(text);
+                    })
+                }
+            }   
+            return res;     
         })
+        .
+        // .catch((error) => {
+        //     // JwtService.removeToken();
+        //     // window.location.reload();
+        // })
     }
 }
 export default new HttpService();

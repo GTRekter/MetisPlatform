@@ -9,9 +9,12 @@ class JwtService {
         sessionStorage.removeItem("token")
     }
     isAdmin() {
-        let jwt = sessionStorage.getItem("token").split('.')[1]
-        let decodedJwt = JSON.parse(window.atob(jwt))
-        return decodedJwt.role === "Administrator"
+        let jwt = sessionStorage.getItem("token");
+        if(jwt !== null) {       
+            let decodedJwt = JSON.parse(window.atob(jwt.split('.')[1]))
+            return decodedJwt.role === "Administrator"
+        }
+        return false;
     }
     getCurrentUserId() {
         let jwt = sessionStorage.getItem("token").split('.')[1]

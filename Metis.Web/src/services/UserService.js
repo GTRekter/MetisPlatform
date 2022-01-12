@@ -15,11 +15,6 @@ class UserService {
         })
         return HttpService.request('post', process.env.REACT_APP_API_BASEURL + "User/LoginUser", body, headers)
             .then(async (res) => {
-                if (!res.ok) {
-                    await res.text().then((text) => {
-                        throw Error(text);
-                    })
-                }
                 return await res.text();
             })
     }
