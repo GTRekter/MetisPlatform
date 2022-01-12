@@ -18,8 +18,7 @@ class WordService {
             example: example,
             translations: translations
         })
-        return HttpService.request('post', process.env.REACT_APP_API_BASEURL + "Word/AddWord", body, headers)
-            .then(res => res.json());  
+        return HttpService.request('post', process.env.REACT_APP_API_BASEURL + "Word/AddWord", body, headers);  
     }
     editWord(id, text, romanization, dictionaryId, wordTypeId, description, example, translations) {
         let headers = {
@@ -38,8 +37,7 @@ class WordService {
             example: example,
             translations: translations
         })
-        return HttpService.request('post', process.env.REACT_APP_API_BASEURL + "Word/EditWord", body, headers)
-            .then(res => res.json());  
+        return HttpService.request('post', process.env.REACT_APP_API_BASEURL + "Word/EditWord", body, headers);  
     }
     getWords() {
         let headers = {

@@ -80,8 +80,7 @@ export default class FlashCards extends Component {
         var dictionary = this.state.dictionaries.filter(d => d.id === this.state.currentWord.dictionaryId);
         SpeechService.synthesizeSpeech(this.state.currentWord.text, dictionary[0].code);
         setTimeout(function () {
-            self.updateCounters(false);
-            self.resetValues();
+            self.updateCounters();
         }, 2000);
     };
     onClickAddCorrect = () => {
@@ -94,17 +93,9 @@ export default class FlashCards extends Component {
         var dictionary = this.state.dictionaries.filter(d => d.id === this.state.currentWord.dictionaryId);
         SpeechService.synthesizeSpeech(this.state.currentWord.text, dictionary[0].code);
         setTimeout(function () {
-            self.updateCounters(true);
-            self.resetValues();
+            self.updateCounters();
         }, 2000);
     };
-    resetValues = () => {
-        this.setState({
-            viewTranslation: false,
-            isAnswerProvided: false,
-            isAnswerCorrect: false
-        });
-    }
     onClickUpdateWordsByAll = () => {
         let id = JwtService.getCurrentUserId();
         WordService.getWordsByUserId(id)
@@ -164,17 +155,16 @@ export default class FlashCards extends Component {
         let correct = this.state.correct;
         let currentWord = this.state.currentWord;
         let analyzedWords = this.state.analyzedWords;
-
+        let congratulationsModalVisible = this.state.congratulationsModalVisible;
         if (!this.state.isAnswerCorrect) {
             errors.push(currentWord);
         } else {
             correct.push(currentWord);
         }
-        let isLastWord = analyzedWords.length < (errors.length + correct.length) + 1;
+        let isLastWord = analyzedWords.length <= (errors.length + correct.length) + 1;
         if (!isLastWord) {
             currentWord = analyzedWords[errors.length + correct.length + 1];
         } else {
-            console.log(errors.length);
             if (errors.length > 0) {
                 var shuffledWords = this.shuffle(this.state.errors);
                 analyzedWords = shuffledWords;
@@ -186,19 +176,18 @@ export default class FlashCards extends Component {
                 currentWord = analyzedWords[0];
                 errors = [];
                 correct = [];
-                this.setState({
-                    viewTranslation: false,
-                    isAnswerProvided: false,
-                    isAnswerCorrect: false,
-                    congratulationsModalVisible: true
-                })
+                congratulationsModalVisible = true;
             }
         }
         this.setState({
             analyzedWords: analyzedWords,
             currentWord: currentWord,
             errors: errors,
-            correct: correct
+            correct: correct,
+            viewTranslation: false,
+            isAnswerProvided: false,
+            isAnswerCorrect: false,
+            congratulationsModalVisible: congratulationsModalVisible
         })
     };
     shuffle = (array) => {
