@@ -21,11 +21,6 @@ class HttpService {
             }   
             return res;     
         })
-        .
-        // .catch((error) => {
-        //     // JwtService.removeToken();
-        //     // window.location.reload();
-        // })
     }
 }
 export default new HttpService();
