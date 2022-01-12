@@ -238,14 +238,14 @@ export default class Pronunciation extends Component {
         var text = '';
         var romanization = "";
         var translation = '';
-        var example = '';
-        var description = '';
+        // var example = '';
+        // var description = '';
         if (this.state.currentWord !== undefined && this.state.currentWord.translations !== undefined) {
             text = this.state.currentWord.text;
             romanization = this.state.currentWord.romanization;
             translation = this.state.currentWord.translations[0].text;
-            example = this.state.currentWord.translations[0].example;
-            description = this.state.currentWord.translations[0].description;
+            // example = this.state.currentWord.translations[0].example;
+            // description = this.state.currentWord.translations[0].description;
         }
         let wordTypes = this.state.wordTypes.map((wordType) => wordType.name);
         return (

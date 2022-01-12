@@ -221,14 +221,14 @@ export default class FlashCards extends Component {
         var text = '';
         var romanization = "";
         var translation = '';
-        var example = '';
-        var description = '';
+        // var example = '';
+        // var description = '';
         if (this.state.currentWord !== undefined && this.state.currentWord.translations !== undefined) {
             text = this.state.currentWord.text;
             romanization = this.state.currentWord.romanization;
             translation = this.state.currentWord.translations[0].text;
-            example = this.state.currentWord.translations[0].example;
-            description = this.state.currentWord.translations[0].description;
+            // example = this.state.currentWord.translations[0].example;
+            // description = this.state.currentWord.translations[0].description;
         }
         let wordTypes = this.state.wordTypes.map((wordType) => wordType.name);
         return (
@@ -254,10 +254,10 @@ export default class FlashCards extends Component {
                                 </div>
                             </div>
                             <div className={`card-body ${this.state.analyzedWords.length > 0 ? 'visible' : `invisible`}`}>
-                                <h6 className="mb-0">Examples</h6>
+                                {/* <h6 className="mb-0">Examples</h6>
                                 <p className="text-sm ">{example}</p>
                                 <h6 className="mb-0 ">Description</h6>
-                                <p className="text-sm ">{description}</p>
+                                <p className="text-sm ">{description}</p> */}
                                 <hr className="dark horizontal" />
                                 <div className="text-center">
                                     {buttons}
