@@ -46,7 +46,7 @@ export default class Dictionary extends Component {
             .getDictionaries()
             .then((data) => {
                 this.setState({
-                    dictionaries: data.filter((dictionary) => dictionary.enabled === true && dictionary.primary === false)
+                    dictionaries: data.filter((dictionary) => dictionary.enabled === true)
                 })
             })
     }
