@@ -12,7 +12,7 @@ class HttpService {
             if (!res.ok) {
                 if (res.status === 401) {
                     JwtService.removeToken();
-                    window.location = window.location.host + "/login";
+                    window.location.href = window.location.host + "/login";
                 } else {
                     await res.text().then((text) => {
                         throw Error(text);
