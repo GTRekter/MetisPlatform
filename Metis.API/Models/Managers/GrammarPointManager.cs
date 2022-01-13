@@ -50,7 +50,10 @@ namespace Metis.Models.Managers
         }
         public static async Task<int> GetGrammarPointsBySearchQueryCount(ApplicationDbContext context, string searchQuery)
         {
-            return await context.GrammarPoints.Where(gp => gp.Title.Contains(searchQuery) || gp.Description.Contains(searchQuery)).OrderBy(gp => gp.Title).CountAsync();
+            return await context.GrammarPoints
+                .Where(gp => gp.Title.Contains(searchQuery, StringComparison.InvariantCultureIgnoreCase) 
+                    || gp.Description.Contains(searchQuery, StringComparison.InvariantCultureIgnoreCase))
+                .OrderBy(gp => gp.Title).CountAsync();
         }
         public static async Task<IEnumerable<GrammarPoint>> GetGrammarPoints(ApplicationDbContext context)
         {
@@ -64,11 +67,20 @@ namespace Metis.Models.Managers
         }  
         public static async Task<IEnumerable<GrammarPoint>> GetGrammarPointsByPage(ApplicationDbContext context, int page, int itemsPerPage)
         {
-            return await context.GrammarPoints.Skip(page * itemsPerPage).Take(itemsPerPage).OrderBy(gp => gp.Title).ToListAsync();
+            return await context.GrammarPoints
+                .Skip(page * itemsPerPage)
+                .Take(itemsPerPage)
+                .OrderBy(gp => gp.Title)
+                .ToListAsync();
         }
         public static async Task<IEnumerable<GrammarPoint>> GetGrammarPointsByPageAndSearchQuery(ApplicationDbContext context, int page, int itemsPerPage, string searchQuery)
         {
-            return await context.GrammarPoints.Where(gp => gp.Title.Contains(searchQuery) || gp.Description.Contains(searchQuery)).Skip(page * itemsPerPage).Take(itemsPerPage).OrderBy(gp => gp.Title).ToListAsync();
+            return await context.GrammarPoints
+                .Where(gp => gp.Title.Contains(searchQuery, StringComparison.InvariantCultureIgnoreCase) 
+                    || gp.Description.Contains(searchQuery, StringComparison.InvariantCultureIgnoreCase))
+                .Skip(page * itemsPerPage)
+                .Take(itemsPerPage)
+                .OrderBy(gp => gp.Title).ToListAsync();
         }
     }
 }

@@ -53,7 +53,10 @@ namespace Metis.Models.Managers
         }
         public static async Task<int> GetLessonsBySearchQueryCount(ApplicationDbContext context, string searchQuery)
         {
-            return await context.Lessons.Where(u => u.Title.Contains(searchQuery) || u.Description.Contains(searchQuery)).CountAsync();
+            return await context.Lessons
+                .Where(u => u.Title.Contains(searchQuery, StringComparison.InvariantCultureIgnoreCase) 
+                    || u.Description.Contains(searchQuery, StringComparison.InvariantCultureIgnoreCase))
+                .CountAsync();
         }
         public static async Task<IEnumerable<Lesson>> GetLessons(ApplicationDbContext context)
         {
@@ -130,8 +133,8 @@ namespace Metis.Models.Managers
                 .Include(l => l.Words)
                 .Include(l => l.GrammarPoints)
                 .Include(l => l.Dictionary)
-                .Where(u => u.Title.Contains(searchQuery) 
-                    || u.Description.Contains(searchQuery))
+                .Where(u => u.Title.Contains(searchQuery, StringComparison.InvariantCultureIgnoreCase) 
+                    || u.Description.Contains(searchQuery, StringComparison.InvariantCultureIgnoreCase))
                 .Skip(page * itemsPerPage)
                 .Take(itemsPerPage)
                 .OrderBy(u => u.Id)

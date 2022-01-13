@@ -116,9 +116,9 @@ namespace Metis.Models.Managers
         public static async Task<int> GetWordsBySearchQueryCount(ApplicationDbContext context, string searchQuery)
         {
             return await context.Words
-                .Where(u => u.Text.Contains(searchQuery)
-                    || u.Romanization.Contains(searchQuery)
-                    || u.Description.Contains(searchQuery))
+                .Where(u => u.Text.Contains(searchQuery, StringComparison.InvariantCultureIgnoreCase)
+                    || u.Romanization.Contains(searchQuery, StringComparison.InvariantCultureIgnoreCase)
+                    || u.Description.Contains(searchQuery, StringComparison.InvariantCultureIgnoreCase))
                 .CountAsync();
         }
         public static async Task<int> GetWordsByUserIdAndSearchQueryCount(ApplicationDbContext context, int id, string searchQuery)
@@ -128,9 +128,9 @@ namespace Metis.Models.Managers
                 .ThenInclude(l => l.Words)
                 .FirstOrDefaultAsync(u => u.Id == id);
             return lessons.Lessons.SelectMany(l => l.Words)
-                .Where(u => u.Text.Contains(searchQuery)
-                    || u.Romanization.Contains(searchQuery)
-                    || u.Description.Contains(searchQuery))
+                .Where(u => u.Text.Contains(searchQuery, StringComparison.InvariantCultureIgnoreCase)
+                    || u.Romanization.Contains(searchQuery, StringComparison.InvariantCultureIgnoreCase)
+                    || u.Description.Contains(searchQuery, StringComparison.InvariantCultureIgnoreCase))
                 .Count();
         }
         public static async Task<IEnumerable<Word>> GetWords(ApplicationDbContext context)
@@ -190,9 +190,9 @@ namespace Metis.Models.Managers
         {
             return await context.Words
                 .Include(w => w.Translations)
-                .Where(u => u.Text.Contains(searchQuery)
-                    || u.Romanization.Contains(searchQuery)
-                    || u.Description.Contains(searchQuery))
+                .Where(u => u.Text.Contains(searchQuery, StringComparison.InvariantCultureIgnoreCase)
+                    || u.Romanization.Contains(searchQuery, StringComparison.InvariantCultureIgnoreCase)
+                    || u.Description.Contains(searchQuery, StringComparison.InvariantCultureIgnoreCase))
                 .Skip(page * itemsPerPage)
                 .Take(itemsPerPage)
                 .OrderBy(u => u.Id).ToListAsync();
@@ -206,9 +206,9 @@ namespace Metis.Models.Managers
                 .ThenInclude(w => w.Translations.Where(t => t.DictionaryId == user.DictionaryId))
                 .FirstOrDefaultAsync(u => u.Id == id);
             return lessons.Lessons.SelectMany(l => l.Words)
-                .Where(u => u.Text.Contains(searchQuery)
-                    || u.Romanization.Contains(searchQuery)
-                    || u.Description.Contains(searchQuery))
+                .Where(u => u.Text.Contains(searchQuery, StringComparison.InvariantCultureIgnoreCase)
+                    || u.Romanization.Contains(searchQuery, StringComparison.InvariantCultureIgnoreCase)
+                    || u.Description.Contains(searchQuery, StringComparison.InvariantCultureIgnoreCase))
                 .Skip(page * itemsPerPage)
                 .Take(itemsPerPage)
                 .OrderBy(u => u.Id);
