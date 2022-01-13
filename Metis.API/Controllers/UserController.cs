@@ -82,6 +82,15 @@ namespace Metis.API.Controllers
             return Ok();
         }
 
+        [HttpPost]
+        [Authorize(AuthenticationSchemes = Microsoft.AspNetCore.Authentication.JwtBearer.JwtBearerDefaults.AuthenticationScheme, Roles = "Administrator, Teacher")]
+        [Route("EditUser")]
+        public async Task<IActionResult> EditUserAsync(EditUserRequest model)
+        {
+            await UserManager.EditUserAsync(_dataContext, model.Id, model.FirstName, model.LastName, model.Email, model.RoleId, model.DictionaryId, model.Lessons.Select(d => d.Id));
+            return Ok();
+        }
+
         [HttpGet]
         [Authorize(AuthenticationSchemes = Microsoft.AspNetCore.Authentication.JwtBearer.JwtBearerDefaults.AuthenticationScheme, Roles = "Administrator, Teacher")]
         [Route("GetUsers")]
@@ -134,15 +143,6 @@ namespace Metis.API.Controllers
         {
             int counter = await UserManager.GetUsersCountAsync(_dataContext, searchQuery);
             return Ok(counter);
-        }
-
-        [HttpPost]
-        [Authorize(AuthenticationSchemes = Microsoft.AspNetCore.Authentication.JwtBearer.JwtBearerDefaults.AuthenticationScheme, Roles = "Administrator, Teacher")]
-        [Route("EditUser")]
-        public async Task<IActionResult> EditUserAsync(EditUserRequest model)
-        {
-            await UserManager.EditUserAsync(_dataContext, model.Id, model.FirstName, model.LastName, model.Email, model.DictionaryId, model.Lessons.Select(d => d.Id));
-            return Ok();
         }
 
         [HttpDelete]

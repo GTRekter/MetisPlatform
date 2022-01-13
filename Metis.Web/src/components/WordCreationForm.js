@@ -40,9 +40,6 @@ export default class WordCreationForm extends Component {
 
                 })
             })
-            .catch(function (ex) {
-                console.log('Response parsing failed. Error: ', ex);
-            });
         WordTypeService
             .getWordTypes()
             .then((data) => {
@@ -51,9 +48,6 @@ export default class WordCreationForm extends Component {
                     wordTypeId: data[0].id
                 })
             })
-            .catch(function (ex) {
-                console.log('Response parsing failed. Error: ', ex);
-            });
     }
     onChangeTransition = (event, dictionaryId) => {
         let translations = this.state.translations.filter(translation => translation.dictionaryId === dictionaryId);
@@ -76,7 +70,6 @@ export default class WordCreationForm extends Component {
     }
     onReset = (event) => {
         event.preventDefault();
-        console.log("Reset creation word ")
         this.props.onResetCallback();
     }
     onSubmit = (event) => {

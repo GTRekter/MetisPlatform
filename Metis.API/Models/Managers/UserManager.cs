@@ -28,7 +28,7 @@ namespace Metis.Models.Managers
             dataContext.Users.Add(user);
             await dataContext.SaveChangesAsync();
         }
-        public static async Task EditUserAsync(ApplicationDbContext dataContext, int id, string name, string surname, string email,int dictionaryId, IEnumerable<int> lessonsIds)
+        public static async Task EditUserAsync(ApplicationDbContext dataContext, int id, string name, string surname, string email, int roleId, int dictionaryId, IEnumerable<int> lessonsIds)
         {
             string userId = id.ToString();
             User user = await dataContext.Users
@@ -58,6 +58,7 @@ namespace Metis.Models.Managers
             user.LastName = surname;
             user.Email = email;
             user.Dictionary = await dataContext.Dictionaries.FirstOrDefaultAsync(d => d.Id == dictionaryId);
+            user.Role = await dataContext.Roles.FirstOrDefaultAsync(r => r.Id == roleId);
             dataContext.Update(user);
             await dataContext.SaveChangesAsync();
         }
@@ -97,7 +98,8 @@ namespace Metis.Models.Managers
         {
             return await dataContext.Users
                 .Include(l => l.Lessons)
-                .ThenInclude(u => u.Dictionary)
+                    .ThenInclude(u => u.Dictionary)
+                .Include(u => u.Role)
                 .FirstOrDefaultAsync(u => u.Id == id);
         }
 

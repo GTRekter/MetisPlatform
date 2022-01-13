@@ -18,7 +18,7 @@ class UserService {
                 return await res.text();
             })
     }
-    addUser(firstname, lastname, email, role, dictionaryId, lessons) {
+    addUser(firstname, lastname, email, roleId, dictionaryId, lessons) {
         let headers = {
             'Accept': 'application/json, text/plain, */*',
             'Content-Type': 'application/json',
@@ -29,13 +29,13 @@ class UserService {
             firstname: firstname,
             lastname: lastname,
             email: email,
-            role: role,
+            roleId: roleId,
             dictionaryId: dictionaryId,
             lessons: lessons
         })
         return HttpService.request('post', process.env.REACT_APP_API_BASEURL + "User/AddUser", body, headers);
     }
-    editUser(id, firstname, lastname, email, role, dictionaryId, lessons) {
+    editUser(id, firstname, lastname, email, roleId, dictionaryId, lessons) {
         let headers = {
             'Accept': 'application/json, text/plain, */*',
             'Content-Type': 'application/json',
@@ -47,7 +47,7 @@ class UserService {
             firstname: firstname,
             lastname: lastname,
             email: email,
-            role: role,
+            roleId: roleId,
             dictionaryId: dictionaryId,
             lessons: lessons
         })

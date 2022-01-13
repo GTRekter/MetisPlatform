@@ -15,7 +15,6 @@ export default class UserCreationForm extends Component {
             firstname: "",
             lastname: "",
             email: "",
-            role: "",
             dictionaryId: 0,
             roles: [],
             dictionaries: [],
@@ -46,14 +45,6 @@ export default class UserCreationForm extends Component {
                             lessons: response,
                         });
                     })
-            })
-        RoleService
-            .getRoles()
-            .then(response => {
-                this.setState({
-                    roles: response,
-                    role: response[0].name
-                });
             })
     }
     onChangeInput = (event) => {

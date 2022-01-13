@@ -223,8 +223,6 @@ export default class FlashCards extends Component {
         // var example = '';
         // var description = '';
         if (this.state.currentWord !== undefined && this.state.currentWord.translations !== undefined) {
-            console.log(this.state.currentWord.translations);
-            console.log(this.state.currentWord.romanization);
             if(this.state.currentWord.romanization !== null && this.state.currentWord.romanization !== "") {
                 text = <span> {this.state.currentWord.text} <br/> ({this.state.currentWord.romanization})</span>;
             } else {

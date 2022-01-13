@@ -16,7 +16,7 @@ export default class UserEditForm extends Component {
             firstName: "",
             lastName: "",
             email: "",
-            role: "",
+            roleId: "",
             dictionary: "", 
             dictionaryId: 0,
             roles: [],
@@ -39,12 +39,12 @@ export default class UserEditForm extends Component {
                 .getUserById(this.state.id)
                 .then(response => {
                     this.setState({
-                        firstName: response.user.firstName,
-                        lastName: response.user.lastName,
-                        email: response.user.email,
-                        role: response.roles[0].name,
+                        firstName: response.firstName,
+                        lastName: response.lastName,
+                        email: response.email,
+                        roleId: response.role.id,
                         dictionaryId: response.dictionaryId,
-                        selectedLessons: response.user.lessons
+                        selectedLessons: response.lessons
                     });
                 })
             DictionaryService
@@ -65,8 +65,7 @@ export default class UserEditForm extends Component {
                 .getRoles()
                 .then(response => {
                     this.setState({
-                        roles: response,
-                        role: response[0].name
+                        roles: response
                     });
                 })
         }
@@ -81,13 +80,12 @@ export default class UserEditForm extends Component {
     }
     onReset = (event) => {
         event.preventDefault();
-        console.log("Reset edit user ")
         this.props.onResetCallback();
     }
     onSubmit = (event) => {
         event.preventDefault();
         UserService
-            .editUser(this.state.id, this.state.firstName, this.state.lastName, this.state.email, this.state.role, this.state.dictionaryId, this.state.selectedLessons)
+            .editUser(this.state.id, this.state.firstName, this.state.lastName, this.state.email, this.state.roleId, this.state.dictionaryId, this.state.selectedLessons)
             .then(() => {
                 this.props.onSubmitCallback();
             })
@@ -181,7 +179,7 @@ export default class UserEditForm extends Component {
                     <div className="col-12 col-md-6">
                         <div className="input-group input-group-static my-3">
                             <label className="ms-0">Roles</label>
-                            <select className="form-control" name="role" value={this.state.role} onChange={this.onChangeInput}>
+                            <select className="form-control" name="roleId" value={this.state.roleId} onChange={this.onChangeInput}>
                                 {roles}
                             </select>
                         </div>

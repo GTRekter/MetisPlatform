@@ -23,7 +23,7 @@ namespace Metis.Models.Requests
         public int DictionaryId { get; set; }
         [Required]
         [DataType(DataType.Text)]
-        public string Role { get; set; }
+        public int RoleId { get; set; }
         public IEnumerable<Lesson> Lessons { get; set; }
         public class Lesson 
         {

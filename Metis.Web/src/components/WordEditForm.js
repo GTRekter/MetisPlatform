@@ -45,9 +45,6 @@ export default class WordEditForm extends Component {
                         dictionaries: data.filter((dictionary) => dictionary.enabled === true)
                     })
                 })
-                .catch(function (ex) {
-                    console.log('Response parsing failed. Error: ', ex);
-                });
             WordTypeService
                 .getWordTypes()
                 .then((data) => {
@@ -55,9 +52,6 @@ export default class WordEditForm extends Component {
                         wordTypes: data
                     })
                 })
-                .catch(function (ex) {
-                    console.log('Response parsing failed. Error: ', ex);
-                });
         }
     }
     onChangeTransition = (event, id, dictionaryId) => {
