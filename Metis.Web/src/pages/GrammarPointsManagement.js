@@ -80,7 +80,8 @@ export default class GrammarPointsManagement extends Component {
                 this.setState({
                     grammarPoints: this.state.grammarPoints + 1,
                     displayedGrammarPoints: response,
-                    creationFormVisible: false
+                    creationFormVisible: false,
+                    pages: Math.floor((this.state.grammarPoints + 1) / this.state.grammarPointsPerPage) + 1
                 });
             })
     }

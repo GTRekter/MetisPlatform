@@ -78,7 +78,8 @@ export default class DictionariesManagement extends Component {
                 this.setState({
                     dictionaries: this.state.dictionaries + 1,
                     displayedDictionaries: response,
-                    creationFormVisible: false
+                    creationFormVisible: false,
+                    pages: Math.floor((this.state.dictionaries + 1) / this.state.dictionariesPerPage) + 1
                 });
             })
     }

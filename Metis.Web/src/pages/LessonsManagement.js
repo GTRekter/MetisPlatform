@@ -80,7 +80,8 @@ export default class LessonsManagement extends Component {
                 this.setState({
                     lessons: this.state.lessons + 1,
                     displayedLessons: response,
-                    creationFormVisible: false
+                    creationFormVisible: false,
+                    pages: Math.floor((this.state.lessons + 1) / this.state.lessonsPerPage) + 1
                 });
             })
     }

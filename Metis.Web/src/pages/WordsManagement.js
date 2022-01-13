@@ -89,7 +89,8 @@ export default class WordsManagement extends Component {
                 this.setState({
                     words: this.state.words + 1,
                     displayedWords: response,
-                    creationFormVisible: false
+                    creationFormVisible: false,
+                    pages: Math.floor((this.state.words + 1) / this.state.wordsPerPage) + 1
                 });
             })
     }

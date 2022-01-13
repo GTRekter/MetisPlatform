@@ -80,7 +80,8 @@ export default class UsersManagement extends Component {
                 this.setState({
                     users: this.state.users + 1,
                     displayedUsers: response,
-                    creationFormVisible: false
+                    creationFormVisible: false,
+                    pages: Math.floor((this.state.users + 1) / this.state.usersPerPage) + 1
                 });
             })
     }
