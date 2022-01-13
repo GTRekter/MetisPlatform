@@ -23,7 +23,7 @@ export class Layout extends Component {
                 <Sidebar />
                 <main className="main-content position-relative max-height-vh-100 h-100 border-radius-lg">
                     <div className="container-fluid my-3">
-                        <div className="row d-block d-lg-none">
+                        <div className="row d-block d-xl-none">
                             <div className="col text-end">
                                 <p className="text-md text-muted pointer" onClick={() => this.onClickToggleNavbar()}>
                                     <FontAwesomeIcon className='opacity-10' icon={faBars} />
