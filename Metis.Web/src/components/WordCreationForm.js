@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import WordService from '../services/WordService';
-import DictionaryService from '../services/DictionaryService';
+import LanguageService from '../services/LanguageService';
 import WordTypeService from '../services/WordTypeService';
 
 export default class WordCreationForm extends Component {
@@ -11,10 +11,10 @@ export default class WordCreationForm extends Component {
             romanization: "",
             description: "",
             example: "",
-            dictionaryId: 0,
+            languageId: 0,
             wordTypeId: 0,
             wordTypes: [],
-            dictionaries: [],
+            languages: [],
             translations: []
         }
         this.onChangeTransition = this.onChangeTransition.bind(this);
@@ -23,19 +23,19 @@ export default class WordCreationForm extends Component {
         this.onSubmit = this.onSubmit.bind(this);
     }
     componentDidMount() {
-        DictionaryService
-            .getDictionaries()
+        LanguageService
+            .getLanguages()
             .then((data) => {
-                let translations = data.filter((dictionary) => dictionary.enabled === true)
-                    .map((dictionary) => {
+                let translations = data.filter((language) => language.enabled === true)
+                    .map((language) => {
                         return {
-                            dictionaryId: dictionary.id,
+                            languageId: language.id,
                             text: null
                         }
                     })
                 this.setState({
-                    dictionaries: data.filter((dictionary) => dictionary.enabled === true),
-                    dictionaryId: data.filter((dictionary) => dictionary.enabled === true)[0].id,
+                    languages: data.filter((language) => language.enabled === true),
+                    languageId: data.filter((language) => language.enabled === true)[0].id,
                     translations: translations
 
                 })
@@ -49,12 +49,12 @@ export default class WordCreationForm extends Component {
                 })
             })
     }
-    onChangeTransition = (event, dictionaryId) => {
-        let translations = this.state.translations.filter(translation => translation.dictionaryId === dictionaryId);
+    onChangeTransition = (event, languageId) => {
+        let translations = this.state.translations.filter(translation => translation.languageId === languageId);
         if(translations.length > 0) {
             translations[0].text = event.target.value;
         } else {
-            translations.push({ dictionaryId: dictionaryId, text: event.target.value });
+            translations.push({ languageId: languageId, text: event.target.value });
         }
         this.setState({
             translations: translations
@@ -75,13 +75,13 @@ export default class WordCreationForm extends Component {
     onSubmit = (event) => {
         event.preventDefault();
         WordService
-            .addWord(this.state.text, this.state.romanization, this.state.dictionaryId, this.state.wordTypeId, this.state.description, this.state.example, this.state.translations)
+            .addWord(this.state.text, this.state.romanization, this.state.languageId, this.state.wordTypeId, this.state.description, this.state.example, this.state.translations)
             .then(() => {
                 this.props.onSubmitCallback();
-                let translations = this.state.dictionaries.filter((dictionary) => dictionary.enabled === true)
-                .map((dictionary) => {
+                let translations = this.state.languages.filter((language) => language.enabled === true)
+                .map((language) => {
                     return {
-                        dictionaryId: dictionary.id,
+                        languageId: language.id,
                         text: null
                     }
                 })
@@ -90,30 +90,30 @@ export default class WordCreationForm extends Component {
                     romanization: "",
                     description: "",
                     example: "",
-                    dictionaryId: this.state.dictionaries.filter((dictionary) => dictionary.enabled === true)[0].id,
+                    languageId: this.state.languages.filter((language) => language.enabled === true)[0].id,
                     wordTypeId: this.state.wordTypes[0].id,
                     translations: translations
                 });
             })
     }
     render() {
-        let translations = this.state.dictionaries
-            .filter((dictionary) => {
-                return Number(dictionary.id) !== Number(this.state.dictionaryId)
+        let translations = this.state.languages
+            .filter((language) => {
+                return Number(language.id) !== Number(this.state.languageId)
             })
-            .map((dictionary, index) =>
+            .map((language, index) =>
                 <div key={index} className="col-12 col-xl-4">
                     <div className="input-group input-group-static">
-                        <label>{dictionary.name}</label>
-                        <input className="form-control" type="text" name={`translation[${dictionary.id}]`} value={this.state.translations[this.state.index]} onChange={(event) => this.onChangeTransition(event, dictionary.id)} />
+                        <label>{language.name}</label>
+                        <input className="form-control" type="text" name={`translation[${language.id}]`} value={this.state.translations[this.state.index]} onChange={(event) => this.onChangeTransition(event, language.id)} />
                     </div>
                 </div>
             )
         let wordTypes = this.state.wordTypes.map((wordType, index) =>
             <option key={index} value={wordType.id}>{wordType.name}</option>
         )
-        let dictionaries = this.state.dictionaries.map((dictionary, index) =>
-            <option key={index} value={dictionary.id}>{dictionary.name}</option>
+        let languages = this.state.languages.map((language, index) =>
+            <option key={index} value={language.id}>{language.name}</option>
         )
         return (
             <form className="text-start" onSubmit={this.onSubmit} onReset={this.onReset}>
@@ -132,9 +132,9 @@ export default class WordCreationForm extends Component {
                     </div>
                     <div className="col-12 col-md-6">
                         <div className="input-group input-group-static my-3">
-                            <label className="ms-0">Dictionary</label>
-                            <select className="form-control" name="dictionaryId" value={this.state.dictionaryId} onChange={this.onChangeInput}>
-                                {dictionaries}
+                            <label className="ms-0">Language</label>
+                            <select className="form-control" name="languageId" value={this.state.languageId} onChange={this.onChangeInput}>
+                                {languages}
                             </select>
                         </div>
                     </div>

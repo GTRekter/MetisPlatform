@@ -11,8 +11,8 @@ namespace Metis.Models.Store
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
         public string Text { get; set; }
-        public int DictionaryId { get; set; }
+        public int LanguageId { get; set; }
 
-        public Dictionary Dictionary { get; set; }
+        public Language Language { get; set; }
     }
 }

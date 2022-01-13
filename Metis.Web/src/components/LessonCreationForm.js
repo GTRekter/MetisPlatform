@@ -5,7 +5,7 @@ import FormHeader from './FormHeader';
 import Autocomplete from './Autocomplete';
 import LessonService from '../services/LessonService';
 import WordService from '../services/WordService';
-import DictionaryService from '../services/DictionaryService';
+import LanguageService from '../services/LanguageService';
 import GrammarPointService from '../services/GrammarPointService';
 
 export default class LessonCreationForm extends Component {
@@ -14,8 +14,8 @@ export default class LessonCreationForm extends Component {
         this.state = {
             title: "",
             description: "",
-            dictionaryId: 0,
-            dictionaries: [],
+            languageId: 0,
+            languages: [],
             selectedWords: [],
             selectedGrammarPoints: [],
             words: [],
@@ -23,7 +23,7 @@ export default class LessonCreationForm extends Component {
             wordAdditionFormVisible: false,
             grammarPointAdditionFormVisible: false,
         }
-        this.onChangeDictionary = this.onChangeDictionary.bind(this);
+        this.onChangeLanguage = this.onChangeLanguage.bind(this);
         this.onClickAddWord = this.onClickAddWord.bind(this);
         this.onClickAddGrammarPoint = this.onClickAddGrammarPoint.bind(this);
         this.onClickDeleteWord = this.onClickDeleteWord.bind(this);
@@ -36,22 +36,22 @@ export default class LessonCreationForm extends Component {
         this.onSubmit = this.onSubmit.bind(this);
     }
     componentDidMount() {
-        DictionaryService
-            .getDictionaries()
+        LanguageService
+            .getLanguages()
             .then((data) => {
                 this.setState({
-                    dictionaries: data.filter((dictionary) => dictionary.enabled === true),
-                    dictionaryId: data.filter((dictionary) => dictionary.enabled === true)[0].id
+                    languages: data.filter((language) => language.enabled === true),
+                    languageId: data.filter((language) => language.enabled === true)[0].id
                 })
                 WordService
-                    .getWordsByDictionaryId(data[0].id)
+                    .getWordsByLanguageId(data[0].id)
                     .then((data) => {
                         this.setState({
                             words: data
                         });
                     })
                 GrammarPointService
-                    .getGrammarPointsByDictionaryId(data[0].id)
+                    .getGrammarPointsByLanguageId(data[0].id)
                     .then((data) => {
                         this.setState({
                             grammarPoints: data
@@ -59,19 +59,19 @@ export default class LessonCreationForm extends Component {
                     })
             })
     }
-    onChangeDictionary(event) {
+    onChangeLanguage(event) {
         this.setState({
-            dictionaryId: event.target.value
+            languageId: event.target.value
         });
         WordService
-            .getWordsByDictionaryId(event.target.value)
+            .getWordsByLanguageId(event.target.value)
             .then((data) => {
                 this.setState({
                     words: data
                 });
             })
         GrammarPointService
-            .getGrammarPointsByDictionaryId(event.target.value)
+            .getGrammarPointsByLanguageId(event.target.value)
             .then((data) => {
                 this.setState({
                     grammarPoints: data
@@ -140,30 +140,30 @@ export default class LessonCreationForm extends Component {
     onSubmit = (event) => {
         event.preventDefault();
         LessonService
-            .addLesson(this.state.title, this.state.description, this.state.dictionaryId, this.state.selectedWords, this.state.selectedGrammarPoints)
+            .addLesson(this.state.title, this.state.description, this.state.languageId, this.state.selectedWords, this.state.selectedGrammarPoints)
             .then(() => {
                 this.props.onSubmitCallback();
                 this.setState({
                     title: "",
                     description: "",
-                    dictionaryId: this.state.dictionaries.filter((dictionary) => dictionary.enabled === true)[0].id,
+                    languageId: this.state.languages.filter((language) => language.enabled === true)[0].id,
                     selectedWords: [],
                     selectedGrammarPoints: []
                 })
             })
     }
     render() {
-        let selectedWordsHeaders = this.state.dictionaries
-            .filter((dictionary) => dictionary.enabled === true && Number(dictionary.id) !== Number(this.state.dictionaryId))
-            .map((dictionary, index) =>
-                <th key={index} className="text-uppercase text-xxs font-weight-bolder opacity-7">{dictionary.name}</th>
+        let selectedWordsHeaders = this.state.languages
+            .filter((language) => language.enabled === true && Number(language.id) !== Number(this.state.languageId))
+            .map((language, index) =>
+                <th key={index} className="text-uppercase text-xxs font-weight-bolder opacity-7">{language.name}</th>
             )
         let selectedWordsRows = this.state.selectedWords.map((word, index) => {
             let columns = [];
-            this.state.dictionaries
-                .filter((dictionary) => dictionary.enabled === true && Number(dictionary.id) !== Number(this.state.dictionaryId))
-                .forEach((dictionary) => {
-                    let translation = word.translations.filter((translation) => Number(translation.dictionaryId) === Number(dictionary.id));
+            this.state.languages
+                .filter((language) => language.enabled === true && Number(language.id) !== Number(this.state.languageId))
+                .forEach((language) => {
+                    let translation = word.translations.filter((translation) => Number(translation.languageId) === Number(language.id));
                     if (translation.length > 0) {
                         columns.push(<td className="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-4">{translation[0].text}</td>)
                     } else {
@@ -197,7 +197,7 @@ export default class LessonCreationForm extends Component {
                 </td>
             </tr>
         )
-        let dictionaries = this.state.dictionaries.map((dictionary, index) => <option key={index} value={dictionary.id}>{dictionary.name}</option>)
+        let languages = this.state.languages.map((language, index) => <option key={index} value={language.id}>{language.name}</option>)
         let words = this.state.words.map((word) => word.text);
         let grammarPoints = this.state.grammarPoints.map((grammarPoint) => grammarPoint.title);
         return (
@@ -214,9 +214,9 @@ export default class LessonCreationForm extends Component {
                     </div>
                     <div className="col-12 col-md-6">
                         <div className="input-group input-group-static my-3">
-                            <label className="ms-0">Dictionary</label>
-                            <select className="form-control" name="dictionaryId" value={this.state.dictionaryId} onChange={this.onChangeDictionary}>
-                                {dictionaries}
+                            <label className="ms-0">Language</label>
+                            <select className="form-control" name="languageId" value={this.state.languageId} onChange={this.onChangeLanguage}>
+                                {languages}
                             </select>
                         </div>
                     </div>

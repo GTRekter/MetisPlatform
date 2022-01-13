@@ -30,7 +30,7 @@ namespace Metis.API.Controllers
             {
                 return NotFound();
             }
-            await LessonManager.AddLessonAsync(_context, request.Title, request.DictionaryId, request.Description, request.Words.Select(w => w.Id), request.GrammarPoints.Select(g => g.Id));
+            await LessonManager.AddLessonAsync(_context, request.Title, request.LanguageId, request.Description, request.Words.Select(w => w.Id), request.GrammarPoints.Select(g => g.Id));
             return Ok();
         }
 
@@ -39,7 +39,7 @@ namespace Metis.API.Controllers
         [Route("EditLesson")]
         public async Task<IActionResult> EditLessonAsync(EditLessonRequest request)
         {
-            await LessonManager.EditLessonAsync(_context, request.Id, request.Title, request.DictionaryId, request.Description, request.Words.Select(w => w.Id), request.GrammarPoints.Select(g => g.Id));
+            await LessonManager.EditLessonAsync(_context, request.Id, request.Title, request.LanguageId, request.Description, request.Words.Select(w => w.Id), request.GrammarPoints.Select(g => g.Id));
             return Ok();
         }
 
@@ -63,10 +63,10 @@ namespace Metis.API.Controllers
 
         [HttpGet]
         [Authorize(AuthenticationSchemes = Microsoft.AspNetCore.Authentication.JwtBearer.JwtBearerDefaults.AuthenticationScheme)]
-        [Route("GetLessonsByDictionaryId")]
-        public async Task<IActionResult> GetLessonsByDictionaryIdAsync(int id)
+        [Route("GetLessonsByLanguageId")]
+        public async Task<IActionResult> GetLessonsByLanguageIdAsync(int id)
         {
-            var lesson = await LessonManager.GetLessonsByDictionaryIdAsync(_context, id);
+            var lesson = await LessonManager.GetLessonsByLanguageIdAsync(_context, id);
             return Ok(lesson);
         }
 

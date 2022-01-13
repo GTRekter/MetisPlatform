@@ -28,7 +28,7 @@ namespace Metis.API.Controllers
             {
                 return NotFound();
             }
-            await GrammarPointManager.AddGrammarPointAsync(_context, request.Title, request.Description, request.DictionaryId);
+            await GrammarPointManager.AddGrammarPointAsync(_context, request.Title, request.Description, request.LanguageId);
             return Ok();
         }
 
@@ -37,7 +37,7 @@ namespace Metis.API.Controllers
         [Route("EditGrammarPoint")]
         public async Task<IActionResult> EditGrammarPointAsync(EditGrammarPointRequest request)
         {
-            await GrammarPointManager.EditGrammarPointAsync(_context, request.Id, request.Title, request.Description, request.DictionaryId);
+            await GrammarPointManager.EditGrammarPointAsync(_context, request.Id, request.Title, request.Description, request.LanguageId);
             return Ok();
         }
 
@@ -52,10 +52,10 @@ namespace Metis.API.Controllers
 
         [HttpGet]
         [Authorize(AuthenticationSchemes = Microsoft.AspNetCore.Authentication.JwtBearer.JwtBearerDefaults.AuthenticationScheme)]
-        [Route("GetGrammarPointsByDictionaryId")]
-        public async Task<IActionResult> GetGrammarPointsByDictionaryIdAsync(int id)
+        [Route("GetGrammarPointsByLanguageId")]
+        public async Task<IActionResult> GetGrammarPointsByLanguageIdAsync(int id)
         {
-            var grammarPoint = await GrammarPointManager.GetGrammarPointsByDictionaryIdAsync(_context, id);
+            var grammarPoint = await GrammarPointManager.GetGrammarPointsByLanguageIdAsync(_context, id);
             return Ok(grammarPoint);
         }
 

@@ -63,7 +63,7 @@ namespace Metis.API.Controllers
             int numberOfNonAlphanumericCharacters = new Random().Next(1, passwordlength - 1);
             string password = Password.Generate(passwordlength, numberOfNonAlphanumericCharacters);
 
-            await UserManager.AddUserAsync(_dataContext, model.FirstName, model.LastName, model.Email, model.RoleId, model.DictionaryId, password, model.Lessons.Select(d => d.Id));
+            await UserManager.AddUserAsync(_dataContext, model.FirstName, model.LastName, model.Email, model.RoleId, model.LanguageId, password, model.Lessons.Select(d => d.Id));
 
             var apiKey = _configuration["SendGrid:Key"];
             var client = new SendGridClient(apiKey);
@@ -87,7 +87,7 @@ namespace Metis.API.Controllers
         [Route("EditUser")]
         public async Task<IActionResult> EditUserAsync(EditUserRequest model)
         {
-            await UserManager.EditUserAsync(_dataContext, model.Id, model.FirstName, model.LastName, model.Email, model.RoleId, model.DictionaryId, model.Lessons.Select(d => d.Id));
+            await UserManager.EditUserAsync(_dataContext, model.Id, model.FirstName, model.LastName, model.Email, model.RoleId, model.LanguageId, model.Lessons.Select(d => d.Id));
             return Ok();
         }
 

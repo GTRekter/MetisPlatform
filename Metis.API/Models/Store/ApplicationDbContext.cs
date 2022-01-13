@@ -13,7 +13,7 @@ namespace Metis.Models.Store
         public DbSet<Role> Roles { get; set; }
         public DbSet<Word> Words { get; set; }
         public DbSet<WordType> WordTypes { get; set; }
-        public DbSet<Dictionary> Dictionaries { get; set; }
+        public DbSet<Language> Languages { get; set; }
         public DbSet<Translation> Translations { get; set; }
         public DbSet<Lesson> Lessons { get; set; }
         public DbSet<GrammarPoint> GrammarPoints { get; set; }
@@ -25,14 +25,14 @@ namespace Metis.Models.Store
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
-            this.SeedDictionaries(builder);
+            this.SeedLanguages(builder);
             this.SeedWordTypes(builder);
             this.SeedRoles(builder);
             this.SeedUsers(builder);
 
             builder.Entity<User>(entity =>
             {
-                entity.HasOne(u => u.Dictionary)
+                entity.HasOne(u => u.Language)
                     .WithMany(d => d.Users)
                     .HasForeignKey(d => d.Id)
                     .OnDelete(DeleteBehavior.Restrict);
@@ -53,12 +53,12 @@ namespace Metis.Models.Store
             builder.Entity<Lesson>()
                 .ToTable("Lessons");
         }
-        private void SeedDictionaries(ModelBuilder builder)
+        private void SeedLanguages(ModelBuilder builder)
         {
-            builder.Entity<Dictionary>().HasData(new List<Dictionary>(){
-                new Dictionary(){ Id = 1, Name = "English", Code = "en-US", Enabled = true },
-                new Dictionary(){ Id = 2, Name = "Korean", Code = "ko-KR", Enabled = true },
-                new Dictionary(){ Id = 3, Name = "Italian", Code = "it-IT", Enabled = true }
+            builder.Entity<Language>().HasData(new List<Language>(){
+                new Language(){ Id = 1, Name = "English", Code = "en-US", Enabled = true },
+                new Language(){ Id = 2, Name = "Korean", Code = "ko-KR", Enabled = true },
+                new Language(){ Id = 3, Name = "Italian", Code = "it-IT", Enabled = true }
             });
         }
         private void SeedWordTypes(ModelBuilder builder)
@@ -85,7 +85,7 @@ namespace Metis.Models.Store
             var user = new User
             {
                 Id = 1,
-                DictionaryId = 1,
+                LanguageId = 1,
                 Email = "admin@metis.com",
                 RoleId = 1
             }; 

@@ -12,6 +12,6 @@ namespace Metis.Models.Requests
         public string Title { get; set; }
         [DataType(DataType.Text)]
         public string Description { get; set; }
-        public int DictionaryId { get; set; }
+        public int LanguageId { get; set; }
     }
 }

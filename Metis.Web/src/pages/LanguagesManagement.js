@@ -4,56 +4,56 @@ import { faUser, faTrash, faEdit, faBell, faChevronDown } from '@fortawesome/fre
 import { Collapse, Modal } from 'react-bootstrap';
 import ReportCard from '../components/ReportCard';
 import Pagination from '../components/Pagination';
-import DictionaryCreationForm from '../componentsDictionaryCreationForm';
-import DictionaryEditForm from '../components/DictionaryEditForm';
-import DictionaryService from '../services/DictionaryService';
+import LanguageCreationForm from '../componentsLanguageCreationForm';
+import LanguageEditForm from '../components/LanguageEditForm';
+import LanguageService from '../services/LanguageService';
 
-export default class DictionariesManagement extends Component {
+export default class LanguagesManagement extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            displayedDictionaries: [],
-            dictionaries: 0,
+            displayedLanguages: [],
+            languages: 0,
             activeWords: 0,
             page: 0,
             pages: undefined,
-            dictionariesPerPage: 10,
+            languagesPerPage: 10,
             searchQuery: '',
-            selectedDictionaryId: undefined,
+            selectedLanguageId: undefined,
             creationFormVisible: false,
             editFormVisible: false,
             deleteModalVisible: false
         }
         this.onClickToggleCreationForm = this.onClickToggleCreationForm.bind(this);
         this.onClickHideCreationForm = this.onClickHideCreationForm.bind(this);
-        this.onSubmitCreationDictionary = this.onSubmitCreationDictionary.bind(this);
+        this.onSubmitCreationLanguage = this.onSubmitCreationLanguage.bind(this);
 
         this.onClickShowEditForm = this.onClickShowEditForm.bind(this);
         this.onClickHideEditForm = this.onClickHideEditForm.bind(this);
-        this.onSubmitEditDictionary = this.onSubmitEditDictionary.bind(this);
+        this.onSubmitEditLanguage = this.onSubmitEditLanguage.bind(this);
 
         this.onClickShowDeleteModal = this.onClickShowDeleteModal.bind(this);
         this.onClickHideDeleteModal = this.onClickHideDeleteModal.bind(this);
         this.onClickConfirmDelete = this.onClickConfirmDelete.bind(this);
 
-        this.onClickUpdateDictionariesByPage = this.onClickUpdateDictionariesByPage.bind(this);
+        this.onClickUpdateLanguagesByPage = this.onClickUpdateLanguagesByPage.bind(this);
         this.onChangeQueryString = this.onChangeQueryString.bind(this);
         this.onClickChangePage = this.onClickChangePage.bind(this);
     }
     componentDidMount() {
-        DictionaryService
-            .getDictionariesByPage(this.state.page, this.state.wordsPerPage)
+        LanguageService
+            .getLanguagesByPage(this.state.page, this.state.wordsPerPage)
             .then(response => {
                 this.setState({
-                    displayedDictionaries: response
+                    displayedLanguages: response
                 });
             })
-        DictionaryService
+        LanguageService
             .getDictionaiesCount()
             .then(response => {
                 this.setState({
-                    dictionaries: response,
-                    pages: Math.floor(response / this.state.dictionariesPerPage) + 1
+                    languages: response,
+                    pages: Math.floor(response / this.state.languagesPerPage) + 1
                 });
             })
     }
@@ -71,15 +71,15 @@ export default class DictionariesManagement extends Component {
             deleteModalVisible: false
         })
     }
-    onSubmitCreationDictionary() {
-        DictionaryService
-            .getDictionariesByPage(this.state.page, this.state.wordsPerPage)
+    onSubmitCreationLanguage() {
+        LanguageService
+            .getLanguagesByPage(this.state.page, this.state.wordsPerPage)
             .then(response => {
                 this.setState({
-                    dictionaries: this.state.dictionaries + 1,
-                    displayedDictionaries: response,
+                    languages: this.state.languages + 1,
+                    displayedLanguages: response,
                     creationFormVisible: false,
-                    pages: Math.floor((this.state.dictionaries + 1) / this.state.dictionariesPerPage) + 1
+                    pages: Math.floor((this.state.languages + 1) / this.state.languagesPerPage) + 1
                 });
             })
     }
@@ -99,12 +99,12 @@ export default class DictionariesManagement extends Component {
             deleteModalVisible: false
         })
     }
-    onSubmitEditDictionary() {
-        DictionaryService
-            .getDictionariesByPage(this.state.page, this.state.wordsPerPage)
+    onSubmitEditLanguage() {
+        LanguageService
+            .getLanguagesByPage(this.state.page, this.state.wordsPerPage)
             .then(response => {
                 this.setState({
-                    displayedDictionaries: response,
+                    displayedLanguages: response,
                     editFormVisible: false
                 });
             })
@@ -126,55 +126,55 @@ export default class DictionariesManagement extends Component {
         })
     }
     onClickConfirmDelete = () => {
-        DictionaryService
-            .deleteDictionaryById(this.state.selectedDictionaryId)
+        LanguageService
+            .deleteLanguageById(this.state.selectedLanguageId)
             .then(() => {
-                DictionaryService
-                    .getDictionariesByPage(this.state.page, this.state.dictionariesPerPage)
+                LanguageService
+                    .getLanguagesByPage(this.state.page, this.state.languagesPerPage)
                     .then((response) => {
                         this.setState({
-                            dictionaries: this.state.dictionaries - 1,
+                            languages: this.state.languages - 1,
                             displayedWords: response,
                             deleteModalVisible: false
                         });
                     })
             })
     }
-    onClickUpdateDictionariesByPage = (dictionariesPerPage) => {
+    onClickUpdateLanguagesByPage = (languagesPerPage) => {
         if (this.state.searchQuery === '') {
-            DictionaryService
-                .getDictionariesCount()
+            LanguageService
+                .getLanguagesCount()
                 .then(response => {
                     this.setState({
-                        dictionaries: response,
-                        pages: Math.floor(response / dictionariesPerPage) + 1
+                        languages: response,
+                        pages: Math.floor(response / languagesPerPage) + 1
                     });
                 })
-            DictionaryService
-                .getDictionariesByPage(this.state.page, dictionariesPerPage)
+            LanguageService
+                .getLanguagesByPage(this.state.page, languagesPerPage)
                 .then(response => {
                     this.setState({
                         ...this.state,
-                        displayedDictionaries: response,
-                        dictionariesPerPage: dictionariesPerPage
+                        displayedLanguages: response,
+                        languagesPerPage: languagesPerPage
                     });
                 })
         } else {
-            DictionaryService
-                .getDictionariesBySearchQueryCount(this.state.searchQuery)
+            LanguageService
+                .getLanguagesBySearchQueryCount(this.state.searchQuery)
                 .then(response => {
                     this.setState({
-                        dictionaries: response,
-                        pages: Math.floor(response / dictionariesPerPage) + 1
+                        languages: response,
+                        pages: Math.floor(response / languagesPerPage) + 1
                     });
                 })
-            DictionaryService
-                .getDictionariesByPageAndSearchQuery(this.state.page, dictionariesPerPage, this.state.searchQuery)
+            LanguageService
+                .getLanguagesByPageAndSearchQuery(this.state.page, languagesPerPage, this.state.searchQuery)
                 .then(response => {
                     this.setState({
                         ...this.state,
-                        displayedDictionaries: response,
-                        dictionariesPerPage: dictionariesPerPage
+                        displayedLanguages: response,
+                        languagesPerPage: languagesPerPage
                     });
                 })
         }
@@ -185,92 +185,92 @@ export default class DictionariesManagement extends Component {
             searchQuery: event.target.value
         });
         if (event.target.value === '') {
-            DictionaryService
-                .getDictionariesCount()
+            LanguageService
+                .getLanguagesCount()
                 .then(response => {
                     this.setState({
-                        dictionaries: response,
-                        pages: Math.floor(response / this.state.dictionariesPerPage) + 1
+                        languages: response,
+                        pages: Math.floor(response / this.state.languagesPerPage) + 1
                     });
                 })
-            DictionaryService
-                .getDictionariesByPage(this.state.page, this.state.dictionariesPerPage)
+            LanguageService
+                .getLanguagesByPage(this.state.page, this.state.languagesPerPage)
                 .then(response => {
                     this.setState({
                         ...this.state,
-                        displayedDictionaries: response
+                        displayedLanguages: response
                     });
                 })
         } else {
-            DictionaryService
-                .getDictionariesBySearchQueryCount(event.target.value)
+            LanguageService
+                .getLanguagesBySearchQueryCount(event.target.value)
                 .then(response => {
                     this.setState({
-                        dictionaries: response,
-                        pages: Math.floor(response / this.state.dictionariesPerPage) + 1
+                        languages: response,
+                        pages: Math.floor(response / this.state.languagesPerPage) + 1
                     });
                 })
-            DictionaryService
-                .getDictionariesByPageAndSearchQuery(this.state.page, this.state.dictionariesPerPage, event.target.value)
+            LanguageService
+                .getLanguagesByPageAndSearchQuery(this.state.page, this.state.languagesPerPage, event.target.value)
                 .then(response => {
                     this.setState({
                         ...this.state,
-                        displayedDictionaries: response
+                        displayedLanguages: response
                     });
                 })
         }
     }
     onClickChangePage = (page) => {
         if (this.state.searchQuery === '') {
-            DictionaryService
-                .getDictionariesCount()
+            LanguageService
+                .getLanguagesCount()
                 .then(response => {
                     this.setState({
-                        dictionaries: response,
-                        pages: Math.floor(response / this.state.dictionariesPerPage) + 1
+                        languages: response,
+                        pages: Math.floor(response / this.state.languagesPerPage) + 1
                     });
                 })
-            DictionaryService
-                .getDictionariesByPage(page, this.state.dictionariesPerPage)
+            LanguageService
+                .getLanguagesByPage(page, this.state.languagesPerPage)
                 .then(response => {
                     this.setState({
                         ...this.state,
-                        displayedDictionaries: response,
+                        displayedLanguages: response,
                         page: page
                     });
                 })
         } else {
-            DictionaryService
-                .getDictionariesBySearchQueryCount(this.state.searchQuery)
+            LanguageService
+                .getLanguagesBySearchQueryCount(this.state.searchQuery)
                 .then(response => {
                     this.setState({
-                        dictionaries: response,
-                        pages: Math.floor(response / this.state.dictionariesPerPage) + 1
+                        languages: response,
+                        pages: Math.floor(response / this.state.languagesPerPage) + 1
                     });
                 })
-            DictionaryService
-                .getDictionariesByPageAndSearchQuery(page, this.state.dictionariesPerPage, this.state.searchQuery)
+            LanguageService
+                .getLanguagesByPageAndSearchQuery(page, this.state.languagesPerPage, this.state.searchQuery)
                 .then(response => {
                     this.setState({
                         ...this.state,
-                        displayedDictionaries: response,
+                        displayedLanguages: response,
                         page: page
                     });
                 })
         }
     }
     render() {
-        var dictionaryPerPageOptions = [];
+        var languagePerPageOptions = [];
         for (var index = 1; index <= 4; index++) {
             let value = index * 10;
-            dictionaryPerPageOptions.push(<li key={index}><span className="dropdown-item pointer" onClick={() => this.onClickUpdateDictionariesByPage(value)}>{value}</span></li>);
+            languagePerPageOptions.push(<li key={index}><span className="dropdown-item pointer" onClick={() => this.onClickUpdateLanguagesByPage(value)}>{value}</span></li>);
         }
-        let rows = this.state.displayedDictionaries.map((dictionary, index) => {
+        let rows = this.state.displayedLanguages.map((language, index) => {
             return (
                 <tr key={index}>
-                    <td className="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-4">{dictionary.name}</td>
-                    <td className="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-4">{dictionary.code}</td>
-                    <td className="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-4">{dictionary.enabled}</td>
+                    <td className="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-4">{language.name}</td>
+                    <td className="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-4">{language.code}</td>
+                    <td className="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-4">{language.enabled}</td>
                     <td className="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 td-icon">
                         <button className="btn btn-icon btn-2 btn-link btn-sm" type="button"
                             onClick={() => this.onClickShowEditForm(word.id)}
@@ -280,7 +280,7 @@ export default class DictionariesManagement extends Component {
                                 <FontAwesomeIcon className='opacity-10' icon={faEdit} />
                             </span>
                         </button>
-                        <button className="btn btn-icon btn-2 btn-link btn-sm" type="button" onClick={() => this.onClickShowDeleteModal(dictionary.id)}>
+                        <button className="btn btn-icon btn-2 btn-link btn-sm" type="button" onClick={() => this.onClickShowDeleteModal(language.id)}>
                             <span className="btn-inner--icon">
                                 <FontAwesomeIcon className='opacity-10' icon={faTrash} />
                             </span>
@@ -293,7 +293,7 @@ export default class DictionariesManagement extends Component {
             <div>
                 <div className="row">
                     <div className="col-12 col-md-4 py-4">
-                        <ReportCard title="Active dictionaries" icon={faUser} color="primary" value={this.state.activeDictionaries} footer={`Total number of dictionaries: ${this.state.dictionaries}`} />
+                        <ReportCard title="Active languages" icon={faUser} color="primary" value={this.state.activeLanguages} footer={`Total number of languages: ${this.state.languages}`} />
                     </div>
                 </div>
                 <div className="row">
@@ -301,14 +301,14 @@ export default class DictionariesManagement extends Component {
                         <button className="btn btn-primary"
                             onClick={() => this.onClickToggleCreationForm()}
                             aria-controls="example-collapse-text"
-                            aria-expanded={this.state.creationFormVisible}>Add dictionary</button>
+                            aria-expanded={this.state.creationFormVisible}>Add language</button>
                         <div className="dropdown d-inline mx-2">
                             <button className="btn bg-gradient-primary dropdown-toggle" type="button" id="itemsPerPageDropdown" data-bs-toggle="dropdown" aria-expanded="false">
-                                Dictionaries per page: {this.state.wordsPerPage}
+                                Languages per page: {this.state.wordsPerPage}
                                 <FontAwesomeIcon className='text-secondary text-white ms-2' icon={faChevronDown} />
                             </button>
                             <ul className="dropdown-menu" aria-labelledby="itemsPerPageDropdown">
-                                {dictionaryPerPageOptions}
+                                {languagePerPageOptions}
                             </ul>
                         </div>
                     </div>
@@ -323,7 +323,7 @@ export default class DictionariesManagement extends Component {
                         <div className="col-12 my-3">
                             <div className="card">
                                 <div className="card-body">
-                                    <DictionaryEditForm key={this.state.selectedDictionaryId} id={this.state.selectedDictionaryId} onSubmitCallback={this.onSubmitEditDictionary} onResetCallback={this.onClickHideEditForm} />
+                                    <LanguageEditForm key={this.state.selectedLanguageId} id={this.state.selectedLanguageId} onSubmitCallback={this.onSubmitEditLanguage} onResetCallback={this.onClickHideEditForm} />
                                 </div>
                             </div>
                         </div>
@@ -332,7 +332,7 @@ export default class DictionariesManagement extends Component {
                         <div className="col-12 my-3">
                             <div className="card">
                                 <div className="card-body">
-                                    <DictionaryCreationForm onSubmitCallback={this.onSubmitCreationWord} onResetCallback={this.onClickHideCreationForm} />
+                                    <LanguageCreationForm onSubmitCallback={this.onSubmitCreationWord} onResetCallback={this.onClickHideCreationForm} />
                                 </div>
                             </div>
                         </div>
@@ -366,12 +366,12 @@ export default class DictionariesManagement extends Component {
                             <div className="py-3 text-center">
                                 <FontAwesomeIcon className='h1 text-secondary' icon={faBell} />
                                 <h4 className="text-gradient text-danger mt-4">Warning</h4>
-                                <p>This operation cannot be undone. If you proceed all the data related to the dictionary will be deleted.</p>
+                                <p>This operation cannot be undone. If you proceed all the data related to the language will be deleted.</p>
                             </div>
                         </div>
                         <div className="modal-footer">
                             <button type="button" name="button" className="btn btn-light m-0" onClick={this.onClickHideDeleteModal}>Cancel</button>
-                            <button type="button" name="button" className="btn bg-gradient-primary m-0 ms-2" onClick={this.onClickConfirmDelete}>Delete Dictionary</button>
+                            <button type="button" name="button" className="btn bg-gradient-primary m-0 ms-2" onClick={this.onClickConfirmDelete}>Delete Language</button>
                         </div>
                     </div>
                 </Modal>

@@ -4,7 +4,7 @@ import { faUser, faVolumeUp, faChevronDown } from '@fortawesome/free-solid-svg-i
 import ReportCard from '../components/ReportCard';
 import Pagination from '../components/Pagination';
 import WordService from '../services/WordService';
-import DictionaryService from '../services/DictionaryService';
+import LanguageService from '../services/LanguageService';
 import SpeechService from '../services/SpeechService';
 import JwtService from '../services/JwtService';
 
@@ -12,7 +12,7 @@ export default class Dictionary extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            dictionaries: [],
+            languages: [],
             words: 0,
             activeWords: 0,
             displayedWords: [],
@@ -42,17 +42,17 @@ export default class Dictionary extends Component {
                     pages: Math.floor(response / this.state.wordsPerPage) + 1
                 });
             })
-        DictionaryService
-            .getDictionaries()
+        LanguageService
+            .getLanguages()
             .then((data) => {
                 this.setState({
-                    dictionaries: data.filter((dictionary) => dictionary.enabled === true)
+                    languages: data.filter((language) => language.enabled === true)
                 })
             })
     }
-    onClickPronounceWords = (string, dictionaryId) => {
-        var dictionary = this.state.dictionaries.filter(d => d.id === dictionaryId);
-        SpeechService.synthesizeSpeech(string, dictionary[0].code);
+    onClickPronounceWords = (string, languageId) => {
+        var language = this.state.languages.filter(d => d.id === languageId);
+        SpeechService.synthesizeSpeech(string, language[0].code);
     }
     onClickUpdateWordsByPage = (wordsPerPage) => {
         var id = JwtService.getCurrentUserId();
@@ -177,8 +177,8 @@ export default class Dictionary extends Component {
         }
     }
     render() {
-        let headers = this.state.dictionaries.map((dictionary, index) =>
-            <th key={index} className="text-uppercase text-xxs font-weight-bolder opacity-7">{dictionary.name}</th>
+        let headers = this.state.languages.map((language, index) =>
+            <th key={index} className="text-uppercase text-xxs font-weight-bolder opacity-7">{language.name}</th>
         )
         var wordPerPageOptions = [];
         for (var index = 1; index <= 4; index++) {
@@ -187,8 +187,8 @@ export default class Dictionary extends Component {
         }
         let rows = this.state.displayedWords.map((word, index) => {
             let columns = [];
-            this.state.dictionaries.forEach((dictionary, index) => {
-                let translation = word.translations.filter((translation) => translation.dictionaryId === dictionary.id);
+            this.state.languages.forEach((language, index) => {
+                let translation = word.translations.filter((translation) => translation.languageId === language.id);
                 if (translation.length > 0) {
                     columns.push(<td key={index} className="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-4">{translation[0].text}</td>)
                 } else {
@@ -198,7 +198,7 @@ export default class Dictionary extends Component {
             return (
                 <tr key={index}>
                     <td className="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 td-icon">
-                        <button className="btn btn-sm btn-link-secondary" onClick={() => this.onClickPronounceWords(word.text, word.dictionaryId)}>
+                        <button className="btn btn-sm btn-link-secondary" onClick={() => this.onClickPronounceWords(word.text, word.languageId)}>
                             <FontAwesomeIcon icon={faVolumeUp} />
                         </button>
                     </td>

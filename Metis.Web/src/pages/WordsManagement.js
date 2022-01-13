@@ -7,13 +7,13 @@ import Pagination from '../components/Pagination';
 import WordCreationForm from '../components/WordCreationForm';
 import WordEditForm from '../components/WordEditForm';
 import WordService from '../services/WordService';
-import DictionaryService from '../services/DictionaryService';
+import LanguageService from '../services/LanguageService';
 
 export default class WordsManagement extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            dictionaries: [],
+            languages: [],
             displayedWords: [],
             words: 0,
             activeWords: 0,
@@ -60,11 +60,11 @@ export default class WordsManagement extends Component {
                     pages: Math.floor(response / this.state.wordsPerPage) + 1
                 });
             })
-        DictionaryService
-            .getDictionaries()
+        LanguageService
+            .getLanguages()
             .then((data) => {
                 this.setState({
-                    dictionaries: data,
+                    languages: data,
                 })
             })
     }
@@ -274,10 +274,10 @@ export default class WordsManagement extends Component {
        console.log('export');
     }
     render() {
-        let headers = this.state.dictionaries
-            .filter((dictionary) => dictionary.enabled === true)
-            .map((dictionary, index) =>
-                <th key={index} className="text-uppercase text-xxs font-weight-bolder opacity-7">{dictionary.name}</th>
+        let headers = this.state.languages
+            .filter((language) => language.enabled === true)
+            .map((language, index) =>
+                <th key={index} className="text-uppercase text-xxs font-weight-bolder opacity-7">{language.name}</th>
             )
         var wordPerPageOptions = [];
         for (var index = 1; index <= 4; index++) {
@@ -286,10 +286,10 @@ export default class WordsManagement extends Component {
         }
         let rows = this.state.displayedWords.map((word, index) => {
             let columns = [];
-            this.state.dictionaries
-                .filter((dictionary) => dictionary.enabled === true)
-                .forEach((dictionary, index) => {
-                    let translation = word.translations.filter((translation) => translation.dictionaryId === dictionary.id);
+            this.state.languages
+                .filter((language) => language.enabled === true)
+                .forEach((language, index) => {
+                    let translation = word.translations.filter((translation) => translation.languageId === language.id);
                     if (translation.length > 0) {
                         columns.push(<td key={index} className="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-4">{translation[0].text}</td>)
                     } else {

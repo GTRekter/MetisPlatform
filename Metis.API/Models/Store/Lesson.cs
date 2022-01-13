@@ -14,9 +14,9 @@ namespace Metis.Models.Store
         public string Title { get; set; }
         public string Description { get; set; }
         public byte[] Cover { get; set; }
-        public int DictionaryId { get; set; }
+        public int LanguageId { get; set; }
 
-        public Dictionary Dictionary { get; set; }  
+        public Language Language { get; set; }  
         [JsonIgnore]
         public ICollection<User> Users { get; set; }
         public ICollection<Word> Words { get; set; }

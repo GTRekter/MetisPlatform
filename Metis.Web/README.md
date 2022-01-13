@@ -1,5 +1,5 @@
 # Metis
-Application that generate random flashcard according to a JSON dictionary. I'm currently using this application to memorize Korean words.
+Application that generate random flashcard according to a JSON language. I'm currently using this application to memorize Korean words.
 
 ## Lesson 01
 **날짜**: 21.11.24

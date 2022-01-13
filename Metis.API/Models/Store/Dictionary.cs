@@ -6,7 +6,7 @@ using System.Text.Json.Serialization;
 
 namespace Metis.Models.Store
 {
-    public class Dictionary
+    public class Language
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]

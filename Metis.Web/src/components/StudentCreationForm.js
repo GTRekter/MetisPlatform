@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faTrash } from '@fortawesome/free-solid-svg-icons';
-import DictionaryService from '../services/DictionaryService';
+import LanguageService from '../services/LanguageService';
 import LessonService from '../services/LessonService';
 import UserService from '../services/UserService';
 import RoleService from '../services/RoleService';
@@ -15,9 +15,9 @@ export default class UserCreationForm extends Component {
             firstname: "",
             lastname: "",
             email: "",
-            dictionaryId: 0,
+            languageId: 0,
             roles: [],
-            dictionaries: [],
+            languages: [],
             lessons: [],
             selectedLessons: [],
             lessonAdditionFormVisible: false
@@ -25,21 +25,21 @@ export default class UserCreationForm extends Component {
         this.onChangeInput = this.onChangeInput.bind(this);
         this.onReset = this.onReset.bind(this);
         this.onSubmit = this.onSubmit.bind(this);
-        this.onChangeDictionary = this.onChangeDictionary.bind(this);
+        this.onChangeLanguage = this.onChangeLanguage.bind(this);
         this.onClickToggleLessonAdditionForm = this.onClickToggleLessonAdditionForm.bind(this);
         this.onClickAddLesson = this.onClickAddLesson.bind(this);
         this.onClickDeleteLesson = this.onClickDeleteLesson.bind(this);
     }
     componentDidMount() {
-        DictionaryService
-            .getDictionaries()
+        LanguageService
+            .getLanguages()
             .then((data) => {
                 this.setState({
-                    dictionaries: data.filter((dictionary) => dictionary.enabled === true),
-                    dictionaryId: data.filter((dictionary) => dictionary.enabled === true)[0].id
+                    languages: data.filter((language) => language.enabled === true),
+                    languageId: data.filter((language) => language.enabled === true)[0].id
                 })
                 LessonService
-                    .getLessonsByDictionaryId(data[0].id)
+                    .getLessonsByLanguageId(data[0].id)
                     .then(response => {
                         this.setState({
                             lessons: response,
@@ -62,7 +62,7 @@ export default class UserCreationForm extends Component {
     onSubmit = (event) => {
         event.preventDefault();
         UserService
-            .addUser(this.state.firstname, this.state.lastname, this.state.email, this.state.role, this.state.dictionaryId, this.state.selectedLessons)
+            .addUser(this.state.firstname, this.state.lastname, this.state.email, this.state.languageId, this.state.selectedLessons)
             .then(() => {
                 this.props.onSubmitCallback();
                 this.setState({
@@ -70,7 +70,7 @@ export default class UserCreationForm extends Component {
                     lastname: "",
                     email: "",
                     role: "",
-                    dictionaryId: this.state.dictionaries.filter((dictionary) => dictionary.enabled === true)[0].id
+                    languageId: this.state.languages.filter((language) => language.enabled === true)[0].id
                 });
             })
     }
@@ -79,12 +79,12 @@ export default class UserCreationForm extends Component {
             lessonAdditionFormVisible: !this.state.lessonAdditionFormVisible
         })
     }
-    onChangeDictionary = (event) => {
+    onChangeLanguage = (event) => {
         this.setState({
-            dictionary: event.target.value
+            language: event.target.value
         });
         LessonService
-            .getLessonsByDictionaryId(event.target.value)
+            .getLessonsByLanguageId(event.target.value)
             .then(response => {
                 this.setState({
                     lessons: response
@@ -109,9 +109,9 @@ export default class UserCreationForm extends Component {
     }
     render() {
         let selectedLessonsRows = this.state.selectedLessons.map((lesson, index) => {
-            let dictionary = this.state.dictionaries.filter(dictionary => dictionary.id === lesson.dictionaryId);
+            let language = this.state.languages.filter(language => language.id === lesson.languageId);
             return <tr key={index}>
-                <td className="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-4">{dictionary[0].name}</td>
+                <td className="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-4">{language[0].name}</td>
                 <td className="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-4">{lesson.title}</td>
                 <td className="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 td-icon">
                     <button className="btn btn-icon btn-2 btn-link btn-sm" type="button" onClick={() => this.onClickDeleteLesson(lesson.id)}>
@@ -125,8 +125,8 @@ export default class UserCreationForm extends Component {
         let roles = this.state.roles.map((role, index) =>
             <option key={index} value={role.name}>{role.name}</option>
         )
-        let dictionaries = this.state.dictionaries.map((dictionary, index) =>
-            <option key={index} value={dictionary.id}>{dictionary.name}</option>
+        let languages = this.state.languages.map((language, index) =>
+            <option key={index} value={language.id}>{language.name}</option>
         )
         let lessons = this.state.lessons.map((lesson) => lesson.title);
         return (
@@ -155,9 +155,9 @@ export default class UserCreationForm extends Component {
                     </div>
                     <div className="col-12 col-md-6">
                         <div className="input-group input-group-static my-3">
-                            <label className="ms-0">Dictionary</label>
-                            <select className="form-control" name="dictionaryId" value={this.state.dictionaryId} onChange={this.onChangeInput}>
-                                {dictionaries}
+                            <label className="ms-0">Language</label>
+                            <select className="form-control" name="languageId" value={this.state.languageId} onChange={this.onChangeInput}>
+                                {languages}
                             </select>
                         </div>
                     </div>
@@ -176,9 +176,9 @@ export default class UserCreationForm extends Component {
                             <div className="row">
                                 <div className="col-12 col-md-6">
                                     <div className="input-group input-group-static my-3">
-                                        <label className="ms-0">Dictionary</label>
-                                        <select className="form-control" name="dictionary" value={this.state.dictionary} onChange={this.onChangeDictionary}>
-                                            {dictionaries}
+                                        <label className="ms-0">Language</label>
+                                        <select className="form-control" name="language" value={this.state.language} onChange={this.onChangeLanguage}>
+                                            {languages}
                                         </select>
                                     </div>
                                 </div>
@@ -191,7 +191,7 @@ export default class UserCreationForm extends Component {
                             <table className="table table-sm align-items-center">
                                 <thead>
                                     <tr>
-                                        <th className="text-uppercase text-xxs font-weight-bolder opacity-7">Dictionary</th>
+                                        <th className="text-uppercase text-xxs font-weight-bolder opacity-7">Language</th>
                                         <th className="text-uppercase text-xxs font-weight-bolder opacity-7">Title</th>
                                         <th className="text-uppercase text-xxs font-weight-bolder opacity-7 ps-2"></th>
                                     </tr>

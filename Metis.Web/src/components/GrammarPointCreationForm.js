@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import FormHeader from './FormHeader';
 import GrammarPointService from '../services/GrammarPointService';
-import DictionaryService from '../services/DictionaryService';
+import LanguageService from '../services/LanguageService';
 import ReactQuill from 'react-quill';
 
 export default class GrammarPointCreationForm extends Component {
@@ -10,8 +10,8 @@ export default class GrammarPointCreationForm extends Component {
         this.state = {
             title: "",
             description: "",
-            dictionaryId: 0,
-            dictionaries: []
+            languageId: 0,
+            languages: []
         }
         this.onChangeInput = this.onChangeInput.bind(this);
         this.onChangeDescription = this.onChangeDescription.bind(this);
@@ -19,12 +19,12 @@ export default class GrammarPointCreationForm extends Component {
         this.onSubmit = this.onSubmit.bind(this);
     }
     componentDidMount() {
-        DictionaryService
-            .getDictionaries()
+        LanguageService
+            .getLanguages()
             .then((data) => {
                 this.setState({
-                    dictionaries: data.filter((dictionary) => dictionary.enabled === true),
-                    dictionaryId: data.filter((dictionary) => dictionary.enabled === true)[0].id
+                    languages: data.filter((language) => language.enabled === true),
+                    languageId: data.filter((language) => language.enabled === true)[0].id
                 })
             })
     }
@@ -48,19 +48,19 @@ export default class GrammarPointCreationForm extends Component {
     onSubmit = (event) => {
         event.preventDefault();
         GrammarPointService
-            .addGrammarPoint(this.state.title, this.state.description, this.state.dictionaryId)
+            .addGrammarPoint(this.state.title, this.state.description, this.state.languageId)
             .then(() => {
                 this.props.onSubmitCallback();
                 this.setState({
                     title: "",
                     description: "",
-                    dictionaryId: this.state.dictionaries.filter((dictionary) => dictionary.enabled === true)[0].id
+                    languageId: this.state.languages.filter((language) => language.enabled === true)[0].id
                 });
             })
     }
     render() {
-        let dictionaries = this.state.dictionaries.map((dictionary, index) =>
-            <option key={index} value={dictionary.id}>{dictionary.name}</option>
+        let languages = this.state.languages.map((language, index) =>
+            <option key={index} value={language.id}>{language.name}</option>
         )
         return (
             <form className="text-start" onSubmit={this.onSubmit} onReset={this.onReset}>
@@ -76,9 +76,9 @@ export default class GrammarPointCreationForm extends Component {
                     </div>
                     <div className="col-12 col-md-6">
                         <div className="input-group input-group-static my-3">
-                            <label className="ms-0">Dictionary</label>
-                            <select className="form-control" name="dictionaryId" value={this.state.dictionaryId} onChange={this.onChangeInput}>
-                                {dictionaries}
+                            <label className="ms-0">Language</label>
+                            <select className="form-control" name="languageId" value={this.state.languageId} onChange={this.onChangeInput}>
+                                {languages}
                             </select>
                         </div>
                     </div>

@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import FormHeader from './FormHeader';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faTrash } from '@fortawesome/free-solid-svg-icons';
-import DictionaryService from '../services/DictionaryService';
+import LanguageService from '../services/LanguageService';
 import LessonService from '../services/LessonService';
 import UserService from '../services/UserService';
 import RoleService from '../services/RoleService';
@@ -17,10 +17,10 @@ export default class UserEditForm extends Component {
             lastName: "",
             email: "",
             roleId: "",
-            dictionary: "", 
-            dictionaryId: 0,
+            language: "", 
+            languageId: 0,
             roles: [],
-            dictionaries: [],
+            languages: [],
             lessons: [],
             selectedLessons: [],
             lessonAdditionFormVisible: false
@@ -28,7 +28,7 @@ export default class UserEditForm extends Component {
         this.onChangeInput = this.onChangeInput.bind(this);
         this.onReset = this.onReset.bind(this);
         this.onSubmit = this.onSubmit.bind(this);
-        this.onChangeDictionary = this.onChangeDictionary.bind(this);
+        this.onChangeLanguage = this.onChangeLanguage.bind(this);
         this.onClickToggleLessonAdditionForm = this.onClickToggleLessonAdditionForm.bind(this);
         this.onClickAddLesson = this.onClickAddLesson.bind(this);
         this.onClickDeleteLesson = this.onClickDeleteLesson.bind(this);
@@ -43,18 +43,18 @@ export default class UserEditForm extends Component {
                         lastName: response.lastName,
                         email: response.email,
                         roleId: response.role.id,
-                        dictionaryId: response.dictionaryId,
+                        languageId: response.languageId,
                         selectedLessons: response.lessons
                     });
                 })
-            DictionaryService
-                .getDictionaries()
+            LanguageService
+                .getLanguages()
                 .then((data) => {
                     this.setState({
-                        dictionaries: data
+                        languages: data
                     })
                     LessonService
-                        .getLessonsByDictionaryId(data[0].id)
+                        .getLessonsByLanguageId(data[0].id)
                         .then(response => {
                             this.setState({
                                 lessons: response,
@@ -85,17 +85,17 @@ export default class UserEditForm extends Component {
     onSubmit = (event) => {
         event.preventDefault();
         UserService
-            .editUser(this.state.id, this.state.firstName, this.state.lastName, this.state.email, this.state.roleId, this.state.dictionaryId, this.state.selectedLessons)
+            .editUser(this.state.id, this.state.firstName, this.state.lastName, this.state.email, this.state.roleId, this.state.languageId, this.state.selectedLessons)
             .then(() => {
                 this.props.onSubmitCallback();
             })
     }
-    onChangeDictionary = (event) => {
+    onChangeLanguage = (event) => {
         this.setState({
-            dictionary: event.target.value
+            language: event.target.value
         });
         LessonService
-            .getLessonsByDictionaryId(event.target.value)
+            .getLessonsByLanguageId(event.target.value)
             .then(response => {
                 this.setState({
                     lessons: response
@@ -129,7 +129,7 @@ export default class UserEditForm extends Component {
         )
         let selectedLessonsRows = this.state.selectedLessons.map((lesson, index) => {
             return <tr key={index}>
-                <td className="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-4">{lesson.dictionary.name}</td>
+                <td className="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-4">{lesson.language.name}</td>
                 <td className="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-4">{lesson.title}</td>
                 <td className="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 td-icon">
                     <button className="btn btn-icon btn-2 btn-link btn-sm" type="button" onClick={() => this.onClickDeleteLesson(lesson.id)}>
@@ -141,8 +141,8 @@ export default class UserEditForm extends Component {
             </tr>
         })
         let lessons = this.state.lessons.map((lesson) => lesson.title);
-        let dictionaries = this.state.dictionaries.map((dictionary, index) =>
-            <option key={index} value={dictionary.id}>{dictionary.name}</option>
+        let languages = this.state.languages.map((language, index) =>
+            <option key={index} value={language.id}>{language.name}</option>
         )
         return (
             <form className="text-start" onSubmit={this.onSubmit} onReset={this.onReset}>
@@ -170,9 +170,9 @@ export default class UserEditForm extends Component {
                     </div>
                     <div className="col-12 col-md-6">
                         <div className="input-group input-group-static my-3">
-                            <label className="ms-0">Dictionary</label>
-                            <select className="form-control" name="dictionaryId" value={this.state.dictionaryId} onChange={this.onChangeInput}>
-                                {dictionaries}
+                            <label className="ms-0">Language</label>
+                            <select className="form-control" name="languageId" value={this.state.languageId} onChange={this.onChangeInput}>
+                                {languages}
                             </select>
                         </div>
                     </div>
@@ -191,9 +191,9 @@ export default class UserEditForm extends Component {
                             <div className="row">
                                 <div className="col-12 col-md-6">
                                     <div className="input-group input-group-static my-3">
-                                        <label className="ms-0">Dictionary</label>
-                                        <select className="form-control" name="dictionary" value={this.state.dictionary} onChange={this.onChangeDictionary}>
-                                            {dictionaries}
+                                        <label className="ms-0">Language</label>
+                                        <select className="form-control" name="language" value={this.state.language} onChange={this.onChangeLanguage}>
+                                            {languages}
                                         </select>
                                     </div>
                                 </div>
@@ -206,7 +206,7 @@ export default class UserEditForm extends Component {
                             <table className="table table-sm align-items-center">
                                 <thead>
                                     <tr>
-                                        <th className="text-uppercase text-xxs font-weight-bolder opacity-7">Dictionary</th>
+                                        <th className="text-uppercase text-xxs font-weight-bolder opacity-7">Language</th>
                                         <th className="text-uppercase text-xxs font-weight-bolder opacity-7">Title</th>
                                         <th className="text-uppercase text-xxs font-weight-bolder opacity-7 ps-2"></th>
                                     </tr>

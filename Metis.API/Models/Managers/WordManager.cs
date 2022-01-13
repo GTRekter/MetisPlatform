@@ -10,7 +10,7 @@ namespace Metis.Models.Managers
 {
     public static class WordManager
     {
-        public static async Task AddWordAsync(ApplicationDbContext dataContext, string text, string romanization, int dictionaryId, int wordTypeId, string description, string example, IEnumerable<KeyValuePair<int, string>> translations)
+        public static async Task AddWordAsync(ApplicationDbContext dataContext, string text, string romanization, int languageId, int wordTypeId, string description, string example, IEnumerable<KeyValuePair<int, string>> translations)
         {
             Word word = new Word
             {
@@ -19,17 +19,17 @@ namespace Metis.Models.Managers
                 Description = description,
                 Example = example,
                 WordType = await dataContext.WordTypes.FindAsync(wordTypeId),
-                Dictionary = await dataContext.Dictionaries.FindAsync(dictionaryId),
+                Language = await dataContext.Languages.FindAsync(languageId),
                 Translations = translations.Select(t => new Translation
                 {
-                    DictionaryId = t.Key,
+                    LanguageId = t.Key,
                     Text = t.Value
                 }).ToList()
             };
             dataContext.Words.Add(word);
             await dataContext.SaveChangesAsync();
         }
-        public static async Task EditWordAsync(ApplicationDbContext dataContext, int id, string text, string romanization, int dictionaryId, int wordTypeId, string description, string example, IEnumerable<KeyValuePair<int, string>> translationsToAdd, IEnumerable<KeyValuePair<int, string>> translationsToEdit)
+        public static async Task EditWordAsync(ApplicationDbContext dataContext, int id, string text, string romanization, int languageId, int wordTypeId, string description, string example, IEnumerable<KeyValuePair<int, string>> translationsToAdd, IEnumerable<KeyValuePair<int, string>> translationsToEdit)
         {
             // using (TransactionScope scope = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled))
             // {
@@ -43,12 +43,12 @@ namespace Metis.Models.Managers
             wordToEdit.Description = description;
             wordToEdit.Example = example;
             wordToEdit.WordType = await dataContext.WordTypes.FindAsync(wordTypeId);
-            wordToEdit.Dictionary = await dataContext.Dictionaries.FindAsync(dictionaryId);
+            wordToEdit.Language = await dataContext.Languages.FindAsync(languageId);
             foreach (var item in translationsToAdd)
             {
                 wordToEdit.Translations.Add(new Translation
                 {
-                    DictionaryId = item.Key,
+                    LanguageId = item.Key,
                     Text = item.Value
                 });
             }
@@ -126,7 +126,7 @@ namespace Metis.Models.Managers
             var lessons = await dataContext.Users
                 .Include(u => u.Lessons)
                 .ThenInclude(l => l.Words)
-                .ThenInclude(w => w.Translations.Where(t => t.DictionaryId == user.DictionaryId))
+                .ThenInclude(w => w.Translations.Where(t => t.LanguageId == user.LanguageId))
                 .FirstOrDefaultAsync(u => u.Id == id);
             return lessons.Lessons.SelectMany(l => l.Words);
         }
@@ -139,7 +139,7 @@ namespace Metis.Models.Managers
                     .ThenInclude(w => w.WordType)
                 .Include(u => u.Lessons)
                     .ThenInclude(l => l.Words)
-                    .ThenInclude(w => w.Translations.Where(t => t.DictionaryId == user.DictionaryId))
+                    .ThenInclude(w => w.Translations.Where(t => t.LanguageId == user.LanguageId))
                 .FirstOrDefaultAsync(u => u.Id == id);
             return lessons.Lessons
                     .SelectMany(l => l.Words)
@@ -151,11 +151,11 @@ namespace Metis.Models.Managers
                 .Include(w => w.Translations)
                 .FirstOrDefaultAsync(w => w.Id == id);
         }
-        public static async Task<IEnumerable<Word>> GetWordsByDictionaryId(ApplicationDbContext dataContext, int id)
+        public static async Task<IEnumerable<Word>> GetWordsByLanguageId(ApplicationDbContext dataContext, int id)
         {
             return await dataContext.Words
                 .Include(w => w.Translations)
-                .Where(w => w.Dictionary.Id == id)
+                .Where(w => w.Language.Id == id)
                 .ToListAsync();
         }
 
@@ -175,7 +175,7 @@ namespace Metis.Models.Managers
             var lessons = await dataContext.Users
                 .Include(u => u.Lessons)
                 .ThenInclude(l => l.Words)
-                .ThenInclude(w => w.Translations.Where(t => t.DictionaryId == user.DictionaryId))
+                .ThenInclude(w => w.Translations.Where(t => t.LanguageId == user.LanguageId))
                 .FirstOrDefaultAsync(u => u.Id == id);
             return lessons.Lessons.SelectMany(l => l.Words)
                 .Skip(page * itemsPerPage)
@@ -200,7 +200,7 @@ namespace Metis.Models.Managers
             var lessons = await dataContext.Users
                 .Include(u => u.Lessons)
                 .ThenInclude(l => l.Words)
-                .ThenInclude(w => w.Translations.Where(t => t.DictionaryId == user.DictionaryId))
+                .ThenInclude(w => w.Translations.Where(t => t.LanguageId == user.LanguageId))
                 .FirstOrDefaultAsync(u => u.Id == id);
             return lessons.Lessons.SelectMany(l => l.Words)
                 .Where(u => u.Text.Contains(searchQuery, StringComparison.InvariantCultureIgnoreCase)

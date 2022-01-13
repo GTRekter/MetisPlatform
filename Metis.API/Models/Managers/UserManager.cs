@@ -11,7 +11,7 @@ namespace Metis.Models.Managers
 {
     public static class UserManager
     {
-        public static async Task AddUserAsync(ApplicationDbContext dataContext, string name, string surname, string email, int roleId, int dictionaryId, string password, IEnumerable<int> lessonsIds)
+        public static async Task AddUserAsync(ApplicationDbContext dataContext, string name, string surname, string email, int roleId, int languageId, string password, IEnumerable<int> lessonsIds)
         {
             var hasher = new PasswordHasher<User>();
             var lessonsToAdd = await dataContext.Lessons.Where(d => lessonsIds.Contains(d.Id)).ToListAsync();
@@ -20,7 +20,7 @@ namespace Metis.Models.Managers
                 LastName = surname, 
                 Email = email,
                 Lessons = lessonsToAdd,
-                Dictionary = await dataContext.Dictionaries.FirstOrDefaultAsync(d => d.Id == dictionaryId),
+                Language = await dataContext.Languages.FirstOrDefaultAsync(d => d.Id == languageId),
                 Role = await dataContext.Roles.FirstOrDefaultAsync(r => r.Id == roleId),
                 PasswordHash = password
             };
@@ -28,12 +28,12 @@ namespace Metis.Models.Managers
             dataContext.Users.Add(user);
             await dataContext.SaveChangesAsync();
         }
-        public static async Task EditUserAsync(ApplicationDbContext dataContext, int id, string name, string surname, string email, int roleId, int dictionaryId, IEnumerable<int> lessonsIds)
+        public static async Task EditUserAsync(ApplicationDbContext dataContext, int id, string name, string surname, string email, int roleId, int languageId, IEnumerable<int> lessonsIds)
         {
             string userId = id.ToString();
             User user = await dataContext.Users
                 .Include(l => l.Lessons)
-                .ThenInclude(u => u.Dictionary)
+                .ThenInclude(u => u.Language)
                 .FirstOrDefaultAsync(l => l.Id == id);
             if (user == null)
             {
@@ -57,7 +57,7 @@ namespace Metis.Models.Managers
             user.FirstName = name;
             user.LastName = surname;
             user.Email = email;
-            user.Dictionary = await dataContext.Dictionaries.FirstOrDefaultAsync(d => d.Id == dictionaryId);
+            user.Language = await dataContext.Languages.FirstOrDefaultAsync(d => d.Id == languageId);
             user.Role = await dataContext.Roles.FirstOrDefaultAsync(r => r.Id == roleId);
             dataContext.Update(user);
             await dataContext.SaveChangesAsync();
@@ -98,7 +98,7 @@ namespace Metis.Models.Managers
         {
             return await dataContext.Users
                 .Include(l => l.Lessons)
-                    .ThenInclude(u => u.Dictionary)
+                    .ThenInclude(u => u.Language)
                 .Include(u => u.Role)
                 .FirstOrDefaultAsync(u => u.Id == id);
         }

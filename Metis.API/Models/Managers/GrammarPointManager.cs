@@ -9,18 +9,18 @@ namespace Metis.Models.Managers
 {
     public static class GrammarPointManager
     {
-        public static async Task AddGrammarPointAsync(ApplicationDbContext dataContext, string title, string description, int dictionaryId)
+        public static async Task AddGrammarPointAsync(ApplicationDbContext dataContext, string title, string description, int languageId)
         {
             GrammarPoint grammarPoint = new GrammarPoint()
             {
                 Title = title,
                 Description = description,
-                DictionaryId = dictionaryId
+                LanguageId = languageId
             };
             dataContext.GrammarPoints.Add(grammarPoint);
             await dataContext.SaveChangesAsync();
         }
-        public static async Task EditGrammarPointAsync(ApplicationDbContext dataContext, int id,  string title, string description, int dictionaryId)
+        public static async Task EditGrammarPointAsync(ApplicationDbContext dataContext, int id,  string title, string description, int languageId)
         {
             GrammarPoint grammarPoint = await dataContext.GrammarPoints.FindAsync(id);
             if (grammarPoint == null)
@@ -29,7 +29,7 @@ namespace Metis.Models.Managers
             }
             grammarPoint.Title = description;
             grammarPoint.Description = description; 
-            grammarPoint.DictionaryId = dictionaryId; 
+            grammarPoint.LanguageId = languageId; 
             dataContext.Update(grammarPoint);
             await dataContext.SaveChangesAsync();
         }
@@ -64,11 +64,11 @@ namespace Metis.Models.Managers
         {
             return await dataContext.GrammarPoints.FindAsync(id);
         }
-        public static async Task<IEnumerable<GrammarPoint>> GetGrammarPointsByDictionaryIdAsync(ApplicationDbContext dataContext, int id)
+        public static async Task<IEnumerable<GrammarPoint>> GetGrammarPointsByLanguageIdAsync(ApplicationDbContext dataContext, int id)
         {
             return await dataContext.GrammarPoints
-                .Include(g => g.Dictionary)
-                .Where(g => g.Dictionary.Id == id)
+                .Include(g => g.Language)
+                .Where(g => g.Language.Id == id)
                 .ToListAsync();
         }
 

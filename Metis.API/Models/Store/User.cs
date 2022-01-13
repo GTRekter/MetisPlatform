@@ -20,12 +20,12 @@ namespace Metis.Models.Store
         public string Email { get; set; }
         public bool IsActive { get; set; }
         public string PasswordHash { get; set; }
-        public int DictionaryId { get; set; }
+        public int LanguageId { get; set; }
         public int RoleId { get; set; }
         
         public Role Role { get; set; }
         [JsonIgnore]
-        public Dictionary Dictionary { get; set; }        
+        public Language Language { get; set; }        
         public ICollection<Lesson> Lessons { get; set; }
     }
 }

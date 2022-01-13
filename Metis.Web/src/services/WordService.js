@@ -2,7 +2,7 @@ import JwtService from '../services/JwtService';
 import HttpService from '../services/HttpService';
 
 class WordService {
-    addWord(text, romanization, dictionaryId, wordTypeId, description, example, translations) {
+    addWord(text, romanization, languageId, wordTypeId, description, example, translations) {
         let headers = {
             'Accept': 'application/json, text/plain, */*',
             'Content-Type': 'application/json',
@@ -12,7 +12,7 @@ class WordService {
         let body = JSON.stringify({
             text: text,
             romanization: romanization,
-            dictionaryId: dictionaryId,
+            languageId: languageId,
             wordTypeId: wordTypeId,
             description: description,
             example: example,
@@ -20,7 +20,7 @@ class WordService {
         })
         return HttpService.request('post', process.env.REACT_APP_API_BASEURL + "Word/AddWord", body, headers);  
     }
-    editWord(id, text, romanization, dictionaryId, wordTypeId, description, example, translations) {
+    editWord(id, text, romanization, languageId, wordTypeId, description, example, translations) {
         let headers = {
             'Accept': 'application/json, text/plain, */*',
             'Content-Type': 'application/json',
@@ -31,7 +31,7 @@ class WordService {
             id: id,
             text: text,
             romanization: romanization,
-            dictionaryId: dictionaryId,
+            languageId: languageId,
             wordTypeId: wordTypeId,
             description: description,
             example: example,
@@ -69,14 +69,14 @@ class WordService {
         return HttpService.request('get', process.env.REACT_APP_API_BASEURL + "Word/GetWordsByUserIdAndWordTypeId?Id=" + userId + "&wordTypeId=" + wordTypeId, null, headers)
             .then(res => res.json());  
     }
-    getWordsByDictionaryId(id) {
+    getWordsByLanguageId(id) {
         let headers = {
             'Accept': 'application/json, text/plain, */*',
             'Content-Type': 'application/json',
             'Access-Control-Allow-Origin': '*',
             'Authorization': 'Bearer ' + JwtService.getToken()
         };
-        return HttpService.request('get', process.env.REACT_APP_API_BASEURL + "Word/GetWordsByDictionaryId?id=" + id, null, headers)
+        return HttpService.request('get', process.env.REACT_APP_API_BASEURL + "Word/GetWordsByLanguageId?id=" + id, null, headers)
             .then(res => res.json());  
     }
     getWordsByText(text) {

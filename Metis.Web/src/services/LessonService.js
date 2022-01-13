@@ -2,7 +2,7 @@ import JwtService from '../services/JwtService';
 import HttpService from '../services/HttpService';
 
 class LessonService {
-    addLesson(title, description, dictionaryId, words, grammarPoints) {
+    addLesson(title, description, languageId, words, grammarPoints) {
         let headers = {
             'Accept': 'application/json, text/plain, */*',
             'Content-Type': 'application/json',
@@ -12,13 +12,13 @@ class LessonService {
         let body = JSON.stringify({
             title: title,
             description: description,
-            dictionaryId: dictionaryId,
+            languageId: languageId,
             words: words,
             grammarPoints: grammarPoints
         })
         return HttpService.request('post', process.env.REACT_APP_API_BASEURL + "Lesson/AddLesson", body, headers);
     }
-    editLesson(id, title, description, dictionaryId, words, grammarPoints) {
+    editLesson(id, title, description, languageId, words, grammarPoints) {
         let headers = {
             'Accept': 'application/json, text/plain, */*',
             'Content-Type': 'application/json',
@@ -29,7 +29,7 @@ class LessonService {
             id: id,
             title: title,
             description: description,
-            dictionaryId: dictionaryId,
+            languageId: languageId,
             words: words,
             grammarPoints: grammarPoints
         })
@@ -45,14 +45,14 @@ class LessonService {
         return HttpService.request('get', process.env.REACT_APP_API_BASEURL + "Lesson/GetLessons", null, headers)
             .then(res => res.json());  
     }
-    getLessonsByDictionaryId(id) {
+    getLessonsByLanguageId(id) {
         let headers = {
             'Accept': 'application/json, text/plain, */*',
             'Content-Type': 'application/json',
             'Access-Control-Allow-Origin': '*',
             'Authorization': 'Bearer ' + JwtService.getToken()
         };
-        return HttpService.request('get', process.env.REACT_APP_API_BASEURL + "Lesson/GetLessonsByDictionaryId?id=" + id, null, headers)
+        return HttpService.request('get', process.env.REACT_APP_API_BASEURL + "Lesson/GetLessonsByLanguageId?id=" + id, null, headers)
             .then(res => res.json());  
     }
     getLessonById(id) {

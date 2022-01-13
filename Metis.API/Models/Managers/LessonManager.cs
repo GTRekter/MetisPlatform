@@ -10,7 +10,7 @@ namespace Metis.Models.Managers
 {
     public static class LessonManager
     {
-        public static async Task AddLessonAsync(ApplicationDbContext dataContext, string title, int dictionaryId, string description, IEnumerable<int> words, IEnumerable<int> grammarPoints)
+        public static async Task AddLessonAsync(ApplicationDbContext dataContext, string title, int languageId, string description, IEnumerable<int> words, IEnumerable<int> grammarPoints)
         {
             var wordsToAdd = await dataContext.Words.Where(g => words.Contains(g.Id)).ToListAsync();
             var grammarPointsToAdd = await dataContext.GrammarPoints.Where(g => grammarPoints.Contains(g.Id)).ToListAsync();
@@ -18,14 +18,14 @@ namespace Metis.Models.Managers
             {
                 Title = title,
                 Description = description,
-                Dictionary = await dataContext.Dictionaries.FindAsync(dictionaryId),
+                Language = await dataContext.Languages.FindAsync(languageId),
                 GrammarPoints = grammarPointsToAdd,
                 Words = wordsToAdd
             };
             dataContext.Lessons.Add(lesson);
             await dataContext.SaveChangesAsync();
         }
-        public static async Task EditLessonAsync(ApplicationDbContext dataContext, int id, string title, int dictionaryId, string description, IEnumerable<int> words, IEnumerable<int> grammarPoints)
+        public static async Task EditLessonAsync(ApplicationDbContext dataContext, int id, string title, int languageId, string description, IEnumerable<int> words, IEnumerable<int> grammarPoints)
         {
             Lesson lesson = await dataContext.Lessons
                 .Include(l => l.Words)
@@ -67,7 +67,7 @@ namespace Metis.Models.Managers
             }
             lesson.Title = title;
             lesson.Description = description;
-            lesson.Dictionary = await dataContext.Dictionaries.FindAsync(dictionaryId);
+            lesson.Language = await dataContext.Languages.FindAsync(languageId);
             dataContext.Update(lesson);
             await dataContext.SaveChangesAsync();
         }
@@ -95,25 +95,25 @@ namespace Metis.Models.Managers
         public static async Task<IEnumerable<Lesson>> GetLessonsAsync(ApplicationDbContext dataContext)
         {
             return await dataContext.Lessons
-                .Include(l => l.Dictionary)
+                .Include(l => l.Language)
                 .ToListAsync();
         }        
         public static async Task<Lesson> GetLessonByIdAsync(ApplicationDbContext dataContext, int id)
         {
             return await dataContext.Lessons
-                .Include(l => l.Dictionary)
+                .Include(l => l.Language)
                 .Include(l => l.GrammarPoints)
                 .Include(l => l.Words)
                 .ThenInclude(w => w.Translations)
                 .FirstOrDefaultAsync(g => g.Id == id);
         }
-        public static async Task<IEnumerable<Lesson>> GetLessonsByDictionaryIdAsync(ApplicationDbContext dataContext, int id)
+        public static async Task<IEnumerable<Lesson>> GetLessonsByLanguageIdAsync(ApplicationDbContext dataContext, int id)
         {
             return await dataContext.Lessons
-                .Include(l => l.Dictionary)
+                .Include(l => l.Language)
                 .Include(l => l.Words)
                 .Include(l => l.GrammarPoints)
-                .Where(l => l.Dictionary.Id == id)
+                .Where(l => l.Language.Id == id)
                 .ToListAsync();
         }
 
@@ -123,7 +123,7 @@ namespace Metis.Models.Managers
             return await dataContext.Lessons
                 .Include(l => l.Words)
                 .Include(l => l.GrammarPoints)
-                .Include(l => l.Dictionary)
+                .Include(l => l.Language)
                 .Skip(page * itemsPerPage)
                 .Take(itemsPerPage)
                 .OrderBy(u => u.Id)
@@ -134,7 +134,7 @@ namespace Metis.Models.Managers
             return await dataContext.Lessons
                 .Include(l => l.Words)
                 .Include(l => l.GrammarPoints)
-                .Include(l => l.Dictionary)
+                .Include(l => l.Language)
                 .Where(u => u.Title.Contains(searchQuery, StringComparison.InvariantCultureIgnoreCase)
                     || u.Description.Contains(searchQuery, StringComparison.InvariantCultureIgnoreCase))
                 .Skip(page * itemsPerPage)

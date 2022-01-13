@@ -36,7 +36,7 @@ namespace Training.MSTest
         [TestMethod]
         public void GetAllProducts_ShouldReturnAllProducts()
         {
-            var controller = new DictionaryController(_dbContext);
+            var controller = new LanguageController(_dbContext);
             List<Word> result = controller.GetAllWords() as List<Word>;
             List<Word> testProducts = GetTestWords();
             Assert.AreEqual(testProducts.Count, result.Count);
@@ -45,7 +45,7 @@ namespace Training.MSTest
         [TestMethod]
         public void GetProduct_ShouldReturnCorrectProduct()
         {
-            var controller = new DictionaryController(_dbContext);
+            var controller = new LanguageController(_dbContext);
             List<Word> testWords = GetTestWords();
             Word result = controller.GetWord(4) as Word;
             Assert.IsNotNull(result);
@@ -55,7 +55,7 @@ namespace Training.MSTest
         [TestMethod]
         public void RemoveProduct_ShouldReturnAllProductsExceptTheRemoved()
         {
-            var controller = new DictionaryController(_dbContext);
+            var controller = new LanguageController(_dbContext);
             List<Word> testWords = GetTestWords();
             controller.RemoveWordById(4);
             List<Word> result = controller.GetAllWords() as List<Word>;
@@ -65,7 +65,7 @@ namespace Training.MSTest
         [TestMethod]
         public void AddProduct_ShouldAddProduct()
         {
-            var controller = new DictionaryController(_dbContext);
+            var controller = new LanguageController(_dbContext);
             Word testWord = new Word { Id = 5, Text = "워드 05", Description = "묘사 05", Example = "본보기 05" };
             controller.AddWord(testWord);
             Word result = controller.GetWord(5) as Word;
@@ -75,7 +75,7 @@ namespace Training.MSTest
         [TestMethod]
         public void GetProduct_ShouldNotFindProduct()
         {
-            var controller = new DictionaryController(_dbContext);
+            var controller = new LanguageController(_dbContext);
             var result = controller.GetWord(999);
             Assert.IsNull(result);
         }

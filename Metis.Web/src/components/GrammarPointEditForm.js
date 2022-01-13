@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import FormHeader from './FormHeader';
 import GrammarPointService from '../services/GrammarPointService';
-import DictionaryService from '../services/DictionaryService';
+import LanguageService from '../services/LanguageService';
 import ReactQuill from 'react-quill';
 
 export default class GrammarPointEditForm extends Component {
@@ -11,8 +11,8 @@ export default class GrammarPointEditForm extends Component {
             id: this.props.id,
             title: "",
             description: "",
-            dictionaryId: "",
-            dictionaries: []
+            languageId: "",
+            languages: []
         }
         this.onChangeInput = this.onChangeInput.bind(this);
         this.onChangeDescription = this.onChangeDescription.bind(this);
@@ -21,11 +21,11 @@ export default class GrammarPointEditForm extends Component {
     }
     componentDidMount() {
         if (this.state.id !== undefined) {
-            DictionaryService
-                .getDictionaries()
+            LanguageService
+                .getLanguages()
                 .then((data) => {
                     this.setState({
-                        dictionaries: data
+                        languages: data
                     })
                 })
             GrammarPointService
@@ -34,7 +34,7 @@ export default class GrammarPointEditForm extends Component {
                     this.setState({
                         title: response.title,
                         description: response.description,
-                        dictionaryId: response.dictionaryId
+                        languageId: response.languageId
                     });
                 })
         }
@@ -59,14 +59,14 @@ export default class GrammarPointEditForm extends Component {
     onSubmit = (event) => {
         event.preventDefault();
         GrammarPointService
-            .editGrammarPoint(this.state.id, this.state.title, this.state.description, this.state.dictionaryId)
+            .editGrammarPoint(this.state.id, this.state.title, this.state.description, this.state.languageId)
             .then(() => {
                 this.props.onSubmitCallback();
             })
     }
     render() {
-        let dictionaries = this.state.dictionaries.map((dictionary, index) =>
-            <option key={index} value={dictionary.id}>{dictionary.name}</option>
+        let languages = this.state.languages.map((language, index) =>
+            <option key={index} value={language.id}>{language.name}</option>
         )
         return (
             <form className="text-start" onSubmit={this.onSubmit} onReset={this.onReset}>
@@ -82,9 +82,9 @@ export default class GrammarPointEditForm extends Component {
                     </div>
                     <div className="col-12 col-md-6">
                         <div className="input-group input-group-static my-3">
-                            <label className="ms-0">Dictionary</label>
-                            <select className="form-control" name="dictionaryId" value={this.state.dictionaryId} onChange={this.onChangeInput}>
-                                {dictionaries}
+                            <label className="ms-0">Language</label>
+                            <select className="form-control" name="languageId" value={this.state.languageId} onChange={this.onChangeInput}>
+                                {languages}
                             </select>
                         </div>
                     </div>

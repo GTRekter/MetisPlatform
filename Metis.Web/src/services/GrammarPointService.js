@@ -2,7 +2,7 @@ import JwtService from '../services/JwtService';
 import HttpService from '../services/HttpService';
 
 class GrammarPointService {
-    addGrammarPoint(title, description, dictionaryId) {
+    addGrammarPoint(title, description, languageId) {
         let headers = {
             'Accept': 'application/json, text/plain, */*',
             'Content-Type': 'application/json',
@@ -12,11 +12,11 @@ class GrammarPointService {
         let body = JSON.stringify({
             title: title,
             description: description,
-            dictionaryId: dictionaryId
+            languageId: languageId
         });
         return HttpService.request('post', process.env.REACT_APP_API_BASEURL + "GrammarPoint/AddGrammarPoint", body, headers);
     }
-    editGrammarPoint(id, title, description, dictionaryId) {
+    editGrammarPoint(id, title, description, languageId) {
         let headers = {
             'Accept': 'application/json, text/plain, */*',
             'Content-Type': 'application/json',
@@ -27,7 +27,7 @@ class GrammarPointService {
             id: id,
             title: title,
             description: description,
-            dictionaryId: dictionaryId
+            languageId: languageId
         })
         return HttpService.request('post', process.env.REACT_APP_API_BASEURL + "GrammarPoint/EditGrammarPoint", body, headers);
     }
@@ -41,14 +41,14 @@ class GrammarPointService {
         return HttpService.request('get', process.env.REACT_APP_API_BASEURL + "GrammarPoint/GetGrammarPoints", null, headers)
             .then(res => res.json());            
     }
-    getGrammarPointsByDictionaryId (id) {
+    getGrammarPointsByLanguageId (id) {
         let headers = {
             'Accept': 'application/json, text/plain, */*',
             'Content-Type': 'application/json',
             'Access-Control-Allow-Origin': '*',
             'Authorization': 'Bearer ' + JwtService.getToken()
         };
-        return HttpService.request('get', process.env.REACT_APP_API_BASEURL + "GrammarPoint/getGrammarPointsByDictionaryId?id=" + id, null, headers)
+        return HttpService.request('get', process.env.REACT_APP_API_BASEURL + "GrammarPoint/getGrammarPointsByLanguageId?id=" + id, null, headers)
             .then(res => res.json());  
     }
     getGrammarPointById(id) {

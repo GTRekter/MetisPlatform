@@ -7,7 +7,7 @@ import { faFlag, faExclamationTriangle, faTags, faEye, faThumbsDown, faThumbsUp,
 import SpeechService from '../services/SpeechService';
 import WordService from '../services/WordService';
 import WordTypeService from '../services/WordTypeService';
-import DictionaryService from '../services/DictionaryService';
+import LanguageService from '../services/LanguageService';
 import JwtService from '../services/JwtService';
 
 export default class FlashCards extends Component {
@@ -19,7 +19,7 @@ export default class FlashCards extends Component {
             errors: [],
             correct: [],
             wordTypes: [],
-            dictionaries: [],
+            languages: [],
             currentWord: "",
             currentWordType: "",
             viewTranslation: false,
@@ -36,10 +36,10 @@ export default class FlashCards extends Component {
     }
     componentDidMount() {
         var id = JwtService.getCurrentUserId();
-        DictionaryService.getDictionaries()
+        LanguageService.getLanguages()
             .then(data => {
                 this.setState({
-                    dictionaries: data
+                    languages: data
                 });
             });
         WordService.getWordsByUserId(id)
@@ -64,8 +64,8 @@ export default class FlashCards extends Component {
         });
     }
     onClickViewTranslation = () => {
-        var dictionary = this.state.dictionaries.filter(d => d.id === this.state.currentWord.dictionaryId);
-        SpeechService.synthesizeSpeech(this.state.currentWord.text, dictionary[0].code);
+        var language = this.state.languages.filter(d => d.id === this.state.currentWord.languageId);
+        SpeechService.synthesizeSpeech(this.state.currentWord.text, language[0].code);
         this.setState({
             viewTranslation: true
         })
@@ -77,8 +77,8 @@ export default class FlashCards extends Component {
             isAnswerProvided: true,
             isAnswerCorrect: false
         })
-        var dictionary = this.state.dictionaries.filter(d => d.id === this.state.currentWord.dictionaryId);
-        SpeechService.synthesizeSpeech(this.state.currentWord.text, dictionary[0].code);
+        var language = this.state.languages.filter(d => d.id === this.state.currentWord.languageId);
+        SpeechService.synthesizeSpeech(this.state.currentWord.text, language[0].code);
         setTimeout(function () {
             self.updateCounters();
         }, 2000);
@@ -90,8 +90,8 @@ export default class FlashCards extends Component {
             isAnswerProvided: true,
             isAnswerCorrect: true
         })
-        var dictionary = this.state.dictionaries.filter(d => d.id === this.state.currentWord.dictionaryId);
-        SpeechService.synthesizeSpeech(this.state.currentWord.text, dictionary[0].code);
+        var language = this.state.languages.filter(d => d.id === this.state.currentWord.languageId);
+        SpeechService.synthesizeSpeech(this.state.currentWord.text, language[0].code);
         setTimeout(function () {
             self.updateCounters();
         }, 2000);

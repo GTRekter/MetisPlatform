@@ -273,7 +273,7 @@ export default class LessonsManagement extends Component {
         }
         let rows = this.state.displayedLessons.map((lesson, index) => {
             return <tr key={index}>
-                <td className="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-4">{lesson.dictionary.name}</td>
+                <td className="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-4">{lesson.language.name}</td>
                 <td className="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-4">{lesson.title}</td>
                 <td className="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-4">{lesson.words.length}</td>
                 <td className="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-4">{lesson.grammarPoints.length}</td>
@@ -349,7 +349,7 @@ export default class LessonsManagement extends Component {
                                 <table className="table align-items-center">
                                     <thead>
                                         <tr>
-                                            <th className="text-uppercase text-xxs font-weight-bolder opacity-7">Dictionary</th>
+                                            <th className="text-uppercase text-xxs font-weight-bolder opacity-7">Language</th>
                                             <th className="text-uppercase text-xxs font-weight-bolder opacity-7">Title</th>
                                             <th className="text-uppercase text-xxs font-weight-bolder opacity-7">Words</th>
                                             <th className="text-uppercase text-xxs font-weight-bolder opacity-7">Grammar Points</th>

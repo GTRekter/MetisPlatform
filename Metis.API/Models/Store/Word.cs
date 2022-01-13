@@ -18,11 +18,11 @@ namespace Metis.Models.Store
         public string Description { get; set; }
         public string Example { get; set; }
         public string Enabled { get; set; }
-        public int DictionaryId { get; set; }
+        public int LanguageId { get; set; }
         public int WordTypeId { get; set; }
 
         [JsonIgnore]
-        public Dictionary Dictionary { get; set; }    
+        public Language Language { get; set; }    
         public WordType WordType { get; set; }
         public ICollection<Translation> Translations { get; set; }
     }

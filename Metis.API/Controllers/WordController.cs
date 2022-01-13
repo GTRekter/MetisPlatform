@@ -29,7 +29,7 @@ namespace Metis.API.Controllers
             {
                 return NotFound();
             }
-            await WordManager.AddWordAsync(_context, request.Text, request.Romanization, request.DictionaryId, request.WordTypeId, request.Description, request.Example, request.Translations.Select(t => new KeyValuePair<int,string>(t.DictionaryId, t.Text)));
+            await WordManager.AddWordAsync(_context, request.Text, request.Romanization, request.LanguageId, request.WordTypeId, request.Description, request.Example, request.Translations.Select(t => new KeyValuePair<int,string>(t.LanguageId, t.Text)));
             return Ok();
         }
         
@@ -48,14 +48,14 @@ namespace Metis.API.Controllers
             {
                 if (translation.Id == null)
                 {
-                    translationsToAdd.Add(new KeyValuePair<int, string>(translation.DictionaryId, translation.Text));
+                    translationsToAdd.Add(new KeyValuePair<int, string>(translation.LanguageId, translation.Text));
                 }
                 else
                 {
                     translationsToEdit.Add(new KeyValuePair<int, string>((int)translation.Id, translation.Text));
                 }
             }    
-            await WordManager.EditWordAsync(_context, request.Id, request.Text, request.Romanization, request.DictionaryId, request.WordTypeId, request.Description, request.Example, translationsToAdd, translationsToEdit);
+            await WordManager.EditWordAsync(_context, request.Id, request.Text, request.Romanization, request.LanguageId, request.WordTypeId, request.Description, request.Example, translationsToAdd, translationsToEdit);
             return Ok();
         }
 
@@ -80,10 +80,10 @@ namespace Metis.API.Controllers
 
         [HttpGet]
         [Authorize(AuthenticationSchemes = Microsoft.AspNetCore.Authentication.JwtBearer.JwtBearerDefaults.AuthenticationScheme)]
-        [Route("GetWordsByDictionaryId")]
-        public async Task<IActionResult> GetWordsByDictionaryIdAsync(int id)
+        [Route("GetWordsByLanguageId")]
+        public async Task<IActionResult> GetWordsByLanguageIdAsync(int id)
         {
-            IEnumerable<Word> words = await WordManager.GetWordsByDictionaryId(_context, id);
+            IEnumerable<Word> words = await WordManager.GetWordsByLanguageId(_context, id);
             return Ok(words);
         }
 

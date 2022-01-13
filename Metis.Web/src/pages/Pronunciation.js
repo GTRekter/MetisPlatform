@@ -7,7 +7,7 @@ import { faFlag, faExclamationTriangle, faTags, faMicrophone, faMicrophoneSlash,
 import SpeechService from '../services/SpeechService';
 import WordService from '../services/WordService';
 import WordTypeService from '../services/WordTypeService';
-import DictionaryService from '../services/DictionaryService';
+import LanguageService from '../services/LanguageService';
 import JwtService from '../services/JwtService';
 import { Chart as ChartJS, RadialLinearScale, ArcElement, Tooltip, Legend } from 'chart.js';
 import { PolarArea } from 'react-chartjs-2';
@@ -23,7 +23,7 @@ export default class Pronunciation extends Component {
             errors: [],
             correct: [],
             wordTypes: [],
-            dictionaries: [],
+            languages: [],
             assessmentScores: [0,0,0,0],
             currentWord: "",
             currentWordType: "",
@@ -46,10 +46,10 @@ export default class Pronunciation extends Component {
     }
     componentDidMount() {
         var id = JwtService.getCurrentUserId();
-        DictionaryService.getDictionaries()
+        LanguageService.getLanguages()
             .then(data => {
                 this.setState({
-                    dictionaries: data
+                    languages: data
                 });
             });
         WordService.getWordsByUserId(id)
@@ -101,8 +101,8 @@ export default class Pronunciation extends Component {
         this.setState({
             isPlaying: true
         });
-        var dictionary = this.state.dictionaries.filter(d => d.id === this.state.currentWord.dictionaryId);
-        SpeechService.synthesizeSpeech(this.state.currentWord.text, dictionary[0].code);
+        var language = this.state.languages.filter(d => d.id === this.state.currentWord.languageId);
+        SpeechService.synthesizeSpeech(this.state.currentWord.text, language[0].code);
         setTimeout(function () {
             self.setState({
                 isPlaying: false
@@ -113,8 +113,8 @@ export default class Pronunciation extends Component {
         if(this.state.isRecordingMicrophone) {
             SpeechService.stopAssessSpeech();
         } else {
-            var dictionary = this.state.dictionaries.filter(d => d.id === this.state.currentWord.dictionaryId);
-            SpeechService.startAssessSpeech(this.state.currentWord.text, dictionary[0].code, this.onRecognizing, this.onRecognized);
+            var language = this.state.languages.filter(d => d.id === this.state.currentWord.languageId);
+            SpeechService.startAssessSpeech(this.state.currentWord.text, language[0].code, this.onRecognizing, this.onRecognized);
         }
         this.setState({
             isRecordingMicrophone: !this.state.isRecordingMicrophone
