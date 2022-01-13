@@ -28,7 +28,16 @@ namespace Metis.API.Controllers
             {
                 return NotFound();
             }
-            await GrammarPointManager.AddGrammarPoint(_context, request.Title, request.Description);
+            await GrammarPointManager.AddGrammarPoint(_context, request.Title, request.Description, request.DictionaryId);
+            return Ok();
+        }
+
+        [HttpPost]
+        [Authorize(AuthenticationSchemes = Microsoft.AspNetCore.Authentication.JwtBearer.JwtBearerDefaults.AuthenticationScheme, Roles = "Administrator, Teacher")]
+        [Route("EditGrammarPoint")]
+        public async Task<IActionResult> EditGrammarPointAsync(EditGrammarPointRequest request)
+        {
+            await GrammarPointManager.EditGrammarPoint(_context, request.Id, request.Title, request.Description, request.DictionaryId);
             return Ok();
         }
 
@@ -93,15 +102,6 @@ namespace Metis.API.Controllers
         {
             int counter = await GrammarPointManager.GetGrammarPointsBySearchQueryCount(_context, searchQuery);
             return Ok(counter);
-        }
-
-        [HttpPost]
-        [Authorize(AuthenticationSchemes = Microsoft.AspNetCore.Authentication.JwtBearer.JwtBearerDefaults.AuthenticationScheme, Roles = "Administrator, Teacher")]
-        [Route("EditGrammarPoint")]
-        public async Task<IActionResult> EditGrammarPointAsync(EditGrammarPointRequest model)
-        {
-            await GrammarPointManager.EditGrammarPoint(_context, model.Id, model.Title, model.Description);
-            return Ok();
         }
         
         [HttpDelete]

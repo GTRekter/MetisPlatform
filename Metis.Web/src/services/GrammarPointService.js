@@ -2,7 +2,7 @@ import JwtService from '../services/JwtService';
 import HttpService from '../services/HttpService';
 
 class GrammarPointService {
-    addGrammarPoint(title, description) {
+    addGrammarPoint(title, description, dictionaryId) {
         let headers = {
             'Accept': 'application/json, text/plain, */*',
             'Content-Type': 'application/json',
@@ -11,11 +11,12 @@ class GrammarPointService {
         };
         let body = JSON.stringify({
             title: title,
-            description: description
+            description: description,
+            dictionaryId: dictionaryId
         });
         return HttpService.request('post', process.env.REACT_APP_API_BASEURL + "GrammarPoint/AddGrammarPoint", body, headers);
     }
-    editGrammarPoint(id, title, description) {
+    editGrammarPoint(id, title, description, dictionaryId) {
         let headers = {
             'Accept': 'application/json, text/plain, */*',
             'Content-Type': 'application/json',
@@ -25,7 +26,8 @@ class GrammarPointService {
         let body = JSON.stringify({
             id: id,
             title: title,
-            description: description
+            description: description,
+            dictionaryId: dictionaryId
         })
         return HttpService.request('post', process.env.REACT_APP_API_BASEURL + "GrammarPoint/EditGrammarPoint", body, headers);
     }

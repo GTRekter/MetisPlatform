@@ -59,7 +59,7 @@ export default class GrammarPointEditForm extends Component {
     onSubmit = (event) => {
         event.preventDefault();
         GrammarPointService
-            .editGrammarPoint(this.state.id, this.state.title, this.state.description)
+            .editGrammarPoint(this.state.id, this.state.title, this.state.description, this.dictionaryId)
             .then(() => {
                 this.props.onSubmitCallback();
             })

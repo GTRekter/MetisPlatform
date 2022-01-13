@@ -77,8 +77,8 @@ export default class WordCreationForm extends Component {
                     romanization: "",
                     description: "",
                     example: "",
-                    dictionaryId: 0,
-                    wordTypeId: 0
+                    dictionaryId: this.state.dictionaries.filter((dictionary) => dictionary.enabled === true)[0].id,
+                    wordTypeId: this.state.wordTypes[0].id
                 });
             })
     }

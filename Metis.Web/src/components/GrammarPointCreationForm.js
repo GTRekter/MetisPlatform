@@ -10,7 +10,7 @@ export default class GrammarPointCreationForm extends Component {
         this.state = {
             title: "",
             description: "",
-            dictionaryId: "",
+            dictionaryId: 0,
             dictionaries: []
         }
         this.onChangeInput = this.onChangeInput.bind(this);
@@ -48,12 +48,13 @@ export default class GrammarPointCreationForm extends Component {
     onSubmit = (event) => {
         event.preventDefault();
         GrammarPointService
-            .addGrammarPoint(this.state.title, this.state.description)
+            .addGrammarPoint(this.state.title, this.state.description, this.dictionaryId)
             .then(() => {
                 this.props.onSubmitCallback();
                 this.setState({
                     title: "",
-                    description: ""
+                    description: "",
+                    dictionaryId: this.state.dictionaries.filter((dictionary) => dictionary.enabled === true)[0].id
                 });
             })
     }

@@ -146,7 +146,7 @@ export default class LessonCreationForm extends Component {
                 this.setState({
                     title: "",
                     description: "",
-                    dictionaryId: 0,
+                    dictionaryId: this.state.dictionaries.filter((dictionary) => dictionary.enabled === true)[0].id,
                     selectedWords: [],
                     selectedGrammarPoints: []
                 })

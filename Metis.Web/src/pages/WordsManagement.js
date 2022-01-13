@@ -41,6 +41,8 @@ export default class WordsManagement extends Component {
         this.onClickUpdateWordsByPage = this.onClickUpdateWordsByPage.bind(this);
         this.onChangeQueryString = this.onChangeQueryString.bind(this);
         this.onClickChangePage = this.onClickChangePage.bind(this);
+
+        this.onClickExport = this.onClickExport.bind(this);
     }
     componentDidMount() {
         WordService
@@ -267,6 +269,9 @@ export default class WordsManagement extends Component {
                 })
         }
     }
+    onClickExport = () => {
+       console.log('export');
+    }
     render() {
         let headers = this.state.dictionaries
             .filter((dictionary) => dictionary.enabled === true)
@@ -335,6 +340,7 @@ export default class WordsManagement extends Component {
                                 {wordPerPageOptions}
                             </ul>
                         </div>
+                        <button className="btn btn-primary" onClick={() => this.onClickExport()}>Export word</button>
                     </div>
                     <div className="col-4">
                         <div className="input-group input-group-outline mb-4">

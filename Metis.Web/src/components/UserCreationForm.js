@@ -80,7 +80,7 @@ export default class UserCreationForm extends Component {
                     lastname: "",
                     email: "",
                     role: "",
-                    dictionaryId: 0
+                    dictionaryId: this.state.dictionaries.filter((dictionary) => dictionary.enabled === true)[0].id
                 });
             })
     }

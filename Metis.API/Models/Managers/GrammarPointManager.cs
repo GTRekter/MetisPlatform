@@ -9,10 +9,28 @@ namespace Metis.Models.Managers
 {
     public static class GrammarPointManager
     {
-        public static async Task AddGrammarPoint(ApplicationDbContext context, string title, string description)
+        public static async Task AddGrammarPoint(ApplicationDbContext context, string title, string description, int dictionaryId)
         {
-            GrammarPoint grammarPoint = new GrammarPoint { Title = title, Description = description };
+            GrammarPoint grammarPoint = new GrammarPoint()
+            {
+                Title = title,
+                Description = description,
+                DictionaryId = dictionaryId
+            };
             context.GrammarPoints.Add(grammarPoint);
+            await context.SaveChangesAsync();
+        }
+                public static async Task EditGrammarPoint(ApplicationDbContext context, int id,  string title, string description, int dictionaryId)
+        {
+            GrammarPoint grammarPoint = await context.GrammarPoints.FindAsync(id);
+            if (grammarPoint == null)
+            {
+                throw new Exception("User not found");
+            }
+            grammarPoint.Title = description;
+            grammarPoint.Description = description; 
+            grammarPoint.DictionaryId = dictionaryId; 
+            context.Update(grammarPoint);
             await context.SaveChangesAsync();
         }
         public static async Task<IEnumerable<GrammarPoint>> GetGrammarPointsByDictionaryId(ApplicationDbContext context, int id)
@@ -22,7 +40,6 @@ namespace Metis.Models.Managers
                 .Where(g => g.Dictionary.Id == id)
                 .ToListAsync();
         }
-
         public static async Task<GrammarPoint> GetGrammarPointById(ApplicationDbContext context, int id)
         {
             return await context.GrammarPoints.FindAsync(id);
@@ -38,18 +55,6 @@ namespace Metis.Models.Managers
         public static async Task<IEnumerable<GrammarPoint>> GetGrammarPoints(ApplicationDbContext context)
         {
             return await context.GrammarPoints.ToListAsync();
-        }
-        public static async Task EditGrammarPoint(ApplicationDbContext context, int id,  string title, string description)
-        {
-            GrammarPoint grammarPoint = await context.GrammarPoints.FindAsync(id);
-            if (grammarPoint == null)
-            {
-                throw new Exception("User not found");
-            }
-            grammarPoint.Title = description;
-            grammarPoint.Description = description; 
-            context.Update(grammarPoint);
-            await context.SaveChangesAsync();
         }
         public static async Task DeleteGrammarPointById(ApplicationDbContext context, int id)
         {
