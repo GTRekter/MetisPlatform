@@ -206,13 +206,13 @@ export default class LessonCreationForm extends Component {
                     <div className="col-12">
                         <FormHeader title="Lesson" action="Creation" subtitle="Insert all the information about the lesson." />
                     </div>
-                    <div className="col-12 col-xl-6">
+                    <div className="col-12 col-md-6">
                         <div className="input-group input-group-static my-3">
                             <label>Title</label>
                             <input type="text" className="form-control" name="title" value={this.state.title} onChange={this.onChangeInput} />
                         </div>
                     </div>
-                    <div className="col-12 col-xl-6">
+                    <div className="col-12 col-md-6">
                         <div className="input-group input-group-static my-3">
                             <label className="ms-0">Dictionary</label>
                             <select className="form-control" name="dictionaryId" value={this.state.dictionaryId} onChange={this.onChangeDictionary}>

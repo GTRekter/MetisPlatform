@@ -152,25 +152,25 @@ export default class UserEditForm extends Component {
                     <div className="col-12">
                         <FormHeader title="User" action="Update" subtitle={`Update the information about the user ${this.state.id}.`} />
                     </div>
-                    <div className="col-12 col-xl-6">
+                    <div className="col-12 col-md-6">
                         <div className="input-group input-group-static my-3">
                             <label>First Name</label>
                             <input type="text" className="form-control" name="firstName" value={this.state.firstName} onChange={this.onChangeInput} />
                         </div>
                     </div>
-                    <div className="col-12 col-xl-6">
+                    <div className="col-12 col-md-6">
                         <div className="input-group input-group-static my-3">
                             <label>Last Name</label>
                             <input type="text" className="form-control" name="lastName" value={this.state.lastName} onChange={this.onChangeInput} />
                         </div>
                     </div>
-                    <div className="col-12 col-xl-6">
+                    <div className="col-12 col-md-6">
                         <div className="input-group input-group-static my-3">
                             <label>Email</label>
                             <input type="text" className="form-control" name="email" value={this.state.email} onChange={this.onChangeInput} />
                         </div>
                     </div>
-                    <div className="col-12 col-xl-6">
+                    <div className="col-12 col-md-6">
                         <div className="input-group input-group-static my-3">
                             <label className="ms-0">Dictionary</label>
                             <select className="form-control" name="dictionaryId" value={this.state.dictionaryId} onChange={this.onChangeInput}>
@@ -178,7 +178,7 @@ export default class UserEditForm extends Component {
                             </select>
                         </div>
                     </div>
-                    <div className="col-12 col-xl-6">
+                    <div className="col-12 col-md-6">
                         <div className="input-group input-group-static my-3">
                             <label className="ms-0">Roles</label>
                             <select className="form-control" name="role" value={this.state.role} onChange={this.onChangeInput}>
@@ -191,7 +191,7 @@ export default class UserEditForm extends Component {
                         <span className="btn bg-gradient-secondary ms-2 btn-sm" role="button" onClick={() => this.onClickToggleLessonAdditionForm()}>Add lesson</span>
                         <div className={!this.state.lessonAdditionFormVisible ? "d-none" : ""}>
                             <div className="row">
-                                <div className="col-12 col-xl-6">
+                                <div className="col-12 col-md-6">
                                     <div className="input-group input-group-static my-3">
                                         <label className="ms-0">Dictionary</label>
                                         <select className="form-control" name="dictionary" value={this.state.dictionary} onChange={this.onChangeDictionary}>
@@ -199,7 +199,7 @@ export default class UserEditForm extends Component {
                                         </select>
                                     </div>
                                 </div>
-                                <div className="col-12 col-xl-6">
+                                <div className="col-12 col-md-6">
                                     <Autocomplete label="Title" suggestions={lessons} onChangeCallback={this.onClickAddLesson} />
                                 </div>
                             </div>

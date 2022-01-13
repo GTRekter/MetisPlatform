@@ -68,13 +68,13 @@ export default class GrammarPointCreationForm extends Component {
                 <div className="col-12">
                         <FormHeader title="Grammar Point" action="Creation" subtitle="Insert all the information about the grammar point." />
                     </div>
-                    <div className="col-12 col-xl-6">
+                    <div className="col-12 col-md-6">
                         <div className="input-group input-group-static my-3">
                             <label>Title</label>
                             <input type="text" className="form-control" name="title" value={this.state.title} onChange={this.onChangeInput} />
                         </div>
                     </div>
-                    <div className="col-12 col-xl-6">
+                    <div className="col-12 col-md-6">
                         <div className="input-group input-group-static my-3">
                             <label className="ms-0">Dictionary</label>
                             <select className="form-control" name="dictionaryId" value={this.state.dictionaryId} onChange={this.onChangeInput}>

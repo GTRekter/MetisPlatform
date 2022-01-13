@@ -104,28 +104,28 @@ export default class WordCreationForm extends Component {
         return (
             <form className="text-start" onSubmit={this.onSubmit} onReset={this.onReset}>
                 <div className="row">
-                    <div className="col-12 col-xl-6">
+                    <div className="col-12 col-md-6">
                         <div className="input-group input-group-static my-3">
                             <label>Text</label>
                             <input type="text" className="form-control" name="text" value={this.state.text} onChange={this.onChangeInput} />
                         </div>
                     </div>
-                    <div className="col-12 col-xl-6">
+                    <div className="col-12 col-md-6">
                         <div className="input-group input-group-static my-3">
                             <label>Romanization</label>
                             <input type="text" className="form-control" name="romanization" value={this.state.romanization} onChange={this.onChangeInput} />
                         </div>
                     </div>
-                    <div className="col-12 col-xl-6">
-                        <div className="input-group input-group-static mb-4">
+                    <div className="col-12 col-md-6">
+                        <div className="input-group input-group-static my-3">
                             <label className="ms-0">Dictionary</label>
                             <select className="form-control" name="dictionaryId" value={this.state.dictionaryId} onChange={this.onChangeInput}>
                                 {dictionaries}
                             </select>
                         </div>
                     </div>
-                    <div className="col-12 col-xl-6">
-                        <div className="input-group input-group-static mb-4">
+                    <div className="col-12 col-md-6">
+                        <div className="input-group input-group-static my-3">
                             <label className="ms-0">Type</label>
                             <select className="form-control" name="wordTypeId" value={this.state.wordTypeId} onChange={this.onChangeInput}>
                                 {wordTypes}
