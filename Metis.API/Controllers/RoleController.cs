@@ -21,13 +21,10 @@ namespace Metis.API.Controllers
     [Route("[controller]")]
     public class RoleController : BaseController
     {
-        private readonly SignInManager<User> _signInManager;
         private readonly IConfiguration _configuration;
-
-        public RoleController(ApplicationDbContext dataContext, UserManager<User> userManager, RoleManager<Role> roleManager, SignInManager<User> signInManager, IConfiguration configuration)
-            : base(dataContext, userManager, roleManager)
+        public RoleController(ApplicationDbContext dataContext, IConfiguration configuration)
+            : base(dataContext)
         {
-            _signInManager = signInManager;
             _configuration = configuration;
         }
 
@@ -36,7 +33,7 @@ namespace Metis.API.Controllers
         [Authorize(AuthenticationSchemes = Microsoft.AspNetCore.Authentication.JwtBearer.JwtBearerDefaults.AuthenticationScheme, Roles = "Administrator, Teacher")]
         public async Task<IActionResult> GetRolesAsync()
         {
-            var roles = RoleManager.GetRoles(_dataContext).Select(r => new { r.Id, r.Name });
+            var roles = RoleManager.GetRolesAsync(_dataContext).Select(r => new { r.Id, r.Name });
             return Ok(roles);
         }
     }

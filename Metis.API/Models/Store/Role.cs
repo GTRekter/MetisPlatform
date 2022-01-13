@@ -7,8 +7,13 @@ using Microsoft.AspNetCore.Identity;
 
 namespace Metis.Models.Store
 {
-    public class Role : IdentityRole<int>
-    {
+    public class Role
+    {        
+        [Key]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        public int Id { get; set; }
+        public string Name { get; set; }
         public string Description { get; set; }
+        public ICollection<User> Users { get; set; }
     }
 }

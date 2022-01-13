@@ -8,6 +8,7 @@ namespace Metis.Models.Store
 {
     public class Dictionary
     {
+        [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
         [Required]
@@ -17,6 +18,8 @@ namespace Metis.Models.Store
         [StringLength(maximumLength: 25, MinimumLength = 2)]
         public string Code { get; set; }
         public bool Enabled { get; set; }
+
+
         [JsonIgnore]
         public ICollection<User> Users { get; set; }
         public ICollection<Word> Words { get; set; }

@@ -11,21 +11,20 @@ namespace Metis.Models.Managers
 {
     public partial class RoleManager
     {
-        public static IEnumerable<Role> GetRoles(ApplicationDbContext context)
+        public static async Task AddRoleAsync(ApplicationDbContext dataContext, string name, string description)
         {
-            return context.Roles.ToList(); ;
+            var role = new Role 
+            { 
+                Name = name, 
+                Description = description 
+            };
+            dataContext.Roles.Add(role);
+            await dataContext.SaveChangesAsync();
         }
-
-        public static IEnumerable<Role> GetRolesByUserId(ApplicationDbContext context, int userId)
+        public static IEnumerable<Role> GetRolesAsync(ApplicationDbContext dataContext)
         {
-            var roles = context.UserRoles.Where(ur => ur.UserId == userId).Select(ur => ur.RoleId).ToList();
-            return context.Roles.Where(r => roles.Contains(r.Id)).ToList();
-        }
-
-        public static async Task<IdentityResult> AddRole(RoleManager<Role> roleManager, string name, string description)
-        {
-            var role = new Role { Name = name, Description = description };
-            return await roleManager.CreateAsync(role);
+            return dataContext.Roles
+                .ToList(); ;
         }
     }
 }

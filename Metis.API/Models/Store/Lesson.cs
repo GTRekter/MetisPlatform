@@ -8,12 +8,14 @@ namespace Metis.Models.Store
 {
     public class Lesson
     {
+        [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
         public string Title { get; set; }
         public string Description { get; set; }
         public byte[] Cover { get; set; }
         public int DictionaryId { get; set; }
+
         public Dictionary Dictionary { get; set; }  
         [JsonIgnore]
         public ICollection<User> Users { get; set; }

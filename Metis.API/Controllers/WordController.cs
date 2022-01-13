@@ -29,7 +29,7 @@ namespace Metis.API.Controllers
             {
                 return NotFound();
             }
-            await WordManager.AddWord(_context, request.Text, request.Romanization, request.DictionaryId, request.WordTypeId, request.Description, request.Example, request.Translations.Select(t => new KeyValuePair<int,string>(t.DictionaryId, t.Text)));
+            await WordManager.AddWordAsync(_context, request.Text, request.Romanization, request.DictionaryId, request.WordTypeId, request.Description, request.Example, request.Translations.Select(t => new KeyValuePair<int,string>(t.DictionaryId, t.Text)));
             return Ok();
         }
         
@@ -55,7 +55,7 @@ namespace Metis.API.Controllers
                     translationsToEdit.Add(new KeyValuePair<int, string>((int)translation.Id, translation.Text));
                 }
             }    
-            await WordManager.EditWord(_context, request.Id, request.Text, request.Romanization, request.DictionaryId, request.WordTypeId, request.Description, request.Example, translationsToAdd, translationsToEdit);
+            await WordManager.EditWordAsync(_context, request.Id, request.Text, request.Romanization, request.DictionaryId, request.WordTypeId, request.Description, request.Example, translationsToAdd, translationsToEdit);
             return Ok();
         }
 
@@ -64,7 +64,7 @@ namespace Metis.API.Controllers
         [Route("DeleteWordById")]
         public async Task<IActionResult> DeleteWordByIdAsync(int id)
         {
-            await WordManager.DeleteWordById(_context, id);
+            await WordManager.DeleteWordByIdAsync(_context, id);
             return Ok();
         }
 
@@ -74,7 +74,7 @@ namespace Metis.API.Controllers
         [Route("GetWords")]
         public async Task<IActionResult> GetWordsAsync()
         {
-            IEnumerable<Word> words = await WordManager.GetWords(_context);
+            IEnumerable<Word> words = await WordManager.GetWordsAsync(_context);
             return Ok(words);
         }
 
@@ -92,7 +92,7 @@ namespace Metis.API.Controllers
         [Route("GetWordsByUserId")]
         public async Task<IActionResult> GetWordsByUserIdAsync(int id)
         {
-            IEnumerable<Word> words = await WordManager.GetWordsByUserId(_context, id);
+            IEnumerable<Word> words = await WordManager.GetWordsAsync(_context, id);
             return Ok(words);
         }
 
@@ -101,7 +101,7 @@ namespace Metis.API.Controllers
         [Route("GetWordsByUserIdAndWordTypeId")]
         public async Task<IActionResult> GetWordsByUserIdAndWordTypeIdAsync(int id, int wordTypeId)
         {
-            IEnumerable<Word> words = await WordManager.GetWordsByUserIdAndWordTypeId(_context, id, wordTypeId);
+            IEnumerable<Word> words = await WordManager.GetWordsAsync(_context, id, wordTypeId);
             return Ok(words);
         }   
 
@@ -110,7 +110,7 @@ namespace Metis.API.Controllers
         [Route("GetWordById")]
         public async Task<IActionResult> GetWordByIdAsync(int id)
         {
-            var word = await WordManager.GetWordById(_context, id);
+            var word = await WordManager.GetWordByIdAsync(_context, id);
             return Ok(word);
         }
 
@@ -119,7 +119,7 @@ namespace Metis.API.Controllers
         [Route("GetWordsByPage")]
         public async Task<IActionResult> GetWordsByPageAsync(int page, int itemsPerPage)
         {
-            IEnumerable<Word> words = await WordManager.GetWordsByPage(_context, page, itemsPerPage);
+            IEnumerable<Word> words = await WordManager.GetWordsByPageAsync(_context, page, itemsPerPage);
             return Ok(words);
         }
 
@@ -128,7 +128,7 @@ namespace Metis.API.Controllers
         [Route("GetWordsByUserIdAndPage")]
         public async Task<IActionResult> GetWordsByUserIdAndPageAsync(int id, int page, int itemsPerPage)
         {
-            IEnumerable<Word> words = await WordManager.GetWordsByUserIdAndPage(_context, id, page, itemsPerPage);
+            IEnumerable<Word> words = await WordManager.GetWordsByPageAsync(_context, id, page, itemsPerPage);
             return Ok(words);
         }
 
@@ -137,7 +137,7 @@ namespace Metis.API.Controllers
         [Route("GetWordsByPageAndSearchQuery")]
         public async Task<IActionResult> GetWordsByPageAndSearchQueryAsync(int page, int itemsPerPage, string searchQuery)
         {
-            IEnumerable<Word> words = await WordManager.GetWordsByPageAndSearchQuery(_context, page, itemsPerPage, searchQuery);
+            IEnumerable<Word> words = await WordManager.GetWordsByPageAsync(_context, page, itemsPerPage, searchQuery);
             return Ok(words);
         }
 
@@ -146,7 +146,7 @@ namespace Metis.API.Controllers
         [Route("GetWordsByUserIdAndPageAndSearchQuery")]
         public async Task<IActionResult> GetWordsByUserIdAndPageAndSearchQueryAsync(int id, int page, int itemsPerPage, string searchQuery)
         {
-            IEnumerable<Word> words = await WordManager.GetWordsByUserIdAndPageAndSearchQuery(_context, id, page, itemsPerPage, searchQuery);
+            IEnumerable<Word> words = await WordManager.GetWordsByPageAsync(_context, id, page, itemsPerPage, searchQuery);
             return Ok(words);
         }
 
@@ -155,7 +155,7 @@ namespace Metis.API.Controllers
         [Route("GetWordsCount")]
         public async Task<IActionResult> GetWordsCountAsync()
         {
-            int counter = await WordManager.GetWordsCount(_context);
+            int counter = await WordManager.GetWordsCountAsync(_context);
             return Ok(counter);
         }
 
@@ -164,7 +164,7 @@ namespace Metis.API.Controllers
         [Route("GetWordsByUserIdCount")]
         public async Task<IActionResult> GetWordsByUserIdCountAsync(int id)
         {
-            int counter = await WordManager.GetWordsByUserIdCount(_context, id);
+            int counter = await WordManager.GetWordsCountAsync(_context, id);
             return Ok(counter);
         }
 
@@ -173,7 +173,7 @@ namespace Metis.API.Controllers
         [Route("GetWordsBySearchQueryCount")]
         public async Task<IActionResult> GetWordsBySearchQueryCountAsync(string searchQuery)
         {
-            int counter = await WordManager.GetWordsBySearchQueryCount(_context, searchQuery);
+            int counter = await WordManager.GetWordsCountAsync(_context, searchQuery);
             return Ok(counter);
         }
 
@@ -182,7 +182,7 @@ namespace Metis.API.Controllers
         [Route("GetWordsByUserIdAndSearchQueryCount")]
         public async Task<IActionResult> GetWordsByUserIdAndSearchQueryCountAsync(int id, string searchQuery)
         {
-            int counter = await WordManager.GetWordsByUserIdAndSearchQueryCount(_context, id, searchQuery);
+            int counter = await WordManager.GetWordsCountAsync(_context, id, searchQuery);
             return Ok(counter);
         }
     }

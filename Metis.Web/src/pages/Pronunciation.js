@@ -74,7 +74,6 @@ export default class Pronunciation extends Component {
         });
     }
     onRecognized = (data) => {
-        console.log(data);
         var self = this;
         this.setState({
             viewTranslation: true,

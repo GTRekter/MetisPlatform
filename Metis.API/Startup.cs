@@ -41,32 +41,12 @@ namespace Metis.API
                             .AllowCredentials();
                     });
             });
-            services.AddIdentity<User, Role>()
-                .AddEntityFrameworkStores<ApplicationDbContext>()
-                .AddDefaultTokenProviders();
-            services.Configure<IdentityOptions>(options =>
-            {
-                options.Password.RequireDigit = true;
-                options.Password.RequiredLength = 8;
-                options.Password.RequireNonAlphanumeric = false;
-                options.Password.RequireUppercase = true;
-                options.Password.RequireLowercase = false;
-                options.Password.RequiredUniqueChars = 6;
-                options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(30);
-                options.Lockout.MaxFailedAccessAttempts = 10;
-                options.Lockout.AllowedForNewUsers = true;
-                options.User.RequireUniqueEmail = true;
-            });
             services.AddAuthentication(options =>
             {
                 options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
                 options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
             }).AddJwtBearer((options) =>
             {
-                // options.RequireHttpsMetadata = false;
-                // options.SaveToken = true;
-                // options.Authority = Configuration["JwtOptions:Authority"];
-                // options.Audience = Configuration["JwtOptions:Audience"];
                 options.TokenValidationParameters = new TokenValidationParameters()
                 {
                     ValidateIssuer = Convert.ToBoolean(Configuration["JwtOptions:ValidateIssuer"]),

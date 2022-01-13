@@ -8,6 +8,7 @@ namespace Metis.Models.Store
 {
     public class Word
     {
+        [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
         [Required]
@@ -19,6 +20,7 @@ namespace Metis.Models.Store
         public string Enabled { get; set; }
         public int DictionaryId { get; set; }
         public int WordTypeId { get; set; }
+
         [JsonIgnore]
         public Dictionary Dictionary { get; set; }    
         public WordType WordType { get; set; }

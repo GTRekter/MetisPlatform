@@ -10,21 +10,52 @@ namespace Metis.Models.Managers
 {
     public static class DictionaryManager
     {
-        public static async Task<IEnumerable<Dictionary>> GetDictionaries(ApplicationDbContext context)
+        public static async Task AddDictionaryAsync(ApplicationDbContext dataContext, string name, bool enabled, int dictionaryId)
         {
-            return await context.Dictionaries.ToListAsync();
+            Dictionary dictionary = new Dictionary()
+            {
+                Name = name,
+                Enabled = enabled
+            };
+            dataContext.Dictionaries.Add(dictionary);
+            await dataContext.SaveChangesAsync();
         }
-        public static async Task<IEnumerable<Dictionary>> GetDictionaries(ApplicationDbContext context, int page, int itemsPerPage)
+        public static async Task EditDictionaryAsync(ApplicationDbContext dataContext, int id,  string name, bool enabled, string description)
         {
-            return await context.Dictionaries
+            Dictionary dictionary = await dataContext.Dictionaries.FindAsync(id);
+            if (dictionary == null)
+            {
+                throw new Exception("Dictionary not found");
+            }
+            dictionary.Name = name;
+            dictionary.Enabled = enabled; 
+            dataContext.Update(dictionary);
+            await dataContext.SaveChangesAsync();
+        }
+        public static async Task DeleteDictionaryByIdAsync(ApplicationDbContext dataContext, int id)
+        {
+            var dictionaryToRemove = await dataContext.Dictionaries.FindAsync(id);
+            dataContext.Dictionaries.Remove(dictionaryToRemove);
+            await dataContext.SaveChangesAsync();
+        }  
+        
+
+        public static async Task<IEnumerable<Dictionary>> GetDictionariesAsync(ApplicationDbContext dataContext)
+        {
+            return await dataContext.Dictionaries
+                .ToListAsync();
+        }
+        public static async Task<IEnumerable<Dictionary>> GetDictionariesAsync(ApplicationDbContext dataContext, int page, int itemsPerPage)
+        {
+            return await dataContext.Dictionaries
                 .Skip(page*itemsPerPage)
                 .Take(itemsPerPage)
                 .OrderBy(c => c.Name)
                 .ToListAsync();
         }
-        public static async Task<IEnumerable<Dictionary>> GetDictionaries(ApplicationDbContext context, bool enabled, int page, int itemsPerPage)
+        public static async Task<IEnumerable<Dictionary>> GetDictionariesAsync(ApplicationDbContext dataContext, bool enabled, int page, int itemsPerPage)
         {
-            return await context.Dictionaries
+            return await dataContext.Dictionaries
                 .Where(d => d.Enabled == enabled)
                 .Skip(page*itemsPerPage)
                 .Take(itemsPerPage)

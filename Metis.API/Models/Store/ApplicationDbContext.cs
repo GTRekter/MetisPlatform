@@ -1,14 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.SqlServer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 
 namespace Metis.Models.Store
 {
-    public class ApplicationDbContext : IdentityDbContext<User, Role, int>
+    public class ApplicationDbContext : DbContext
     {
-
+        public DbSet<User> Users { get; set; }
+        public DbSet<Role> Roles { get; set; }
         public DbSet<Word> Words { get; set; }
         public DbSet<WordType> WordTypes { get; set; }
         public DbSet<Dictionary> Dictionaries { get; set; }
@@ -27,39 +29,28 @@ namespace Metis.Models.Store
             this.SeedWordTypes(builder);
             this.SeedRoles(builder);
             this.SeedUsers(builder);
-            this.SeedUserRoles(builder);
 
-            builder.Entity<User>()
-                    .HasMany(f => f.Lessons)
+            builder.Entity<User>(entity =>
+            {
+                entity.HasOne(u => u.Dictionary)
+                    .WithMany(d => d.Users)
+                    .HasForeignKey(d => d.Id)
+                    .OnDelete(DeleteBehavior.Restrict);
+
+                entity.HasMany(f => f.Lessons)
                     .WithMany(g => g.Users)
                     .UsingEntity<Dictionary<string, object>>(
-                        "LessonUser",
-                        j => j.HasOne<Lesson>().WithMany().OnDelete(DeleteBehavior.NoAction),
-                        j => j.HasOne<User>().WithMany().OnDelete(DeleteBehavior.NoAction))
-                .ToTable("Users");
+                        "UserLesson",
+                        j => j.HasOne<Lesson>().WithMany().OnDelete(DeleteBehavior.Restrict),
+                        j => j.HasOne<User>().WithMany().OnDelete(DeleteBehavior.Restrict));
+
+                entity.ToTable("User");
+            });
             builder.Entity<Role>()
                 .ToTable("Roles");
-            builder.Entity<IdentityUserRole<int>>()
-                .ToTable("UserRoles")
-                .HasKey(r => new { r.UserId, r.RoleId });
-            builder.Entity<IdentityUserClaim<int>>()
-                .ToTable("UserClaims");
-            builder.Entity<IdentityRoleClaim<int>>()
-                .ToTable("RoleClaims");
-            builder.Entity<IdentityUserToken<int>>()
-                .ToTable("UserTokens");
-            builder.Entity<IdentityUserLogin<int>>()
-                .ToTable("UserLogins")
-                .HasKey(l => new { l.LoginProvider, l.ProviderKey, l.UserId });
             builder.Entity<Word>()
                 .HasMany(w => w.Translations);
             builder.Entity<Lesson>()
-                    // .HasMany(f => f.Users)
-                    // .WithMany(g => g.Lessons)
-                    // .UsingEntity<Dictionary<string, object>>(
-                    //     "LessonUser",
-                    //     j => j.HasOne<User>().WithMany().OnDelete(DeleteBehavior.NoAction),
-                    //     j => j.HasOne<Lesson>().WithMany().OnDelete(DeleteBehavior.NoAction))
                 .ToTable("Lessons");
         }
         private void SeedDictionaries(ModelBuilder builder)
@@ -83,9 +74,9 @@ namespace Metis.Models.Store
         private void SeedRoles(ModelBuilder builder)
         {
             builder.Entity<Role>().HasData(new List<Role>(){
-                new Role(){ Id = 1, Name = "Administrator", NormalizedName = "Administrator", Description = "" },
-                new Role(){ Id = 2, Name = "Teacher", NormalizedName = "Teacher", Description = "" },
-                new Role(){ Id = 3, Name = "Student", NormalizedName = "Student", Description = "" }
+                new Role(){ Id = 1, Name = "Administrator", Description = "" },
+                new Role(){ Id = 2, Name = "Teacher", Description = "" },
+                new Role(){ Id = 3, Name = "Student", Description = "" }
             });
         }
         public void SeedUsers(ModelBuilder builder)
@@ -95,24 +86,11 @@ namespace Metis.Models.Store
             {
                 Id = 1,
                 DictionaryId = 1,
-                UserName = "admin",
-                NormalizedUserName = "ADMIN",
                 Email = "admin@metis.com",
-                NormalizedEmail = "ADMIN@METIS.COM",
-                EmailConfirmed = true,
-                PhoneNumberConfirmed = true,
-                SecurityStamp = new Guid().ToString("D")
+                RoleId = 1
             }; 
             builder.Entity<User>().HasData(user);  
             user.PasswordHash = hasher.HashPassword(user, "P@ssw0rd");   
-        }
-        public void SeedUserRoles(ModelBuilder builder)
-        {
-            builder.Entity<IdentityUserRole<int>>().HasData(new IdentityUserRole<int>
-            {
-                RoleId = 1,
-                UserId = 1
-            });
         }
     }
 }

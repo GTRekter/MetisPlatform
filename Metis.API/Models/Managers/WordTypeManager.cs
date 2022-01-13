@@ -10,21 +10,24 @@ namespace Metis.Models.Managers
 {
     public static class WordTypeManager
     {
-        public static async Task<WordType> AddWordType(ApplicationDbContext context, WordType wordType)
+        public static async Task<WordType> AddWordTypeAsync(ApplicationDbContext dataContext, WordType wordType)
         {
-            context.WordTypes.Add(wordType);
-            await context.SaveChangesAsync();
+            dataContext.WordTypes.Add(wordType);
+            await dataContext.SaveChangesAsync();
             return wordType;
         }
-        public static async Task RemoveWordTypeById(ApplicationDbContext context, int id)
+        public static async Task RemoveWordTypeByIdAsync(ApplicationDbContext dataContext, int id)
         {
-            var wordTypeToRemove = await context.WordTypes.FindAsync(id);
-            context.WordTypes.Remove(wordTypeToRemove);
-            await context.SaveChangesAsync();
+            var wordTypeToRemove = await dataContext.WordTypes.FindAsync(id);
+            dataContext.WordTypes.Remove(wordTypeToRemove);
+            await dataContext.SaveChangesAsync();
         }
-        public static async Task<IEnumerable<WordType>> GetWordTypes(ApplicationDbContext context)
+
+
+        public static async Task<IEnumerable<WordType>> GetWordTypesAsync(ApplicationDbContext dataContext)
         {
-            return await context.WordTypes.ToListAsync();
+            return await dataContext.WordTypes
+                .ToListAsync();
         }
     }
 }

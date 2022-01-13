@@ -30,71 +30,8 @@ namespace Metis.API.Controllers
             {
                 return NotFound();
             }
-            await LessonManager.AddLesson(_context, request.Title, request.DictionaryId, request.Description, request.Words.Select(w => w.Id), request.GrammarPoints.Select(g => g.Id));
+            await LessonManager.AddLessonAsync(_context, request.Title, request.DictionaryId, request.Description, request.Words.Select(w => w.Id), request.GrammarPoints.Select(g => g.Id));
             return Ok();
-        }
-
-        [HttpGet]
-        [Authorize(AuthenticationSchemes = Microsoft.AspNetCore.Authentication.JwtBearer.JwtBearerDefaults.AuthenticationScheme)]
-        [Route("GetLessons")]
-        public async Task<IActionResult> GetLessonsAsync()
-        {
-            IEnumerable<Lesson> lessons = await LessonManager.GetLessons(_context);
-            return Ok(lessons);
-        }
-
-        [HttpGet]
-        [Authorize(AuthenticationSchemes = Microsoft.AspNetCore.Authentication.JwtBearer.JwtBearerDefaults.AuthenticationScheme)]
-        [Route("GetLessonsByDictionaryId")]
-        public async Task<IActionResult> GetLessonsByDictionaryIdAsync(int id)
-        {
-            var lesson = await LessonManager.GetLessonsByDictionaryId(_context, id);
-            return Ok(lesson);
-        }
-
-        [HttpGet]
-        [Authorize(AuthenticationSchemes = Microsoft.AspNetCore.Authentication.JwtBearer.JwtBearerDefaults.AuthenticationScheme)]
-        [Route("GetLessonById")]
-        public async Task<IActionResult> GetLessonByIdAsync(int id)
-        {
-            var lesson = await LessonManager.GetLessonById(_context, id);
-            return Ok(lesson);
-        }
-
-        [HttpGet]
-        [Authorize(AuthenticationSchemes = Microsoft.AspNetCore.Authentication.JwtBearer.JwtBearerDefaults.AuthenticationScheme, Roles = "Administrator, Teacher")]
-        [Route("GetLessonsByPage")]
-        public async Task<IActionResult> GetUsersByPageAsync(int page, int itemsPerPage)
-        {
-            IEnumerable<Lesson> lessons = await LessonManager.GetLessonsByPage(_context, page, itemsPerPage);
-            return Ok(lessons);
-        }
-
-        [HttpGet]
-        [Authorize(AuthenticationSchemes = Microsoft.AspNetCore.Authentication.JwtBearer.JwtBearerDefaults.AuthenticationScheme, Roles = "Administrator, Teacher")]
-        [Route("GetLessonsByPageAndSearchQuery")]
-        public async Task<IActionResult> GetLessonsByPageAndSearchQueryAsync(int page, int itemsPerPage, string searchQuery)
-        {
-            IEnumerable<Lesson> lessons = await LessonManager.GetLessonsByPageAndSearchQuery(_context, page, itemsPerPage, searchQuery);
-            return Ok(lessons);
-        }
-
-        [HttpGet]
-        [Authorize(AuthenticationSchemes = Microsoft.AspNetCore.Authentication.JwtBearer.JwtBearerDefaults.AuthenticationScheme, Roles = "Administrator, Teacher")]
-        [Route("GetLessonsCount")]
-        public async Task<IActionResult> GetLessonsCountAsync()
-        {
-            int counter = await LessonManager.GetLessonsCount(_context);
-            return Ok(counter);
-        }
-
-        [HttpGet]
-        [Authorize(AuthenticationSchemes = Microsoft.AspNetCore.Authentication.JwtBearer.JwtBearerDefaults.AuthenticationScheme, Roles = "Administrator, Teacher")]
-        [Route("GetLessonsBySearchQueryCount")]
-        public async Task<IActionResult> GetLessonsBySearchQueryCountAsync(string searchQuery)
-        {
-            int counter = await LessonManager.GetLessonsBySearchQueryCount(_context, searchQuery);
-            return Ok(counter);
         }
 
         [HttpPost]
@@ -102,7 +39,7 @@ namespace Metis.API.Controllers
         [Route("EditLesson")]
         public async Task<IActionResult> EditLessonAsync(EditLessonRequest request)
         {
-            await LessonManager.EditLesson(_context, request.Id, request.Title, request.DictionaryId, request.Description, request.Words.Select(w => w.Id), request.GrammarPoints.Select(g => g.Id));
+            await LessonManager.EditLessonAsync(_context, request.Id, request.Title, request.DictionaryId, request.Description, request.Words.Select(w => w.Id), request.GrammarPoints.Select(g => g.Id));
             return Ok();
         }
 
@@ -111,8 +48,71 @@ namespace Metis.API.Controllers
         [Route("DeleteLessonById")]
         public async Task<IActionResult> DeleteLessonByIdAsync(int id)
         {
-            await LessonManager.DeleteLessonById(_context, id);
+            await LessonManager.DeleteLessonByIdAsync(_context, id);
             return Ok();
+        }
+
+        [HttpGet]
+        [Authorize(AuthenticationSchemes = Microsoft.AspNetCore.Authentication.JwtBearer.JwtBearerDefaults.AuthenticationScheme)]
+        [Route("GetLessons")]
+        public async Task<IActionResult> GetLessonsAsync()
+        {
+            IEnumerable<Lesson> lessons = await LessonManager.GetLessonsAsync(_context);
+            return Ok(lessons);
+        }
+
+        [HttpGet]
+        [Authorize(AuthenticationSchemes = Microsoft.AspNetCore.Authentication.JwtBearer.JwtBearerDefaults.AuthenticationScheme)]
+        [Route("GetLessonsByDictionaryId")]
+        public async Task<IActionResult> GetLessonsByDictionaryIdAsync(int id)
+        {
+            var lesson = await LessonManager.GetLessonsByDictionaryIdAsync(_context, id);
+            return Ok(lesson);
+        }
+
+        [HttpGet]
+        [Authorize(AuthenticationSchemes = Microsoft.AspNetCore.Authentication.JwtBearer.JwtBearerDefaults.AuthenticationScheme)]
+        [Route("GetLessonById")]
+        public async Task<IActionResult> GetLessonByIdAsync(int id)
+        {
+            var lesson = await LessonManager.GetLessonByIdAsync(_context, id);
+            return Ok(lesson);
+        }
+
+        [HttpGet]
+        [Authorize(AuthenticationSchemes = Microsoft.AspNetCore.Authentication.JwtBearer.JwtBearerDefaults.AuthenticationScheme, Roles = "Administrator, Teacher")]
+        [Route("GetLessonsByPage")]
+        public async Task<IActionResult> GetUsersByPageAsync(int page, int itemsPerPage)
+        {
+            IEnumerable<Lesson> lessons = await LessonManager.GetLessonsByPageAsync(_context, page, itemsPerPage);
+            return Ok(lessons);
+        }
+
+        [HttpGet]
+        [Authorize(AuthenticationSchemes = Microsoft.AspNetCore.Authentication.JwtBearer.JwtBearerDefaults.AuthenticationScheme, Roles = "Administrator, Teacher")]
+        [Route("GetLessonsByPageAndSearchQuery")]
+        public async Task<IActionResult> GetLessonsByPageAndSearchQueryAsync(int page, int itemsPerPage, string searchQuery)
+        {
+            IEnumerable<Lesson> lessons = await LessonManager.GetLessonsByPageAsync(_context, page, itemsPerPage, searchQuery);
+            return Ok(lessons);
+        }
+
+        [HttpGet]
+        [Authorize(AuthenticationSchemes = Microsoft.AspNetCore.Authentication.JwtBearer.JwtBearerDefaults.AuthenticationScheme, Roles = "Administrator, Teacher")]
+        [Route("GetLessonsCount")]
+        public async Task<IActionResult> GetLessonsCountAsync()
+        {
+            int counter = await LessonManager.GetLessonsCountAsync(_context);
+            return Ok(counter);
+        }
+
+        [HttpGet]
+        [Authorize(AuthenticationSchemes = Microsoft.AspNetCore.Authentication.JwtBearer.JwtBearerDefaults.AuthenticationScheme, Roles = "Administrator, Teacher")]
+        [Route("GetLessonsBySearchQueryCount")]
+        public async Task<IActionResult> GetLessonsBySearchQueryCountAsync(string searchQuery)
+        {
+            int counter = await LessonManager.GetLessonsCountAsync(_context, searchQuery);
+            return Ok(counter);
         }
     }
 }
