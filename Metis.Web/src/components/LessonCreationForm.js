@@ -143,6 +143,13 @@ export default class LessonCreationForm extends Component {
             .addLesson(this.state.title, this.state.description, this.state.dictionaryId, this.state.selectedWords, this.state.selectedGrammarPoints)
             .then(() => {
                 this.props.onSubmitCallback();
+                this.setState({
+                    title: "",
+                    description: "",
+                    dictionaryId: 0,
+                    selectedWords: [],
+                    selectedGrammarPoints: []
+                })
             })
     }
     render() {

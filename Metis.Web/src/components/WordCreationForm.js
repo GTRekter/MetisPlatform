@@ -72,6 +72,14 @@ export default class WordCreationForm extends Component {
             .addWord(this.state.text, this.state.romanization, this.state.dictionaryId, this.state.wordTypeId, this.state.description, this.state.example, this.state.translations)
             .then(() => {
                 this.props.onSubmitCallback();
+                this.setState({
+                    text: "",
+                    romanization: "",
+                    description: "",
+                    example: "",
+                    dictionaryId: 0,
+                    wordTypeId: 0
+                });
             })
     }
     render() {

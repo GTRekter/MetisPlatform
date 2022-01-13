@@ -75,6 +75,13 @@ export default class UserCreationForm extends Component {
             .addUser(this.state.firstname, this.state.lastname, this.state.email, this.state.role, this.state.dictionaryId, this.state.selectedLessons)
             .then(() => {
                 this.props.onSubmitCallback();
+                this.setState({
+                    firstname: "",
+                    lastname: "",
+                    email: "",
+                    role: "",
+                    dictionaryId: 0
+                });
             })
     }
     onClickToggleLessonAdditionForm = () => {

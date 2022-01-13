@@ -51,6 +51,10 @@ export default class GrammarPointCreationForm extends Component {
             .addGrammarPoint(this.state.title, this.state.description)
             .then(() => {
                 this.props.onSubmitCallback();
+                this.setState({
+                    title: "",
+                    description: ""
+                });
             })
     }
     render() {
