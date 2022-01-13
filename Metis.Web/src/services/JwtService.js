@@ -17,9 +17,12 @@ class JwtService {
         return false;
     }
     getCurrentUserId() {
-        let jwt = sessionStorage.getItem("token").split('.')[1]
-        let decodedJwt = JSON.parse(window.atob(jwt))
-        return decodedJwt.Id
+        let jwt = sessionStorage.getItem("token");
+        if(jwt !== null) {
+            let decodedJwt = JSON.parse(window.atob(jwt.split('.')[1]))
+            return decodedJwt.Id
+        }
+        return null;
     }
     isExpired() {
         let jwt = sessionStorage.getItem("token").split('.')[1]
