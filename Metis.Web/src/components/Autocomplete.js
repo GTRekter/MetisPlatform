@@ -3,6 +3,7 @@ import React, { Component } from "react";
 class Autocomplete extends Component {
     static defaultProps = {
         suggestions: [],
+        suggestionsToHide: [],
         disabled: false
     };
     constructor(props) {
@@ -22,7 +23,7 @@ class Autocomplete extends Component {
     onFocus = () => {
         var filteredSuggestions = this.state.filteredSuggestions;
         if(this.state.userInput === "") {
-            filteredSuggestions = this.props.suggestions;
+            filteredSuggestions = this.props.suggestions.filter(suggestion => !this.props.suggestionsToHide.some(suggestionToHide => suggestionToHide.text === suggestion)).slice(0, 5)
         }
         this.setState({
             ...this.state,
@@ -37,7 +38,10 @@ class Autocomplete extends Component {
         });
     };
     onChange = (event) => {
-        let filteredSuggestions = this.props.suggestions.filter(suggestion => suggestion.toLowerCase().indexOf(event.currentTarget.value.toLowerCase()) > -1);
+        let filteredSuggestions = this.props.suggestions
+            .filter(suggestion => suggestion.toLowerCase().indexOf(event.currentTarget.value.toLowerCase()) > -1
+                && !this.props.suggestionsToHide.some(suggestionToHide => suggestionToHide.text === suggestion))
+            .slice(0, 5);
         this.setState({
             activeSuggestion: 0,
             filteredSuggestions,

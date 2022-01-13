@@ -48,6 +48,20 @@ export default class LessonEditForm extends Component {
                         selectedGrammarPoints: response.grammarPoints,
                         selectedWords: response.words
                     });
+                    WordService
+                        .getWordsByDictionaryId(response.dictionaryId)
+                        .then((data) => {
+                            this.setState({
+                                words: data
+                            });
+                        })
+                    GrammarPointService
+                        .getGrammarPointsByDictionaryId(response.dictionaryId)
+                        .then((data) => {
+                            this.setState({
+                                grammarPoints: data
+                            });
+                        })
                 })
             DictionaryService
                 .getDictionaries()
@@ -55,20 +69,6 @@ export default class LessonEditForm extends Component {
                     this.setState({
                         dictionaries: data
                     })
-                    WordService
-                        .getWordsByDictionaryId(data[0].id)
-                        .then((data) => {
-                            this.setState({
-                                words: data
-                            });
-                        })
-                    GrammarPointService
-                        .getGrammarPointsByDictionaryId(data[0].id)
-                        .then((data) => {
-                            this.setState({
-                                grammarPoints: data
-                            });
-                        })
                 })
         }
     }   
@@ -242,7 +242,7 @@ export default class LessonEditForm extends Component {
                         <label className='d-block'>Words</label>
                         <span className="btn bg-gradient-secondary ms-2 btn-sm" role="button" onClick={() => this.onClickToggleWordAdditionForm()}>Add word</span>
                         <div className={!this.state.wordAdditionFormVisible ? "d-none" : ""}>
-                            <Autocomplete label="Word Text" suggestions={words} onChangeCallback={this.onClickAddWord} />
+                            <Autocomplete label="Word Text" suggestions={words} suggestionsToHide={this.state.selectedWords} onChangeCallback={this.onClickAddWord} />
                         </div>
                         <div className="table-responsive">
                             <table className="table table-sm align-items-center">
