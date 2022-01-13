@@ -30,6 +30,12 @@ namespace Metis.Models.Store
             this.SeedUserRoles(builder);
 
             builder.Entity<User>()
+                    .HasMany(f => f.Lessons)
+                    .WithMany(g => g.Users)
+                    .UsingEntity<Dictionary<string, object>>(
+                        "LessonUser",
+                        j => j.HasOne<Lesson>().WithMany().OnDelete(DeleteBehavior.NoAction),
+                        j => j.HasOne<User>().WithMany().OnDelete(DeleteBehavior.NoAction))
                 .ToTable("Users");
             builder.Entity<Role>()
                 .ToTable("Roles");
@@ -47,6 +53,14 @@ namespace Metis.Models.Store
                 .HasKey(l => new { l.LoginProvider, l.ProviderKey, l.UserId });
             builder.Entity<Word>()
                 .HasMany(w => w.Translations);
+            builder.Entity<Lesson>()
+                    .HasMany(f => f.Users)
+                    .WithMany(g => g.Lessons)
+                    .UsingEntity<Dictionary<string, object>>(
+                        "LessonUser",
+                        j => j.HasOne<User>().WithMany().OnDelete(DeleteBehavior.NoAction),
+                        j => j.HasOne<Lesson>().WithMany().OnDelete(DeleteBehavior.NoAction))
+                .ToTable("Users");
         }
         private void SeedDictionaries(ModelBuilder builder)
         {
