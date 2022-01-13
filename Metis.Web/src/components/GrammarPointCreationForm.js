@@ -48,7 +48,7 @@ export default class GrammarPointCreationForm extends Component {
     onSubmit = (event) => {
         event.preventDefault();
         GrammarPointService
-            .addGrammarPoint(this.state.title, this.state.description, this.dictionaryId)
+            .addGrammarPoint(this.state.title, this.state.description, this.state.dictionaryId)
             .then(() => {
                 this.props.onSubmitCallback();
                 this.setState({
