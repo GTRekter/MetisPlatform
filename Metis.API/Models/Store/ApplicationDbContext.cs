@@ -54,13 +54,13 @@ namespace Metis.Models.Store
             builder.Entity<Word>()
                 .HasMany(w => w.Translations);
             builder.Entity<Lesson>()
-                    .HasMany(f => f.Users)
-                    .WithMany(g => g.Lessons)
-                    .UsingEntity<Dictionary<string, object>>(
-                        "LessonUser",
-                        j => j.HasOne<User>().WithMany().OnDelete(DeleteBehavior.NoAction),
-                        j => j.HasOne<Lesson>().WithMany().OnDelete(DeleteBehavior.NoAction))
-                .ToTable("Users");
+                    // .HasMany(f => f.Users)
+                    // .WithMany(g => g.Lessons)
+                    // .UsingEntity<Dictionary<string, object>>(
+                    //     "LessonUser",
+                    //     j => j.HasOne<User>().WithMany().OnDelete(DeleteBehavior.NoAction),
+                    //     j => j.HasOne<Lesson>().WithMany().OnDelete(DeleteBehavior.NoAction))
+                .ToTable("Lessons");
         }
         private void SeedDictionaries(ModelBuilder builder)
         {

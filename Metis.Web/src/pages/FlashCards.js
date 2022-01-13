@@ -218,15 +218,18 @@ export default class FlashCards extends Component {
                 backgroundClass = "bg-gradient-danger shadow-danger";
             }
         }
-        var text = '';
-        var romanization = "";
+        let text = '';
         var translation = '';
         // var example = '';
         // var description = '';
         if (this.state.currentWord !== undefined && this.state.currentWord.translations !== undefined) {
             console.log(this.state.currentWord.translations);
-            text = this.state.currentWord.text;
-            romanization = this.state.currentWord.romanization;
+            console.log(this.state.currentWord.romanization);
+            if(this.state.currentWord.romanization !== null && this.state.currentWord.romanization !== "") {
+                text = <span> {this.state.currentWord.text} <br/> ({this.state.currentWord.romanization})</span>;
+            } else {
+                text = <span> {this.state.currentWord.text} <br/></span>;
+            }
             translation = this.state.currentWord.translations[0].text;
             // example = this.state.currentWord.translations[0].example;
             // description = this.state.currentWord.translations[0].description;
@@ -251,7 +254,7 @@ export default class FlashCards extends Component {
                             <div className="card-header p-0 position-relative mt-n4 mx-3 z-index-2 bg-transparent">
                                 <div className={`border-radius-lg py-3 pe-1 py-5 text-center ${backgroundClass}`}>
                                     <h1 className="display-4 fst-italic text-white">{translation}</h1>
-                                    <h2 className={`text-white ${!this.state.viewTranslation ? "invisible" : ""}`}>{text} <br />({romanization})</h2>
+                                    <h2 className={`text-white ${!this.state.viewTranslation ? "invisible" : ""}`}>{text}</h2>
                                 </div>
                             </div>
                             <div className={`card-body ${this.state.analyzedWords.length > 0 ? 'visible' : `invisible`}`}>

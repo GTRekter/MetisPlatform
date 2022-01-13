@@ -13,8 +13,6 @@ namespace Metis.Models.Store
         [Required]
         [StringLength(maximumLength: 100, MinimumLength = 1)]
         public string Text { get; set; }
-        [Required]
-        [StringLength(maximumLength: 100, MinimumLength = 1)]
         public string Romanization { get; set; }
         public int DictionaryId { get; set; }
         public int WordTypeId { get; set; }
