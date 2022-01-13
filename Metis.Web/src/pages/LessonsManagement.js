@@ -298,7 +298,7 @@ export default class LessonsManagement extends Component {
         return (
             <div>
                 <div className="row">
-                    <div className="col-12 col-sm-4 py-4">
+                    <div className="col-12 col-md-4 py-4">
                         <ReportCard title="Active lessons" icon={faUser} color="primary" value={this.state.activeLessons} footer={`Total number of lessons: ${this.state.lessons}`} />
                     </div>
                 </div>

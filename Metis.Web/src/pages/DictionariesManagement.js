@@ -292,7 +292,7 @@ export default class DictionariesManagement extends Component {
         return (
             <div>
                 <div className="row">
-                    <div className="col-12 col-sm-4 py-4">
+                    <div className="col-12 col-md-4 py-4">
                         <ReportCard title="Active dictionaries" icon={faUser} color="primary" value={this.state.activeDictionaries} footer={`Total number of dictionaries: ${this.state.dictionaries}`} />
                     </div>
                 </div>

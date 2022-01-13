@@ -294,7 +294,7 @@ export default class GrammarPointsManagement extends Component {
         return (
             <div>
                 <div className="row">
-                    <div className="col-12 col-sm-4 py-4">
+                    <div className="col-12 col-md-4 py-4">
                         <ReportCard title="Active grammarPoints" icon={faUser} color="primary" value={this.state.activeGrammarPoints} footer={`Total number of grammarPoints: ${this.state.grammarPoints}`} />
                     </div>
                 </div>

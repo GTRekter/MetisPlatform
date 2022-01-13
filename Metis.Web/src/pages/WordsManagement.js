@@ -322,7 +322,7 @@ export default class WordsManagement extends Component {
         return (
             <div>
                 <div className="row">
-                    <div className="col-12 col-sm-4 py-4">
+                    <div className="col-12 col-md-4 py-4">
                         <ReportCard title="Active words" icon={faUser} color="primary" value={this.state.activeWords} footer={`Total number of words: ${this.state.words}`} />
                     </div>
                 </div>

@@ -295,7 +295,7 @@ export default class UsersManagement extends Component {
         return (
             <div>
                 <div className="row">
-                    <div className="col-12 col-sm-4 py-4">
+                    <div className="col-12 col-md-4 py-4">
                         <ReportCard title="Active users" icon={faUser} color="primary" value={this.state.activeUsers} footer={`Total number of users: ${this.state.users}`} />
                     </div>
                 </div>
