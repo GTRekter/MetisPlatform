@@ -6,6 +6,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Threading.Tasks;
 using System.Linq;
 using Metis.Models.Store;
+using Microsoft.EntityFrameworkCore;
 
 namespace Metis.Models.Managers
 {
@@ -20,6 +21,12 @@ namespace Metis.Models.Managers
             };
             dataContext.Roles.Add(role);
             await dataContext.SaveChangesAsync();
+        }
+        public static async Task<Role> GetRoleByNameAsync(ApplicationDbContext dataContext, string name)
+        {
+            return await dataContext.Roles
+                .Where(r => r.Name == name)
+                .FirstOrDefaultAsync();
         }
         public static IEnumerable<Role> GetRolesAsync(ApplicationDbContext dataContext)
         {

@@ -16,6 +16,14 @@ class JwtService {
         }
         return false;
     }
+    isTeacher() {
+        let jwt = sessionStorage.getItem("token");
+        if(jwt !== null) {       
+            let decodedJwt = JSON.parse(window.atob(jwt.split('.')[1]))
+            return decodedJwt.role === "Teacher"
+        }
+        return false;
+    }
     getCurrentUserId() {
         let jwt = sessionStorage.getItem("token");
         if(jwt !== null) {

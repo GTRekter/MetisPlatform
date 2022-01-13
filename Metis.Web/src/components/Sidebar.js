@@ -8,12 +8,14 @@ export default class Sidebar extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            isAdmin: false
+            isAdmin: false,
+            isTeacher: false
         }
     }
     componentDidMount() {
         this.setState({
-            isAdmin: JwtService.isAdmin()
+            isAdmin: JwtService.isAdmin(),
+            isTeacher: JwtService.isTeacher()
         })
     }
     render() {
@@ -27,6 +29,43 @@ export default class Sidebar extends Component {
                         <FontAwesomeIcon className='opacity-10' icon={faUsers} />
                     </div>
                     <span className="nav-link-text ms-1">Users</span>
+                </Link>
+            </li>
+            <li className="nav-item">
+                <Link className="nav-link" to='/lessonmanagement'>
+                    <div className="text-white text-center me-2 d-flex align-items-center justify-content-center">
+                        <FontAwesomeIcon className='opacity-10' icon={faChalkboardTeacher} />
+                    </div>
+                    <span className="nav-link-text ms-1">Lessons</span>
+                </Link>
+            </li>
+            <li className="nav-item">
+                <Link className="nav-link" to='/grammarpointmanagement'>
+                    <div className="text-white text-center me-2 d-flex align-items-center justify-content-center">
+                        <FontAwesomeIcon className='opacity-10' icon={faProjectDiagram} />
+                    </div>
+                    <span className="nav-link-text ms-1">Grammar Points</span>
+                </Link>
+            </li>
+            <li className="nav-item">
+                <Link className="nav-link" to='/wordmanagement'>
+                    <div className="text-white text-center me-2 d-flex align-items-center justify-content-center">
+                        <FontAwesomeIcon className='opacity-10' icon={faFont} />
+                    </div>
+                    <span className="nav-link-text ms-1">Words</span>
+                </Link>
+            </li>
+        </ul>
+        var teacherLinks = <ul className="navbar-nav">
+            <li className="nav-item mt-3">
+                <h6 className="ps-4 ms-2 text-uppercase text-xs text-white font-weight-bolder opacity-8">Teacher</h6>
+            </li>
+            <li className="nav-item">
+                <Link className="nav-link" to='/usermanagement'>
+                    <div className="text-white text-center me-2 d-flex align-items-center justify-content-center">
+                        <FontAwesomeIcon className='opacity-10' icon={faUsers} />
+                    </div>
+                    <span className="nav-link-text ms-1">Students</span>
                 </Link>
             </li>
             <li className="nav-item">
@@ -91,6 +130,7 @@ export default class Sidebar extends Component {
                             </Link>
                         </li>
                     </ul>
+                    {this.state.isTeacher ? teacherLinks : null}
                     {this.state.isAdmin ? adminLinks : null}
                 </div>
             </aside>

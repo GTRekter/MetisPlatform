@@ -3,7 +3,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faTrash } from '@fortawesome/free-solid-svg-icons';
 import LanguageService from '../services/LanguageService';
 import LessonService from '../services/LessonService';
-import UserService from '../services/UserService';
+import StudentService from '../services/StudentService';
 import RoleService from '../services/RoleService';
 import FormHeader from './FormHeader';
 import Autocomplete from './Autocomplete';
@@ -61,8 +61,8 @@ export default class UserCreationForm extends Component {
     }
     onSubmit = (event) => {
         event.preventDefault();
-        UserService
-            .addUser(this.state.firstname, this.state.lastname, this.state.email, this.state.languageId, this.state.selectedLessons)
+        StudentService
+            .addStudent(this.state.firstname, this.state.lastname, this.state.email, this.state.languageId, this.state.selectedLessons)
             .then(() => {
                 this.props.onSubmitCallback();
                 this.setState({
@@ -122,9 +122,6 @@ export default class UserCreationForm extends Component {
                 </td>
             </tr>
         })
-        let roles = this.state.roles.map((role, index) =>
-            <option key={index} value={role.name}>{role.name}</option>
-        )
         let languages = this.state.languages.map((language, index) =>
             <option key={index} value={language.id}>{language.name}</option>
         )
@@ -158,14 +155,6 @@ export default class UserCreationForm extends Component {
                             <label className="ms-0">Language</label>
                             <select className="form-control" name="languageId" value={this.state.languageId} onChange={this.onChangeInput}>
                                 {languages}
-                            </select>
-                        </div>
-                    </div>
-                    <div className="col-12 col-md-6">
-                        <div className="input-group input-group-static my-3">
-                            <label className="ms-0">Roles</label>
-                            <select className="form-control" name="role" value={this.state.role} onChange={this.onChangeInput}>
-                                {roles}
                             </select>
                         </div>
                     </div>
@@ -205,7 +194,7 @@ export default class UserCreationForm extends Component {
                     <div className="col-12">
                         <div className="d-flex justify-content-end mt-4">
                             <button type="reset" name="button" className="btn btn-light m-0">Cancel</button>
-                            <button type="submit" name="button" className="btn bg-gradient-primary m-0 ms-2">Create User</button>
+                            <button type="submit" name="button" className="btn bg-gradient-primary m-0 ms-2">Create student</button>
                         </div>
                     </div>
                 </div>

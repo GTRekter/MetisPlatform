@@ -4,11 +4,11 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faTrash } from '@fortawesome/free-solid-svg-icons';
 import LanguageService from '../services/LanguageService';
 import LessonService from '../services/LessonService';
-import UserService from '../services/UserService';
+import StudentService from '../services/StudentService';
 import RoleService from '../services/RoleService';
 import Autocomplete from './Autocomplete';
 
-export default class UserEditForm extends Component {
+export default class StudentEditForm extends Component {
     constructor(props) {
         super(props)
         this.state = {
@@ -16,10 +16,8 @@ export default class UserEditForm extends Component {
             firstName: "",
             lastName: "",
             email: "",
-            roleId: "",
             language: "", 
             languageId: 0,
-            roles: [],
             languages: [],
             lessons: [],
             selectedLessons: [],
@@ -35,14 +33,13 @@ export default class UserEditForm extends Component {
     }
     componentDidMount() {
         if (this.state.id !== undefined) {
-            UserService
-                .getUserById(this.state.id)
+            StudentService
+                .getStudentById(this.state.id)
                 .then(response => {
                     this.setState({
                         firstName: response.firstName,
                         lastName: response.lastName,
                         email: response.email,
-                        roleId: response.role.id,
                         languageId: response.languageId,
                         selectedLessons: response.lessons
                     });
@@ -61,13 +58,6 @@ export default class UserEditForm extends Component {
                             });
                         })
                 })
-            RoleService
-                .getRoles()
-                .then(response => {
-                    this.setState({
-                        roles: response
-                    });
-                })
         }
     }
     onChangeInput = (event) => {
@@ -84,8 +74,8 @@ export default class UserEditForm extends Component {
     }
     onSubmit = (event) => {
         event.preventDefault();
-        UserService
-            .editUser(this.state.id, this.state.firstName, this.state.lastName, this.state.email, this.state.roleId, this.state.languageId, this.state.selectedLessons)
+        StudentService
+            .editStudent(this.state.id, this.state.firstName, this.state.lastName, this.state.email, this.state.languageId, this.state.selectedLessons)
             .then(() => {
                 this.props.onSubmitCallback();
             })
@@ -125,7 +115,7 @@ export default class UserEditForm extends Component {
     }
     render() {
         let roles = this.state.roles.map((role, index) =>
-            <option key={index} value={role.id}>{role.name}</option>
+            <option key={index} value={role.name}>{role.name}</option>
         )
         let selectedLessonsRows = this.state.selectedLessons.map((lesson, index) => {
             return <tr key={index}>
@@ -148,7 +138,7 @@ export default class UserEditForm extends Component {
             <form className="text-start" onSubmit={this.onSubmit} onReset={this.onReset}>
                 <div className="row">
                     <div className="col-12">
-                        <FormHeader title="User" action="Update" subtitle={`Update the information about the user ${this.state.id}.`} />
+                        <FormHeader title="Student" action="Update" subtitle={`Update the information about the user ${this.state.id}.`} />
                     </div>
                     <div className="col-12 col-md-6">
                         <div className="input-group input-group-static my-3">
@@ -173,14 +163,6 @@ export default class UserEditForm extends Component {
                             <label className="ms-0">Language</label>
                             <select className="form-control" name="languageId" value={this.state.languageId} onChange={this.onChangeInput}>
                                 {languages}
-                            </select>
-                        </div>
-                    </div>
-                    <div className="col-12 col-md-6">
-                        <div className="input-group input-group-static my-3">
-                            <label className="ms-0">Roles</label>
-                            <select className="form-control" name="roleId" value={this.state.roleId} onChange={this.onChangeInput}>
-                                {roles}
                             </select>
                         </div>
                     </div>
@@ -220,7 +202,7 @@ export default class UserEditForm extends Component {
                     <div className="col-12">
                         <div className="d-flex justify-content-end mt-4">
                             <button type="reset" name="button" className="btn btn-light m-0">Cancel</button>
-                            <button type="submit" name="button" className="btn bg-gradient-primary m-0 ms-2">Edit User</button>
+                            <button type="submit" name="button" className="btn bg-gradient-primary m-0 ms-2">Edit Student</button>
                         </div>
                     </div>
                 </div>

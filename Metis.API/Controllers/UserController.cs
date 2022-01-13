@@ -54,7 +54,7 @@ namespace Metis.API.Controllers
         }
 
         [HttpPost]
-        [Authorize(AuthenticationSchemes = Microsoft.AspNetCore.Authentication.JwtBearer.JwtBearerDefaults.AuthenticationScheme, Roles = "Administrator, Teacher")]
+        [Authorize(AuthenticationSchemes = Microsoft.AspNetCore.Authentication.JwtBearer.JwtBearerDefaults.AuthenticationScheme, Roles = "Administrator")]
         [Route("AddUser")]
         // [ValidateAntiForgeryToken]
         public async Task<IActionResult> AddUserAsync(AddUserRequest model)
@@ -83,7 +83,7 @@ namespace Metis.API.Controllers
         }
 
         [HttpPost]
-        [Authorize(AuthenticationSchemes = Microsoft.AspNetCore.Authentication.JwtBearer.JwtBearerDefaults.AuthenticationScheme, Roles = "Administrator, Teacher")]
+        [Authorize(AuthenticationSchemes = Microsoft.AspNetCore.Authentication.JwtBearer.JwtBearerDefaults.AuthenticationScheme, Roles = "Administrator")]
         [Route("EditUser")]
         public async Task<IActionResult> EditUserAsync(EditUserRequest model)
         {
@@ -92,7 +92,7 @@ namespace Metis.API.Controllers
         }
 
         [HttpGet]
-        [Authorize(AuthenticationSchemes = Microsoft.AspNetCore.Authentication.JwtBearer.JwtBearerDefaults.AuthenticationScheme, Roles = "Administrator, Teacher")]
+        [Authorize(AuthenticationSchemes = Microsoft.AspNetCore.Authentication.JwtBearer.JwtBearerDefaults.AuthenticationScheme, Roles = "Administrator")]
         [Route("GetUsers")]
         public async Task<IActionResult> GetUsersAsync()
         {
@@ -110,7 +110,7 @@ namespace Metis.API.Controllers
         }
 
         [HttpGet]
-        [Authorize(AuthenticationSchemes = Microsoft.AspNetCore.Authentication.JwtBearer.JwtBearerDefaults.AuthenticationScheme, Roles = "Administrator, Teacher")]
+        [Authorize(AuthenticationSchemes = Microsoft.AspNetCore.Authentication.JwtBearer.JwtBearerDefaults.AuthenticationScheme, Roles = "Administrator")]
         [Route("GetUsersByPage")]
         public async Task<IActionResult> GetUsersByPageAsync(int page, int itemsPerPage)
         {
@@ -119,7 +119,7 @@ namespace Metis.API.Controllers
         }
 
         [HttpGet]
-        [Authorize(AuthenticationSchemes = Microsoft.AspNetCore.Authentication.JwtBearer.JwtBearerDefaults.AuthenticationScheme, Roles = "Administrator, Teacher")]
+        [Authorize(AuthenticationSchemes = Microsoft.AspNetCore.Authentication.JwtBearer.JwtBearerDefaults.AuthenticationScheme, Roles = "Administrator")]
         [Route("GetUsersByPageAndSearchQuery")]
         public async Task<IActionResult> GetUsersByPageAndSearchQueryAsync(int page, int itemsPerPage, string searchQuery)
         {
@@ -128,7 +128,7 @@ namespace Metis.API.Controllers
         }
 
         [HttpGet]
-        [Authorize(AuthenticationSchemes = Microsoft.AspNetCore.Authentication.JwtBearer.JwtBearerDefaults.AuthenticationScheme, Roles = "Administrator, Teacher")]
+        [Authorize(AuthenticationSchemes = Microsoft.AspNetCore.Authentication.JwtBearer.JwtBearerDefaults.AuthenticationScheme, Roles = "Administrator")]
         [Route("GetUsersCount")]
         public async Task<IActionResult> GetUsersCountAsync()
         {
@@ -137,7 +137,7 @@ namespace Metis.API.Controllers
         }
 
         [HttpGet]
-        [Authorize(AuthenticationSchemes = Microsoft.AspNetCore.Authentication.JwtBearer.JwtBearerDefaults.AuthenticationScheme, Roles = "Administrator, Teacher")]
+        [Authorize(AuthenticationSchemes = Microsoft.AspNetCore.Authentication.JwtBearer.JwtBearerDefaults.AuthenticationScheme, Roles = "Administrator")]
         [Route("GetUsersBySearchQueryCount")]
         public async Task<IActionResult> GetUsersBySearchQueryCountAsync(string searchQuery)
         {
@@ -147,7 +147,7 @@ namespace Metis.API.Controllers
 
         [HttpDelete]
         [Route("DeleteUserById")]
-        [Authorize(AuthenticationSchemes = Microsoft.AspNetCore.Authentication.JwtBearer.JwtBearerDefaults.AuthenticationScheme, Roles = "Administrator, Teacher")]
+        [Authorize(AuthenticationSchemes = Microsoft.AspNetCore.Authentication.JwtBearer.JwtBearerDefaults.AuthenticationScheme, Roles = "Administrator")]
         public async Task<IActionResult> DeleteUserByIdAsync(int id)
         {
             await UserManager.DeleteUserByIdAsync(_dataContext, id);

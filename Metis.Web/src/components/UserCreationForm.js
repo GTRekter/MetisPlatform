@@ -15,7 +15,7 @@ export default class UserCreationForm extends Component {
             firstname: "",
             lastname: "",
             email: "",
-            role: "",
+            roleId: "",
             languageId: 0,
             roles: [],
             languages: [],
@@ -52,7 +52,7 @@ export default class UserCreationForm extends Component {
             .then(response => {
                 this.setState({
                     roles: response,
-                    role: response[0].name
+                    roleId: response[0].id
                 });
             })
     }
@@ -71,14 +71,14 @@ export default class UserCreationForm extends Component {
     onSubmit = (event) => {
         event.preventDefault();
         UserService
-            .addUser(this.state.firstname, this.state.lastname, this.state.email, this.state.role, this.state.languageId, this.state.selectedLessons)
+            .addUser(this.state.firstname, this.state.lastname, this.state.email, this.state.roleId, this.state.languageId, this.state.selectedLessons)
             .then(() => {
                 this.props.onSubmitCallback();
                 this.setState({
                     firstname: "",
                     lastname: "",
                     email: "",
-                    role: "",
+                    roleId: this.state.roles[0].id,
                     languageId: this.state.languages.filter((language) => language.enabled === true)[0].id
                 });
             })
@@ -132,12 +132,52 @@ export default class UserCreationForm extends Component {
             </tr>
         })
         let roles = this.state.roles.map((role, index) =>
-            <option key={index} value={role.name}>{role.name}</option>
+            <option key={index} value={role.id}>{role.name}</option>
         )
         let languages = this.state.languages.map((language, index) =>
             <option key={index} value={language.id}>{language.name}</option>
         )
         let lessons = this.state.lessons.map((lesson) => lesson.title);
+        console.log(this.state.roles);
+        console.log(this.state.roleId);
+        let studentRole = this.state.roles.filter((role) => Number(role.id) === Number(this.state.roleId));
+        let isStudent = false;
+        if(studentRole.length > 0) {
+            isStudent = studentRole[0].name.toLowerCase() === "student";
+        }
+        let lessonSection = <div className="col-12">
+            <label className='d-block'>Lessons</label>
+            <span className="btn bg-gradient-secondary ms-2 btn-sm" role="button" onClick={() => this.onClickToggleLessonAdditionForm()}>Add lesson</span>
+            <div className={!this.state.lessonAdditionFormVisible ? "d-none" : ""}>
+                <div className="row">
+                    <div className="col-12 col-md-6">
+                        <div className="input-group input-group-static my-3">
+                            <label className="ms-0">Language</label>
+                            <select className="form-control" name="language" value={this.state.language} onChange={this.onChangeLanguage}>
+                                {languages}
+                            </select>
+                        </div>
+                    </div>
+                    <div className="col-12 col-md-6">
+                        <Autocomplete label="Title" suggestions={lessons} onChangeCallback={this.onClickAddLesson} />
+                    </div>
+                </div>
+            </div>
+            <div className="table-responsive">
+                <table className="table table-sm align-items-center">
+                    <thead>
+                        <tr>
+                            <th className="text-uppercase text-xxs font-weight-bolder opacity-7">Language</th>
+                            <th className="text-uppercase text-xxs font-weight-bolder opacity-7">Title</th>
+                            <th className="text-uppercase text-xxs font-weight-bolder opacity-7 ps-2"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {selectedLessonsRows}
+                    </tbody>
+                </table>
+            </div>
+        </div>
         return (
             <form className="text-start" onSubmit={this.onSubmit} onReset={this.onReset}>
                 <div className="row">
@@ -173,44 +213,12 @@ export default class UserCreationForm extends Component {
                     <div className="col-12 col-md-6">
                         <div className="input-group input-group-static my-3">
                             <label className="ms-0">Roles</label>
-                            <select className="form-control" name="role" value={this.state.role} onChange={this.onChangeInput}>
+                            <select className="form-control" name="roleId" value={this.state.roleId} onChange={this.onChangeInput}>
                                 {roles}
                             </select>
                         </div>
                     </div>
-                    <div className="col-12">
-                        <label className='d-block'>Lessons</label>
-                        <span className="btn bg-gradient-secondary ms-2 btn-sm" role="button" onClick={() => this.onClickToggleLessonAdditionForm()}>Add lesson</span>
-                        <div className={!this.state.lessonAdditionFormVisible ? "d-none" : ""}>
-                            <div className="row">
-                                <div className="col-12 col-md-6">
-                                    <div className="input-group input-group-static my-3">
-                                        <label className="ms-0">Language</label>
-                                        <select className="form-control" name="language" value={this.state.language} onChange={this.onChangeLanguage}>
-                                            {languages}
-                                        </select>
-                                    </div>
-                                </div>
-                                <div className="col-12 col-md-6">
-                                    <Autocomplete label="Title" suggestions={lessons} onChangeCallback={this.onClickAddLesson} />
-                                </div>
-                            </div>
-                        </div>
-                        <div className="table-responsive">
-                            <table className="table table-sm align-items-center">
-                                <thead>
-                                    <tr>
-                                        <th className="text-uppercase text-xxs font-weight-bolder opacity-7">Language</th>
-                                        <th className="text-uppercase text-xxs font-weight-bolder opacity-7">Title</th>
-                                        <th className="text-uppercase text-xxs font-weight-bolder opacity-7 ps-2"></th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    {selectedLessonsRows}
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
+                    {isStudent ? lessonSection : null}
                     <div className="col-12">
                         <div className="d-flex justify-content-end mt-4">
                             <button type="reset" name="button" className="btn btn-light m-0">Cancel</button>

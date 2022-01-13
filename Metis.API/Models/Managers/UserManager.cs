@@ -28,6 +28,39 @@ namespace Metis.Models.Managers
             dataContext.Users.Add(user);
             await dataContext.SaveChangesAsync();
         }
+        public static async Task EditUserAsync(ApplicationDbContext dataContext, int id, string name, string surname, string email, int languageId, IEnumerable<int> lessonsIds)
+        {
+            string userId = id.ToString();
+            User user = await dataContext.Users
+                .Include(l => l.Lessons)
+                .ThenInclude(u => u.Language)
+                .FirstOrDefaultAsync(l => l.Id == id);
+            if (user == null)
+            {
+                throw new Exception("User not found");
+            }
+            foreach (var lesson in user.Lessons)
+            {
+                if(!lessonsIds.Contains(lesson.Id))
+                {
+                    user.Lessons.Remove(lesson);
+                }
+            }
+            foreach (var lesson in lessonsIds)
+            {
+                if(!user.Lessons.Any(w => w.Id == lesson))
+                {
+                    var lessonToAdd = await dataContext.Lessons.FirstOrDefaultAsync(w => w.Id == lesson);
+                    user.Lessons.Add(lessonToAdd);
+                }
+            }
+            user.FirstName = name;
+            user.LastName = surname;
+            user.Email = email;
+            user.Language = await dataContext.Languages.FirstOrDefaultAsync(d => d.Id == languageId);
+            dataContext.Update(user);
+            await dataContext.SaveChangesAsync();
+        }
         public static async Task EditUserAsync(ApplicationDbContext dataContext, int id, string name, string surname, string email, int roleId, int languageId, IEnumerable<int> lessonsIds)
         {
             string userId = id.ToString();
@@ -79,9 +112,24 @@ namespace Metis.Models.Managers
             return await dataContext.Users
                 .CountAsync();
         }
+        public static async Task<int> GetUsersCountAsync(ApplicationDbContext dataContext, int roleId)
+        {
+            return await dataContext.Users
+                .Where(u => u.Role.Id == roleId)
+                .CountAsync();
+        }
         public static async Task<int> GetUsersCountAsync(ApplicationDbContext dataContext, string searchQuery)
         {
             return await dataContext.Users
+                .Where(u => u.FirstName.Contains(searchQuery) 
+                    || u.LastName.Contains(searchQuery) 
+                    || u.Email.Contains(searchQuery))
+                .CountAsync();
+        }
+        public static async Task<int> GetUsersCountAsync(ApplicationDbContext dataContext, int roleId, string searchQuery)
+        {
+            return await dataContext.Users
+                .Where(u => u.Role.Id == roleId)
                 .Where(u => u.FirstName.Contains(searchQuery) 
                     || u.LastName.Contains(searchQuery) 
                     || u.Email.Contains(searchQuery))
@@ -92,6 +140,12 @@ namespace Metis.Models.Managers
         public static async Task<IEnumerable<User>> GetUsersAsync(ApplicationDbContext dataContext)
         {
             return await dataContext.Users
+                .ToListAsync();
+        }
+        public static async Task<IEnumerable<User>> GetUsersAsync(ApplicationDbContext dataContext, int roleId)
+        {
+            return await dataContext.Users
+                .Where(u => u.Role.Id == roleId)
                 .ToListAsync();
         }
         public static async Task<User> GetUserByIdAsync(ApplicationDbContext dataContext, int id)
@@ -112,9 +166,30 @@ namespace Metis.Models.Managers
                 .OrderBy(u => u.FirstName)
                 .ToListAsync();
         }
+        public static async Task<IEnumerable<User>> GetUsersByPageAsync(ApplicationDbContext dataContext, int roleId, int page, int itemsPerPage)
+        {
+            return await dataContext.Users
+                .Where(u => u.Role.Id == roleId)
+                .Skip(page * itemsPerPage)
+                .Take(itemsPerPage)
+                .OrderBy(u => u.FirstName)
+                .ToListAsync();
+        }
         public static async Task<IEnumerable<User>> GetUsersByPageAsync(ApplicationDbContext dataContext, int page, int itemsPerPage, string searchQuery)
         {
             return await dataContext.Users
+                .Where(u => u.FirstName.Contains(searchQuery, StringComparison.InvariantCultureIgnoreCase)
+                    || u.LastName.Contains(searchQuery, StringComparison.InvariantCultureIgnoreCase)
+                    || u.Email.Contains(searchQuery, StringComparison.InvariantCultureIgnoreCase))
+                .Skip(page * itemsPerPage)
+                .Take(itemsPerPage)
+                .OrderBy(u => u.FirstName)
+                .ToListAsync();
+        }
+        public static async Task<IEnumerable<User>> GetUsersByPageAsync(ApplicationDbContext dataContext, int roleId, int page, int itemsPerPage, string searchQuery)
+        {
+            return await dataContext.Users
+                .Where(u => u.Role.Id == roleId)
                 .Where(u => u.FirstName.Contains(searchQuery, StringComparison.InvariantCultureIgnoreCase)
                     || u.LastName.Contains(searchQuery, StringComparison.InvariantCultureIgnoreCase)
                     || u.Email.Contains(searchQuery, StringComparison.InvariantCultureIgnoreCase))
