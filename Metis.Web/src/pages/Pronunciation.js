@@ -24,7 +24,7 @@ export default class Pronunciation extends Component {
             correct: [],
             wordTypes: [],
             dictionaries: [],
-            assessmentScores: [],
+            assessmentScores: [0,0,0,0],
             currentWord: "",
             currentWordType: "",
             viewTranslation: false,
@@ -34,6 +34,8 @@ export default class Pronunciation extends Component {
             isRecordingMicrophone: false,
             congratulationsModalVisible: false
         }
+        this.onRecognizing = this.onRecognizing.bind(this);
+        this.onRecognized = this.onRecognized.bind(this);
         this.onClickToggleMicrophone = this.onClickToggleMicrophone.bind(this);
         this.onClickViewTranslation = this.onClickViewTranslation.bind(this);
         this.onClickPlayTranslation = this.onClickPlayTranslation.bind(this);
@@ -66,6 +68,24 @@ export default class Pronunciation extends Component {
                 });
             });
     }
+    onRecognizing = () => {
+        this.setState({
+            isRecordingMicrophone: true
+        });
+    }
+    onRecognized = (data) => {
+        var self = this;
+        this.setState({
+            viewTranslation: true,
+            isRecordingMicrophone: false,
+            isAnswerProvided: true,
+            isAnswerCorrect: (data.accuracyScore + data.completenessScore + data.fluencyScore + data.pronunciationScore) / 4 >= 0.75,
+            assessmentScores: [data.accuracyScore, data.completenessScore, data.fluencyScore, data.pronunciationScore]
+        });
+        setTimeout(() => {
+            self.updateCounters();
+        }, 4000);
+    }
     onClickHideCongratulationsModal = () => {
         this.setState({
             congratulationsModalVisible: false
@@ -89,25 +109,16 @@ export default class Pronunciation extends Component {
             })
         }, 2000);
     };
-    onClickToggleMicrophone = async () => {
-        var self = this;
+    onClickToggleMicrophone = () => {
+        if(this.state.isRecordingMicrophone) {
+            SpeechService.stopAssessSpeech();
+        } else {
+            var dictionary = this.state.dictionaries.filter(d => d.id === this.state.currentWord.dictionaryId);
+            SpeechService.startAssessSpeech(this.state.currentWord.text, dictionary[0].code, this.onRecognizing, this.onRecognized);
+        }
         this.setState({
-            isRecordingMicrophone: true
+            isRecordingMicrophone: !this.state.isRecordingMicrophone
         });
-        var dictionary = this.state.dictionaries.filter(d => d.id === this.state.currentWord.dictionaryId);
-        await SpeechService.assessSpeech(this.state.currentWord.text, dictionary[0].code)
-            .then(data => {
-                self.setState({
-                    viewTranslation: true,
-                    isRecordingMicrophone: false,
-                    isAnswerProvided: true,
-                    isAnswerCorrect: (data.accuracyScore + data.completenessScore + data.fluencyScore + data.pronunciationScore) / 4 >= 0.75,
-                    assessmentScores: [data.accuracyScore, data.completenessScore, data.fluencyScore, data.pronunciationScore]
-                });
-                setTimeout(() => {
-                    self.updateCounters();
-                }, 4000);
-            })
     }
     onClickUpdateWordsByAll = () => {
         let id = JwtService.getCurrentUserId();
@@ -200,6 +211,7 @@ export default class Pronunciation extends Component {
             viewTranslation: false,
             isAnswerProvided: false,
             isAnswerCorrect: false,
+            assessmentScores: [0, 0, 0, 0],
             congratulationsModalVisible: congratulationsModalVisible
         })
     };
