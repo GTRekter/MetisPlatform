@@ -26,9 +26,18 @@ export default class WordCreationForm extends Component {
         DictionaryService
             .getDictionaries()
             .then((data) => {
+                let translations = data.filter((dictionary) => dictionary.enabled === true)
+                    .map((dictionary) => {
+                        return {
+                            dictionaryId: dictionary.id,
+                            text: null
+                        }
+                    })
                 this.setState({
                     dictionaries: data.filter((dictionary) => dictionary.enabled === true),
-                    dictionaryId: data.filter((dictionary) => dictionary.enabled === true)[0].id
+                    dictionaryId: data.filter((dictionary) => dictionary.enabled === true)[0].id,
+                    translations: translations
+
                 })
             })
             .catch(function (ex) {
@@ -46,9 +55,13 @@ export default class WordCreationForm extends Component {
                 console.log('Response parsing failed. Error: ', ex);
             });
     }
-    onChangeTransition = (event, index, dictionaryId) => {
-        let translations = this.state.translations;
-        translations.splice(index, 1, { dictionaryId: dictionaryId, text: event.target.value })
+    onChangeTransition = (event, dictionaryId) => {
+        let translations = this.state.translations.filter(translation => translation.dictionaryId === dictionaryId);
+        if(translations.length > 0) {
+            translations[0].text = event.target.value;
+        } else {
+            translations.push({ dictionaryId: dictionaryId, text: event.target.value });
+        }
         this.setState({
             translations: translations
         })
@@ -91,7 +104,7 @@ export default class WordCreationForm extends Component {
                 <div key={index} className="col-12 col-xl-4">
                     <div className="input-group input-group-static">
                         <label>{dictionary.name}</label>
-                        <input className="form-control" type="text" name={`translation[${dictionary.id}]`} value={this.state.translations[this.state.index]} onChange={(event) => this.onChangeTransition(event, index, dictionary.id)} />
+                        <input className="form-control" type="text" name={`translation[${dictionary.id}]`} value={this.state.translations[this.state.index]} onChange={(event) => this.onChangeTransition(event, dictionary.id)} />
                     </div>
                 </div>
             )
