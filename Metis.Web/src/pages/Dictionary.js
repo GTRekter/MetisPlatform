@@ -50,8 +50,8 @@ export default class Dictionary extends Component {
                 })
             })
     }
-    onClickPronounceWords = (string) => {
-        var dictionary = this.state.dictionaries.filter(d => d.id === this.state.currentWord.dictionaryId);
+    onClickPronounceWords = (string, dictionaryId) => {
+        var dictionary = this.state.dictionaries.filter(d => d.id === dictionaryId);
         SpeechService.synthesizeSpeech(string, dictionary[0].code);
     }
     onClickUpdateWordsByPage = (wordsPerPage) => {
@@ -198,7 +198,7 @@ export default class Dictionary extends Component {
             return (
                 <tr key={index}>
                     <td className="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 td-icon">
-                        <button className="btn btn-sm btn-link-secondary" onClick={() => this.onClickPronounceWords(word.text)}>
+                        <button className="btn btn-sm btn-link-secondary" onClick={() => this.onClickPronounceWords(word.text, word.dictionaryId)}>
                             <FontAwesomeIcon icon={faVolumeUp} />
                         </button>
                     </td>

@@ -20,6 +20,27 @@ class SpeechService {
                 synthesizer.close();
             });
     };
+    assessSpeech = (string, languageCode) => {
+        const assestmentConfig = new sdk.PronunciationAssessmentConfig(string, sdk.PronunciationAssessmentGradingSystem.FivePoint, sdk.PronunciationAssessmentGranularity.FullText);
+        const speechConfig = sdk.SpeechConfig.fromSubscription(process.env.REACT_APP_AZURE_CS_SPEECH_KEY, process.env.REACT_APP_AZURE_CS_SPEECH_REGION);
+        speechConfig.speechRecognitionLanguage = languageCode;
+        const audioConfig = sdk.AudioConfig.fromDefaultMicrophoneInput();
+        const recognizer = new sdk.SpeechRecognizer(speechConfig, audioConfig);
+        assestmentConfig.applyTo(recognizer);
+        return new Promise((resolve, reject) => {
+            recognizer.recognizeOnceAsync(
+                result => {
+                    var pronunciationAssessmentResult = sdk.PronunciationAssessmentResult.fromResult(result);
+                    resolve(pronunciationAssessmentResult);
+                    recognizer.close();
+                },
+                error => {
+                    reject(error);
+                    recognizer.close();
+                }
+            );
+        })
+    };
     recognizeSpeech = (languageCode) => {
         const speechConfig = sdk.SpeechConfig.fromSubscription(process.env.REACT_APP_AZURE_CS_SPEECH_KEY, process.env.REACT_APP_AZURE_CS_SPEECH_REGION);
         speechConfig.speechRecognitionLanguage = languageCode;

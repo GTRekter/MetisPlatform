@@ -9,6 +9,10 @@ import WordService from '../services/WordService';
 import WordTypeService from '../services/WordTypeService';
 import DictionaryService from '../services/DictionaryService';
 import JwtService from '../services/JwtService';
+import { Chart as ChartJS, RadialLinearScale, ArcElement, Tooltip, Legend } from 'chart.js';
+import { PolarArea } from 'react-chartjs-2';
+
+ChartJS.register(RadialLinearScale, ArcElement, Tooltip, Legend);
 
 export default class Pronunciation extends Component {
     constructor(props) {
@@ -20,7 +24,7 @@ export default class Pronunciation extends Component {
             correct: [],
             wordTypes: [],
             dictionaries: [],
-            userAnswer: "",
+            assessmentScores: [],
             currentWord: "",
             currentWordType: "",
             viewTranslation: false,
@@ -91,18 +95,20 @@ export default class Pronunciation extends Component {
             isRecordingMicrophone: true
         });
         var dictionary = this.state.dictionaries.filter(d => d.id === this.state.currentWord.dictionaryId);
-        await SpeechService.recognizeSpeech(dictionary[0].code)
-            .then((result) => {
-                this.setState({
-                    userAnswer: result,
+        await SpeechService.assessSpeech(this.state.currentWord.text, dictionary[0].code)
+            .then(data => {
+                self.setState({
                     viewTranslation: true,
                     isRecordingMicrophone: false,
-                    isAnswerCorrect: result === this.state.currentWord.text
+                    isRecordingMicrophone: false,
+                    isAnswerProvided: true,
+                    isAnswerCorrect: (data.accuracyScore + data.completenessScore + data.fluencyScore + data.pronunciationScore) / 4 >= 0.75,
+                    assessmentScores: [data.accuracyScore, data.completenessScore, data.fluencyScore, data.pronunciationScore]
                 });
-                setTimeout(function () {
+                setTimeout(() => {
                     self.updateCounters();
                 }, 4000);
-            });
+            })
     }
     onClickUpdateWordsByAll = () => {
         let id = JwtService.getCurrentUserId();
@@ -192,7 +198,6 @@ export default class Pronunciation extends Component {
             currentWord: currentWord,
             errors: errors,
             correct: correct,
-            userAnswer: "",
             viewTranslation: false,
             isAnswerProvided: false,
             isAnswerCorrect: false,
@@ -209,11 +214,11 @@ export default class Pronunciation extends Component {
     }
     render() {
         let backgroundClass = "bg-gradient-info shadow-info";
-        var playIcon = <FontAwesomeIcon className="link-light" icon={faVolumeUp} />;
+        let playIcon = <FontAwesomeIcon className="link-light" icon={faVolumeUp} />;
         if (this.state.isPlaying) {
             playIcon = <FontAwesomeIcon className="link-light" icon={faVolumeMute} />
         }
-        var microphoneIcon = <FontAwesomeIcon className="link-light" icon={faMicrophone} />;
+        let microphoneIcon = <FontAwesomeIcon className="link-light" icon={faMicrophone} />;
         if (this.state.isRecordingMicrophone) {
             microphoneIcon = <FontAwesomeIcon className="link-light" icon={faMicrophoneSlash} />
         }
@@ -235,17 +240,36 @@ export default class Pronunciation extends Component {
                 backgroundClass = "bg-gradient-danger shadow-danger";
             }
         }
-        var text = '';
-        var romanization = "";
-        var translation = '';
-        // var example = '';
-        // var description = '';
+        let text = '';
+        let romanization = "";
+        let translation = '';
+        // let example = '';
+        // let description = '';
         if (this.state.currentWord !== undefined && this.state.currentWord.translations !== undefined) {
             text = this.state.currentWord.text;
             romanization = this.state.currentWord.romanization;
             translation = this.state.currentWord.translations[0].text;
             // example = this.state.currentWord.translations[0].example;
             // description = this.state.currentWord.translations[0].description;
+        }
+        let chartData = {
+            labels: ['Accuracy', 'Completeness', 'Fluency', 'Pronunciation'],
+            datasets: [
+                {
+                    label: 'Assessment score',
+                    data: this.state.assessmentScores,
+                    backgroundColor:  ['#17c1e8', '#e3316e', '#3A416F', '#a8b8d8']
+                },
+            ],
+        }
+        let options = {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+                legend: {
+                    position: 'left'
+                }
+            }
         }
         let wordTypes = this.state.wordTypes.map((wordType) => wordType.name);
         return (
@@ -262,8 +286,8 @@ export default class Pronunciation extends Component {
                     </div>
                 </div>
                 <div className="row pt-4">
-                    <div className="col-xs-12">
-                        <div className="card z-index-2">
+                    <div className="col-12 col-sm-6 py-4 d-flex">
+                        <div className="card z-index-2 flex-fill">
                             <div className="card-header p-0 position-relative mt-n4 mx-3 z-index-2 bg-transparent">
                                 <div className={`border-radius-lg py-3 pe-1 py-5 text-center ${backgroundClass}`}>
                                     <h1 className="display-4 fst-italic text-white">{translation}</h1>
@@ -271,17 +295,19 @@ export default class Pronunciation extends Component {
                                 </div>
                             </div>
                             <div className={`card-body ${this.state.analyzedWords.length > 0 ? 'visible' : `invisible`}`}>
-                                <div className={`card-body ${this.state.userAnswer !== "" ? 'visible' : `invisible`}`}>
-                                    <h6 className="mb-0 ">Answer recognized</h6>
-                                    <p className="text-sm ">{this.state.userAnswer}</p>
-                                </div>
-                                {/* <h6 className="mb-0 ">Examples</h6>
-                                <p className="text-sm ">{example}</p>
-                                <h6 className="mb-0 ">Description</h6>
-                                <p className="text-sm ">{description}</p> */}
                                 <hr className="dark horizontal" />
                                 <div className="text-center">
                                     {buttons}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div className="col-12 col-sm-6 py-4 d-flex">
+                        <div className="card z-index-2 flex-fill">
+                            <div className={`card-body ${this.state.analyzedWords.length > 0 ? 'visible' : `invisible`}`}>
+                                <p>Results</p>
+                                <div className="chart">
+                                    <PolarArea className='flex-fill' data={chartData} options={options} />
                                 </div>
                             </div>
                         </div>
