@@ -10,7 +10,7 @@ class HttpService {
         })
         .then(async(res) => {
             if (!res.ok) {
-                if (res.response && res.response.status === 401) {
+                if (res.status === 401) {
                     JwtService.removeToken();
                     window.location = window.location.host + "/login";
                 } else {
