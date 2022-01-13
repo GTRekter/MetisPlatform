@@ -54,7 +54,7 @@ class Autocomplete extends Component {
             activeSuggestion: 0,
             filteredSuggestions: [],
             showSuggestions: false,
-            userInput: event.currentTarget.innerText
+            userInput: ""
         });
         this.props.onChangeCallback(event.currentTarget.innerText);
     };
