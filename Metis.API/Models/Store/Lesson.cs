@@ -19,9 +19,11 @@ namespace Metis.Models.Store
         [Required]
         public int LanguageId { get; set; }
 
+        [JsonIgnore]
         public Language Language { get; set; }  
         [JsonIgnore]
         public ICollection<User> Users { get; set; }
+        [JsonIgnore]
         public ICollection<Word> Words { get; set; }
         public ICollection<GrammarPoint> GrammarPoints { get; set; }
     }

@@ -68,7 +68,10 @@ namespace Metis.API
             services.Configure<RequestLocalizationOptions>(options =>
             {
                 options.DefaultRequestCulture = new RequestCulture("en-US");
-                options.SupportedCultures = new List<CultureInfo> { new CultureInfo("ko-KR") };
+                options.SupportedCultures = new List<CultureInfo> { 
+                    new CultureInfo("ko-KR"),
+                    new CultureInfo("ja-JP")
+                };
             });
             services.AddDbContext<ApplicationDbContext>(options =>
             {

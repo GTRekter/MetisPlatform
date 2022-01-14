@@ -253,6 +253,11 @@ namespace Metis.API.Controllers
             record.Language = $"Supported Languages {languages.Select(l => l.Code).Aggregate((a, b) => a + ", " + b)}";
             record.WordType = $"Supported Word Types {wordTypes.Select(wt => wt.Name).Aggregate((a, b) => a + ", " + b)}";
             record.Example = "Example";
+            var recordDict = record as IDictionary<String, object>;
+            foreach (var language in languages)
+            {
+                recordDict.Add(language.Code, $"{language.Name} translation");
+            } 
             records.Add(record);
             
             using (var writer = new StringWriter())

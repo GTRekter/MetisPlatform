@@ -26,17 +26,19 @@ namespace Metis.Models.Store
         [MaxLength(50)]
         public string Email { get; set; }
         public bool Enabled { get; set; }
+        [Required]
         public string PasswordHash { get; set; }
         public int LanguageId { get; set; }
         public int RoleId { get; set; }
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public DateTime CreatedOn { get; }
+        public DateTime CreatedOn { get; set; }
         [DatabaseGenerated(DatabaseGeneratedOption.Computed)]
-        public DateTime LastUpdate { get; }
+        public DateTime LastUpdate { get; set; }
 
         public Role Role { get; set; }
         [JsonIgnore]
         public Language Language { get; set; }
         public ICollection<Lesson> Lessons { get; set; }
+        public ICollection<Statistic> Statistics { get; set; }
     }
 }
