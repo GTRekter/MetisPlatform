@@ -151,6 +151,12 @@ namespace Metis.Models.Managers
                 .Include(w => w.Translations)
                 .FirstOrDefaultAsync(w => w.Id == id);
         }
+        public static async Task<Word> GetWordByTextAsync(ApplicationDbContext dataContext, string text)
+        {
+            return await dataContext.Words
+                .Include(w => w.Translations)
+                .FirstOrDefaultAsync(w => w.Text == text);
+        }
         public static async Task<IEnumerable<Word>> GetWordsByLanguageId(ApplicationDbContext dataContext, int id)
         {
             return await dataContext.Words
