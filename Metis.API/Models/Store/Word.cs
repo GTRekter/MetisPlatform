@@ -28,6 +28,7 @@ namespace Metis.Models.Store
         [JsonIgnore]
         public Language Language { get; set; }    
         public WordType WordType { get; set; }
+        [JsonIgnore]
         public ICollection<Lesson> Lessons { get; set; }
         public ICollection<Translation> Translations { get; set; }
     }
