@@ -61,7 +61,7 @@ export default class Sidebar extends Component {
                 <h6 className="ps-4 ms-2 text-uppercase text-xs text-white font-weight-bolder opacity-8">Teacher</h6>
             </li>
             <li className="nav-item">
-                <Link className="nav-link" to='/usermanagement'>
+                <Link className="nav-link" to='/studentmanagement'>
                     <div className="text-white text-center me-2 d-flex align-items-center justify-content-center">
                         <FontAwesomeIcon className='opacity-10' icon={faUsers} />
                     </div>
