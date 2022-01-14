@@ -15,6 +15,7 @@ export default class UserCreationForm extends Component {
             firstname: "",
             lastname: "",
             email: "",
+            enabled: true,
             languageId: 0,
             roles: [],
             languages: [],
@@ -62,13 +63,14 @@ export default class UserCreationForm extends Component {
     onSubmit = (event) => {
         event.preventDefault();
         StudentService
-            .addStudent(this.state.firstname, this.state.lastname, this.state.email, this.state.languageId, this.state.selectedLessons)
+            .addStudent(this.state.firstname, this.state.lastname, this.state.email, this.state.enabled, this.state.languageId, this.state.selectedLessons)
             .then(() => {
                 this.props.onSubmitCallback();
                 this.setState({
                     firstname: "",
                     lastname: "",
                     email: "",
+                    enabled: true,
                     role: "",
                     languageId: this.state.languages.filter((language) => language.enabled === true)[0].id
                 });
@@ -156,6 +158,14 @@ export default class UserCreationForm extends Component {
                             <select className="form-control" name="languageId" value={this.state.languageId} onChange={this.onChangeInput}>
                                 {languages}
                             </select>
+                        </div>
+                    </div>
+                    <div className="col-12 col-md-12">
+                        <div className="input-group input-group-static my-3">
+                            <div className="form-check form-switch ms-1 is-filled">
+                                <input className="form-check-input" name="enabled" type="checkbox" value={this.state.enabled} checked={this.state.enabled} onChange={this.onChangeInput} />
+                                <label className="form-check-label">Enabled</label>
+                            </div>
                         </div>
                     </div>
                     <div className="col-12">

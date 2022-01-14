@@ -11,9 +11,12 @@ namespace Metis.Models.Store
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
+        [Required]
+        [MaxLength(255)]
         public string Title { get; set; }
         public string Description { get; set; }
         public byte[] Cover { get; set; }
+        [Required]
         public int LanguageId { get; set; }
 
         public Language Language { get; set; }  

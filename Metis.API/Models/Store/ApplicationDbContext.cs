@@ -32,9 +32,14 @@ namespace Metis.Models.Store
 
             builder.Entity<User>(entity =>
             {
-                entity.HasOne(u => u.Language)
-                    .WithMany(d => d.Users)
-                    .HasForeignKey(d => d.Id)
+                entity.HasOne(e => e.Language)
+                    .WithMany(e => e.Users)
+                    .HasForeignKey(e => e.LanguageId)
+                    .OnDelete(DeleteBehavior.Restrict);
+
+                entity.HasOne(e => e.Role)
+                    .WithMany(e => e.Users)
+                    .HasForeignKey(e => e.RoleId)
                     .OnDelete(DeleteBehavior.Restrict);
 
                 entity.HasMany(f => f.Lessons)
@@ -46,12 +51,86 @@ namespace Metis.Models.Store
 
                 entity.ToTable("User");
             });
-            builder.Entity<Role>()
-                .ToTable("Roles");
-            builder.Entity<Word>()
-                .HasMany(w => w.Translations);
-            builder.Entity<Lesson>()
-                .ToTable("Lessons");
+            
+            builder.Entity<Role>(entity =>
+            {
+                entity.HasMany(e => e.Users)
+                    .WithOne(e => e.Role)
+                    .HasForeignKey(e => e.RoleId)
+                    .OnDelete(DeleteBehavior.Restrict);
+
+                entity.ToTable("Role");
+            });
+
+            builder.Entity<Word>(entity =>
+            {
+                entity.HasOne(e => e.WordType)
+                    .WithMany(e => e.Words)
+                    .HasForeignKey(e => e.WordTypeId)
+                    .OnDelete(DeleteBehavior.Restrict);
+
+                entity.HasMany(e => e.Translations)
+                    .WithOne(e => e.Word)
+                    .HasForeignKey(e => e.WordId)
+                    .OnDelete(DeleteBehavior.Restrict);
+
+                entity.ToTable("Word");
+            });
+
+            builder.Entity<WordType>(entity =>
+            {
+                entity.HasMany(e => e.Words)
+                    .WithOne(e => e.WordType)
+                    .HasForeignKey(e => e.WordTypeId)
+                    .OnDelete(DeleteBehavior.Restrict);
+
+                entity.ToTable("WordType");
+            });
+
+            builder.Entity<Language>(entity =>
+            {
+                entity.HasMany(e => e.Users)
+                    .WithOne(e => e.Language)
+                    .HasForeignKey(e => e.LanguageId)
+                    .OnDelete(DeleteBehavior.Restrict);
+
+                entity.HasMany(e => e.Lessons)
+                    .WithOne(e => e.Language)
+                    .HasForeignKey(e => e.LanguageId)
+                    .OnDelete(DeleteBehavior.Restrict);
+
+                entity.ToTable("Language");
+            });
+
+            builder.Entity<Translation>(entity =>
+            {
+                entity.HasOne(e => e.Word)
+                    .WithMany(e => e.Translations)
+                    .HasForeignKey(e => e.WordId)
+                    .OnDelete(DeleteBehavior.Restrict);
+
+                entity.ToTable("Translation");
+            });
+
+            builder.Entity<Lesson>(entity =>
+            {
+                entity.HasMany(f => f.GrammarPoints)
+                    .WithMany(g => g.Lessons)
+                    .UsingEntity<Dictionary<string, object>>(
+                        "LessonGrammarPoint",
+                        j => j.HasOne<GrammarPoint>().WithMany().OnDelete(DeleteBehavior.Restrict),
+                        j => j.HasOne<Lesson>().WithMany().OnDelete(DeleteBehavior.Restrict));
+                entity.ToTable("Lesson");
+
+                entity.HasMany(f => f.Words)
+                    .WithMany(g => g.Lessons)
+                    .UsingEntity<Dictionary<string, object>>(
+                        "LessonWord",
+                        j => j.HasOne<Word>().WithMany().OnDelete(DeleteBehavior.Restrict),
+                        j => j.HasOne<Lesson>().WithMany().OnDelete(DeleteBehavior.Restrict));
+                        
+                entity.ToTable("Lesson");
+            });
         }
         private void SeedLanguages(ModelBuilder builder)
         {
@@ -85,12 +164,14 @@ namespace Metis.Models.Store
             var user = new User
             {
                 Id = 1,
+                FirstName = "Admin",
+                LastName = "Admin",
                 LanguageId = 1,
                 Email = "admin@metis.com",
                 RoleId = 1
             }; 
-            builder.Entity<User>().HasData(user);  
             user.PasswordHash = hasher.HashPassword(user, "P@ssw0rd");   
+            builder.Entity<User>().HasData(user);  
         }
     }
 }

@@ -45,7 +45,7 @@ namespace Metis.API.Controllers
             string password = Password.Generate(passwordlength, numberOfNonAlphanumericCharacters);
 
             Role role = await RoleManager.GetRoleByNameAsync(_dataContext, "Student");
-            await UserManager.AddUserAsync(_dataContext, model.FirstName, model.LastName, model.Email, role.Id, model.LanguageId, password, model.Lessons.Select(d => d.Id));
+            await UserManager.AddUserAsync(_dataContext, model.FirstName, model.LastName, model.Email, model.Enabled, role.Id, model.LanguageId, password, model.Lessons.Select(d => d.Id));
 
             var apiKey = _configuration["SendGrid:Key"];
             var client = new SendGridClient(apiKey);
@@ -79,7 +79,7 @@ namespace Metis.API.Controllers
             {
                 return BadRequest();
             }
-            await UserManager.EditUserAsync(_dataContext, model.Id, model.FirstName, model.LastName, model.Email, model.LanguageId, model.Lessons.Select(d => d.Id));
+            await UserManager.EditUserAsync(_dataContext, model.Id, model.FirstName, model.LastName, model.Email, model.Enabled, model.LanguageId, model.Lessons.Select(d => d.Id));
             return Ok();
         }
 
@@ -138,6 +138,16 @@ namespace Metis.API.Controllers
         {
             Role role = await RoleManager.GetRoleByNameAsync(_dataContext, "Student");
             int counter = await UserManager.GetUsersCountAsync(_dataContext, role.Id);
+            return Ok(counter);
+        }
+
+        [HttpGet]
+        [Authorize(AuthenticationSchemes = Microsoft.AspNetCore.Authentication.JwtBearer.JwtBearerDefaults.AuthenticationScheme, Roles = "Administrator")]
+        [Route("GetActiveStudentsCount")]
+        public async Task<IActionResult> GetActiveStudentsCountAsync()
+        {
+            Role role = await RoleManager.GetRoleByNameAsync(_dataContext, "Student");
+            int counter = await UserManager.GetActiveUsersCountAsync(_dataContext, role.Id);
             return Ok(counter);
         }
 

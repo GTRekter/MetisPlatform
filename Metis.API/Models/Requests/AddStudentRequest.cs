@@ -17,6 +17,8 @@ namespace Metis.Models.Requests
         [DataType(DataType.EmailAddress)]
         public string Email { get; set; }
         [Required]
+        public bool Enabled { get; set; }
+        [Required]
         public int LanguageId { get; set; }
         public IEnumerable<Lesson> Lessons { get; set; }
         public class Lesson 

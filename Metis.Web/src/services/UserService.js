@@ -18,7 +18,7 @@ class UserService {
                 return await res.text();
             })
     }
-    addUser(firstname, lastname, email, roleId, languageId, lessons) {
+    addUser(firstname, lastname, email, enabled, roleId, languageId, lessons) {
         let headers = {
             'Accept': 'application/json, text/plain, */*',
             'Content-Type': 'application/json',
@@ -29,13 +29,14 @@ class UserService {
             firstname: firstname,
             lastname: lastname,
             email: email,
+            enabled: enabled,
             roleId: roleId,
             languageId: languageId,
             lessons: lessons
         })
         return HttpService.request('post', process.env.REACT_APP_API_BASEURL + "User/AddUser", body, headers);
     }
-    editUser(id, firstname, lastname, email, roleId, languageId, lessons) {
+    editUser(id, firstname, lastname, email, enabled, roleId, languageId, lessons) {
         let headers = {
             'Accept': 'application/json, text/plain, */*',
             'Content-Type': 'application/json',
@@ -47,6 +48,7 @@ class UserService {
             firstname: firstname,
             lastname: lastname,
             email: email,
+            enabled: enabled,
             roleId: roleId,
             languageId: languageId,
             lessons: lessons
@@ -101,6 +103,16 @@ class UserService {
             'Authorization': 'Bearer ' + JwtService.getToken()
         };
         return HttpService.request('get', process.env.REACT_APP_API_BASEURL + "User/GetUsersCount", null, headers)
+            .then(res => res.json());  
+    }
+    getActiveUsersCount() {
+        let headers = {
+            'Accept': 'application/json, text/plain, */*',
+            'Content-Type': 'application/json',
+            'Access-Control-Allow-Origin': '*',
+            'Authorization': 'Bearer ' + JwtService.getToken()
+        };
+        return HttpService.request('get', process.env.REACT_APP_API_BASEURL + "User/GetActiveUsersCount", null, headers)
             .then(res => res.json());  
     }
     getUsersBySearchQueryCount(searchQuery) {

@@ -45,6 +45,10 @@ namespace Metis.API.Controllers
             {
                 return BadRequest("User not found");
             }
+            if(user.Enabled == false)
+            {
+                return BadRequest("User is disabled");
+            }
             await UserManager.PasswordSignInAsync(_dataContext, user.Email, model.Password);
             var jwtOptions = new JwtOptions();
             _configuration.GetSection(nameof(JwtOptions)).Bind(jwtOptions); 
@@ -63,7 +67,7 @@ namespace Metis.API.Controllers
             int numberOfNonAlphanumericCharacters = new Random().Next(1, passwordlength - 1);
             string password = Password.Generate(passwordlength, numberOfNonAlphanumericCharacters);
 
-            await UserManager.AddUserAsync(_dataContext, model.FirstName, model.LastName, model.Email, model.RoleId, model.LanguageId, password, model.Lessons.Select(d => d.Id));
+            await UserManager.AddUserAsync(_dataContext, model.FirstName, model.LastName, model.Email, model.Enabled, model.RoleId, model.LanguageId, password, model.Lessons.Select(d => d.Id));
 
             var apiKey = _configuration["SendGrid:Key"];
             var client = new SendGridClient(apiKey);
@@ -87,7 +91,7 @@ namespace Metis.API.Controllers
         [Route("EditUser")]
         public async Task<IActionResult> EditUserAsync(EditUserRequest model)
         {
-            await UserManager.EditUserAsync(_dataContext, model.Id, model.FirstName, model.LastName, model.Email, model.RoleId, model.LanguageId, model.Lessons.Select(d => d.Id));
+            await UserManager.EditUserAsync(_dataContext, model.Id, model.FirstName, model.LastName, model.Email, model.Enabled, model.RoleId, model.LanguageId, model.Lessons.Select(d => d.Id));
             return Ok();
         }
 
@@ -133,6 +137,15 @@ namespace Metis.API.Controllers
         public async Task<IActionResult> GetUsersCountAsync()
         {
             int counter = await UserManager.GetUsersCountAsync(_dataContext);
+            return Ok(counter);
+        }
+
+        [HttpGet]
+        [Authorize(AuthenticationSchemes = Microsoft.AspNetCore.Authentication.JwtBearer.JwtBearerDefaults.AuthenticationScheme, Roles = "Administrator")]
+        [Route("GetActiveUsersCount")]
+        public async Task<IActionResult> GetActiveUsersCountAsync()
+        {
+            int counter = await UserManager.GetActiveUsersCountAsync(_dataContext);
             return Ok(counter);
         }
 

@@ -11,7 +11,7 @@ namespace Metis.Models.Managers
 {
     public static class UserManager
     {
-        public static async Task AddUserAsync(ApplicationDbContext dataContext, string name, string surname, string email, int roleId, int languageId, string password, IEnumerable<int> lessonsIds)
+        public static async Task AddUserAsync(ApplicationDbContext dataContext, string name, string surname, string email, bool enabled, int roleId, int languageId, string password, IEnumerable<int> lessonsIds)
         {
             var hasher = new PasswordHasher<User>();
             var lessonsToAdd = await dataContext.Lessons.Where(d => lessonsIds.Contains(d.Id)).ToListAsync();
@@ -19,6 +19,7 @@ namespace Metis.Models.Managers
                 FirstName = name, 
                 LastName = surname, 
                 Email = email,
+                Enabled = enabled,
                 Lessons = lessonsToAdd,
                 Language = await dataContext.Languages.FirstOrDefaultAsync(d => d.Id == languageId),
                 Role = await dataContext.Roles.FirstOrDefaultAsync(r => r.Id == roleId),
@@ -28,7 +29,7 @@ namespace Metis.Models.Managers
             dataContext.Users.Add(user);
             await dataContext.SaveChangesAsync();
         }
-        public static async Task EditUserAsync(ApplicationDbContext dataContext, int id, string name, string surname, string email, int languageId, IEnumerable<int> lessonsIds)
+        public static async Task EditUserAsync(ApplicationDbContext dataContext, int id, string name, string surname, string email, bool enabled, int languageId, IEnumerable<int> lessonsIds)
         {
             string userId = id.ToString();
             User user = await dataContext.Users
@@ -57,11 +58,12 @@ namespace Metis.Models.Managers
             user.FirstName = name;
             user.LastName = surname;
             user.Email = email;
+            user.Enabled = enabled;
             user.Language = await dataContext.Languages.FirstOrDefaultAsync(d => d.Id == languageId);
             dataContext.Update(user);
             await dataContext.SaveChangesAsync();
         }
-        public static async Task EditUserAsync(ApplicationDbContext dataContext, int id, string name, string surname, string email, int roleId, int languageId, IEnumerable<int> lessonsIds)
+        public static async Task EditUserAsync(ApplicationDbContext dataContext, int id, string name, string surname, string email, bool enabled, int roleId, int languageId, IEnumerable<int> lessonsIds)
         {
             string userId = id.ToString();
             User user = await dataContext.Users
@@ -90,6 +92,7 @@ namespace Metis.Models.Managers
             user.FirstName = name;
             user.LastName = surname;
             user.Email = email;
+            user.Enabled = enabled;
             user.Language = await dataContext.Languages.FirstOrDefaultAsync(d => d.Id == languageId);
             user.Role = await dataContext.Roles.FirstOrDefaultAsync(r => r.Id == roleId);
             dataContext.Update(user);
@@ -135,6 +138,20 @@ namespace Metis.Models.Managers
                     || u.Email.Contains(searchQuery))
                 .CountAsync();
         }
+        public static async Task<int> GetActiveUsersCountAsync(ApplicationDbContext dataContext)
+        {
+            return await dataContext.Users
+                .Where(u => u.Enabled)
+                .CountAsync();
+        }
+        public static async Task<int> GetActiveUsersCountAsync(ApplicationDbContext dataContext, int roleId)
+        {
+            return await dataContext.Users
+                .Where(u => u.Enabled)
+                .Where(u => u.Role.Id == roleId)
+                .CountAsync();
+        }
+        
 
 
         public static async Task<IEnumerable<User>> GetUsersAsync(ApplicationDbContext dataContext)

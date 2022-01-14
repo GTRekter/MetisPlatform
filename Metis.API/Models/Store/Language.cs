@@ -12,10 +12,10 @@ namespace Metis.Models.Store
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
         [Required]
-        [StringLength(maximumLength: 100, MinimumLength = 2)]
+        [MaxLength(255)]
         public string Name { get; set; }
         [Required]
-        [StringLength(maximumLength: 25, MinimumLength = 2)]
+        [MaxLength(50)]
         public string Code { get; set; }
         public bool Enabled { get; set; }
 
@@ -23,6 +23,7 @@ namespace Metis.Models.Store
         [JsonIgnore]
         public ICollection<User> Users { get; set; }
         public ICollection<Word> Words { get; set; }
+        public ICollection<Lesson> Lessons { get; set; }
         public ICollection<GrammarPoint> GrammarPoints { get; set; }
         public ICollection<Translation> Trsanslations { get; set; }
     }

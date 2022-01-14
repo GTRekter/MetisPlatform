@@ -57,6 +57,13 @@ export default class UsersManagement extends Component {
                     pages: Math.floor(response / this.state.usersPerPage) + 1
                 });
             })
+        UserService
+            .getActiveUsersCount()
+            .then(response => {
+                this.setState({
+                    activeUsers: response
+                });
+            })
     }
 
     onClickToggleCreationForm() {
@@ -109,6 +116,13 @@ export default class UsersManagement extends Component {
                 this.setState({
                     displayedUsers: response,
                     editFormVisible: false
+                });
+            })
+        UserService
+            .getActiveUsersCount()
+            .then(response => {
+                this.setState({
+                    activeUsers: response
                 });
             })
     }

@@ -2,7 +2,7 @@ import JwtService from './JwtService';
 import HttpService from './HttpService';
 
 class StudentService {
-    addStudent(firstname, lastname, email, languageId, lessons) {
+    addStudent(firstname, lastname, email, enabled, languageId, lessons) {
         let headers = {
             'Accept': 'application/json, text/plain, */*',
             'Content-Type': 'application/json',
@@ -13,12 +13,13 @@ class StudentService {
             firstname: firstname,
             lastname: lastname,
             email: email,
+            enabled: enabled,
             languageId: languageId,
             lessons: lessons
         })
         return HttpService.request('post', process.env.REACT_APP_API_BASEURL + "Student/AddStudent", body, headers);
     }
-    editStudent(id, firstname, lastname, email, languageId, lessons) {
+    editStudent(id, firstname, lastname, email, enabled, languageId, lessons) {
         let headers = {
             'Accept': 'application/json, text/plain, */*',
             'Content-Type': 'application/json',
@@ -30,6 +31,7 @@ class StudentService {
             firstname: firstname,
             lastname: lastname,
             email: email,
+            enabled: enabled,
             languageId: languageId,
             lessons: lessons
         })
@@ -83,6 +85,16 @@ class StudentService {
             'Authorization': 'Bearer ' + JwtService.getToken()
         };
         return HttpService.request('get', process.env.REACT_APP_API_BASEURL + "Student/GetStudentsCount", null, headers)
+            .then(res => res.json());  
+    }
+    getActiveStudentsCount() {
+        let headers = {
+            'Accept': 'application/json, text/plain, */*',
+            'Content-Type': 'application/json',
+            'Access-Control-Allow-Origin': '*',
+            'Authorization': 'Bearer ' + JwtService.getToken()
+        };
+        return HttpService.request('get', process.env.REACT_APP_API_BASEURL + "Student/GetActiveStudentsCount", null, headers)
             .then(res => res.json());  
     }
     getStudentsBySearchQueryCount(searchQuery) {

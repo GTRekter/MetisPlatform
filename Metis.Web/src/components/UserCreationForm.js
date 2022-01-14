@@ -16,6 +16,7 @@ export default class UserCreationForm extends Component {
             lastname: "",
             email: "",
             roleId: "",
+            enabled: true,
             languageId: 0,
             roles: [],
             languages: [],
@@ -71,7 +72,7 @@ export default class UserCreationForm extends Component {
     onSubmit = (event) => {
         event.preventDefault();
         UserService
-            .addUser(this.state.firstname, this.state.lastname, this.state.email, this.state.roleId, this.state.languageId, this.state.selectedLessons)
+            .addUser(this.state.firstname, this.state.lastname, this.state.email, this.state.enabled, this.state.roleId, this.state.languageId, this.state.selectedLessons)
             .then(() => {
                 this.props.onSubmitCallback();
                 this.setState({
@@ -138,8 +139,6 @@ export default class UserCreationForm extends Component {
             <option key={index} value={language.id}>{language.name}</option>
         )
         let lessons = this.state.lessons.map((lesson) => lesson.title);
-        console.log(this.state.roles);
-        console.log(this.state.roleId);
         let studentRole = this.state.roles.filter((role) => Number(role.id) === Number(this.state.roleId));
         let isStudent = false;
         if(studentRole.length > 0) {
@@ -216,6 +215,14 @@ export default class UserCreationForm extends Component {
                             <select className="form-control" name="roleId" value={this.state.roleId} onChange={this.onChangeInput}>
                                 {roles}
                             </select>
+                        </div>
+                    </div>
+                    <div className="col-12 col-md-12">
+                        <div className="input-group input-group-static my-3">
+                            <div className="form-check form-switch ms-1 is-filled">
+                                <input className="form-check-input" name="enabled" type="checkbox" value={this.state.enabled} checked={this.state.enabled} onChange={this.onChangeInput} />
+                                <label className="form-check-label">Enabled</label>
+                            </div>
                         </div>
                     </div>
                     {isStudent ? lessonSection : null}

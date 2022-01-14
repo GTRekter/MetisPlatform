@@ -12,18 +12,23 @@ namespace Metis.Models.Store
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
         [Required]
-        [StringLength(maximumLength: 100, MinimumLength = 1)]
+        [MaxLength(255)]
         public string Text { get; set; }
+        [Required]
+        [MaxLength(255)]
         public string Romanization { get; set; }
         public string Description { get; set; }
         public string Example { get; set; }
         public string Enabled { get; set; }
+        [Required]
         public int LanguageId { get; set; }
+        [Required]
         public int WordTypeId { get; set; }
 
         [JsonIgnore]
         public Language Language { get; set; }    
         public WordType WordType { get; set; }
+        public ICollection<Lesson> Lessons { get; set; }
         public ICollection<Translation> Translations { get; set; }
     }
 }

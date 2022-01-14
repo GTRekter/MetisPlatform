@@ -16,8 +16,9 @@ export default class UserEditForm extends Component {
             firstName: "",
             lastName: "",
             email: "",
+            enabled: true,
             roleId: "",
-            language: "", 
+            language: "",
             languageId: 0,
             roles: [],
             languages: [],
@@ -42,6 +43,7 @@ export default class UserEditForm extends Component {
                         firstName: response.firstName,
                         lastName: response.lastName,
                         email: response.email,
+                        enabled: response.enabled,
                         roleId: response.role.id,
                         languageId: response.languageId,
                         selectedLessons: response.lessons
@@ -85,7 +87,7 @@ export default class UserEditForm extends Component {
     onSubmit = (event) => {
         event.preventDefault();
         UserService
-            .editUser(this.state.id, this.state.firstName, this.state.lastName, this.state.email, this.state.roleId, this.state.languageId, this.state.selectedLessons)
+            .editUser(this.state.id, this.state.firstName, this.state.lastName, this.state.email, this.state.enabled, this.state.roleId, this.state.languageId, this.state.selectedLessons)
             .then(() => {
                 this.props.onSubmitCallback();
             })
@@ -144,6 +146,44 @@ export default class UserEditForm extends Component {
         let languages = this.state.languages.map((language, index) =>
             <option key={index} value={language.id}>{language.name}</option>
         )
+        let studentRole = this.state.roles.filter((role) => Number(role.id) === Number(this.state.roleId));
+        let isStudent = false;
+        if(studentRole.length > 0) {
+            isStudent = studentRole[0].name.toLowerCase() === "student";
+        }
+        let lessonSection = <div className="col-12">
+            <label className='d-block'>Lessons</label>
+            <span className="btn bg-gradient-secondary ms-2 btn-sm" role="button" onClick={() => this.onClickToggleLessonAdditionForm()}>Add lesson</span>
+            <div className={!this.state.lessonAdditionFormVisible ? "d-none" : ""}>
+                <div className="row">
+                    <div className="col-12 col-md-6">
+                        <div className="input-group input-group-static my-3">
+                            <label className="ms-0">Language</label>
+                            <select className="form-control" name="language" value={this.state.language} onChange={this.onChangeLanguage}>
+                                {languages}
+                            </select>
+                        </div>
+                    </div>
+                    <div className="col-12 col-md-6">
+                        <Autocomplete label="Title" suggestions={lessons} onChangeCallback={this.onClickAddLesson} />
+                    </div>
+                </div>
+            </div>
+            <div className="table-responsive">
+                <table className="table table-sm align-items-center">
+                    <thead>
+                        <tr>
+                            <th className="text-uppercase text-xxs font-weight-bolder opacity-7">Language</th>
+                            <th className="text-uppercase text-xxs font-weight-bolder opacity-7">Title</th>
+                            <th className="text-uppercase text-xxs font-weight-bolder opacity-7 ps-2"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {selectedLessonsRows}
+                    </tbody>
+                </table>
+            </div>
+        </div>
         return (
             <form className="text-start" onSubmit={this.onSubmit} onReset={this.onReset}>
                 <div className="row">
@@ -184,39 +224,15 @@ export default class UserEditForm extends Component {
                             </select>
                         </div>
                     </div>
-                    <div className="col-12">
-                        <label className='d-block'>Lessons</label>
-                        <span className="btn bg-gradient-secondary ms-2 btn-sm" role="button" onClick={() => this.onClickToggleLessonAdditionForm()}>Add lesson</span>
-                        <div className={!this.state.lessonAdditionFormVisible ? "d-none" : ""}>
-                            <div className="row">
-                                <div className="col-12 col-md-6">
-                                    <div className="input-group input-group-static my-3">
-                                        <label className="ms-0">Language</label>
-                                        <select className="form-control" name="language" value={this.state.language} onChange={this.onChangeLanguage}>
-                                            {languages}
-                                        </select>
-                                    </div>
-                                </div>
-                                <div className="col-12 col-md-6">
-                                    <Autocomplete label="Title" suggestions={lessons} onChangeCallback={this.onClickAddLesson} />
-                                </div>
+                    <div className="col-12 col-md-12">
+                        <div className="input-group input-group-static my-3">
+                            <div className="form-check form-switch ms-1 is-filled">
+                                <input className="form-check-input" name="enabled" type="checkbox" value={this.state.enabled} checked={this.state.enabled} onChange={this.onChangeInput} />
+                                <label className="form-check-label">Enabled</label>
                             </div>
                         </div>
-                        <div className="table-responsive">
-                            <table className="table table-sm align-items-center">
-                                <thead>
-                                    <tr>
-                                        <th className="text-uppercase text-xxs font-weight-bolder opacity-7">Language</th>
-                                        <th className="text-uppercase text-xxs font-weight-bolder opacity-7">Title</th>
-                                        <th className="text-uppercase text-xxs font-weight-bolder opacity-7 ps-2"></th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    {selectedLessonsRows}
-                                </tbody>
-                            </table>
-                        </div>
                     </div>
+                    {isStudent ? lessonSection : null}
                     <div className="col-12">
                         <div className="d-flex justify-content-end mt-4">
                             <button type="reset" name="button" className="btn btn-light m-0">Cancel</button>

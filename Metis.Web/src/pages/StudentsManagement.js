@@ -57,8 +57,14 @@ export default class StudentsManagement extends Component {
                     pages: Math.floor(response / this.state.usersPerPage) + 1
                 });
             })
+        StudentService
+            .getActiveStudentsCount()
+            .then(response => {
+                this.setState({
+                    activeUsers: response
+                });
+            })
     }
-
     onClickToggleCreationForm() {
         this.setState({
             creationFormVisible: !this.state.creationFormVisible,
@@ -103,6 +109,13 @@ export default class StudentsManagement extends Component {
         })
     }
     onSubmitEditUser() {
+        StudentService
+            .getActiveStudentsCount()
+            .then(response => {
+                this.setState({
+                    activeUsers: response
+                });
+            })
         StudentService
             .getUsersByPage(this.state.page, this.state.usersPerPage)
             .then(response => {
