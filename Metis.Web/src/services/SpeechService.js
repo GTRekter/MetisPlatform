@@ -66,14 +66,15 @@ class SpeechService {
         };    
         this.recognizer.recognized = (s, e) => {
             switch (e.result.reason) {
-                case sdk.ResultReason.NoMatch:
-                case sdk.ResultReason.Canceled:
-                    recognizedCallback(null);
-                    break;
                 case sdk.ResultReason.RecognizedSpeech:
                     var pronunciationAssessmentResult = sdk.PronunciationAssessmentResult.fromResult(e.result);
                     recognizedCallback(pronunciationAssessmentResult);
                     break;
+                default:
+                case sdk.ResultReason.NoMatch:
+                case sdk.ResultReason.Canceled:
+                        recognizedCallback(null);
+                        break;
             }
         };      
         this.recognizer.canceled = (s, e) => {

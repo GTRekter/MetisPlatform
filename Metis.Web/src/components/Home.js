@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import korea from '../images/korea.png';
 import StatisticService from '../services/StatisticService';
 import JwtService from '../services/JwtService';
-import LessonService from '../services/LessonService';
 import StatisticGraph from './StatisticGraph';
 
 export default class Home extends Component {
@@ -19,7 +18,6 @@ export default class Home extends Component {
         StatisticService
             .getStatisticsByUserIdLastWeek(id)
             .then((statistics) => {
-                console.log(statistics);
                 this.setState({
                     correctWeeklyStatistics: statistics.map(statistic => statistic.correct),
                     incorrectWeeklyStatistics: statistics.map(statistic => statistic.incorrect)
