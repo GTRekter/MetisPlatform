@@ -23,7 +23,6 @@ namespace Metis.Models.Managers
             await dataContext.SaveChangesAsync();
         }
 
-
         public static async Task<IEnumerable<WordType>> GetWordTypesAsync(ApplicationDbContext dataContext)
         {
             return await dataContext.WordTypes

@@ -39,6 +39,15 @@ class WordService {
         })
         return HttpService.request('post', process.env.REACT_APP_API_BASEURL + "Word/EditWord", body, headers);  
     }
+    deleteWordById(id) {
+        let headers = {
+            'Accept': 'application/json, text/plain, */*',
+            'Content-Type': 'application/json',
+            'Access-Control-Allow-Origin': '*',
+            'Authorization': 'Bearer ' + JwtService.getToken()
+        };
+        return HttpService.request('delete', process.env.REACT_APP_API_BASEURL + "Word/DeleteWordById?id=" + id, null, headers);
+    }
     getWords() {
         let headers = {
             'Accept': 'application/json, text/plain, */*',
@@ -179,14 +188,27 @@ class WordService {
         return HttpService.request('get', process.env.REACT_APP_API_BASEURL + "Word/GetWordsByUserIdAndSearchQueryCount?id=" + id +  "&searchQuery=" + searchQuery, null, headers)
             .then(res => res.json());  
     }
-    deleteWordById(id) {
+    importWordsFromFile(file) {
+        let formData = new FormData()
+        formData.append('file', file)
         let headers = {
             'Accept': 'application/json, text/plain, */*',
-            'Content-Type': 'application/json',
+            // 'Content-Type': 'multipart/form-data;',
             'Access-Control-Allow-Origin': '*',
             'Authorization': 'Bearer ' + JwtService.getToken()
         };
-        return HttpService.request('delete', process.env.REACT_APP_API_BASEURL + "Word/DeleteWordById?id=" + id, null, headers);
+        let body = formData
+        return HttpService.request('post', process.env.REACT_APP_API_BASEURL + "Word/ImportWordsFromFile", body, headers);  
     }
+    downloadImportTemplate() {
+        let headers = {
+            'Accept': 'application/json, text/plain, */*',
+            'Content-Type': 'text/csv;charset=UTF-8',
+            'Access-Control-Allow-Origin': '*',
+            'Authorization': 'Bearer ' + JwtService.getToken()
+        };
+        return HttpService.request('get', process.env.REACT_APP_API_BASEURL + "Word/DownloadImportTemplate", null, headers);  
+    }
+    
 }
 export default new WordService();

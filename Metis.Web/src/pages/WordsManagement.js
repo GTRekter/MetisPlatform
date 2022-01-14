@@ -22,9 +22,13 @@ export default class WordsManagement extends Component {
             wordsPerPage: 10,
             searchQuery: '',
             selectedWordId: undefined,
+
+            fileToImport: undefined,
+
             creationFormVisible: false,
             editFormVisible: false,
-            deleteModalVisible: false
+            deleteModalVisible: false,
+            importModalVisible: false
         }
         this.onClickToggleCreationForm = this.onClickToggleCreationForm.bind(this);
         this.onClickHideCreationForm = this.onClickHideCreationForm.bind(this);
@@ -42,7 +46,12 @@ export default class WordsManagement extends Component {
         this.onChangeQueryString = this.onChangeQueryString.bind(this);
         this.onClickChangePage = this.onClickChangePage.bind(this);
 
-        this.onClickExport = this.onClickExport.bind(this);
+        this.onClickShowImportModal = this.onClickShowImportModal.bind(this);
+        this.onClickHideImportModal = this.onClickHideImportModal.bind(this);
+
+        this.onChangeFileToImport = this.onChangeFileToImport.bind(this);
+        this.onClickConfirmImport = this.onClickConfirmImport.bind(this);
+        this.OnClickDownloadImportTemplate = this.OnClickDownloadImportTemplate.bind(this);
     }
     componentDidMount() {
         WordService
@@ -67,6 +76,16 @@ export default class WordsManagement extends Component {
                     languages: data,
                 })
             })
+    }
+    onClickShowImportModal() {
+        this.setState({
+            importModalVisible: true
+        })
+    }
+    onClickHideImportModal() {
+        this.setState({
+            importModalVisible: false
+        })
     }
     onClickToggleCreationForm() {
         this.setState({
@@ -270,8 +289,52 @@ export default class WordsManagement extends Component {
                 })
         }
     }
-    onClickExport = () => {
-       console.log('export');
+    onChangeFileToImport = (event) => {
+        this.setState({
+            ...this.state,
+            fileToImport: event.target.files[0]
+        });
+    }
+    onClickConfirmImport = () => {
+        WordService
+            .importWordsFromFile(this.state.fileToImport)
+            .then(() => {
+                WordService
+                    .getWordsByPage(this.state.page, this.state.wordsPerPage)
+                    .then(response => {
+                        this.setState({
+                            displayedWords: response
+                        });
+                    })
+                WordService
+                    .getWordsCount()
+                    .then(response => {
+                        this.setState({
+                            words: response,
+                            pages: Math.floor(response / this.state.wordsPerPage) + 1
+                        });
+                    })
+            })
+    }
+    OnClickDownloadImportTemplate = () => {
+        WordService
+            .downloadImportTemplate()
+            .then(async (response) => {
+                response.text().then(text => {
+                    const blob = new Blob([text]);
+                    if (window.navigator.msSaveOrOpenBlob) {
+                        window.navigator.msSaveBlob(blob, "template.csv");
+                    }
+                    else {
+                        var a = window.document.createElement("a");
+                        a.href = window.URL.createObjectURL(blob, { type: "text/plain" });
+                        a.download = "template.csv";
+                        document.body.appendChild(a);
+                        a.click();
+                        document.body.removeChild(a);
+                    }
+                });
+            })
     }
     render() {
         let headers = this.state.languages
@@ -295,7 +358,7 @@ export default class WordsManagement extends Component {
                     } else {
                         columns.push(<td key={index} className="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-4"></td>)
                     }
-            })
+                })
             return (
                 <tr key={index}>
                     <td className="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-4">{word.text}</td>
@@ -341,7 +404,7 @@ export default class WordsManagement extends Component {
                                 {wordPerPageOptions}
                             </ul>
                         </div>
-                        <button className="btn btn-primary" onClick={() => this.onClickExport()}>Export word</button>
+                        <button className="btn btn-primary mx-2" onClick={() => this.onClickShowImportModal()}>Import word</button>
                     </div>
                     <div className="col-4">
                         <div className="input-group input-group-outline mb-4">
@@ -403,6 +466,23 @@ export default class WordsManagement extends Component {
                         <div className="modal-footer">
                             <button type="button" name="button" className="btn btn-light m-0" onClick={this.onClickHideDeleteModal}>Cancel</button>
                             <button type="button" name="button" className="btn bg-gradient-primary m-0 ms-2" onClick={this.onClickConfirmDelete}>Delete Word</button>
+                        </div>
+                    </div>
+                </Modal>
+                <Modal show={this.state.importModalVisible} onHide={this.onClickHideImportModal}>
+                    <div className="modal-content">
+                        <div className="modal-body">
+                            <div className="col-12 col-md-6">
+                                <button type="button" className="btn btn-primary" onClick={this.OnClickDownloadImportTemplate}>Donwload template</button>
+                                <div className="input-group input-group-outline my-3">
+                                    <label>File</label>
+                                    <input type="file" className="form-control" name="fileToImport" accept=".csv" onChange={this.onChangeFileToImport} />
+                                </div>
+                            </div>
+                        </div>
+                        <div className="modal-footer">
+                            <button type="button" name="button" className="btn btn-light m-0" onClick={this.onClickHideImportModal}>Cancel</button>
+                            <button type="button" name="button" className="btn bg-gradient-primary m-0 ms-2" onClick={this.onClickConfirmImport}>Delete Word</button>
                         </div>
                     </div>
                 </Modal>
