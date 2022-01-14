@@ -142,7 +142,7 @@ namespace Metis.API.Controllers
         }
 
         [HttpGet]
-        [Authorize(AuthenticationSchemes = Microsoft.AspNetCore.Authentication.JwtBearer.JwtBearerDefaults.AuthenticationScheme, Roles = "Administrator")]
+        [Authorize(AuthenticationSchemes = Microsoft.AspNetCore.Authentication.JwtBearer.JwtBearerDefaults.AuthenticationScheme, Roles = "Administrator, Teacher")]
         [Route("GetActiveStudentsCount")]
         public async Task<IActionResult> GetActiveStudentsCountAsync()
         {
