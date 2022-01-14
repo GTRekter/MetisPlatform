@@ -65,13 +65,25 @@ class SpeechService {
             recognizingCallback(e.result);
         };    
         this.recognizer.recognized = (s, e) => {
-            var pronunciationAssessmentResult = sdk.PronunciationAssessmentResult.fromResult(e.result);
-            recognizedCallback(pronunciationAssessmentResult);
+            switch (e.result.reason) {
+                case sdk.ResultReason.NoMatch:
+                case sdk.ResultReason.Canceled:
+                    recognizedCallback(null);
+                    break;
+                case sdk.ResultReason.RecognizedSpeech:
+                    var pronunciationAssessmentResult = sdk.PronunciationAssessmentResult.fromResult(e.result);
+                    recognizedCallback(pronunciationAssessmentResult);
+                    break;
+            }
         };      
         this.recognizer.canceled = (s, e) => {
+            console.log("Session canceled event.");
+            console.log(e)
             this.recognizer.stopContinuousRecognitionAsync();
         };   
         this.recognizer.sessionStopped = (s, e) => {
+            console.log("Session stopped event.");
+            console.log(e)
             this.recognizer.stopContinuousRecognitionAsync();
         };
         let assestmentConfig = new sdk.PronunciationAssessmentConfig(string, sdk.PronunciationAssessmentGradingSystem.HundredMark, sdk.PronunciationAssessmentGranularity.FullText);

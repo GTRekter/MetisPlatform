@@ -3,7 +3,7 @@ import ReportCard from '../components/ReportCard';
 import ReportCardFilter from '../components/ReportCardFilter';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Modal } from 'react-bootstrap';
-import { faFlag, faExclamationTriangle, faTags, faMicrophone, faMicrophoneSlash, faEye, faVolumeUp, faVolumeMute, faGlassCheers } from '@fortawesome/free-solid-svg-icons';
+import { faFlag, faExclamationTriangle, faTags, faMicrophone, faMicrophoneSlash, faEye, faVolumeUp, faVolumeMute, faGlassCheers, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
 import SpeechService from '../services/SpeechService';
 import WordService from '../services/WordService';
 import WordTypeService from '../services/WordTypeService';
@@ -37,10 +37,9 @@ export default class Pronunciation extends Component {
         this.onRecognizing = this.onRecognizing.bind(this);
         this.onRecognized = this.onRecognized.bind(this);
         this.onClickToggleMicrophone = this.onClickToggleMicrophone.bind(this);
-        this.onClickViewTranslation = this.onClickViewTranslation.bind(this);
+        this.onClickToggleTranslation = this.onClickToggleTranslation.bind(this);
         this.onClickPlayTranslation = this.onClickPlayTranslation.bind(this);
         this.onClickHideCongratulationsModal = this.onClickHideCongratulationsModal.bind(this);
-        this.onClickViewTranslation = this.onClickViewTranslation.bind(this);
         this.onClickUpdateWordsByWordType = this.onClickUpdateWordsByWordType.bind(this);
         this.onClickUpdateWordsByAll = this.onClickUpdateWordsByAll.bind(this);
     }
@@ -74,14 +73,23 @@ export default class Pronunciation extends Component {
         });
     }
     onRecognized = (data) => {
-        var self = this;
+        let isAnswerCorrect = this.state.isAnswerProvided;
+        let assessmentScores = this.state.viewTranslation;
+        if(data !== null) {
+            isAnswerCorrect = (data.accuracyScore + data.completenessScore + data.fluencyScore + data.pronunciationScore) / 4 >= 0.75;
+            assessmentScores = [data.accuracyScore, data.completenessScore, data.fluencyScore, data.pronunciationScore];
+        } else {
+            isAnswerCorrect = false;
+            assessmentScores = [0, 0, 0, 0];
+        }
         this.setState({
-            viewTranslation: true,
             isRecordingMicrophone: false,
+            viewTranslation: true,
             isAnswerProvided: true,
-            isAnswerCorrect: (data.accuracyScore + data.completenessScore + data.fluencyScore + data.pronunciationScore) / 4 >= 0.75,
-            assessmentScores: [data.accuracyScore, data.completenessScore, data.fluencyScore, data.pronunciationScore]
+            isAnswerCorrect: isAnswerCorrect,
+            assessmentScores: assessmentScores
         });
+        let self = this; 
         setTimeout(() => {
             self.updateCounters();
         }, 4000);
@@ -91,9 +99,9 @@ export default class Pronunciation extends Component {
             congratulationsModalVisible: false
         });
     }
-    onClickViewTranslation = () => {
+    onClickToggleTranslation = () => {
         this.setState({
-            viewTranslation: true
+            viewTranslation: !this.state.viewTranslation
         })
     };
     onClickPlayTranslation = () => {
@@ -233,15 +241,19 @@ export default class Pronunciation extends Component {
         if (this.state.isRecordingMicrophone) {
             microphoneIcon = <FontAwesomeIcon className="link-light" icon={faMicrophoneSlash} />
         }
+        let viewIcon = <FontAwesomeIcon className="link-light" icon={faEye} />;
+        if (this.state.viewTranslation) {
+            viewIcon = <FontAwesomeIcon className="link-light" icon={faEyeSlash} />
+        }
         let buttons = <div>
-            <button className="btn btn-secondary mx-3 mb-0 text-white" onClick={() => this.onClickToggleMicrophone()}>
+            <button className="btn btn-secondary mx-3 mb-0 text-white" disabled={this.state.isPlaying} onClick={() => this.onClickToggleMicrophone()}>
                 {microphoneIcon}
             </button>
-            <button className="btn btn-secondary mx-3 mb-0 text-white" onClick={() => this.onClickPlayTranslation()}>
+            <button className="btn btn-secondary mx-3 mb-0 text-white" disabled={this.state.isRecordingMicrophone} onClick={() => this.onClickPlayTranslation()}>
                 {playIcon}
             </button>
-            <button className="btn btn-secondary mx-3 mb-0 text-white" onClick={() => this.onClickViewTranslation()}>
-                <FontAwesomeIcon className="link-light" icon={faEye} />
+            <button className="btn btn-secondary mx-3 mb-0 text-white" onClick={() => this.onClickToggleTranslation()}>
+                {viewIcon}
             </button>
         </div>
         if (this.state.isAnswerProvided) {

@@ -22,6 +22,7 @@ export default class FlashCards extends Component {
             languages: [],
             currentWord: "",
             currentWordType: "",
+            isPlaying: false,
             viewTranslation: false,
             isAnswerProvided: false,
             isAnswerCorrect: false,
@@ -64,11 +65,19 @@ export default class FlashCards extends Component {
         });
     }
     onClickViewTranslation = () => {
+        let self = this;
+        this.setState({
+            isPlaying: true,
+            viewTranslation: true
+        });
         var language = this.state.languages.filter(d => d.id === this.state.currentWord.languageId);
         SpeechService.synthesizeSpeech(this.state.currentWord.text, language[0].code);
-        this.setState({
-            viewTranslation: true
-        })
+        setTimeout(function () {
+            self.setState({
+                
+                isPlaying: false
+            })
+        }, 2000);
     };
     onClickAddError = () => {
         var self = this;
@@ -201,13 +210,13 @@ export default class FlashCards extends Component {
     render() {
         let backgroundClass = "bg-gradient-info shadow-info";
         let buttons = <div>
-                <button className="btn btn-success mx-3 mb-0 text-white" onClick={() => this.onClickAddCorrect()}>
+                <button className="btn btn-success mx-3 mb-0 text-white" disabled={this.state.isPlaying} onClick={() => this.onClickAddCorrect()}>
                     <FontAwesomeIcon icon={faThumbsUp} />
                 </button>
-                <button className="btn btn-secondary mx-3 mb-0 text-white" onClick={() => this.onClickViewTranslation()}>
+                <button className="btn btn-secondary mx-3 mb-0 text-white"  onClick={() => this.onClickViewTranslation()}>
                     <FontAwesomeIcon className="link-light" icon={faEye} />
                 </button>
-                <button className="btn btn-danger mx-3 mb-0 text-white" onClick={() => this.onClickAddError()}>
+                <button className="btn btn-danger mx-3 mb-0 text-white" disabled={this.state.isPlaying} onClick={() => this.onClickAddError()}>
                     <FontAwesomeIcon icon={faThumbsDown} />
                 </button>
             </div>  
