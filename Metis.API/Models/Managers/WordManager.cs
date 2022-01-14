@@ -14,8 +14,8 @@ namespace Metis.Models.Managers
         {
             Word word = new Word
             {
-                Text = text,
-                Romanization = romanization,
+                Text = text.ToLower(),
+                Romanization = romanization.ToLower(),
                 Description = description,
                 Example = example,
                 WordType = await dataContext.WordTypes.FindAsync(wordTypeId),
@@ -23,7 +23,7 @@ namespace Metis.Models.Managers
                 Translations = translations.Select(t => new Translation
                 {
                     LanguageId = t.Key,
-                    Text = t.Value
+                    Text = t.Value.ToLower()
                 }).ToList()
             };
             dataContext.Words.Add(word);
@@ -31,15 +31,13 @@ namespace Metis.Models.Managers
         }
         public static async Task EditWordAsync(ApplicationDbContext dataContext, int id, string text, string romanization, int languageId, int wordTypeId, string description, string example, IEnumerable<KeyValuePair<int, string>> translationsToAdd, IEnumerable<KeyValuePair<int, string>> translationsToEdit)
         {
-            // using (TransactionScope scope = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled))
-            // {
             Word wordToEdit = await dataContext.Words.Include(w => w.Translations).FirstOrDefaultAsync(w => w.Id == id);
             if (wordToEdit == null)
             {
                 throw new Exception("Word not found");
             }
-            wordToEdit.Text = text;
-            wordToEdit.Romanization = romanization;
+            wordToEdit.Text = text.ToLower();
+            wordToEdit.Romanization = romanization.ToLower();
             wordToEdit.Description = description;
             wordToEdit.Example = example;
             wordToEdit.WordType = await dataContext.WordTypes.FindAsync(wordTypeId);
@@ -49,7 +47,7 @@ namespace Metis.Models.Managers
                 wordToEdit.Translations.Add(new Translation
                 {
                     LanguageId = item.Key,
-                    Text = item.Value
+                    Text = item.Value.ToLower()
                 });
             }
             dataContext.Update(wordToEdit);
@@ -64,8 +62,6 @@ namespace Metis.Models.Managers
                 dataContext.Update(translationToEdit);
             }
             await dataContext.SaveChangesAsync();
-            //     scope.Complete();
-            // }
         }
         public static async Task DeleteWordByIdAsync(ApplicationDbContext dataContext, int id)
         {
@@ -93,10 +89,10 @@ namespace Metis.Models.Managers
         public static async Task<int> GetWordsCountAsync(ApplicationDbContext dataContext, string searchQuery)
         {
             return await dataContext.Words
-                .Where(u => u.Text.Contains(searchQuery, StringComparison.InvariantCultureIgnoreCase)
-                    || u.Romanization.Contains(searchQuery, StringComparison.InvariantCultureIgnoreCase)
-                    || u.Description.Contains(searchQuery, StringComparison.InvariantCultureIgnoreCase)
-                    || u.Translations.Any(t => t.Text.Contains(searchQuery, StringComparison.InvariantCultureIgnoreCase)))
+                .Where(u => u.Text.Contains(searchQuery)
+                    || u.Romanization.Contains(searchQuery)
+                    || u.Description.Contains(searchQuery)
+                    || u.Translations.Any(t => t.Text.Contains(searchQuery)))
                 .CountAsync();
         }
         public static async Task<int> GetWordsCountAsync(ApplicationDbContext dataContext, int id, string searchQuery)
@@ -106,10 +102,10 @@ namespace Metis.Models.Managers
                 .ThenInclude(l => l.Words)
                 .FirstOrDefaultAsync(u => u.Id == id);
             return lessons.Lessons.SelectMany(l => l.Words)
-                .Where(u => u.Text.Contains(searchQuery, StringComparison.InvariantCultureIgnoreCase)
-                    || u.Romanization.Contains(searchQuery, StringComparison.InvariantCultureIgnoreCase)
-                    || u.Description.Contains(searchQuery, StringComparison.InvariantCultureIgnoreCase)
-                    || u.Translations.Any(t => t.Text.Contains(searchQuery, StringComparison.InvariantCultureIgnoreCase)))
+                .Where(u => u.Text.Contains(searchQuery)
+                    || u.Romanization.Contains(searchQuery)
+                    || u.Description.Contains(searchQuery)
+                    || u.Translations.Any(t => t.Text.Contains(searchQuery)))
                 .Count();
         }
         
@@ -192,10 +188,10 @@ namespace Metis.Models.Managers
         {
             return await dataContext.Words
                 .Include(w => w.Translations)
-                .Where(u => u.Text.Contains(searchQuery, StringComparison.InvariantCultureIgnoreCase)
-                    || u.Romanization.Contains(searchQuery, StringComparison.InvariantCultureIgnoreCase)
-                    || u.Description.Contains(searchQuery, StringComparison.InvariantCultureIgnoreCase)
-                    || u.Translations.Any(t => t.Text.Contains(searchQuery, StringComparison.InvariantCultureIgnoreCase)))
+                .Where(u => u.Text.Contains(searchQuery)
+                    || u.Romanization.Contains(searchQuery)
+                    || u.Description.Contains(searchQuery)
+                    || u.Translations.Any(t => t.Text.Contains(searchQuery)))
                 .Skip(page * itemsPerPage)
                 .Take(itemsPerPage)
                 .OrderBy(u => u.Id).ToListAsync();
@@ -209,10 +205,10 @@ namespace Metis.Models.Managers
                 .ThenInclude(w => w.Translations.Where(t => t.LanguageId == user.LanguageId))
                 .FirstOrDefaultAsync(u => u.Id == id);
             return lessons.Lessons.SelectMany(l => l.Words)
-                .Where(u => u.Text.Contains(searchQuery, StringComparison.InvariantCultureIgnoreCase)
-                    || u.Romanization.Contains(searchQuery, StringComparison.InvariantCultureIgnoreCase)
-                    || u.Description.Contains(searchQuery, StringComparison.InvariantCultureIgnoreCase)
-                    || u.Translations.Any(t => t.Text.Contains(searchQuery, StringComparison.InvariantCultureIgnoreCase)))
+                .Where(u => u.Text.Contains(searchQuery)
+                    || u.Romanization.Contains(searchQuery)
+                    || u.Description.Contains(searchQuery)
+                    || u.Translations.Any(t => t.Text.Contains(searchQuery)))
                 .Skip(page * itemsPerPage)
                 .Take(itemsPerPage)
                 .OrderBy(u => u.Id);
