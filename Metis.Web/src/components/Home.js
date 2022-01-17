@@ -8,9 +8,7 @@ export default class Home extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            lessons: 0,
-            correctWeeklyStatistics: [],
-            incorrectWeeklyStatistics: []
+            weeklyStatisticsPercentage: []
         }
     }
     componentDidMount() {
@@ -18,9 +16,9 @@ export default class Home extends Component {
         StatisticService
             .getStatisticsByUserIdLastWeek(id)
             .then((statistics) => {
+                
                 this.setState({
-                    correctWeeklyStatistics: statistics.map(statistic => statistic.correct),
-                    incorrectWeeklyStatistics: statistics.map(statistic => statistic.incorrect)
+                    weeklyStatisticsPercentage: statistics.map(statistic => (statistic.correct/(statistic.correct+statistic.incorrect))*100),
                 })
             })
     }
@@ -32,7 +30,7 @@ export default class Home extends Component {
                         <div className="card z-index-2 ">
                             <div className="card-header p-0 position-relative mt-n4 mx-3 z-index-2 bg-transparent">
                                 <div className="bg-gradient-success  shadow-success  border-radius-lg py-3 pe-1">
-                                    <StatisticGraph lablel="Incorrect" statistics={this.state.correctWeeklyStatistics} />
+                                    <StatisticGraph lablel="Incorrect" statistics={this.state.weeklyStatisticsPercentage} />
                                 </div>
                             </div>
                             <div className="card-body">

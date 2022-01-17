@@ -80,11 +80,14 @@ export default class FlashCards extends Component {
         }, 2000);
     };
     onClickAddError = () => {
+        if(this.state.isAnswerProvided) {
+            return;
+        }
         var self = this;
         this.setState({
             viewTranslation: true,
             isAnswerProvided: true,
-            isAnswerCorrect: false
+            isAnswerCorrect: false        
         })
         var language = this.state.languages.filter(d => d.id === this.state.currentWord.languageId);
         SpeechService.synthesizeSpeech(this.state.currentWord.text, language[0].code);
@@ -93,6 +96,9 @@ export default class FlashCards extends Component {
         }, 2000);
     };
     onClickAddCorrect = () => {
+        if(this.state.isAnswerProvided) {
+            return;
+        }
         var self = this;
         this.setState({
             viewTranslation: true,

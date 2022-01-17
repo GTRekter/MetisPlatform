@@ -30,6 +30,17 @@ namespace Metis.API.Controllers
         }
 
         [HttpGet]
+        [Route("AddStatistic")]
+        [Authorize(AuthenticationSchemes = Microsoft.AspNetCore.Authentication.JwtBearer.JwtBearerDefaults.AuthenticationScheme)]
+        public async Task<IActionResult> AddStatistic(int id, int wordId, bool correct)
+        {
+            var token = await HttpContext.GetTokenAsync("token");
+            
+            await StatisticManager.AddStatisticAsync(_dataContext, id, wordId, correct);
+            return Ok();
+        }
+
+        [HttpGet]
         [Route("GetStatisticsByUserId")]
         [Authorize(AuthenticationSchemes = Microsoft.AspNetCore.Authentication.JwtBearer.JwtBearerDefaults.AuthenticationScheme)]
         public async Task<IActionResult> GetStatisticsByUserIdAsync(int id)

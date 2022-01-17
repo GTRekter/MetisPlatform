@@ -58,8 +58,8 @@ namespace Metis.Models.Store
                     .WithMany(g => g.Users)
                     .UsingEntity<Dictionary<string, object>>(
                         "UserLesson",
-                        j => j.HasOne<Lesson>().WithMany().OnDelete(DeleteBehavior.NoAction),
-                        j => j.HasOne<User>().WithMany().OnDelete(DeleteBehavior.NoAction));
+                        j => j.HasOne<Lesson>().WithMany().OnDelete(DeleteBehavior.Cascade),
+                        j => j.HasOne<User>().WithMany().OnDelete(DeleteBehavior.Cascade));
 
                 entity.ToTable("User");
             });
