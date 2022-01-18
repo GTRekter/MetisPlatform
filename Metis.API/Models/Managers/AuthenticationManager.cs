@@ -65,7 +65,7 @@ namespace Metis.Models.Managers
         {
             var claims = new List<Claim>
             {
-                new Claim("Id", user.Id.ToString()),
+                new Claim("username", user.Email),
                 new Claim(JwtRegisteredClaimNames.Aud, _jwtOptions.Audience),
                 new Claim(JwtRegisteredClaimNames.Iss, _jwtOptions.Issuer),
                 new Claim(JwtRegisteredClaimNames.Email, user.Email),

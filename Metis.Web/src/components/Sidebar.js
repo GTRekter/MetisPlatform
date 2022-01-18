@@ -3,20 +3,38 @@ import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faHome, faUsers, faSpellCheck, faLayerGroup, faChalkboardTeacher, faProjectDiagram, faFont, faComments } from '@fortawesome/free-solid-svg-icons'
 import JwtService from '../services/JwtService';
+import UserService from '../services/UserService';
 
 export default class Sidebar extends Component {
     constructor(props) {
         super(props)
         this.state = {
             isAdmin: false,
-            isTeacher: false
+            isTeacher: false,
+            firstName: '',
+            lastName: '',
+            profileImage: ''
         }
+        this.onClickLogout = this.onClickLogout.bind(this);
     }
     componentDidMount() {
         this.setState({
             isAdmin: JwtService.isAdmin(),
             isTeacher: JwtService.isTeacher()
         })
+        UserService
+            .getCurrentUser()
+            .then(user => {
+                this.setState({
+                    profileImage: user.profileImage,
+                    firstName: user.firstName,
+                    lastName: user.lastName
+                })
+            })
+    }
+    onClickLogout = () => {
+        JwtService.removeToken();
+        this.props.history.push('/login');
     }
     render() {
         var adminLinks = <ul className="navbar-nav">
@@ -97,6 +115,32 @@ export default class Sidebar extends Component {
             <aside className="sidenav navbar navbar-vertical navbar-expand-xs border-0 border-radius-xl my-3 fixed-start ms-3 bg-gradient-dark" id="sidenav-main">
                 <div className="collapse navbar-collapse w-auto max-height-vh-100 mt-4" id="sidenav-collapse-main">
                     <ul className="navbar-nav">
+                        <li className="nav-item mb-2 mt-0">
+                            <a data-bs-toggle="collapse" href="#ProfileNav" className="nav-link text-white" aria-controls="ProfileNav" role="button" aria-expanded="false">
+                                <img className="avatar" src={this.state.profileImage} alt={this.state.firstName} />
+                                <span className="nav-link-text ms-2 ps-1">{this.state.firstName}</span>
+                            </a>
+                            <div className="collapse" id="ProfileNav">
+                                <ul className="nav ">
+                                    <li className="nav-item">
+                                        <div className="nav-link text-white">
+                                            <span className="sidenav-normal ms-3 ps-1"> My Profile </span>
+                                        </div>
+                                    </li>
+                                    <li className="nav-item">
+                                        <div className="nav-link text-white">
+                                            <span className="sidenav-normal ms-3 ps-1"> Settings </span>
+                                        </div>
+                                    </li>
+                                    <li className="nav-item">
+                                        <div className="nav-link text-white" onClick={this.onClickLogout}>
+                                            <span className="sidenav-normal ms-3 ps-1"> Logout </span>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+                        </li>
+                        <hr className="horizontal light mt-0" />
                         <li className="nav-item">
                             <Link className="nav-link" to='/'>
                                 <div className="text-white text-center me-2 d-flex align-items-center justify-content-center">

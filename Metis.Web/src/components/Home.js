@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import korea from '../images/korea.png';
 import StatisticService from '../services/StatisticService';
-import JwtService from '../services/JwtService';
 import StatisticGraph from './StatisticGraph';
 
 export default class Home extends Component {
@@ -12,9 +11,8 @@ export default class Home extends Component {
         }
     }
     componentDidMount() {
-        var id = JwtService.getCurrentUserId();
         StatisticService
-            .getStatisticsByUserIdLastWeek(id)
+            .getStatisticsByCurrentUserLastWeek()
             .then((statistics) => {
                 
                 this.setState({

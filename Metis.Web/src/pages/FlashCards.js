@@ -8,7 +8,6 @@ import SpeechService from '../services/SpeechService';
 import WordService from '../services/WordService';
 import WordTypeService from '../services/WordTypeService';
 import LanguageService from '../services/LanguageService';
-import JwtService from '../services/JwtService';
 
 export default class FlashCards extends Component {
     constructor(props) {
@@ -36,14 +35,13 @@ export default class FlashCards extends Component {
         this.onClickUpdateWordsByAll = this.onClickUpdateWordsByAll.bind(this);
     }
     componentDidMount() {
-        var id = JwtService.getCurrentUserId();
         LanguageService.getLanguages()
             .then(data => {
                 this.setState({
                     languages: data
                 });
             });
-        WordService.getWordsByUserId(id)
+        WordService.getWordsByCurrentUser()
             .then(data => {
                 let shuffledWords = this.shuffle(data);
                 this.setState({
@@ -112,8 +110,7 @@ export default class FlashCards extends Component {
         }, 2000);
     };
     onClickUpdateWordsByAll = () => {
-        let id = JwtService.getCurrentUserId();
-        WordService.getWordsByUserId(id)
+        WordService.getWordsByCurrentUser()
             .then(data => {
                 let shuffledWords = this.shuffle(data);
                 this.setState({
@@ -129,9 +126,8 @@ export default class FlashCards extends Component {
             });
     };
     onClickUpdateWordsByWordType = (value) => {
-        let id = JwtService.getCurrentUserId();
         if(value === "" || value === "All") {
-            WordService.getWordsByUserId(id)
+            WordService.getWordsByCurrentUser()
             .then(data => {
                 let shuffledWords = this.shuffle(data);
                 this.setState({
@@ -148,7 +144,7 @@ export default class FlashCards extends Component {
             });
         } else {
             let wordTypeIds = this.state.wordTypes.filter((wordType) => wordType.name === value);
-            WordService.getWordsByUserIdAndWordTypeId(id, wordTypeIds[0].id)
+            WordService.getWordsByCurrentUserAndWordTypeId(wordTypeIds[0].id)
                 .then(data => {
                     let shuffledWords = this.shuffle(data);
                     this.setState({

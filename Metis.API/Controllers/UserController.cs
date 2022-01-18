@@ -103,6 +103,15 @@ namespace Metis.API.Controllers
             IEnumerable<User> users = await UserManager.GetUsersAsync(_dataContext);
             return Ok(users);
         }
+     
+        [HttpGet]
+        [Authorize(AuthenticationSchemes = Microsoft.AspNetCore.Authentication.JwtBearer.JwtBearerDefaults.AuthenticationScheme)]
+        [Route("GetCurrentUser")]
+        public async Task<IActionResult> GetCurrentUserAsync()
+        {
+            var user = await UserManager.GetUserByEmailAsync(_dataContext, User.Claims.FirstOrDefault(c => c.Type == "username").Value);
+            return Ok(user);
+        }
 
         [HttpGet]
         [Authorize(AuthenticationSchemes = Microsoft.AspNetCore.Authentication.JwtBearer.JwtBearerDefaults.AuthenticationScheme)]

@@ -58,24 +58,24 @@ class WordService {
         return HttpService.request('get', process.env.REACT_APP_API_BASEURL + "Word/GetWords", null, headers)
             .then(res => res.json());  
     }
-    getWordsByUserId(id) {
+    getWordsByCurrentUser() {
         let headers = {
             'Accept': 'application/json, text/plain, */*',
             'Content-Type': 'application/json',
             'Access-Control-Allow-Origin': '*',
             'Authorization': 'Bearer ' + JwtService.getToken()
         };
-        return HttpService.request('get', process.env.REACT_APP_API_BASEURL + "Word/GetWordsByUserId?Id=" + id, null, headers)
+        return HttpService.request('get', process.env.REACT_APP_API_BASEURL + "Word/GetWordsByCurrentUser", null, headers)
             .then(res => res.json());  
     }
-    getWordsByUserIdAndWordTypeId(userId, wordTypeId) {
+    getWordsByCurrentUserAndWordTypeId(wordTypeId) {
         let headers = {
             'Accept': 'application/json, text/plain, */*',
             'Content-Type': 'application/json',
             'Access-Control-Allow-Origin': '*',
             'Authorization': 'Bearer ' + JwtService.getToken()
         };
-        return HttpService.request('get', process.env.REACT_APP_API_BASEURL + "Word/GetWordsByUserIdAndWordTypeId?Id=" + userId + "&wordTypeId=" + wordTypeId, null, headers)
+        return HttpService.request('get', process.env.REACT_APP_API_BASEURL + "Word/GetWordsByCurrentUserAndWordTypeId?wordTypeId=" + wordTypeId, null, headers)
             .then(res => res.json());  
     }
     getWordsByLanguageId(id) {
@@ -117,15 +117,15 @@ class WordService {
         };
         return HttpService.request('get', process.env.REACT_APP_API_BASEURL + "Word/GetWordsByPage?page=" + page + "&itemsPerPage=" + itemsPerPage, null, headers)
             .then(res => res.json());  
-    }
-    getWordsByUserIdAndPage(id, page, itemsPerPage) {
+    }   
+    getWordsByCurrentUserAndPage(page, itemsPerPage) {
         let headers = {
             'Accept': 'application/json, text/plain, */*',
             'Content-Type': 'application/json',
             'Access-Control-Allow-Origin': '*',
             'Authorization': 'Bearer ' + JwtService.getToken()
         };
-        return HttpService.request('get', process.env.REACT_APP_API_BASEURL + "Word/GetWordsByUserIdAndPage?id=" + id + "&page=" + page + "&itemsPerPage=" + itemsPerPage, null, headers)
+        return HttpService.request('get', process.env.REACT_APP_API_BASEURL + "Word/GetWordsByCurrentUserAndPage?page=" + page + "&itemsPerPage=" + itemsPerPage, null, headers)
             .then(res => res.json());  
     }
     getWordsByPageAndSearchQuery(page, itemsPerPage, searchQuery) {
@@ -138,14 +138,14 @@ class WordService {
         return HttpService.request('get', process.env.REACT_APP_API_BASEURL + "Word/getWordsByPageAndSearchQuery?page=" + page + "&itemsPerPage=" + itemsPerPage + "&searchQuery=" + searchQuery, null, headers)
             .then(res => res.json());  
     }
-    getWordsByUserIdAndPageAndSearchQuery(id, page, itemsPerPage, searchQuery) {
+    getWordsByCurrentUserAndPageAndSearchQuery(page, itemsPerPage, searchQuery) {
         let headers = {
             'Accept': 'application/json, text/plain, */*',
             'Content-Type': 'application/json',
             'Access-Control-Allow-Origin': '*',
             'Authorization': 'Bearer ' + JwtService.getToken()
         };
-        return HttpService.request('get', process.env.REACT_APP_API_BASEURL + "Word/GetWordsByUserIdAndPageAndSearchQuery?id=" + id + "&page=" + page + "&itemsPerPage=" + itemsPerPage + "&searchQuery=" + searchQuery, null, headers)
+        return HttpService.request('get', process.env.REACT_APP_API_BASEURL + "Word/GetWordsByCurrentUserAndPageAndSearchQuery?page=" + page + "&itemsPerPage=" + itemsPerPage + "&searchQuery=" + searchQuery, null, headers)
             .then(res => res.json());  
     }
     getWordsCount() {
@@ -158,14 +158,14 @@ class WordService {
         return HttpService.request('get', process.env.REACT_APP_API_BASEURL + "Word/GetWordsCount", null, headers)
             .then(res => res.json());  
     }
-    getWordsByUserIdCount(id) {
+    getWordsByCurrentUserCount() {
         let headers = {
             'Accept': 'application/json, text/plain, */*',
             'Content-Type': 'application/json',
             'Access-Control-Allow-Origin': '*',
             'Authorization': 'Bearer ' + JwtService.getToken()
         };
-        return HttpService.request('get', process.env.REACT_APP_API_BASEURL + "Word/GetWordsByUserIdCount?id=" + id, null, headers)
+        return HttpService.request('get', process.env.REACT_APP_API_BASEURL + "Word/GetWordsByCurrentUserCount", null, headers)
             .then(res => res.json());  
     }
     getWordsBySearchQueryCount(searchQuery) {
@@ -178,14 +178,14 @@ class WordService {
         return HttpService.request('get', process.env.REACT_APP_API_BASEURL + "Word/GetWordsBySearchQueryCount?searchQuery=" + searchQuery, null, headers)
             .then(res => res.json());  
     }
-    getWordsByUserIdAndSearchQueryCount(id, searchQuery) {
+    getWordsByCurrentUserAndSearchQueryCount(searchQuery) {
         let headers = {
             'Accept': 'application/json, text/plain, */*',
             'Content-Type': 'application/json',
             'Access-Control-Allow-Origin': '*',
             'Authorization': 'Bearer ' + JwtService.getToken()
         };
-        return HttpService.request('get', process.env.REACT_APP_API_BASEURL + "Word/GetWordsByUserIdAndSearchQueryCount?id=" + id +  "&searchQuery=" + searchQuery, null, headers)
+        return HttpService.request('get', process.env.REACT_APP_API_BASEURL + "Word/GetWordsByCurrentUserAndSearchQueryCount?searchQuery=" + searchQuery, null, headers)
             .then(res => res.json());  
     }
     importWordsFromFile(file) {

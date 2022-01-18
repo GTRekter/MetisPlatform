@@ -6,7 +6,6 @@ import Pagination from '../components/Pagination';
 import WordService from '../services/WordService';
 import LanguageService from '../services/LanguageService';
 import SpeechService from '../services/SpeechService';
-import JwtService from '../services/JwtService';
 
 export default class Dictionary extends Component {
     constructor(props) {
@@ -26,16 +25,15 @@ export default class Dictionary extends Component {
         this.onClickChangePage = this.onClickChangePage.bind(this);
     }
     componentDidMount() {
-        var id = JwtService.getCurrentUserId();
         WordService
-            .getWordsByUserIdAndPage(id, this.state.page, this.state.wordsPerPage)
+            .getWordsByCurrentUserAndPage(this.state.page, this.state.wordsPerPage)
             .then(response => {
                 this.setState({
                     displayedWords: response
                 });
             })
         WordService
-            .getWordsByUserIdCount(id)
+            .getWordsByCurrentUserCount()
             .then(response => {
                 this.setState({
                     words: response,
@@ -55,10 +53,9 @@ export default class Dictionary extends Component {
         SpeechService.synthesizeSpeech(string, language[0].code);
     }
     onClickUpdateWordsByPage = (wordsPerPage) => {
-        var id = JwtService.getCurrentUserId();
         if (this.state.searchQuery === '') {
             WordService
-                .getWordsByUserIdCount(id)
+                .getWordsByCurrentUserCount()
                 .then(response => {
                     this.setState({
                         words: response,
@@ -66,7 +63,7 @@ export default class Dictionary extends Component {
                     });
                 })
             WordService
-                .getWordsByUserIdAndPage(id, this.state.page, wordsPerPage)
+                .getWordsByCurrentUserAndPage(this.state.page, wordsPerPage)
                 .then(response => {
                     this.setState({
                         ...this.state,
@@ -76,7 +73,7 @@ export default class Dictionary extends Component {
                 })
         } else {
             WordService
-                .getWordsByUserIdAndSearchQueryCount(id, this.state.searchQuery)
+                .getWordsByCurrentUserAndSearchQueryCount(this.state.searchQuery)
                 .then(response => {
                     this.setState({
                         words: response,
@@ -84,7 +81,7 @@ export default class Dictionary extends Component {
                     });
                 })
             WordService
-                .getWordsByUserIdAndPageAndSearchQuery(id, this.state.page, wordsPerPage, this.state.searchQuery)
+                .getWordsByCurrentUserAndPageAndSearchQuery(this.state.page, wordsPerPage, this.state.searchQuery)
                 .then(response => {
                     this.setState({
                         ...this.state,
@@ -99,10 +96,9 @@ export default class Dictionary extends Component {
             ...this.state,
             searchQuery: event.target.value
         });
-        var id = JwtService.getCurrentUserId();
         if (event.target.value === '') {
             WordService
-                .getWordsByUserIdCount(id)
+                .getWordsByCurrentUserCount()
                 .then(response => {
                     this.setState({
                         words: response,
@@ -110,7 +106,7 @@ export default class Dictionary extends Component {
                     });
                 })
             WordService
-                .getWordsByUserIdAndPage(id, this.state.page, this.state.wordsPerPage)
+                .getWordsByCurrentUserAndPage(this.state.page, this.state.wordsPerPage)
                 .then(response => {
                     this.setState({
                         ...this.state,
@@ -119,7 +115,7 @@ export default class Dictionary extends Component {
                 })
         } else {
             WordService
-                .getWordsByUserIdAndSearchQueryCount(id, event.target.value)
+                .getWordsByCurrentUserAndSearchQueryCount(event.target.value)
                 .then(response => {
                     this.setState({
                         words: response,
@@ -127,7 +123,7 @@ export default class Dictionary extends Component {
                     });
                 })
             WordService
-                .getWordsByUserIdAndPageAndSearchQuery(id, this.state.page, this.state.wordsPerPage, event.target.value)
+                .getWordsByCurrentUserAndPageAndSearchQuery(this.state.page, this.state.wordsPerPage, event.target.value)
                 .then(response => {
                     this.setState({
                         ...this.state,
@@ -137,10 +133,9 @@ export default class Dictionary extends Component {
         }
     }
     onClickChangePage = (page) => {
-        var id = JwtService.getCurrentUserId();
         if (this.state.searchQuery === '') {
             WordService
-                .getWordsByUserIdCount(id)
+                .getWordsByCurrentUserCount()
                 .then(response => {
                     this.setState({
                         words: response,
@@ -148,7 +143,7 @@ export default class Dictionary extends Component {
                     });
                 })
             WordService
-                .getWordsByUserIdAndPage(id, page, this.state.wordsPerPage)
+                .getWordsByCurrentUserAndPage(page, this.state.wordsPerPage)
                 .then(response => {
                     this.setState({
                         ...this.state,
@@ -158,7 +153,7 @@ export default class Dictionary extends Component {
                 })
         } else {
             WordService
-                .getWordsByUserIdAndSearchQueryCount(id, this.state.searchQuery)
+                .getWordsByCurrentUserAndSearchQueryCount(this.state.searchQuery)
                 .then(response => {
                     this.setState({
                         words: response,
@@ -166,7 +161,7 @@ export default class Dictionary extends Component {
                     });
                 })
             WordService
-                .getWordsByUserIdAndPageAndSearchQuery(id, page, this.state.wordsPerPage, this.state.searchQuery)
+                .getWordsByCurrentUserAndPageAndSearchQuery(page, this.state.wordsPerPage, this.state.searchQuery)
                 .then(response => {
                     this.setState({
                         ...this.state,

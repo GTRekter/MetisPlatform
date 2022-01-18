@@ -18,24 +18,24 @@ class StatisticService {
         })
         return HttpService.request('post', process.env.REACT_APP_API_BASEURL + "Statistic/AddStatistic", body, headers);
     }
-    getStatisticsByUserIdLastWeek(id) {
+    getStatisticsByCurrentUserLastWeek() {
         let headers = {
             'Accept': 'application/json, text/plain, */*',
             'Content-Type': 'application/json',
             'Access-Control-Allow-Origin': '*',
             'Authorization': 'Bearer ' + JwtService.getToken()
         };
-        return HttpService.request('get', process.env.REACT_APP_API_BASEURL + "Statistic/GetStatisticsByUserIdLastWeek?id=" + id, null, headers)
+        return HttpService.request('get', process.env.REACT_APP_API_BASEURL + "Statistic/GetStatisticsByCurrentUserLastWeek", null, headers)
             .then(res => res.json());  
     }
-    getCommonErrorByUserId(id) {
+    getCommonErrorByCurrentUser() {
         let headers = {
             'Accept': 'application/json, text/plain, */*',
             'Content-Type': 'application/json',
             'Access-Control-Allow-Origin': '*',
             'Authorization': 'Bearer ' + JwtService.getToken()
         };
-        return HttpService.request('get', process.env.REACT_APP_API_BASEURL + "Statistic/GetCommonErrorByUserId?id=" + id, null, headers)
+        return HttpService.request('get', process.env.REACT_APP_API_BASEURL + "Statistic/GetCommonErrorByCurrentUser", null, headers)
             .then(res => res.json());  
     }
     getStatisticsByUserId(id) {

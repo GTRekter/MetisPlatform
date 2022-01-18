@@ -104,7 +104,7 @@ namespace Metis.Models.Managers
             dataContext.Users.Remove(userToRemove);
             await dataContext.SaveChangesAsync();
         }
-        
+            
         public static async Task<User> GetUserByEmailAsync(ApplicationDbContext dataContext, string email)
         {
             return await dataContext.Users
@@ -151,9 +151,6 @@ namespace Metis.Models.Managers
                 .Where(u => u.Role.Id == roleId)
                 .CountAsync();
         }
-        
-
-
         public static async Task<IEnumerable<User>> GetUsersAsync(ApplicationDbContext dataContext)
         {
             return await dataContext.Users

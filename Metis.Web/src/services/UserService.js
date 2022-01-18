@@ -65,6 +65,16 @@ class UserService {
         return HttpService.request('get', process.env.REACT_APP_API_BASEURL + "User/GetUsers", null, headers)
             .then(res => res.json());  
     }
+    getCurrentUser() {
+        let headers = {
+            'Accept': 'application/json, text/plain, */*',
+            'Content-Type': 'application/json',
+            'Access-Control-Allow-Origin': '*',
+            'Authorization': 'Bearer ' + JwtService.getToken()
+        };
+        return HttpService.request('get', process.env.REACT_APP_API_BASEURL + "User/GetCurrentUser", null, headers)
+            .then(res => res.json());  
+    }
     getUserById(id) {
         let headers = {
             'Accept': 'application/json, text/plain, */*',

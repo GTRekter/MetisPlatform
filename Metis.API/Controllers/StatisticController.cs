@@ -14,6 +14,8 @@ using Metis.Models.Requests;
 using Metis.Models.Managers;
 using Metis.Models;
 using Metis.Models.Responses;
+using System.Security.Claims;
+using System.IdentityModel.Tokens.Jwt;
 
 namespace Metis.API.Controllers
 {
@@ -34,8 +36,7 @@ namespace Metis.API.Controllers
         [Authorize(AuthenticationSchemes = Microsoft.AspNetCore.Authentication.JwtBearer.JwtBearerDefaults.AuthenticationScheme)]
         public async Task<IActionResult> AddStatistic(int id, int wordId, bool correct)
         {
-            var token = await HttpContext.GetTokenAsync("token");
-            
+            var token = await HttpContext.GetTokenAsync("token");        
             await StatisticManager.AddStatisticAsync(_dataContext, id, wordId, correct);
             return Ok();
         }
@@ -50,12 +51,13 @@ namespace Metis.API.Controllers
         }
 
         [HttpGet]
-        [Route("getStatisticsByUserIdLastWeek")]
+        [Route("getStatisticsByCurrentUserLastWeek")]
         [Authorize(AuthenticationSchemes = Microsoft.AspNetCore.Authentication.JwtBearer.JwtBearerDefaults.AuthenticationScheme)]
-        public async Task<IActionResult> getStatisticsByUserIdLastWeekAsync(int id)
+        public async Task<IActionResult> getStatisticsByCurrentUserLastWeekAsync()
         {
+            var user = await UserManager.GetUserByEmailAsync(_dataContext, User.Claims.FirstOrDefault(c => c.Type == "username").Value);
             DateTime startDate = DateTime.Now.AddDays(-7);
-            var statistics = await StatisticManager.GetStatisticsAsync(_dataContext, id, startDate);
+            var statistics = await StatisticManager.GetStatisticsAsync(_dataContext, user.Id, startDate);
             var groupedStatistics = statistics
                 .GroupBy(s => s.CreatedOn.Date)
                 .OrderBy(g => g.Key)

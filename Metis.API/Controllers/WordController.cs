@@ -21,10 +21,10 @@ namespace Metis.API.Controllers
     [Route("[controller]")]
     public class WordController : ControllerBase
     {
-        private readonly ApplicationDbContext _context;
-        public WordController(ApplicationDbContext context)
+        private readonly ApplicationDbContext _dataContext;
+        public WordController(ApplicationDbContext dataContext)
         {
-            _context = context;
+            _dataContext = dataContext;
         }
 
         [HttpPost]
@@ -36,7 +36,7 @@ namespace Metis.API.Controllers
             {
                 return NotFound();
             }
-            await WordManager.AddWordAsync(_context, request.Text, request.Romanization, request.LanguageId, request.WordTypeId, request.Description, request.Example, request.Translations.Select(t => new KeyValuePair<int,string>(t.LanguageId, t.Text)));
+            await WordManager.AddWordAsync(_dataContext, request.Text, request.Romanization, request.LanguageId, request.WordTypeId, request.Description, request.Example, request.Translations.Select(t => new KeyValuePair<int,string>(t.LanguageId, t.Text)));
             return Ok();
         }
         
@@ -62,7 +62,7 @@ namespace Metis.API.Controllers
                     translationsToEdit.Add(new KeyValuePair<int, string>((int)translation.Id, translation.Text));
                 }
             }    
-            await WordManager.EditWordAsync(_context, request.Id, request.Text, request.Romanization, request.LanguageId, request.WordTypeId, request.Description, request.Example, translationsToAdd, translationsToEdit);
+            await WordManager.EditWordAsync(_dataContext, request.Id, request.Text, request.Romanization, request.LanguageId, request.WordTypeId, request.Description, request.Example, translationsToAdd, translationsToEdit);
             return Ok();
         }
 
@@ -71,7 +71,7 @@ namespace Metis.API.Controllers
         [Route("DeleteWordById")]
         public async Task<IActionResult> DeleteWordByIdAsync(int id)
         {
-            await WordManager.DeleteWordByIdAsync(_context, id);
+            await WordManager.DeleteWordByIdAsync(_dataContext, id);
             return Ok();
         }
 
@@ -81,7 +81,7 @@ namespace Metis.API.Controllers
         [Route("GetWords")]
         public async Task<IActionResult> GetWordsAsync()
         {
-            IEnumerable<Word> words = await WordManager.GetWordsAsync(_context);
+            IEnumerable<Word> words = await WordManager.GetWordsAsync(_dataContext);
             return Ok(words);
         }
 
@@ -90,25 +90,27 @@ namespace Metis.API.Controllers
         [Route("GetWordsByLanguageId")]
         public async Task<IActionResult> GetWordsByLanguageIdAsync(int id)
         {
-            IEnumerable<Word> words = await WordManager.GetWordsByLanguageId(_context, id);
+            IEnumerable<Word> words = await WordManager.GetWordsByLanguageId(_dataContext, id);
             return Ok(words);
         }
 
         [HttpGet]
         [Authorize(AuthenticationSchemes = Microsoft.AspNetCore.Authentication.JwtBearer.JwtBearerDefaults.AuthenticationScheme)]
-        [Route("GetWordsByUserId")]
-        public async Task<IActionResult> GetWordsByUserIdAsync(int id)
+        [Route("GetWordsByCurrentUser")]
+        public async Task<IActionResult> GetWordsByCurrentUserAsync()
         {
-            IEnumerable<Word> words = await WordManager.GetWordsAsync(_context, id);
+            var user = await UserManager.GetUserByEmailAsync(_dataContext, User.Claims.FirstOrDefault(c => c.Type == "username").Value);
+            IEnumerable<Word> words = await WordManager.GetWordsAsync(_dataContext, user.Id);
             return Ok(words);
         }
 
         [HttpGet]
         [Authorize(AuthenticationSchemes = Microsoft.AspNetCore.Authentication.JwtBearer.JwtBearerDefaults.AuthenticationScheme)]
-        [Route("GetWordsByUserIdAndWordTypeId")]
-        public async Task<IActionResult> GetWordsByUserIdAndWordTypeIdAsync(int id, int wordTypeId)
+        [Route("GetWordsByCurrentUserAndWordTypeId")]
+        public async Task<IActionResult> GetWordsByCurrentUserAndWordTypeIdAsync(int wordTypeId)
         {
-            IEnumerable<Word> words = await WordManager.GetWordsAsync(_context, id, wordTypeId);
+            var user = await UserManager.GetUserByEmailAsync(_dataContext, User.Claims.FirstOrDefault(c => c.Type == "username").Value);
+            IEnumerable<Word> words = await WordManager.GetWordsAsync(_dataContext, user.Id, wordTypeId);
             return Ok(words);
         }   
 
@@ -117,7 +119,7 @@ namespace Metis.API.Controllers
         [Route("GetWordById")]
         public async Task<IActionResult> GetWordByIdAsync(int id)
         {
-            var word = await WordManager.GetWordByIdAsync(_context, id);
+            var word = await WordManager.GetWordByIdAsync(_dataContext, id);
             return Ok(word);
         }
 
@@ -126,16 +128,17 @@ namespace Metis.API.Controllers
         [Route("GetWordsByPage")]
         public async Task<IActionResult> GetWordsByPageAsync(int page, int itemsPerPage)
         {
-            IEnumerable<Word> words = await WordManager.GetWordsByPageAsync(_context, page, itemsPerPage);
+            IEnumerable<Word> words = await WordManager.GetWordsByPageAsync(_dataContext, page, itemsPerPage);
             return Ok(words);
         }
 
         [HttpGet]
         [Authorize(AuthenticationSchemes = Microsoft.AspNetCore.Authentication.JwtBearer.JwtBearerDefaults.AuthenticationScheme)]
-        [Route("GetWordsByUserIdAndPage")]
-        public async Task<IActionResult> GetWordsByUserIdAndPageAsync(int id, int page, int itemsPerPage)
+        [Route("GetWordsByCurrentUserAndPage")]
+        public async Task<IActionResult> GetWordsByCurrentUserAndPageAsync(int page, int itemsPerPage)
         {
-            IEnumerable<Word> words = await WordManager.GetWordsByPageAsync(_context, id, page, itemsPerPage);
+            var user = await UserManager.GetUserByEmailAsync(_dataContext, User.Claims.FirstOrDefault(c => c.Type == "username").Value);
+            IEnumerable<Word> words = await WordManager.GetWordsByPageAsync(_dataContext, user.Id, page, itemsPerPage);
             return Ok(words);
         }
 
@@ -144,16 +147,17 @@ namespace Metis.API.Controllers
         [Route("GetWordsByPageAndSearchQuery")]
         public async Task<IActionResult> GetWordsByPageAndSearchQueryAsync(int page, int itemsPerPage, string searchQuery)
         {
-            IEnumerable<Word> words = await WordManager.GetWordsByPageAsync(_context, page, itemsPerPage, searchQuery);
+            IEnumerable<Word> words = await WordManager.GetWordsByPageAsync(_dataContext, page, itemsPerPage, searchQuery);
             return Ok(words);
         }
 
         [HttpGet]
         [Authorize(AuthenticationSchemes = Microsoft.AspNetCore.Authentication.JwtBearer.JwtBearerDefaults.AuthenticationScheme)]
-        [Route("GetWordsByUserIdAndPageAndSearchQuery")]
-        public async Task<IActionResult> GetWordsByUserIdAndPageAndSearchQueryAsync(int id, int page, int itemsPerPage, string searchQuery)
+        [Route("GetWordsByCurrentUserAndPageAndSearchQuery")]
+        public async Task<IActionResult> GetWordsByCurrentUserAndPageAndSearchQueryAsync(int page, int itemsPerPage, string searchQuery)
         {
-            IEnumerable<Word> words = await WordManager.GetWordsByPageAsync(_context, id, page, itemsPerPage, searchQuery);
+            var user = await UserManager.GetUserByEmailAsync(_dataContext, User.Claims.FirstOrDefault(c => c.Type == "username").Value);
+            IEnumerable<Word> words = await WordManager.GetWordsByPageAsync(_dataContext, user.Id, page, itemsPerPage, searchQuery);
             return Ok(words);
         }
 
@@ -162,16 +166,17 @@ namespace Metis.API.Controllers
         [Route("GetWordsCount")]
         public async Task<IActionResult> GetWordsCountAsync()
         {
-            int counter = await WordManager.GetWordsCountAsync(_context);
+            int counter = await WordManager.GetWordsCountAsync(_dataContext);
             return Ok(counter);
         }
 
         [HttpGet]
         [Authorize(AuthenticationSchemes = Microsoft.AspNetCore.Authentication.JwtBearer.JwtBearerDefaults.AuthenticationScheme)]
-        [Route("GetWordsByUserIdCount")]
-        public async Task<IActionResult> GetWordsByUserIdCountAsync(int id)
+        [Route("GetWordsByCurrentUserCount")]
+        public async Task<IActionResult> GetWordsByCurrentUserCountAsync()
         {
-            int counter = await WordManager.GetWordsCountAsync(_context, id);
+            var user = await UserManager.GetUserByEmailAsync(_dataContext, User.Claims.FirstOrDefault(c => c.Type == "username").Value);
+            int counter = await WordManager.GetWordsCountAsync(_dataContext, user.Id);
             return Ok(counter);
         }
 
@@ -180,16 +185,16 @@ namespace Metis.API.Controllers
         [Route("GetWordsBySearchQueryCount")]
         public async Task<IActionResult> GetWordsBySearchQueryCountAsync(string searchQuery)
         {
-            int counter = await WordManager.GetWordsCountAsync(_context, searchQuery);
+            int counter = await WordManager.GetWordsCountAsync(_dataContext, searchQuery);
             return Ok(counter);
         }
 
         [HttpGet]
         [Authorize(AuthenticationSchemes = Microsoft.AspNetCore.Authentication.JwtBearer.JwtBearerDefaults.AuthenticationScheme)]
-        [Route("GetWordsByUserIdAndSearchQueryCount")]
-        public async Task<IActionResult> GetWordsByUserIdAndSearchQueryCountAsync(int id, string searchQuery)
+        [Route("GetWordsByCurrentUserAndSearchQueryCount")]
+        public async Task<IActionResult> GetWordsByCurrentUserAndSearchQueryCountAsync(string searchQuery)
         {
-            int counter = await WordManager.GetWordsCountAsync(_context, id, searchQuery);
+            int counter = await WordManager.GetWordsCountAsync(_dataContext, searchQuery);
             return Ok(counter);
         }
 
@@ -202,8 +207,8 @@ namespace Metis.API.Controllers
             using (var reader = new StreamReader(file.OpenReadStream()))
             using (var csv = new CsvReader(reader, CultureInfo.InvariantCulture))
             {
-                var languages = await LanguageManager.GetLanguagesAsync(_context);
-                var wordTypes = await WordTypeManager.GetWordTypesAsync(_context);
+                var languages = await LanguageManager.GetLanguagesAsync(_dataContext);
+                var wordTypes = await WordTypeManager.GetWordTypesAsync(_dataContext);
                 IEnumerable<dynamic> records = csv.GetRecords<dynamic>();
                 foreach (var record in records)
                 {
@@ -231,7 +236,7 @@ namespace Metis.API.Controllers
                             translations.Add(new KeyValuePair<int,string>(language.Id, dictionary[language.Code].ToString()));
                         }
                     }         
-                    await WordManager.AddWordAsync(_context, record.Text, record.Romanization, languageToRelate.Id, wordTypeToRelate.Id, record.Description, record.Example, translations);
+                    await WordManager.AddWordAsync(_dataContext, record.Text, record.Romanization, languageToRelate.Id, wordTypeToRelate.Id, record.Description, record.Example, translations);
                 }
             }
             return Ok();
@@ -242,8 +247,8 @@ namespace Metis.API.Controllers
         [Route("DownloadImportTemplate")]
         public async Task<IActionResult> DownloadImportTemplateAsync() 
         {
-            var languages = await LanguageManager.GetLanguagesAsync(_context);
-            var wordTypes = await WordTypeManager.GetWordTypesAsync(_context);
+            var languages = await LanguageManager.GetLanguagesAsync(_dataContext);
+            var wordTypes = await WordTypeManager.GetWordTypesAsync(_dataContext);
 
             var records = new List<dynamic>();
             dynamic record = new ExpandoObject();
