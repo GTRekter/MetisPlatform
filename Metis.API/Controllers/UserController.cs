@@ -95,6 +95,26 @@ namespace Metis.API.Controllers
             return Ok();
         }
 
+        [HttpPost]
+        [Authorize(AuthenticationSchemes = Microsoft.AspNetCore.Authentication.JwtBearer.JwtBearerDefaults.AuthenticationScheme)]
+        [Route("EditCurrentUser")]
+        public async Task<IActionResult> EditCurrentUserAsync(EditCurrentUserRequest model)
+        {
+            var user = await UserManager.GetUserByEmailAsync(_dataContext, User.Claims.FirstOrDefault(c => c.Type == "username").Value);
+            await UserManager.EditUserAsync(_dataContext, user.Id, model.FirstName, model.LastName, model.Email, model.LanguageId);
+            return Ok();
+        }
+
+        [HttpPost]
+        [Authorize(AuthenticationSchemes = Microsoft.AspNetCore.Authentication.JwtBearer.JwtBearerDefaults.AuthenticationScheme)]
+        [Route("EditCurrentUserPassword")]
+        public async Task<IActionResult> EditCurrentUserPasswordAsync(EditCurrentUserPasswordRequest request)
+        {
+            var user = await UserManager.GetUserByEmailAsync(_dataContext, User.Claims.FirstOrDefault(c => c.Type == "username").Value);
+            await UserManager.EditUserPasswordAsync(_dataContext, user.Id, request.Password, request.NewPassword, request.ConfirmNewPassword);
+            return Ok();
+        }
+
         [HttpGet]
         [Authorize(AuthenticationSchemes = Microsoft.AspNetCore.Authentication.JwtBearer.JwtBearerDefaults.AuthenticationScheme, Roles = "Administrator")]
         [Route("GetUsers")]
@@ -165,6 +185,16 @@ namespace Metis.API.Controllers
         {
             int counter = await UserManager.GetUsersCountAsync(_dataContext, searchQuery);
             return Ok(counter);
+        }
+
+        [HttpDelete]
+        [Route("DeleteCurrentUser")]
+        [Authorize(AuthenticationSchemes = Microsoft.AspNetCore.Authentication.JwtBearer.JwtBearerDefaults.AuthenticationScheme)]
+        public async Task<IActionResult> DeleteCurrentUserAsync()
+        {
+            var user = await UserManager.GetUserByEmailAsync(_dataContext, User.Claims.FirstOrDefault(c => c.Type == "username").Value);
+            await UserManager.DeleteUserByIdAsync(_dataContext, user.Id);
+            return Ok();
         }
 
         [HttpDelete]

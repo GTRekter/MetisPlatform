@@ -123,14 +123,9 @@ export default class Sidebar extends Component {
                             <div className="collapse" id="ProfileNav">
                                 <ul className="nav ">
                                     <li className="nav-item">
-                                        <div className="nav-link text-white">
+                                        <Link className="nav-link text-white" to='/profile'>
                                             <span className="sidenav-normal ms-3 ps-1"> My Profile </span>
-                                        </div>
-                                    </li>
-                                    <li className="nav-item">
-                                        <div className="nav-link text-white">
-                                            <span className="sidenav-normal ms-3 ps-1"> Settings </span>
-                                        </div>
+                                        </Link>
                                     </li>
                                     <li className="nav-item">
                                         <div className="nav-link text-white" onClick={this.onClickLogout}>

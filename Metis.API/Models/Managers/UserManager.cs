@@ -63,6 +63,43 @@ namespace Metis.Models.Managers
             dataContext.Update(user);
             await dataContext.SaveChangesAsync();
         }
+        public static async Task EditUserAsync(ApplicationDbContext dataContext, int id, string name, string surname, string email, int languageId)
+        {
+            User user = await dataContext.Users
+                .FirstOrDefaultAsync(l => l.Id == id);
+            if (user == null)
+            {
+                throw new Exception("User not found");
+            }
+            user.FirstName = name;
+            user.LastName = surname;
+            user.Email = email;
+            user.Language = await dataContext.Languages.FirstOrDefaultAsync(d => d.Id == languageId);
+            dataContext.Update(user);
+            await dataContext.SaveChangesAsync();
+        }
+        public static async Task EditUserPasswordAsync(ApplicationDbContext dataContext, int id, string password, string newPassword, string confirmNewPassword)
+        {
+            var hasher = new PasswordHasher<User>();
+            User user = await dataContext.Users
+                .FirstOrDefaultAsync(l => l.Id == id);
+            if (user == null)
+            {
+                throw new Exception("User not found");
+            }
+            PasswordVerificationResult result = hasher.VerifyHashedPassword(user, user.PasswordHash, password);
+            if (result != PasswordVerificationResult.Success)
+            {
+                throw new Exception("Password is incorrect");
+            }
+            if (newPassword != confirmNewPassword)
+            {
+                throw new Exception("New password and confirm new password are not equal");
+            }
+            user.PasswordHash = hasher.HashPassword(user, newPassword); 
+            dataContext.Update(user);
+            await dataContext.SaveChangesAsync();
+        }
         public static async Task EditUserAsync(ApplicationDbContext dataContext, int id, string name, string surname, string email, bool enabled, int roleId, int languageId, IEnumerable<int> lessonsIds)
         {
             string userId = id.ToString();

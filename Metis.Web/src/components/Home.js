@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import korea from '../images/korea.png';
 import StatisticService from '../services/StatisticService';
 import StatisticGraph from './StatisticGraph';
+import UserBasicInfo from './UserBasicInfoForm';
 
 export default class Home extends Component {
     constructor(props) {

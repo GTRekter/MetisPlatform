@@ -55,6 +55,35 @@ class UserService {
         })
         return HttpService.request('post', process.env.REACT_APP_API_BASEURL + "User/EditUser", body, headers);
     }
+    editCurrentUser(firstname, lastname, email, languageId) {
+        let headers = {
+            'Accept': 'application/json, text/plain, */*',
+            'Content-Type': 'application/json',
+            'Access-Control-Allow-Origin': '*',
+            'Authorization': 'Bearer ' + JwtService.getToken()
+        };
+        let body = JSON.stringify({
+            firstname: firstname,
+            lastname: lastname,
+            email: email,
+            languageId: languageId
+        })
+        return HttpService.request('post', process.env.REACT_APP_API_BASEURL + "User/EditCurrentUser", body, headers);
+    }
+    editCurrentUserPassword(password, newPassword, confirmNewPassword) {
+        let headers = {
+            'Accept': 'application/json, text/plain, */*',
+            'Content-Type': 'application/json',
+            'Access-Control-Allow-Origin': '*',
+            'Authorization': 'Bearer ' + JwtService.getToken()
+        };
+        let body = JSON.stringify({
+            password: password,
+            newPassword: newPassword,
+            confirmNewPassword: confirmNewPassword
+        })
+        return HttpService.request('post', process.env.REACT_APP_API_BASEURL + "User/EditCurrentUserPassword", body, headers);
+    }
     getUsers() {
         let headers = {
             'Accept': 'application/json, text/plain, */*',
