@@ -205,57 +205,57 @@ export default class Dictionary extends Component {
             )
         });
         let dictionary = <div>
-        <div className="row">
-            <div className="col-12 col-sm-4 py-4">
-                <ReportCard title="Active words" icon={faUser} color="primary" value={this.state.activeWords} footer={`Total number of words: ${this.state.words}`} />
-            </div>
-        </div>
-        <div className="row">
-            <div className="col-8">
-                <div className="dropdown d-inline mx-2">
-                    <button className="btn bg-gradient-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
-                        Words per page: {this.state.wordsPerPage}
-                        <FontAwesomeIcon className='text-secondary text-white ms-2' icon={faChevronDown} />
-                    </button>
-                    <ul className="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                        {wordPerPageOptions}
-                    </ul>
+            <div className="row">
+                <div className="col-12 col-sm-4 py-4">
+                    <ReportCard title="Active words" icon={faUser} color="primary" value={this.state.activeWords} footer={`Total number of words: ${this.state.words}`} />
                 </div>
             </div>
-            <div className="col-4">
-                <div className="input-group input-group-outline mb-4">
-                    <input type="text" className="form-control" placeholder="Search" name="searchQuery" value={this.state.searchQuery} onChange={(element) => this.onChangeQueryString(element)} />
-                </div>
-            </div>
-        </div>
-        <div className="row">
-            <div className="col-12">
-                <div className="card">
-                    <div className="table-responsive">
-                        <table className="table align-items-center">
-                            <thead>
-                                <tr>
-                                    <th className="text-uppercase text-xxs font-weight-bolder opacity-7 ps-2"></th>
-                                    <th className="text-uppercase text-xxs font-weight-bolder opacity-7">Text</th>
-                                    <th className="text-uppercase text-xxs font-weight-bolder opacity-7">Romanization</th>
-                                    {headers}
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {rows}
-                            </tbody>
-                        </table>
+            <div className="row">
+                <div className="col-8">
+                    <div className="dropdown d-inline mx-2">
+                        <button className="btn bg-gradient-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
+                            Words per page: {this.state.wordsPerPage}
+                            <FontAwesomeIcon className='text-secondary text-white ms-2' icon={faChevronDown} />
+                        </button>
+                        <ul className="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                            {wordPerPageOptions}
+                        </ul>
                     </div>
-                    <div className="mt-3">
-                        <Pagination page={this.state.page} pages={this.state.pages} onClickChangePageCallback={this.onClickChangePage} />
+                </div>
+                <div className="col-4">
+                    <div className="input-group input-group-outline mb-4">
+                        <input type="text" className="form-control" placeholder="Search" name="searchQuery" value={this.state.searchQuery} onChange={(element) => this.onChangeQueryString(element)} />
                     </div>
                 </div>
             </div>
+            <div className="row">
+                <div className="col-12">
+                    <div className="card">
+                        <div className="table-responsive">
+                            <table className="table align-items-center">
+                                <thead>
+                                    <tr>
+                                        <th className="text-uppercase text-xxs font-weight-bolder opacity-7 ps-2"></th>
+                                        <th className="text-uppercase text-xxs font-weight-bolder opacity-7">Text</th>
+                                        <th className="text-uppercase text-xxs font-weight-bolder opacity-7">Romanization</th>
+                                        {headers}
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {rows}
+                                </tbody>
+                            </table>
+                        </div>
+                        <div className="mt-3">
+                            <Pagination page={this.state.page} pages={this.state.pages} onClickChangePageCallback={this.onClickChangePage} />
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
-    </div>
         return (
             <div>
-                { this.state.displayedWords.length === 0 ? <EmptyPageMessage/> : dictionary }
+                {this.state.displayedWords.length === 0 ? <EmptyPageMessage /> : dictionary}
             </div>
         )
     }

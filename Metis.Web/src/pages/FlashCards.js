@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import ReportCard from '../components/ReportCard';
 import ReportCardFilter from '../components/ReportCardFilter';
+import EmptyPageMessage from '../components/EmptyPageMessage';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { Modal } from 'react-bootstrap';
 import { faFlag, faExclamationTriangle, faTags, faEye, faThumbsDown, faThumbsUp, faGlassCheers } from '@fortawesome/free-solid-svg-icons'
@@ -72,20 +73,20 @@ export default class FlashCards extends Component {
         SpeechService.synthesizeSpeech(this.state.currentWord.text, language[0].code);
         setTimeout(function () {
             self.setState({
-                
+
                 isPlaying: false
             })
         }, 2000);
     };
     onClickAddError = () => {
-        if(this.state.isAnswerProvided) {
+        if (this.state.isAnswerProvided) {
             return;
         }
         var self = this;
         this.setState({
             viewTranslation: true,
             isAnswerProvided: true,
-            isAnswerCorrect: false        
+            isAnswerCorrect: false
         })
         var language = this.state.languages.filter(d => d.id === this.state.currentWord.languageId);
         SpeechService.synthesizeSpeech(this.state.currentWord.text, language[0].code);
@@ -94,7 +95,7 @@ export default class FlashCards extends Component {
         }, 2000);
     };
     onClickAddCorrect = () => {
-        if(this.state.isAnswerProvided) {
+        if (this.state.isAnswerProvided) {
             return;
         }
         var self = this;
@@ -126,22 +127,22 @@ export default class FlashCards extends Component {
             });
     };
     onClickUpdateWordsByWordType = (value) => {
-        if(value === "" || value === "All") {
+        if (value === "" || value === "All") {
             WordService.getWordsByCurrentUser()
-            .then(data => {
-                let shuffledWords = this.shuffle(data);
-                this.setState({
-                    words: data,
-                    analyzedWords: shuffledWords,
-                    currentWord: shuffledWords[0],
-                    currentWordType: value,
-                    errors: [],
-                    correct: [],
-                    topic: "",
-                    isAnswerProvided: false,
-                    isAnswerCorrect: false
+                .then(data => {
+                    let shuffledWords = this.shuffle(data);
+                    this.setState({
+                        words: data,
+                        analyzedWords: shuffledWords,
+                        currentWord: shuffledWords[0],
+                        currentWordType: value,
+                        errors: [],
+                        correct: [],
+                        topic: "",
+                        isAnswerProvided: false,
+                        isAnswerCorrect: false
+                    });
                 });
-            });
         } else {
             let wordTypeIds = this.state.wordTypes.filter((wordType) => wordType.name === value);
             WordService.getWordsByCurrentUserAndWordTypeId(wordTypeIds[0].id)
@@ -212,16 +213,16 @@ export default class FlashCards extends Component {
     render() {
         let backgroundClass = "bg-gradient-info shadow-info";
         let buttons = <div>
-                <button className="btn btn-success mx-3 mb-0 text-white" disabled={this.state.isPlaying} onClick={() => this.onClickAddCorrect()}>
-                    <FontAwesomeIcon icon={faThumbsUp} />
-                </button>
-                <button className="btn btn-secondary mx-3 mb-0 text-white"  onClick={() => this.onClickViewTranslation()}>
-                    <FontAwesomeIcon className="link-light" icon={faEye} />
-                </button>
-                <button className="btn btn-danger mx-3 mb-0 text-white" disabled={this.state.isPlaying} onClick={() => this.onClickAddError()}>
-                    <FontAwesomeIcon icon={faThumbsDown} />
-                </button>
-            </div>  
+            <button className="btn btn-success mx-3 mb-0 text-white" disabled={this.state.isPlaying} onClick={() => this.onClickAddCorrect()}>
+                <FontAwesomeIcon icon={faThumbsUp} />
+            </button>
+            <button className="btn btn-secondary mx-3 mb-0 text-white" onClick={() => this.onClickViewTranslation()}>
+                <FontAwesomeIcon className="link-light" icon={faEye} />
+            </button>
+            <button className="btn btn-danger mx-3 mb-0 text-white" disabled={this.state.isPlaying} onClick={() => this.onClickAddError()}>
+                <FontAwesomeIcon icon={faThumbsDown} />
+            </button>
+        </div>
         if (this.state.isAnswerProvided) {
             if (this.state.isAnswerCorrect) {
                 backgroundClass = "bg-gradient-success shadow-success";
@@ -234,62 +235,65 @@ export default class FlashCards extends Component {
         // var example = '';
         // var description = '';
         if (this.state.currentWord !== undefined && this.state.currentWord.translations !== undefined) {
-            if(this.state.currentWord.romanization !== null && this.state.currentWord.romanization !== "") {
-                text = <span> {this.state.currentWord.text} <br/> ({this.state.currentWord.romanization})</span>;
+            if (this.state.currentWord.romanization !== null && this.state.currentWord.romanization !== "") {
+                text = <span> {this.state.currentWord.text} <br /> ({this.state.currentWord.romanization})</span>;
             } else {
-                text = <span> {this.state.currentWord.text} <br/></span>;
+                text = <span> {this.state.currentWord.text} <br /></span>;
             }
             translation = this.state.currentWord.translations[0].text;
             // example = this.state.currentWord.translations[0].example;
             // description = this.state.currentWord.translations[0].description;
         }
         let wordTypes = this.state.wordTypes.map((wordType) => wordType.name);
+        let flashcard = <div>
+            <div className="row">
+                <div className="col-12 col-sm-4 py-4">
+                    <ReportCardFilter title="Type" icon={faTags} color="dark" value={this.state.currentWordType === "" ? "All" : this.capitalizeFirstLetter(this.state.currentWordType)} options={wordTypes} onOptionChangeCallback={this.onClickUpdateWordsByWordType} />
+                </div>
+                <div className="col-12 col-sm-4 py-4">
+                    <ReportCard title="Remaining" icon={faFlag} color="primary" value={this.state.errors.length + this.state.correct.length + "/" + this.state.analyzedWords.length} footer="Number of remaining words" />
+                </div>
+                <div className="col-12 col-sm-4 py-4">
+                    <ReportCard title="errors" icon={faExclamationTriangle} color="info" value={this.state.errors.length} footer="Number of errors" />
+                </div>
+            </div>
+            <div className="row pt-4">
+                <div className="col-xs-12">
+                    <div className="card z-index-2">
+                        <div className="card-header p-0 position-relative mt-n4 mx-3 z-index-2 bg-transparent">
+                            <div className={`border-radius-lg py-3 pe-1 py-5 text-center ${backgroundClass}`}>
+                                <h1 className="display-4 fst-italic text-white">{translation}</h1>
+                                <h2 className={`text-white ${!this.state.viewTranslation ? "invisible" : ""}`}>{text}</h2>
+                            </div>
+                        </div>
+                        <div className={`card-body ${this.state.analyzedWords.length > 0 ? 'visible' : `invisible`}`}>
+                            {/* <h6 className="mb-0">Examples</h6>
+                        <p className="text-sm ">{example}</p>
+                        <h6 className="mb-0 ">Description</h6>
+                        <p className="text-sm ">{description}</p> */}
+                            <hr className="dark horizontal" />
+                            <div className="text-center">
+                                {buttons}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <Modal show={this.state.congratulationsModalVisible} onHide={this.onClickHideCongratulationsModal}>
+                <div className="modal-content">
+                    <div className="modal-body">
+                        <div className="py-3 text-center">
+                            <FontAwesomeIcon className='h1 text-success' icon={faGlassCheers} />
+                            <h4 className="text-gradient text-success mt-4">Congratulations!</h4>
+                            <p>You have reviewed all your cards.</p>
+                        </div>
+                    </div>
+                </div>
+            </Modal>
+        </div>
         return (
             <div>
-                <div className="row">
-                    <div className="col-12 col-sm-4 py-4">
-                        <ReportCardFilter title="Type" icon={faTags} color="dark" value={this.state.currentWordType === "" ? "All" : this.capitalizeFirstLetter(this.state.currentWordType)} options={wordTypes} onOptionChangeCallback={this.onClickUpdateWordsByWordType} />
-                    </div>
-                    <div className="col-12 col-sm-4 py-4">
-                        <ReportCard title="Remaining" icon={faFlag} color="primary" value={this.state.errors.length + this.state.correct.length + "/" + this.state.analyzedWords.length} footer="Number of remaining words" />
-                    </div>
-                    <div className="col-12 col-sm-4 py-4">
-                        <ReportCard title="errors" icon={faExclamationTriangle} color="info" value={this.state.errors.length} footer="Number of errors" />
-                    </div>
-                </div>
-                <div className="row pt-4">
-                    <div className="col-xs-12">
-                        <div className="card z-index-2">
-                            <div className="card-header p-0 position-relative mt-n4 mx-3 z-index-2 bg-transparent">
-                                <div className={`border-radius-lg py-3 pe-1 py-5 text-center ${backgroundClass}`}>
-                                    <h1 className="display-4 fst-italic text-white">{translation}</h1>
-                                    <h2 className={`text-white ${!this.state.viewTranslation ? "invisible" : ""}`}>{text}</h2>
-                                </div>
-                            </div>
-                            <div className={`card-body ${this.state.analyzedWords.length > 0 ? 'visible' : `invisible`}`}>
-                                {/* <h6 className="mb-0">Examples</h6>
-                                <p className="text-sm ">{example}</p>
-                                <h6 className="mb-0 ">Description</h6>
-                                <p className="text-sm ">{description}</p> */}
-                                <hr className="dark horizontal" />
-                                <div className="text-center">
-                                    {buttons}
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <Modal show={this.state.congratulationsModalVisible} onHide={this.onClickHideCongratulationsModal}>
-                    <div className="modal-content">
-                        <div className="modal-body">
-                            <div className="py-3 text-center">
-                                <FontAwesomeIcon className='h1 text-success' icon={faGlassCheers} />
-                                <h4 className="text-gradient text-success mt-4">Congratulations!</h4>
-                                <p>You have reviewed all your cards.</p>
-                            </div>
-                        </div>
-                    </div>
-                </Modal>
+                {this.state.analyzedWords.length === 0 ? <EmptyPageMessage /> : flashcard}
             </div>
         )
     }

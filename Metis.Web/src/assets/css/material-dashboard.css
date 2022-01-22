@@ -15204,7 +15204,7 @@ hr.horizontal {
   .navbar-main.fixed-top + [class*="container"] {
     margin-top: 7.1875rem !important; }
 
-.navbar-vertical .navbar-nav .nav-link[data-bs-toggle="collapse"]:after {
+/* .navbar-vertical .navbar-nav .nav-link[data-bs-toggle="collapse"]:after {
   display: inline-block;
   font-style: normal;
   font-variant: normal;
@@ -15215,7 +15215,7 @@ hr.horizontal {
   content: "\f107";
   margin-left: auto;
   color: rgba(206, 212, 218, 0.7);
-  transition: all 0.2s ease-in-out; }
+  transition: all 0.2s ease-in-out; } */
   @media (prefers-reduced-motion: reduce) {
     .navbar-vertical .navbar-nav .nav-link[data-bs-toggle="collapse"]:after {
       transition: none; } }

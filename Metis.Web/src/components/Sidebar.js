@@ -4,6 +4,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faHome, faUsers, faSpellCheck, faLayerGroup, faChalkboardTeacher, faProjectDiagram, faFont, faComments } from '@fortawesome/free-solid-svg-icons'
 import JwtService from '../services/JwtService';
 import UserService from '../services/UserService';
+import defaultUserProfile from '../images/defaultUserProfile.png';
 
 export default class Sidebar extends Component {
     constructor(props) {
@@ -37,7 +38,7 @@ export default class Sidebar extends Component {
         this.props.history.push('/login');
     }
     render() {
-        var adminLinks = <ul className="navbar-nav">
+        let adminLinks = <ul className="navbar-nav">
             <li className="nav-item mt-3">
                 <h6 className="ps-4 ms-2 text-uppercase text-xs text-white font-weight-bolder opacity-8">Admin</h6>
             </li>
@@ -74,7 +75,7 @@ export default class Sidebar extends Component {
                 </Link>
             </li>
         </ul>
-        var teacherLinks = <ul className="navbar-nav">
+        let teacherLinks = <ul className="navbar-nav">
             <li className="nav-item mt-3">
                 <h6 className="ps-4 ms-2 text-uppercase text-xs text-white font-weight-bolder opacity-8">Teacher</h6>
             </li>
@@ -111,13 +112,14 @@ export default class Sidebar extends Component {
                 </Link>
             </li>
         </ul>
+        let userProfileSrc = this.state.profileImage ? this.state.profileImage : defaultUserProfile;
         return (
             <aside className="sidenav navbar navbar-vertical navbar-expand-xs border-0 border-radius-xl my-3 fixed-start ms-3 bg-gradient-dark" id="sidenav-main">
                 <div className="collapse navbar-collapse w-auto max-height-vh-100 mt-4" id="sidenav-collapse-main">
                     <ul className="navbar-nav">
                         <li className="nav-item mb-2 mt-0">
                             <a data-bs-toggle="collapse" href="#ProfileNav" className="nav-link text-white" aria-controls="ProfileNav" role="button" aria-expanded="false">
-                                <img className="avatar" src={this.state.profileImage} alt={this.state.firstName} />
+                                <img className="avatar" src={userProfileSrc} alt={this.state.firstName} />
                                 <span className="nav-link-text ms-2 ps-1">{this.state.firstName}</span>
                             </a>
                             <div className="collapse" id="ProfileNav">
@@ -150,6 +152,14 @@ export default class Sidebar extends Component {
                                     <FontAwesomeIcon className='opacity-10' icon={faSpellCheck} />
                                 </div>
                                 <span className="nav-link-text ms-1">Dictionary</span>
+                            </Link>
+                        </li>
+                        <li className="nav-item">
+                            <Link className="nav-link" to='/lessons'>
+                                <div className="text-white text-center me-2 d-flex align-items-center justify-content-center">
+                                    <FontAwesomeIcon className='opacity-10' icon={faChalkboardTeacher} />
+                                </div>
+                                <span className="nav-link-text ms-1">Lessons</span>
                             </Link>
                         </li>
                         <li className="nav-item">

@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import ReportCard from '../components/ReportCard';
 import ReportCardFilter from '../components/ReportCardFilter';
+import EmptyPageMessage from '../components/EmptyPageMessage';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Modal } from 'react-bootstrap';
 import { faFlag, faExclamationTriangle, faTags, faMicrophone, faMicrophoneSlash, faEye, faVolumeUp, faVolumeMute, faGlassCheers, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
@@ -293,58 +294,61 @@ export default class Pronunciation extends Component {
             }
         }
         let wordTypes = this.state.wordTypes.map((wordType) => wordType.name);
+        let pronunciation = <div>
+        <div className="row">
+            <div className="col-12 col-sm-4 py-4">
+                <ReportCardFilter title="Type" icon={faTags} color="dark" value={this.state.currentWordType === "" ? "All" : this.capitalizeFirstLetter(this.state.currentWordType)} options={wordTypes} onOptionChangeCallback={this.onClickUpdateWordsByWordType} />
+            </div>
+            <div className="col-12 col-sm-4 py-4">
+                <ReportCard title="Remaining" icon={faFlag} color="primary" value={this.state.errors.length + this.state.correct.length + "/" + this.state.analyzedWords.length} footer="Number of remaining words" />
+            </div>
+            <div className="col-12 col-sm-4 py-4">
+                <ReportCard title="errors" icon={faExclamationTriangle} color="info" value={this.state.errors.length} footer="Number of errors" />
+            </div>
+        </div>
+        <div className="row pt-4">
+            <div className="col-12 col-sm-6 py-4 d-flex">
+                <div className="card z-index-2 flex-fill">
+                    <div className="card-header p-0 position-relative mt-n4 mx-3 z-index-2 bg-transparent">
+                        <div className={`border-radius-lg py-3 pe-1 py-5 text-center ${backgroundClass}`}>
+                            <h1 className="display-4 fst-italic text-white">{translation}</h1>
+                            <h2 className={`text-white ${!this.state.viewTranslation ? "invisible" : ""}`}>{text}</h2>
+                        </div>
+                    </div>
+                    <div className={`card-body ${this.state.analyzedWords.length > 0 ? 'visible' : `invisible`}`}>
+                        <hr className="dark horizontal" />
+                        <div className="text-center">
+                            {buttons}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div className="col-12 col-sm-6 py-4 d-flex">
+                <div className="card z-index-2 flex-fill">
+                    <div className={`card-body ${this.state.analyzedWords.length > 0 ? 'visible' : `invisible`}`}>
+                        <p>Results</p>
+                        <div className="chart">
+                            <PolarArea className='flex-fill' data={chartData} options={options} />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <Modal show={this.state.congratulationsModalVisible} onHide={this.onClickHideCongratulationsModal}>
+            <div className="modal-content">
+                <div className="modal-body">
+                    <div className="py-3 text-center">
+                        <FontAwesomeIcon className='h1 text-success' icon={faGlassCheers} />
+                        <h4 className="text-gradient text-success mt-4">Congratulations!</h4>
+                        <p>You have reviewed all your cards.</p>
+                    </div>
+                </div>
+            </div>
+        </Modal>
+    </div>
         return (
             <div>
-                <div className="row">
-                    <div className="col-12 col-sm-4 py-4">
-                        <ReportCardFilter title="Type" icon={faTags} color="dark" value={this.state.currentWordType === "" ? "All" : this.capitalizeFirstLetter(this.state.currentWordType)} options={wordTypes} onOptionChangeCallback={this.onClickUpdateWordsByWordType} />
-                    </div>
-                    <div className="col-12 col-sm-4 py-4">
-                        <ReportCard title="Remaining" icon={faFlag} color="primary" value={this.state.errors.length + this.state.correct.length + "/" + this.state.analyzedWords.length} footer="Number of remaining words" />
-                    </div>
-                    <div className="col-12 col-sm-4 py-4">
-                        <ReportCard title="errors" icon={faExclamationTriangle} color="info" value={this.state.errors.length} footer="Number of errors" />
-                    </div>
-                </div>
-                <div className="row pt-4">
-                    <div className="col-12 col-sm-6 py-4 d-flex">
-                        <div className="card z-index-2 flex-fill">
-                            <div className="card-header p-0 position-relative mt-n4 mx-3 z-index-2 bg-transparent">
-                                <div className={`border-radius-lg py-3 pe-1 py-5 text-center ${backgroundClass}`}>
-                                    <h1 className="display-4 fst-italic text-white">{translation}</h1>
-                                    <h2 className={`text-white ${!this.state.viewTranslation ? "invisible" : ""}`}>{text}</h2>
-                                </div>
-                            </div>
-                            <div className={`card-body ${this.state.analyzedWords.length > 0 ? 'visible' : `invisible`}`}>
-                                <hr className="dark horizontal" />
-                                <div className="text-center">
-                                    {buttons}
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div className="col-12 col-sm-6 py-4 d-flex">
-                        <div className="card z-index-2 flex-fill">
-                            <div className={`card-body ${this.state.analyzedWords.length > 0 ? 'visible' : `invisible`}`}>
-                                <p>Results</p>
-                                <div className="chart">
-                                    <PolarArea className='flex-fill' data={chartData} options={options} />
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <Modal show={this.state.congratulationsModalVisible} onHide={this.onClickHideCongratulationsModal}>
-                    <div className="modal-content">
-                        <div className="modal-body">
-                            <div className="py-3 text-center">
-                                <FontAwesomeIcon className='h1 text-success' icon={faGlassCheers} />
-                                <h4 className="text-gradient text-success mt-4">Congratulations!</h4>
-                                <p>You have reviewed all your cards.</p>
-                            </div>
-                        </div>
-                    </div>
-                </Modal>
+                {this.state.analyzedWords.length === 0 ? <EmptyPageMessage /> : pronunciation}
             </div>
         )
     }
