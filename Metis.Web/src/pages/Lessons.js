@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faUser, faTrash, faEdit, faBell, faChevronDown } from '@fortawesome/free-solid-svg-icons';
-import { Collapse, Modal } from 'react-bootstrap';
-import ReportCard from '../components/ReportCard';
+import { faChevronDown } from '@fortawesome/free-solid-svg-icons';
 import Pagination from '../components/Pagination';
 import LessonService from '../services/LessonService';
 
@@ -26,14 +25,14 @@ export default class Lessons extends Component {
     }
     componentDidMount() {
         LessonService
-            .getLessonsByPage(this.state.page, this.state.lessonsPerPage)
+            .getLessonsByCurrentUserAndPage(this.state.page, this.state.lessonsPerPage)
             .then(response => {
                 this.setState({
                     displayedLessons: response
                 });
             })
         LessonService
-            .getLessonsCount()
+            .getLessonsByCurrentUserCount()
             .then(response => {
                 this.setState({
                     lessons: response,
@@ -44,7 +43,7 @@ export default class Lessons extends Component {
     onClickUpdateLessonsByPage = (lessonsPerPage) => {
         if (this.state.searchQuery === '') {
             LessonService
-                .getLessonsCount()
+                .getLessonsByCurrentUserCount()
                 .then(response => {
                     this.setState({
                         lessons: response,
@@ -52,7 +51,7 @@ export default class Lessons extends Component {
                     });
                 })
             LessonService
-                .getLessonsByPage(this.state.page, lessonsPerPage)
+                .getLessonsByCurrentUserAndPage(this.state.page, lessonsPerPage)
                 .then(response => {
                     this.setState({
                         ...this.state,
@@ -62,7 +61,7 @@ export default class Lessons extends Component {
                 })
         } else {
             LessonService
-                .getLessonsBySearchQueryCount(this.state.searchQuery)
+                .getLessonsByCurrentUserAndSearchQueryCount(this.state.searchQuery)
                 .then(response => {
                     this.setState({
                         lessons: response,
@@ -70,7 +69,7 @@ export default class Lessons extends Component {
                     });
                 })
             LessonService
-                .getLessonsByPageAndSearchQuery(this.state.page, lessonsPerPage, this.state.searchQuery)
+                .getLessonsByCurrentUserAndPageAndSearchQuery(this.state.page, lessonsPerPage, this.state.searchQuery)
                 .then(response => {
                     this.setState({
                         ...this.state,
@@ -87,7 +86,7 @@ export default class Lessons extends Component {
         });
         if (event.target.value === '') {
             LessonService
-                .getLessonsCount()
+                .getLessonsByCurrentUserCount()
                 .then(response => {
                     this.setState({
                         lessons: response,
@@ -95,7 +94,7 @@ export default class Lessons extends Component {
                     });
                 })
             LessonService
-                .getLessonsByPage(this.state.page, this.state.lessonsPerPage)
+                .getLessonsByCurrentUserAndPage(this.state.page, this.state.lessonsPerPage)
                 .then(response => {
                     this.setState({
                         ...this.state,
@@ -104,7 +103,7 @@ export default class Lessons extends Component {
                 })
         } else {
             LessonService
-                .getLessonsBySearchQueryCount(event.target.value)
+                .getLessonsByCurrentUserAndSearchQueryCount(event.target.value)
                 .then(response => {
                     this.setState({
                         lessons: response,
@@ -112,7 +111,7 @@ export default class Lessons extends Component {
                     });
                 })
             LessonService
-                .getLessonsByPageAndSearchQuery(this.state.page, this.state.lessonsPerPage, event.target.value)
+                .getLessonsByCurrentUserAndPageAndSearchQuery(this.state.page, this.state.lessonsPerPage, event.target.value)
                 .then(response => {
                     this.setState({
                         ...this.state,
@@ -124,7 +123,7 @@ export default class Lessons extends Component {
     onClickChangePage = (page) => {
         if (this.state.searchQuery === '') {
             LessonService
-                .getLessonsCount()
+                .getLessonsByCurrentUserCount()
                 .then(response => {
                     this.setState({
                         lessons: response,
@@ -132,7 +131,7 @@ export default class Lessons extends Component {
                     });
                 })
             LessonService
-                .getLessonsByPage(page, this.state.lessonsPerPage)
+                .getLessonsByCurrentUserAndPage(page, this.state.lessonsPerPage)
                 .then(response => {
                     this.setState({
                         ...this.state,
@@ -142,7 +141,7 @@ export default class Lessons extends Component {
                 })
         } else {
             LessonService
-                .getLessonsBySearchQueryCount(this.state.searchQuery)
+                .getLessonsByCurrentUserAndSearchQueryCount(this.state.searchQuery)
                 .then(response => {
                     this.setState({
                         lessons: response,
@@ -150,7 +149,7 @@ export default class Lessons extends Component {
                     });
                 })
             LessonService
-                .getLessonsByPageAndSearchQuery(page, this.state.lessonsPerPage, this.state.searchQuery)
+                .getLessonsByCurrentUserAndPageAndSearchQuery(page, this.state.lessonsPerPage, this.state.searchQuery)
                 .then(response => {
                     this.setState({
                         ...this.state,
@@ -160,7 +159,6 @@ export default class Lessons extends Component {
                 })
         }
     }
-
     render() {
         let lessonPerPageOptions = [];
         for (var index = 1; index <= 4; index++) {
@@ -169,7 +167,8 @@ export default class Lessons extends Component {
         }
         let items = this.state.displayedLessons.map((lesson, index) => {
             return <div key={index} className="col-12 col-md-3">
-                <div className="card">
+                <Link className="card"  to={{ pathname: '/lesson', state: { id: lesson.id } }}>
+                {/* <Link className="card" to={`/lesson/${lesson.id}`} state={{ id: lesson.id }}> */}
                     <div className="card-header mx-4 p-3 text-center">
                         <div className="icon icon-shape icon-lg bg-gradient-primary shadow text-center border-radius-lg">
                         </div>
@@ -177,13 +176,12 @@ export default class Lessons extends Component {
                     <div className="card-body pt-0 p-3 text-center">
                         <h6 className="text-center mb-0">{lesson.title}</h6>
                         <span className="text-xs">{lesson.description}</span>
-                        <hr className="horizontal dark my-3" />
-                        <h5 className="mb-0">{lesson.assignedOn}</h5>
+                        {/* <hr className="horizontal dark my-3" />
+                        <h5 className="mb-0">{lesson.assignedOn}</h5> */}
                     </div>
-                </div>
+                </Link>
             </div>
-        }
-        )
+        })
         return (
             <div>
                 <div className="row">

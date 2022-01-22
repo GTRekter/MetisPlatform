@@ -18,7 +18,6 @@ namespace Metis.Models.Store
         public byte[] Cover { get; set; }
         [Required]
         public int LanguageId { get; set; }
-
         public Language Language { get; set; }  
         [JsonIgnore]
         public ICollection<User> Users { get; set; }

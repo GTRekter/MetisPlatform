@@ -14,6 +14,7 @@ import PrivateRoute from './PrivateRoute';
 import Pronunciation from '../pages/Pronunciation';
 import Profile from '../pages/Profile';
 import Lessons from '../pages/Lessons';
+import Lesson from '../pages/Lesson';
 
 export default class App extends Component {
     render() {
@@ -24,6 +25,7 @@ export default class App extends Component {
                     <PrivateRoute exact path="/" component={Home} />
                     <PrivateRoute exact path="/profile" component={Profile} />
                     <PrivateRoute exact path="/lessons" component={Lessons} />
+                    <PrivateRoute exact path="/lesson" component={Lesson} />
                     <PrivateRoute exact path="/dictionary" component={Dictionary} />
                     <PrivateRoute exact path="/flashcards" component={FlashCards} />
                     <PrivateRoute exact path="/pronunciation" component={Pronunciation} />

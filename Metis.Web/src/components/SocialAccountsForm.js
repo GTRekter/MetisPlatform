@@ -10,35 +10,35 @@ export default class SocialAccountsForm extends Component {
     }
     render() {
         return (
-            <div class="card mt-4" id="accounts">
-                <div class="card-header">
+            <div className="card mt-4" id="accounts">
+                <div className="card-header">
                     <h5>Accounts</h5>
-                    <p class="text-sm">Here you can setup and manage your integration settings.</p>
+                    <p className="text-sm">Here you can setup and manage your integration settings.</p>
                 </div>
-                <div class="card-body pt-0">
-                    <div class="d-flex">
-                        <img class="width-48-px" src="../../../assets/img/small-logos/logo-asana.svg" alt="logo_asana" />
-                        <div class="my-auto ms-3">
-                            <div class="h-100">
-                                <h5 class="mb-0">Asana</h5>
-                                <p class="mb-0 text-sm">Organize your team</p>
+                <div className="card-body pt-0">
+                    <div className="d-flex">
+                        <img className="width-48-px" src="../../../assets/img/small-logos/logo-asana.svg" alt="logo_asana" />
+                        <div className="my-auto ms-3">
+                            <div className="h-100">
+                                <h5 className="mb-0">Asana</h5>
+                                <p className="mb-0 text-sm">Organize your team</p>
                             </div>
                         </div>
-                        <div class="form-check form-switch ms-auto my-auto">
-                            <input class="form-check-input" type="checkbox" id="flexSwitchCheckDefault4" />
+                        <div className="form-check form-switch ms-auto my-auto">
+                            <input className="form-check-input" type="checkbox" id="flexSwitchCheckDefault4" />
                         </div>
                     </div>
-                    <hr class="horizontal dark" />
-                    <div class="d-flex">
-                        <img class="width-48-px" src="../../../assets/img/small-logos/logo-asana.svg" alt="logo_asana" />
-                        <div class="my-auto ms-3">
-                            <div class="h-100">
-                                <h5 class="mb-0">Asana</h5>
-                                <p class="mb-0 text-sm">Organize your team</p>
+                    <hr className="horizontal dark" />
+                    <div className="d-flex">
+                        <img className="width-48-px" src="../../../assets/img/small-logos/logo-asana.svg" alt="logo_asana" />
+                        <div className="my-auto ms-3">
+                            <div className="h-100">
+                                <h5 className="mb-0">Asana</h5>
+                                <p className="mb-0 text-sm">Organize your team</p>
                             </div>
                         </div>
-                        <div class="form-check form-switch ms-auto my-auto">
-                            <input class="form-check-input" type="checkbox" id="flexSwitchCheckDefault4" />
+                        <div className="form-check form-switch ms-auto my-auto">
+                            <input className="form-check-input" type="checkbox" id="flexSwitchCheckDefault4" />
                         </div>
                     </div>
                 </div>

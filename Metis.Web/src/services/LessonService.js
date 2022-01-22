@@ -19,6 +19,7 @@ class LessonService {
         return HttpService.request('post', process.env.REACT_APP_API_BASEURL + "Lesson/AddLesson", body, headers);
     }
     editLesson(id, title, description, languageId, words, grammarPoints) {
+        console.log(grammarPoints)
         let headers = {
             'Accept': 'application/json, text/plain, */*',
             'Content-Type': 'application/json',
@@ -113,6 +114,47 @@ class LessonService {
             'Authorization': 'Bearer ' + JwtService.getToken()
         };
         return HttpService.request('delete', process.env.REACT_APP_API_BASEURL + "Lesson/DeleteLessonById?id=" + id, null, headers);
+    }
+
+    getLessonsByCurrentUserCount() {
+        let headers = {
+            'Accept': 'application/json, text/plain, */*',
+            'Content-Type': 'application/json',
+            'Access-Control-Allow-Origin': '*',
+            'Authorization': 'Bearer ' + JwtService.getToken()
+        };
+        return HttpService.request('get', process.env.REACT_APP_API_BASEURL + "Lesson/GetLessonsByCurrentUserCount", null, headers)
+            .then(res => res.json());  
+    }
+    getLessonsByCurrentUserAndSearchQueryCount(searchQuery) {
+        let headers = {
+            'Accept': 'application/json, text/plain, */*',
+            'Content-Type': 'application/json',
+            'Access-Control-Allow-Origin': '*',
+            'Authorization': 'Bearer ' + JwtService.getToken()
+        };
+        return HttpService.request('get', process.env.REACT_APP_API_BASEURL + "Lesson/GetLessonsByCurrentUserAndSearchQueryCount?searchQuery=" + searchQuery, null, headers)
+            .then(res => res.json());  
+    }
+    getLessonsByCurrentUserAndPage(page, itemsPerPage, searchQuery) {
+        let headers = {
+            'Accept': 'application/json, text/plain, */*',
+            'Content-Type': 'application/json',
+            'Access-Control-Allow-Origin': '*',
+            'Authorization': 'Bearer ' + JwtService.getToken()
+        };
+        return HttpService.request('get', process.env.REACT_APP_API_BASEURL + "Lesson/GetLessonsByCurrentUserAndPage?page=" + page + "&itemsPerPage=" + itemsPerPage + "&searchQuery=" + searchQuery, null, headers)
+            .then(res => res.json());  
+    }
+    getLessonsByCurrentUserAndPageAndSearchQuery(page, itemsPerPage, searchQuery) {
+        let headers = {
+            'Accept': 'application/json, text/plain, */*',
+            'Content-Type': 'application/json',
+            'Access-Control-Allow-Origin': '*',
+            'Authorization': 'Bearer ' + JwtService.getToken()
+        };
+        return HttpService.request('get', process.env.REACT_APP_API_BASEURL + "Lesson/GetLessonsByCurrentUserAndPageAndSearchQuery?page=" + page + "&itemsPerPage=" + itemsPerPage + "&searchQuery=" + searchQuery, null, headers)
+            .then(res => res.json());  
     }
 }
 export default new LessonService();

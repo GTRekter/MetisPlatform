@@ -15383,7 +15383,9 @@ hr.horizontal {
     background-color: inherit; }
     .nav.nav-pills .nav-link.active {
       -webkit-animation: 0.2s ease;
-              animation: 0.2s ease; }
+              animation: 0.2s ease; 
+      background-color: #fff;
+      box-shadow: 0 4px 8px 0 rgb(0 0 0 / 20%), 0 6px 20px 0 rgb(0 0 0 / 19%);}
     .nav.nav-pills .nav-link:hover:not(.active) {
       color: #344767; }
   .nav.nav-pills.nav-pills-primary {

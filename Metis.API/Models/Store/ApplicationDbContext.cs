@@ -34,33 +34,26 @@ namespace Metis.Models.Store
             builder.Entity<User>(entity =>
             {
                 entity.HasIndex(e => e.Id);
-
                 entity.Property(e => e.Id)
                     .ValueGeneratedOnAdd();
-
                 entity.Property(e => e.CreatedOn)
                     .HasDefaultValueSql("getdate()");
-
                 entity.Property(e => e.LastUpdate)
                     .HasDefaultValueSql("getdate()");
-
                 entity.HasOne(e => e.Language)
                     .WithMany(e => e.Users)
                     .HasForeignKey(e => e.LanguageId)
                     .OnDelete(DeleteBehavior.NoAction);
-
                 entity.HasOne(e => e.Role)
                     .WithMany(e => e.Users)
                     .HasForeignKey(e => e.RoleId)
                     .OnDelete(DeleteBehavior.NoAction);
-
                 entity.HasMany(f => f.Lessons)
                     .WithMany(g => g.Users)
                     .UsingEntity<Dictionary<string, object>>(
                         "UserLesson",
                         j => j.HasOne<Lesson>().WithMany().OnDelete(DeleteBehavior.Cascade),
                         j => j.HasOne<User>().WithMany().OnDelete(DeleteBehavior.Cascade));
-
                 entity.ToTable("User");
             });
             
@@ -70,7 +63,6 @@ namespace Metis.Models.Store
                     .WithOne(e => e.Role)
                     .HasForeignKey(e => e.RoleId)
                     .OnDelete(DeleteBehavior.NoAction);
-
                 entity.ToTable("Role");
             });
 
@@ -80,19 +72,16 @@ namespace Metis.Models.Store
                     .WithMany(e => e.Words)
                     .HasForeignKey(e => e.WordTypeId)
                     .OnDelete(DeleteBehavior.NoAction);
-
                 entity.HasMany(e => e.Translations)
                     .WithOne(e => e.Word)
                     .HasForeignKey(e => e.WordId)
                     .OnDelete(DeleteBehavior.NoAction);
-
                 entity.HasMany(e => e.Lessons)
                     .WithMany(e => e.Words)
                     .UsingEntity<Dictionary<string, object>>(
                         "WordLesson",
                         j => j.HasOne<Lesson>().WithMany().OnDelete(DeleteBehavior.NoAction),
                         j => j.HasOne<Word>().WithMany().OnDelete(DeleteBehavior.NoAction));
-
                 entity.ToTable("Word");
             });
 
@@ -102,7 +91,6 @@ namespace Metis.Models.Store
                     .WithOne(e => e.WordType)
                     .HasForeignKey(e => e.WordTypeId)
                     .OnDelete(DeleteBehavior.NoAction);
-
                 entity.ToTable("WordType");
             });
 
@@ -112,12 +100,10 @@ namespace Metis.Models.Store
                     .WithOne(e => e.Language)
                     .HasForeignKey(e => e.LanguageId)
                     .OnDelete(DeleteBehavior.NoAction);
-
                 entity.HasMany(e => e.Lessons)
                     .WithOne(e => e.Language)
                     .HasForeignKey(e => e.LanguageId)
                     .OnDelete(DeleteBehavior.NoAction);
-
                 entity.ToTable("Language");
             });
 
@@ -127,12 +113,10 @@ namespace Metis.Models.Store
                     .WithMany(e => e.Translations)
                     .HasForeignKey(e => e.WordId)
                     .OnDelete(DeleteBehavior.Cascade);
-
                 entity.HasOne(e => e.Language)
                     .WithMany(e => e.Trsanslations)
                     .HasForeignKey(e => e.LanguageId)
                     .OnDelete(DeleteBehavior.NoAction);
-
                 entity.ToTable("Translation");
             });
 
@@ -144,26 +128,23 @@ namespace Metis.Models.Store
                         "LessonGrammarPoint",
                         j => j.HasOne<GrammarPoint>().WithMany().OnDelete(DeleteBehavior.NoAction),
                         j => j.HasOne<Lesson>().WithMany().OnDelete(DeleteBehavior.NoAction));
-                entity.ToTable("Lesson");
-
                 entity.HasMany(f => f.Words)
                     .WithMany(g => g.Lessons)
                     .UsingEntity<Dictionary<string, object>>(
                         "LessonWord",
                         j => j.HasOne<Word>().WithMany().OnDelete(DeleteBehavior.Restrict),
-                        j => j.HasOne<Lesson>().WithMany().OnDelete(DeleteBehavior.Restrict));
-                        
+                        j => j.HasOne<Lesson>().WithMany().OnDelete(DeleteBehavior.Restrict));                
                 entity.ToTable("Lesson");
             });
 
             builder.Entity<GrammarPoint>(entity =>
             {
-                entity.HasMany(e => e.Lessons)
-                    .WithMany(e => e.GrammarPoints)
-                    .UsingEntity<Dictionary<string, object>>(
-                        "LessonGrammarPoint",
-                        j => j.HasOne<Lesson>().WithMany().OnDelete(DeleteBehavior.NoAction),
-                        j => j.HasOne<GrammarPoint>().WithMany().OnDelete(DeleteBehavior.NoAction));
+                // entity.HasMany(e => e.Lessons)
+                //     .WithMany(e => e.GrammarPoints)
+                //     .UsingEntity<Dictionary<string, object>>(
+                //         "LessonGrammarPoint",
+                //         j => j.HasOne<Lesson>().WithMany().OnDelete(DeleteBehavior.NoAction),
+                //         j => j.HasOne<GrammarPoint>().WithMany().OnDelete(DeleteBehavior.NoAction));
 
                 entity.ToTable("GrammarPoint");
             });
@@ -218,7 +199,8 @@ namespace Metis.Models.Store
                 LastName = "Admin",
                 LanguageId = 1,
                 Email = "admin@metis.com",
-                RoleId = 1
+                RoleId = 1,
+                Enabled = true
             }; 
             user.PasswordHash = hasher.HashPassword(user, "P@ssw0rd");   
             builder.Entity<User>().HasData(user);  

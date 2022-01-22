@@ -76,12 +76,12 @@ namespace Metis.Models.Managers
             return await dataContext.Words
             .CountAsync();
         }
-        public static async Task<int> GetWordsCountAsync(ApplicationDbContext dataContext, int id)
+        public static async Task<int> GetWordsCountAsync(ApplicationDbContext dataContext, int userId)
         {
             var lessons = await dataContext.Users
                 .Include(u => u.Lessons)
                 .ThenInclude(l => l.Words)
-                .FirstOrDefaultAsync(u => u.Id == id);
+                .FirstOrDefaultAsync(u => u.Id == userId);
             return lessons.Lessons
                 .SelectMany(l => l.Words)
                 .Count();
@@ -108,27 +108,26 @@ namespace Metis.Models.Managers
                     || u.Translations.Any(t => t.Text.Contains(searchQuery)))
                 .Count();
         }
-        
-        
+          
         public static async Task<IEnumerable<Word>> GetWordsAsync(ApplicationDbContext dataContext)
         {
             return await dataContext.Words
                 .Include(w => w.Translations)
                 .ToListAsync();
         }
-        public static async Task<IEnumerable<Word>> GetWordsAsync(ApplicationDbContext dataContext, int id)
+        public static async Task<IEnumerable<Word>> GetWordsAsync(ApplicationDbContext dataContext, int userId)
         {
-            var user = dataContext.Users.FirstOrDefault(u => u.Id == id);
+            var user = dataContext.Users.FirstOrDefault(u => u.Id == userId);
             var lessons = await dataContext.Users
                 .Include(u => u.Lessons)
                 .ThenInclude(l => l.Words)
                 .ThenInclude(w => w.Translations.Where(t => t.LanguageId == user.LanguageId))
-                .FirstOrDefaultAsync(u => u.Id == id);
+                .FirstOrDefaultAsync(u => u.Id == userId);
             return lessons.Lessons.SelectMany(l => l.Words);
         }
-        public static async Task<IEnumerable<Word>> GetWordsAsync(ApplicationDbContext dataContext, int id, int wordTypeId)
+        public static async Task<IEnumerable<Word>> GetWordsAsync(ApplicationDbContext dataContext, int userId, int wordTypeId)
         {
-            var user = dataContext.Users.FirstOrDefault(u => u.Id == id);
+            var user = dataContext.Users.FirstOrDefault(u => u.Id == userId);
             var lessons = await dataContext.Users
                 .Include(u => u.Lessons)
                     .ThenInclude(l => l.Words)
@@ -136,7 +135,7 @@ namespace Metis.Models.Managers
                 .Include(u => u.Lessons)
                     .ThenInclude(l => l.Words)
                     .ThenInclude(w => w.Translations.Where(t => t.LanguageId == user.LanguageId))
-                .FirstOrDefaultAsync(u => u.Id == id);
+                .FirstOrDefaultAsync(u => u.Id == userId);
             return lessons.Lessons
                     .SelectMany(l => l.Words)
                     .Where(w => w.WordType.Id == wordTypeId);
@@ -161,7 +160,6 @@ namespace Metis.Models.Managers
                 .ToListAsync();
         }
 
-
         public static async Task<IEnumerable<Word>> GetWordsByPageAsync(ApplicationDbContext dataContext, int page, int itemsPerPage)
         {
             return await dataContext.Words
@@ -171,14 +169,14 @@ namespace Metis.Models.Managers
                 .OrderBy(u => u.Id)
                 .ToListAsync();
         }
-        public static async Task<IEnumerable<Word>> GetWordsByPageAsync(ApplicationDbContext dataContext, int id, int page, int itemsPerPage)
+        public static async Task<IEnumerable<Word>> GetWordsByPageAsync(ApplicationDbContext dataContext, int userId, int page, int itemsPerPage)
         {
-            var user = dataContext.Users.FirstOrDefault(u => u.Id == id);
+            var user = dataContext.Users.FirstOrDefault(u => u.Id == userId);
             var lessons = await dataContext.Users
                 .Include(u => u.Lessons)
                 .ThenInclude(l => l.Words)
                 .ThenInclude(w => w.Translations.Where(t => t.LanguageId == user.LanguageId))
-                .FirstOrDefaultAsync(u => u.Id == id);
+                .FirstOrDefaultAsync(u => u.Id == userId);
             return lessons.Lessons.SelectMany(l => l.Words)
                 .Skip(page * itemsPerPage)
                 .Take(itemsPerPage)
@@ -196,14 +194,14 @@ namespace Metis.Models.Managers
                 .Take(itemsPerPage)
                 .OrderBy(u => u.Id).ToListAsync();
         }
-        public static async Task<IEnumerable<Word>> GetWordsByPageAsync(ApplicationDbContext dataContext, int id, int page, int itemsPerPage, string searchQuery)
+        public static async Task<IEnumerable<Word>> GetWordsByPageAsync(ApplicationDbContext dataContext, int userId, int page, int itemsPerPage, string searchQuery)
         {
-            var user = dataContext.Users.FirstOrDefault(u => u.Id == id);
+            var user = dataContext.Users.FirstOrDefault(u => u.Id == userId);
             var lessons = await dataContext.Users
                 .Include(u => u.Lessons)
                 .ThenInclude(l => l.Words)
                 .ThenInclude(w => w.Translations.Where(t => t.LanguageId == user.LanguageId))
-                .FirstOrDefaultAsync(u => u.Id == id);
+                .FirstOrDefaultAsync(u => u.Id == userId);
             return lessons.Lessons.SelectMany(l => l.Words)
                 .Where(u => u.Text.Contains(searchQuery)
                     || u.Romanization.Contains(searchQuery)

@@ -31,7 +31,7 @@ namespace Metis.API.Controllers
         [HttpGet]
         [Route("GetRoles")]
         [Authorize(AuthenticationSchemes = Microsoft.AspNetCore.Authentication.JwtBearer.JwtBearerDefaults.AuthenticationScheme, Roles = "Administrator, Teacher")]
-        public async Task<IActionResult> GetRolesAsync()
+        public IActionResult GetRolesAsync()
         {
             var roles = RoleManager.GetRolesAsync(_dataContext).Select(r => new { r.Id, r.Name });
             return Ok(roles);

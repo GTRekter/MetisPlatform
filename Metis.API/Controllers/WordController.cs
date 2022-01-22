@@ -194,7 +194,8 @@ namespace Metis.API.Controllers
         [Route("GetWordsByCurrentUserAndSearchQueryCount")]
         public async Task<IActionResult> GetWordsByCurrentUserAndSearchQueryCountAsync(string searchQuery)
         {
-            int counter = await WordManager.GetWordsCountAsync(_dataContext, searchQuery);
+            var user = await UserManager.GetUserByEmailAsync(_dataContext, User.Claims.FirstOrDefault(c => c.Type == "username").Value);
+            int counter = await WordManager.GetWordsCountAsync(_dataContext, user.Id, searchQuery);
             return Ok(counter);
         }
 

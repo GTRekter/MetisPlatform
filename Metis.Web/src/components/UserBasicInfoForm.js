@@ -57,20 +57,20 @@ export default class UserBasicInfoForm extends Component {
         )
         return (
             <form className="text-start" onSubmit={this.onSubmit}>
-                <div class="row">
-                    <div class="col-12 col-md-6">
-                        <div class="input-group input-group-static my-3">
+                <div className="row">
+                    <div className="col-12 col-md-6">
+                        <div className="input-group input-group-static my-3">
                             <label>First Name</label>
                             <input type="text" className="form-control" name="firstName" value={this.state.firstName} onChange={this.onChangeInput} />
                         </div>
                     </div>
-                    <div class="col-12 col-md-6">
-                        <div class="input-group input-group-static my-3">
+                    <div className="col-12 col-md-6">
+                        <div className="input-group input-group-static my-3">
                             <label>Last Name</label>
                             <input type="text" className="form-control" name="lastName" value={this.state.lastName} onChange={this.onChangeInput} />
                         </div>
                     </div>
-                    <div class="col-12 col-md-6">
+                    <div className="col-12 col-md-6">
                         <div className="input-group input-group-static my-3">
                             <label className="ms-0">Language</label>
                             <select className="form-control" name="languageId" value={this.state.languageId} onChange={this.onChangeInput}>
@@ -78,32 +78,32 @@ export default class UserBasicInfoForm extends Component {
                             </select>
                         </div>
                     </div>
-                    {/* <div class="col-12 col-md-6">
+                    {/* <div className="col-12 col-md-6">
                         <div className="input-group input-group-static my-3">
                             <label className="ms-0">Birth Date</label>
-                            <input type="date" class="form-control" />
+                            <input type="date" className="form-control" />
                         </div>
                     </div> */}
-                    <div class="col-12 col-md-6">
-                        <div class="input-group input-group-static my-3">
+                    <div className="col-12 col-md-6">
+                        <div className="input-group input-group-static my-3">
                             <label>Email</label>
-                            <input type="email" class="form-control" placeholder="example@email.com"  name="email" value={this.state.email} onChange={this.onChangeInput} />
+                            <input type="email" className="form-control" placeholder="example@email.com"  name="email" value={this.state.email} onChange={this.onChangeInput} />
                         </div>
                     </div>
-                    {/* <div class="col-12 col-md-6">
-                        <div class="input-group input-group-static">
+                    {/* <div className="col-12 col-md-6">
+                        <div className="input-group input-group-static">
                             <label>Your location</label>
-                            <input type="text" class="form-control" placeholder="Sydney, A" />
+                            <input type="text" className="form-control" placeholder="Sydney, A" />
                         </div>
                     </div>
-                    <div class="col-12 col-md-6">
-                        <div class="input-group input-group-static">
+                    <div className="col-12 col-md-6">
+                        <div className="input-group input-group-static">
                             <label>Phone Number</label>
-                            <input type="number" class="form-control" placeholder="+40 735 631 620" />
+                            <input type="number" className="form-control" placeholder="+40 735 631 620" />
                         </div>
                     </div> */}
                 </div>
-                <div class="row mt-4">
+                <div className="row mt-4">
                     <div className="col-12">
                         <div className="d-flex justify-content-end mt-4">
                             <button type="submit" name="button" className="btn bg-gradient-primary m-0 ms-2">Edit</button>

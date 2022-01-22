@@ -90,7 +90,21 @@ namespace Metis.Models.Managers
                     || u.Description.Contains(searchQuery, StringComparison.InvariantCultureIgnoreCase))
                 .CountAsync();
         }
-
+        public static async Task<int> GetLessonsCountAsync(ApplicationDbContext dataContext, int userId)
+        {
+            return await dataContext.Lessons
+                .Include(l => l.Language)
+                .Where(l => l.Users.Any(u => u.Id == userId))
+                .CountAsync();
+        }
+       public static async Task<int> GetLessonsCountAsync(ApplicationDbContext dataContext,  int userId, string searchQuery)
+        {
+            return await dataContext.Lessons
+                .Where(l => l.Users.Any(u => u.Id == userId))
+                .Where(u => u.Title.Contains(searchQuery, StringComparison.InvariantCultureIgnoreCase)
+                    || u.Description.Contains(searchQuery, StringComparison.InvariantCultureIgnoreCase))
+                .CountAsync();
+        }
 
         public static async Task<IEnumerable<Lesson>> GetLessonsAsync(ApplicationDbContext dataContext)
         {
@@ -98,6 +112,13 @@ namespace Metis.Models.Managers
                 .Include(l => l.Language)
                 .ToListAsync();
         }        
+        public static async Task<IEnumerable<Lesson>> GetLessonsAsync(ApplicationDbContext dataContext, int userId)
+        {
+            return await dataContext.Lessons
+                .Include(l => l.Language)
+                .Where(l => l.Users.Any(u => u.Id == userId))
+                .ToListAsync();
+        }
         public static async Task<Lesson> GetLessonByIdAsync(ApplicationDbContext dataContext, int id)
         {
             return await dataContext.Lessons
@@ -116,7 +137,6 @@ namespace Metis.Models.Managers
                 .Where(l => l.Language.Id == id)
                 .ToListAsync();
         }
-
 
         public static async Task<IEnumerable<Lesson>> GetLessonsByPageAsync(ApplicationDbContext dataContext, int page, int itemsPerPage)
         {
@@ -141,6 +161,28 @@ namespace Metis.Models.Managers
                 .Take(itemsPerPage)
                 .OrderBy(u => u.Id)
                 .ToListAsync();
+        }
+        public static async Task<IEnumerable<Lesson>> GetLessonsByPageAsync(ApplicationDbContext dataContext, int userId, int page, int itemsPerPage)
+        {
+            var user = await dataContext.Users
+                .Include(u => u.Lessons)
+                .FirstOrDefaultAsync(u => u.Id == userId);
+            return user.Lessons
+                .Skip(page * itemsPerPage)
+                .Take(itemsPerPage)
+                .OrderBy(u => u.Id);
+        }
+        public static async Task<IEnumerable<Lesson>> GetLessonsByPageAsync(ApplicationDbContext dataContext, int userId, int page, int itemsPerPage, string searchQuery)
+        {
+            var user = await dataContext.Users
+                .Include(u => u.Lessons)
+                .FirstOrDefaultAsync(u => u.Id == userId);
+            return user.Lessons
+                .Where(u => u.Title.Contains(searchQuery, StringComparison.InvariantCultureIgnoreCase)
+                    || u.Description.Contains(searchQuery, StringComparison.InvariantCultureIgnoreCase))
+                .Skip(page * itemsPerPage)
+                .Take(itemsPerPage)
+                .OrderBy(u => u.Id);
         }
     }
 }

@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import korea from '../images/korea.png';
 import StatisticService from '../services/StatisticService';
 import StatisticGraph from './StatisticGraph';
-import UserBasicInfo from './UserBasicInfoForm';
 
 export default class Home extends Component {
     constructor(props) {
@@ -35,10 +34,10 @@ export default class Home extends Component {
                             <div className="card-body">
                                 <h6 className="mb-0 ">Last week performance</h6>
                                 <p className="text-sm ">Number of correct words</p>
-                                {/* <hr class="dark horizontal" />
-                                <div class="d-flex ">
-                                    <i class="material-icons text-sm my-auto me-1">schedule</i>
-                                    <p class="mb-0 text-sm"> campaign sent 2 days ago </p>
+                                {/* <hr className="dark horizontal" />
+                                <div className="d-flex ">
+                                    <i className="material-icons text-sm my-auto me-1">schedule</i>
+                                    <p className="mb-0 text-sm"> campaign sent 2 days ago </p>
                                 </div> */}
                             </div>
                         </div>
