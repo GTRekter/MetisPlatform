@@ -50,9 +50,10 @@ export default class WordCreationForm extends Component {
             })
     }
     onChangeTransition = (event, languageId) => {
-        let translations = this.state.translations.filter(translation => translation.languageId === languageId);
-        if(translations.length > 0) {
-            translations[0].text = event.target.value;
+        let translations = this.state.translations;
+        let indexTranslation = this.state.translations.findIndex(translation => translation.languageId === languageId);
+        if(indexTranslation >= 0) {
+            translations[indexTranslation].text = event.target.value;
         } else {
             translations.push({ languageId: languageId, text: event.target.value });
         }
@@ -74,8 +75,9 @@ export default class WordCreationForm extends Component {
     }
     onSubmit = (event) => {
         event.preventDefault();
+        let translations = this.state.translations.filter((translation) => translation.text !== null)
         WordService
-            .addWord(this.state.text, this.state.romanization, this.state.languageId, this.state.wordTypeId, this.state.description, this.state.example, this.state.translations)
+            .addWord(this.state.text, this.state.romanization, this.state.languageId, this.state.wordTypeId, this.state.description, this.state.example, translations)
             .then(() => {
                 this.props.onSubmitCallback();
                 let translations = this.state.languages.filter((language) => language.enabled === true)
