@@ -1,0 +1,5 @@
+*/bin
+*/obj
+/Metis.API/Migrations
+/Metis.API/.vs/Metis.API/DesignTimeBuild
+/Metis.API/appsettings.Release.json
