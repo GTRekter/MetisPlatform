@@ -5,6 +5,7 @@ on:
       - 'Metis.Web/**'
     branches:
       - main    
+  workflow_dispatch:
   pull_request:
     types: [opened, synchronize, reopened, closed]
     branches:
