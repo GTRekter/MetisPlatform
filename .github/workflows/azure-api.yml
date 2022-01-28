@@ -24,12 +24,12 @@ jobs:
       - name: Build with dotnet
         run: dotnet build Metis.API/Metis.API.csproj --configuration Release
       - name: dotnet publish
-        run: dotnet publish -c Release -o ${{env.DOTNET_ROOT}}/myapp
+        run: dotnet publish Metis.API/Metis.API.csproj --configuration Release --output ${{env.DOTNET_ROOT}}/application
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v2
         with:
-          name: .net-app
-          path: ${{env.DOTNET_ROOT}}/myapp
+          name: API
+          path: ${{env.DOTNET_ROOT}}/application
   analyze:
     name: Analyze
     runs-on: ubuntu-latest
@@ -42,7 +42,7 @@ jobs:
     - name: Download artifact from build job
       uses: actions/download-artifact@v2
       with:
-        name: .net-app
+        name: API
     - name: Initialize CodeQL
       uses: github/codeql-action/init@v1
       with:
@@ -62,7 +62,7 @@ jobs:
       - name: Download artifact from build job
         uses: actions/download-artifact@v2
         with:
-          name: .net-app
+          name: API
       - name: Deploy to Azure Web App
         id: deploy-to-webapp
         uses: azure/webapps-deploy@v2
@@ -82,7 +82,7 @@ jobs:
       - name: Download artifact from build job
         uses: actions/download-artifact@v2
         with:
-          name: .net-app
+          name: API
       - name: Deploy to Azure Web App
         id: deploy-to-webapp
         uses: azure/webapps-deploy@v2
