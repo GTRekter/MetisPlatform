@@ -31,12 +31,15 @@ jobs:
   #         name: API
   #         path: ${{env.DOTNET_ROOT}}/application
   setup:
-  - uses: actions/checkout@v2
-  - name: Upload artifact for deployment job
-    uses: actions/upload-artifact@v2
-    with:
-      name: API
-      path: Metis.API/
+    name: Build
+    runs-on: windows-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Upload artifact for deployment job
+      uses: actions/upload-artifact@v2
+      with:
+        name: API
+        path: Metis.API/
   analyze:
     name: Build and analyze
     runs-on: ubuntu-latest
