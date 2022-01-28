@@ -57,7 +57,8 @@ jobs:
       run: dotnet build Metis.API/Metis.API.csproj --configuration Release
     - name: Perform CodeQL Analysis
       uses: github/codeql-action/analyze@v1
-      checkout_path: Metis.API/
+      with:
+        checkout_path: Metis.API/
 
     - name: dotnet publish
       run: dotnet publish Metis.API/Metis.API.csproj --configuration Release --output ${{env.DOTNET_ROOT}}/application
