@@ -11,27 +11,27 @@ on:
       - main
   workflow_dispatch:
 jobs:
-  build:
-    name: Build
-    runs-on: windows-latest
-    steps:
-      - uses: actions/checkout@v2
-      - name: Set up .NET Core
-        uses: actions/setup-dotnet@v1
-        with:
-          dotnet-version: '6.0.x'
-          include-prerelease: true
-      - name: Build with dotnet
-        run: dotnet build Metis.API/Metis.API.csproj --configuration Release
-      - name: dotnet publish
-        run: dotnet publish Metis.API/Metis.API.csproj --configuration Release --output ${{env.DOTNET_ROOT}}/application
-      - name: Upload artifact for deployment job
-        uses: actions/upload-artifact@v2
-        with:
-          name: API
-          path: ${{env.DOTNET_ROOT}}/application
+  # build:
+  #   name: Build
+  #   runs-on: windows-latest
+  #   steps:
+  #     - uses: actions/checkout@v2
+  #     - name: Set up .NET Core
+  #       uses: actions/setup-dotnet@v1
+  #       with:
+  #         dotnet-version: '6.0.x'
+  #         include-prerelease: true
+  #     - name: Build with dotnet
+  #       run: dotnet build Metis.API/Metis.API.csproj --configuration Release
+  #     - name: dotnet publish
+  #       run: dotnet publish Metis.API/Metis.API.csproj --configuration Release --output ${{env.DOTNET_ROOT}}/application
+  #     - name: Upload artifact for deployment job
+  #       uses: actions/upload-artifact@v2
+  #       with:
+  #         name: API
+  #         path: ${{env.DOTNET_ROOT}}/application
   analyze:
-    name: Analyze
+    name: Build and analyze
     runs-on: ubuntu-latest
     needs: build
     permissions:
@@ -39,16 +39,35 @@ jobs:
       contents: read
       security-events: write
     steps:
-    - name: Download artifact from build job
-      uses: actions/download-artifact@v2
-      with:
-        name: API
+    - uses: actions/checkout@v2
+    # - name: Download artifact from build job
+    #   uses: actions/download-artifact@v2
+    #   with:
+    #     name: API
     - name: Initialize CodeQL
       uses: github/codeql-action/init@v1
       with:
         languages: 'csharp' 
     # - name: Autobuild
     #   uses: github/codeql-action/autobuild@v1
+
+
+    - name: Set up .NET Core
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: '6.0.x'
+        include-prerelease: true
+    - name: Build with dotnet
+      run: dotnet build Metis.API/Metis.API.csproj --configuration Release
+    - name: dotnet publish
+      run: dotnet publish Metis.API/Metis.API.csproj --configuration Release --output ${{env.DOTNET_ROOT}}/application
+    - name: Upload artifact for deployment job
+      uses: actions/upload-artifact@v2
+      with:
+        name: API
+        path: ${{env.DOTNET_ROOT}}/application
+
+
     - name: Perform CodeQL Analysis
       uses: github/codeql-action/analyze@v1
   deployToStaging:
