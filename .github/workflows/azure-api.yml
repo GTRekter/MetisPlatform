@@ -22,7 +22,7 @@ jobs:
           dotnet-version: '6.0.x'
           include-prerelease: true
       - name: Build with dotnet
-        run: dotnet build --configuration Release Metis.API/Metis.API.csproj
+        run: dotnet --configuration Release build Metis.API/Metis.API.csproj
       - name: dotnet publish
         run: dotnet publish -c Release -o ${{env.DOTNET_ROOT}}/myapp
       - name: Upload artifact for deployment job
