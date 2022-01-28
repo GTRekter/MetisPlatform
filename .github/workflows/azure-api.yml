@@ -4,46 +4,95 @@ on:
     paths:
       - 'Metis.API/**'
     branches:
+      - main    
+  pull_request:
+    types: [opened, synchronize, reopened, closed]
+    branches:
       - main
   workflow_dispatch:
-defaults:
-  run:
-    working-directory: Metis.API
 jobs:
-  build:
+  setup:
+    name: Setup
     runs-on: windows-latest
     steps:
-      - uses: actions/checkout@v2
-      - name: Set up .NET Core
-        uses: actions/setup-dotnet@v1
-        with:
-          dotnet-version: '6.0.x'
-          include-prerelease: true
-      - name: Build with dotnet
-        run: dotnet build --configuration Release
-      - name: dotnet publish
-        run: dotnet publish -c Release -o ${{env.DOTNET_ROOT}}/myapp
-      - name: Upload artifact for deployment job
-        uses: actions/upload-artifact@v2
-        with:
-          name: .net-app
-          path: ${{env.DOTNET_ROOT}}/myapp
-  deploy:
+    - uses: actions/checkout@v2
+    - name: Upload artifact for deployment job
+      uses: actions/upload-artifact@v2
+      with:
+        name: API
+        path: Metis.API/
+  analyze:
+    name: Build and analyze
+    runs-on: ubuntu-latest
+    needs: setup
+    permissions:
+      actions: read
+      contents: read
+      security-events: write
+    steps:
+    - name: Download artifact from build job
+      uses: actions/download-artifact@v2
+      with:
+        name: API
+    - name: Set up .NET Core
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: '6.0.x'
+        include-prerelease: true 
+    - name: Initialize CodeQL
+      uses: github/codeql-action/init@v1
+      with:
+        languages: 'csharp' 
+        queries: +security-and-quality
+        debug: true
+    - name: Autobuild
+      uses: github/codeql-action/autobuild@v1
+    - name: Perform CodeQL Analysis
+      uses: github/codeql-action/analyze@v1
+    - name: dotnet publish
+      run: dotnet publish Metis.API.csproj --configuration Release --output ${{env.DOTNET_ROOT}}/application
+    - name: Upload artifact for deployment job
+      uses: actions/upload-artifact@v2
+      with:
+        name: API
+        path: ${{env.DOTNET_ROOT}}/application
+  deployToStaging:
+    name: Deploy to staging
     runs-on: windows-latest
-    needs: build
+    needs: analyze
+    environment:
+      name: 'Staging'
+      url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
+    steps:
+    - name: Download artifact from build job
+      uses: actions/download-artifact@v2
+      with:
+        name: API
+    - name: Deploy to Azure Web App
+      id: deploy-to-webapp
+      uses: azure/webapps-deploy@v2
+      with:
+        app-name: 'api-metis-prod-westeu-001'
+        slot-name: 'Production'
+        publish-profile: ${{ secrets.AZURE_APPSERVICE_PUBLISHPROFILE }}
+        package: .
+  deployToProduction:
+    name: Deploy to production
+    runs-on: windows-latest
+    needs: deployToStaging
     environment:
       name: 'Production'
       url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
     steps:
-      - name: Download artifact from build job
-        uses: actions/download-artifact@v2
-        with:
-          name: .net-app
-      - name: Deploy to Azure Web App
-        id: deploy-to-webapp
-        uses: azure/webapps-deploy@v2
-        with:
-          app-name: 'api-metis-prod-westeu-001'
-          slot-name: 'Production'
-          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_6CCE3DE67B65429E9930A698D8D397B8 }}
-          package: .
+    - name: Download artifact from build job
+      uses: actions/download-artifact@v2
+      with:
+        name: API
+    - name: Deploy to Azure Web App
+      id: deploy-to-webapp
+      uses: azure/webapps-deploy@v2
+      with:
+        app-name: 'api-metis-prod-westeu-001'
+        slot-name: 'Production'
+        publish-profile: ${{ secrets.AZURE_APPSERVICE_PUBLISHPROFILE }}
+        package: .
