@@ -50,15 +50,18 @@ jobs:
       with:
         languages: 'csharp' 
         queries: +security-and-quality
+        debug: true
     # - name: Autobuild
     #   uses: github/codeql-action/autobuild@v1
+    - run: |
+        dotnet build Metis.API/Metis.API.csproj --configuration Release
 
-    - name: Build with dotnet
-      run: dotnet build Metis.API/Metis.API.csproj --configuration Release
+    # - name: Build with dotnet
+    #   run: dotnet build Metis.API/Metis.API.csproj --configuration Release
     - name: Perform CodeQL Analysis
       uses: github/codeql-action/analyze@v1
       with:
-        checkout_path: Metis.API/
+        checkout_path: ${{ github.workspace }}/Metis.API/
 
     - name: dotnet publish
       run: dotnet publish Metis.API/Metis.API.csproj --configuration Release --output ${{env.DOTNET_ROOT}}/application
