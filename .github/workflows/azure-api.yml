@@ -55,7 +55,7 @@ jobs:
   deployToStaging:
     name: Deploy to staging
     runs-on: windows-latest
-    needs: build
+    needs: analyze
     environment:
       name: 'Staging'
       url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
@@ -75,7 +75,7 @@ jobs:
   deployToProduction:
     name: Deploy to production
     runs-on: windows-latest
-    needs: build
+    needs: deployToStaging
     environment:
       name: 'Production'
       url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
