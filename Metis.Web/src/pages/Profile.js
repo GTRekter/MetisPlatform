@@ -2,9 +2,9 @@ import React, { Component } from 'react';
 import UserService from '../services/UserService';
 import UserBasicInfoForm from '../components/UserBasicInfoForm';
 import PasswordChangeForm from '../components/PasswordChangeForm';
-import TwoFactorAuthenticationForm from '../components/TwoFactorAuthenticationForm';
-import SocialAccountsForm from '../components/SocialAccountsForm';
-import NotificationForm from '../components/NotificationForm';
+// import TwoFactorAuthenticationForm from '../components/TwoFactorAuthenticationForm';
+// import SocialAccountsForm from '../components/SocialAccountsForm';
+// import NotificationForm from '../components/NotificationForm';
 import JwtService from '../services/JwtService';
 
 export default class Profile extends Component {
