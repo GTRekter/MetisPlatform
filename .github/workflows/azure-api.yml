@@ -93,7 +93,7 @@ jobs:
       id: deploy-to-webapp
       uses: azure/webapps-deploy@v2
       with:
-        app-name: 'api-metis-prod-westeu-001'
-        slot-name: 'Production'
+        app-name: 'api-metis-prod'
+        # slot-name: 'Production'
         publish-profile: ${{ secrets.AZURE_APPSERVICE_PUBLISHPROFILE }}
         package: .
