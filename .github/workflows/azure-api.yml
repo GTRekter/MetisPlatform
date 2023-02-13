@@ -56,33 +56,33 @@ jobs:
       with:
         name: API
         path: ${{env.DOTNET_ROOT}}/application
-  deployToStaging:
-    name: Deploy to staging
-    runs-on: windows-latest
-    needs: analyze
-    environment:
-      name: 'Staging'
-      url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
-    steps:
-    - name: Download artifact from build job
-      uses: actions/download-artifact@v2
-      with:
-        name: API
-    - name: Deploy to Azure Web App
-      id: deploy-to-webapp
-      uses: azure/webapps-deploy@v2
-      with:
-        app-name: 'api-metis-prod-westeu-001'
-        slot-name: 'Production'
-        publish-profile: ${{ secrets.AZURE_APPSERVICE_PUBLISHPROFILE }}
-        package: .
+  # deployToStaging:
+  #   name: Deploy to staging
+  #   runs-on: windows-latest
+  #   needs: analyze
+  #   environment:
+  #     name: 'Staging'
+  #     url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
+  #   steps:
+  #   - name: Download artifact from build job
+  #     uses: actions/download-artifact@v2
+  #     with:
+  #       name: API
+  #   - name: Deploy to Azure Web App
+  #     id: deploy-to-webapp
+  #     uses: azure/webapps-deploy@v2
+  #     with:
+  #       app-name: 'api-metis-prod-westeu-001'
+  #       slot-name: 'Production'
+  #       publish-profile: ${{ secrets.AZURE_APPSERVICE_PUBLISHPROFILE }}
+  #       package: .
   deployToProduction:
     name: Deploy to production
     runs-on: windows-latest
     needs: deployToStaging
     environment:
       name: 'Production'
-      url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
+      # url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
     steps:
     - name: Download artifact from build job
       uses: actions/download-artifact@v2
