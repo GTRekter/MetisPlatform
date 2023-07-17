@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Identity;
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
 
-namespace Metis.Models.Store
+namespace Metis.API.Models.Store
 {
     public class User
     {

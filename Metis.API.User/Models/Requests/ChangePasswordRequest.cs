@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace Metis.Models.Requests
+namespace Metis.API.Models.Requests
 {
     public class ChangePasswordRequest
     {

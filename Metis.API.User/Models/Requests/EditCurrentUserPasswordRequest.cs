@@ -1,9 +1,9 @@
 using System;
+using System.Text;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Text;
 
-namespace Metis.Models.Requests
+namespace Metis.API.Models.Requests
 {
     public class EditCurrentUserPasswordRequest
     {

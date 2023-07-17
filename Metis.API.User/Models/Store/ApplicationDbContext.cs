@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Options;
 using MongoDB.Driver;
 
-namespace Metis.Models.Store
+namespace Metis.API.Models.Store
 {
     public class ApplicationDbContext
     {

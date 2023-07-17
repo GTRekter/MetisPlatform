@@ -5,9 +5,9 @@ using System.Collections.Generic;
 using Microsoft.AspNetCore.Identity;
 using MongoDB.Driver;
 using MongoDB.Bson;
-using Metis.Models.Store;
+using Metis.API.Models.Store;
 
-namespace Metis.Models.Managers
+namespace Metis.API.Models.Managers
 {
     public class UserManager
     {

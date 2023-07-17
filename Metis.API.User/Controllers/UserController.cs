@@ -7,24 +7,24 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
-using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting.Server;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
-using Metis.Models.Store;
-using Metis.Models.Requests;
-using Metis.Models.Managers;
-using Metis.Models;
 using SendGrid;
 using SendGrid.Helpers.Mail;
 using MongoDB.Bson;
+using Metis.API.Models;
+using Metis.API.Models.Store;
+using Metis.API.Models.Requests;
+using Metis.API.Models.Managers;
 
 namespace Metis.API.Controllers
 {
-    // [Authorize(AuthenticationSchemes = Microsoft.AspNetCore.Authentication.JwtBearer.JwtBearerDefaults.AuthenticationScheme)]
+    [Authorize(AuthenticationSchemes = Microsoft.AspNetCore.Authentication.JwtBearer.JwtBearerDefaults.AuthenticationScheme)]
     [ApiController]
     [Route("[controller]")]
     public class UserController : BaseController
@@ -66,7 +66,7 @@ namespace Metis.API.Controllers
         }
 
         [HttpPost]
-        // [Authorize(AuthenticationSchemes = Microsoft.AspNetCore.Authentication.JwtBearer.JwtBearerDefaults.AuthenticationScheme, Roles = "Administrator")]
+        [Authorize(AuthenticationSchemes = Microsoft.AspNetCore.Authentication.JwtBearer.JwtBearerDefaults.AuthenticationScheme, Roles = "Administrator")]
         [Route("AddUser")]
         public async Task<IActionResult> AddUserAsync(AddUserRequest model)
         {

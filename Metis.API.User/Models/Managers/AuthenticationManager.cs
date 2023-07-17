@@ -1,19 +1,19 @@
 using System;
 using System.Linq;
-using System.Collections.Generic;
-using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using System.Collections.Generic;
+using System.IdentityModel.Tokens.Jwt;
 using System.Text;
 using Microsoft.Extensions.Options;
-using Microsoft.IdentityModel.Tokens;
 using Microsoft.AspNetCore.Identity;
-using Metis.Models.Store;
+using Microsoft.IdentityModel.Tokens;
+using MongoDB.Bson;
 using MongoDB.Driver;
 using MongoDB.Driver.Linq;
-using MongoDB.Bson;
+using Metis.API.Models.Store;
 
-namespace Metis.Models.Managers
+namespace Metis.API.Models.Managers
 {
     public class AuthenticationManager
     {

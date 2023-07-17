@@ -1,18 +1,18 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Hosting.Server;
-using Microsoft.AspNetCore.Identity;
+using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Hosting.Server;
 using Microsoft.Extensions.Configuration;
-using Metis.Models.Store;
-using Metis.Models.Requests;
-using Metis.Models.Managers;
-using Metis.Models;
+using Metis.API.Models;
+using Metis.API.Models.Store;
+using Metis.API.Models.Requests;
+using Metis.API.Models.Managers;
 
 namespace Metis.API.Controllers
 {

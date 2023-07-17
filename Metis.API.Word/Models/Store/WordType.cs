@@ -1,15 +1,13 @@
-using System;
-using System.Linq;
+﻿using System.Linq;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using Microsoft.AspNetCore.Identity;
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
 
 namespace Metis.API.Models.Store
 {
-    public class Role
+    public class WordType
     {
         [BsonId]
         [BsonRepresentation(BsonType.Int32)]
@@ -20,8 +18,5 @@ namespace Metis.API.Models.Store
         public string Name { get; set; }
 
         public string Description { get; set; }
-
-        [BsonIgnore]
-        public ICollection<User> Users { get; set; }
     }
 }

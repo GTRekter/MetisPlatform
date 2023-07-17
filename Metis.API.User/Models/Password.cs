@@ -1,9 +1,9 @@
 using System;
+using System.Text;
 using System.Collections.Generic;
 using System.Security.Cryptography;
-using System.Text;
 
-namespace Metis.Models
+namespace Metis.API.Models
 {
     public static class Password
     {

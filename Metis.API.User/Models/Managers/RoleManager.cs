@@ -6,9 +6,9 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 using MongoDB.Driver;
-using Metis.Models.Store;
+using Metis.API.Models.Store;
 
-namespace Metis.Models.Managers
+namespace Metis.API.Models.Managers
 {
     public class RoleManager
     {
