@@ -17,7 +17,7 @@ class StudentService {
             languageId: languageId,
             lessons: lessons
         })
-        return HttpService.request('post', process.env.REACT_APP_API_BASEURL + "Student/AddStudent", body, headers);
+        return HttpService.request('post', process.env.REACT_APP_USER_API_BASEURL + "Student/AddStudent", body, headers);
     }
     editStudent(id, firstname, lastname, email, enabled, languageId, lessons) {
         let headers = {
@@ -35,7 +35,7 @@ class StudentService {
             languageId: languageId,
             lessons: lessons
         })
-        return HttpService.request('post', process.env.REACT_APP_API_BASEURL + "Student/EditStudent", body, headers);
+        return HttpService.request('post', process.env.REACT_APP_USER_API_BASEURL + "Student/EditStudent", body, headers);
     }
     getStudents() {
         let headers = {
@@ -44,7 +44,7 @@ class StudentService {
             'Access-Control-Allow-Origin': '*',
             'Authorization': 'Bearer ' + JwtService.getToken()
         };
-        return HttpService.request('get', process.env.REACT_APP_API_BASEURL + "Student/GetStudents", null, headers)
+        return HttpService.request('get', process.env.REACT_APP_USER_API_BASEURL + "Student/GetStudents", null, headers)
             .then(res => res.json());  
     }
     getStudentById(id) {
@@ -54,7 +54,7 @@ class StudentService {
             'Access-Control-Allow-Origin': '*',
             'Authorization': 'Bearer ' + JwtService.getToken()
         };
-        return HttpService.request('get', process.env.REACT_APP_API_BASEURL + "Student/GetStudentById?id=" + id, null, headers)
+        return HttpService.request('get', process.env.REACT_APP_USER_API_BASEURL + "Student/GetStudentById?id=" + id, null, headers)
             .then(res => res.json());  
     }
     getStudentsByPage(page, itemsPerPage) {
@@ -64,7 +64,7 @@ class StudentService {
             'Access-Control-Allow-Origin': '*',
             'Authorization': 'Bearer ' + JwtService.getToken()
         };
-        return HttpService.request('get', process.env.REACT_APP_API_BASEURL + "Student/GetStudentsByPage?page=" + page + "&itemsPerPage=" + itemsPerPage, null, headers)
+        return HttpService.request('get', process.env.REACT_APP_USER_API_BASEURL + "Student/GetStudentsByPage?page=" + page + "&itemsPerPage=" + itemsPerPage, null, headers)
             .then(res => res.json());  
     }
     getStudentsByPageAndSearchQuery(page, itemsPerPage, searchQuery) {
@@ -74,7 +74,7 @@ class StudentService {
             'Access-Control-Allow-Origin': '*',
             'Authorization': 'Bearer ' + JwtService.getToken()
         };
-        return HttpService.request('get', process.env.REACT_APP_API_BASEURL + "Student/getStudentsByPageAndSearchQuery?page=" + page + "&itemsPerPage=" + itemsPerPage + "&searchQuery=" + searchQuery, null, headers)
+        return HttpService.request('get', process.env.REACT_APP_USER_API_BASEURL + "Student/getStudentsByPageAndSearchQuery?page=" + page + "&itemsPerPage=" + itemsPerPage + "&searchQuery=" + searchQuery, null, headers)
             .then(res => res.json());  
     }
     getStudentsCount() {
@@ -84,7 +84,7 @@ class StudentService {
             'Access-Control-Allow-Origin': '*',
             'Authorization': 'Bearer ' + JwtService.getToken()
         };
-        return HttpService.request('get', process.env.REACT_APP_API_BASEURL + "Student/GetStudentsCount", null, headers)
+        return HttpService.request('get', process.env.REACT_APP_USER_API_BASEURL + "Student/GetStudentsCount", null, headers)
             .then(res => res.json());  
     }
     getActiveStudentsCount() {
@@ -94,7 +94,7 @@ class StudentService {
             'Access-Control-Allow-Origin': '*',
             'Authorization': 'Bearer ' + JwtService.getToken()
         };
-        return HttpService.request('get', process.env.REACT_APP_API_BASEURL + "Student/GetActiveStudentsCount", null, headers)
+        return HttpService.request('get', process.env.REACT_APP_USER_API_BASEURL + "Student/GetActiveStudentsCount", null, headers)
             .then(res => res.json());  
     }
     getStudentsBySearchQueryCount(searchQuery) {
@@ -104,7 +104,7 @@ class StudentService {
             'Access-Control-Allow-Origin': '*',
             'Authorization': 'Bearer ' + JwtService.getToken()
         };
-        return HttpService.request('get', process.env.REACT_APP_API_BASEURL + "Student/GetStudentsBySearchQueryCount?searchQuery=" + searchQuery, null, headers)
+        return HttpService.request('get', process.env.REACT_APP_USER_API_BASEURL + "Student/GetStudentsBySearchQueryCount?searchQuery=" + searchQuery, null, headers)
             .then(res => res.json());  
     }
     deleteStudentById(id) {
@@ -114,7 +114,7 @@ class StudentService {
             'Access-Control-Allow-Origin': '*',
             'Authorization': 'Bearer ' + JwtService.getToken()
         };
-        return HttpService.request('delete', process.env.REACT_APP_API_BASEURL + "Student/DeleteStudentById?id=" + id, null, headers);  
+        return HttpService.request('delete', process.env.REACT_APP_USER_API_BASEURL + "Student/DeleteStudentById?id=" + id, null, headers);  
     }
 }
 export default new StudentService();

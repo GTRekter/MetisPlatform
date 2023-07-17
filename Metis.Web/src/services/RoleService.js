@@ -9,7 +9,7 @@ class RoleService {
             'Access-Control-Allow-Origin': '*',
             'Authorization': 'Bearer ' + JwtService.getToken()
         };
-        return HttpService.request('get', process.env.REACT_APP_API_BASEURL + "Role/GetRoles", null, headers)
+        return HttpService.request('get', process.env.REACT_APP_USER_API_BASEURL + "Role/GetRoles", null, headers)
             .then(res => res.json());  
     }
 }

@@ -9,7 +9,7 @@ class WordTypeService {
             'Access-Control-Allow-Origin': '*',
             'Authorization': 'Bearer ' + JwtService.getToken()
         };
-        return HttpService.request('get', process.env.REACT_APP_API_BASEURL + "WordType/GetAllWordTypes", null, headers)
+        return HttpService.request('get', process.env.REACT_APP_WORD_API_BASEURL + "WordType/GetAllWordTypes", null, headers)
             .then(res => res.json());  
     }
 }

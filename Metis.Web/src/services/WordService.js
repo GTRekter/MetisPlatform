@@ -18,7 +18,7 @@ class WordService {
             example: example,
             translations: translations
         })
-        return HttpService.request('post', process.env.REACT_APP_API_BASEURL + "Word/AddWord", body, headers);  
+        return HttpService.request('post', process.env.REACT_APP_WORD_API_BASEURL + "Word/AddWord", body, headers);  
     }
     editWord(id, text, romanization, languageId, wordTypeId, description, example, translations) {
         let headers = {
@@ -37,7 +37,7 @@ class WordService {
             example: example,
             translations: translations
         })
-        return HttpService.request('post', process.env.REACT_APP_API_BASEURL + "Word/EditWord", body, headers);  
+        return HttpService.request('post', process.env.REACT_APP_WORD_API_BASEURL + "Word/EditWord", body, headers);  
     }
     deleteWordById(id) {
         let headers = {
@@ -46,7 +46,7 @@ class WordService {
             'Access-Control-Allow-Origin': '*',
             'Authorization': 'Bearer ' + JwtService.getToken()
         };
-        return HttpService.request('delete', process.env.REACT_APP_API_BASEURL + "Word/DeleteWordById?id=" + id, null, headers);
+        return HttpService.request('delete', process.env.REACT_APP_WORD_API_BASEURL + "Word/DeleteWordById?id=" + id, null, headers);
     }
     getWords() {
         let headers = {
@@ -55,7 +55,7 @@ class WordService {
             'Access-Control-Allow-Origin': '*',
             'Authorization': 'Bearer ' + JwtService.getToken()
         };
-        return HttpService.request('get', process.env.REACT_APP_API_BASEURL + "Word/GetWords", null, headers)
+        return HttpService.request('get', process.env.REACT_APP_WORD_API_BASEURL + "Word/GetWords", null, headers)
             .then(res => res.json());  
     }
     getWordsByCurrentUser() {
@@ -65,7 +65,7 @@ class WordService {
             'Access-Control-Allow-Origin': '*',
             'Authorization': 'Bearer ' + JwtService.getToken()
         };
-        return HttpService.request('get', process.env.REACT_APP_API_BASEURL + "Word/GetWordsByCurrentUser", null, headers)
+        return HttpService.request('get', process.env.REACT_APP_WORD_API_BASEURL + "Word/GetWordsByCurrentUser", null, headers)
             .then(res => res.json());  
     }
     getWordsByCurrentUserAndWordTypeId(wordTypeId) {
@@ -75,7 +75,7 @@ class WordService {
             'Access-Control-Allow-Origin': '*',
             'Authorization': 'Bearer ' + JwtService.getToken()
         };
-        return HttpService.request('get', process.env.REACT_APP_API_BASEURL + "Word/GetWordsByCurrentUserAndWordTypeId?wordTypeId=" + wordTypeId, null, headers)
+        return HttpService.request('get', process.env.REACT_APP_WORD_API_BASEURL + "Word/GetWordsByCurrentUserAndWordTypeId?wordTypeId=" + wordTypeId, null, headers)
             .then(res => res.json());  
     }
     getWordsByLanguageId(id) {
@@ -85,7 +85,7 @@ class WordService {
             'Access-Control-Allow-Origin': '*',
             'Authorization': 'Bearer ' + JwtService.getToken()
         };
-        return HttpService.request('get', process.env.REACT_APP_API_BASEURL + "Word/GetWordsByLanguageId?id=" + id, null, headers)
+        return HttpService.request('get', process.env.REACT_APP_WORD_API_BASEURL + "Word/GetWordsByLanguageId?id=" + id, null, headers)
             .then(res => res.json());  
     }
     getWordsByText(text) {
@@ -95,7 +95,7 @@ class WordService {
             'Access-Control-Allow-Origin': '*',
             'Authorization': 'Bearer ' + JwtService.getToken()
         };
-        return HttpService.request('get', process.env.REACT_APP_API_BASEURL + "Word/GetWordsByText?text=" + text, null, headers)
+        return HttpService.request('get', process.env.REACT_APP_WORD_API_BASEURL + "Word/GetWordsByText?text=" + text, null, headers)
             .then(res => res.json());  
     }
     getWordById(id) {
@@ -105,7 +105,7 @@ class WordService {
             'Access-Control-Allow-Origin': '*',
             'Authorization': 'Bearer ' + JwtService.getToken()
         };
-        return HttpService.request('get', process.env.REACT_APP_API_BASEURL + "Word/GetWordById?id=" + id, null, headers)
+        return HttpService.request('get', process.env.REACT_APP_WORD_API_BASEURL + "Word/GetWordById?id=" + id, null, headers)
             .then(res => res.json());  
     }
     getWordsByPage(page, itemsPerPage) {
@@ -115,7 +115,7 @@ class WordService {
             'Access-Control-Allow-Origin': '*',
             'Authorization': 'Bearer ' + JwtService.getToken()
         };
-        return HttpService.request('get', process.env.REACT_APP_API_BASEURL + "Word/GetWordsByPage?page=" + page + "&itemsPerPage=" + itemsPerPage, null, headers)
+        return HttpService.request('get', process.env.REACT_APP_WORD_API_BASEURL + "Word/GetWordsByPage?page=" + page + "&itemsPerPage=" + itemsPerPage, null, headers)
             .then(res => res.json());  
     }   
     getWordsByCurrentUserAndPage(page, itemsPerPage) {
@@ -125,7 +125,7 @@ class WordService {
             'Access-Control-Allow-Origin': '*',
             'Authorization': 'Bearer ' + JwtService.getToken()
         };
-        return HttpService.request('get', process.env.REACT_APP_API_BASEURL + "Word/GetWordsByCurrentUserAndPage?page=" + page + "&itemsPerPage=" + itemsPerPage, null, headers)
+        return HttpService.request('get', process.env.REACT_APP_WORD_API_BASEURL + "Word/GetWordsByCurrentUserAndPage?page=" + page + "&itemsPerPage=" + itemsPerPage, null, headers)
             .then(res => res.json());  
     }
     getWordsByPageAndSearchQuery(page, itemsPerPage, searchQuery) {
@@ -135,7 +135,7 @@ class WordService {
             'Access-Control-Allow-Origin': '*',
             'Authorization': 'Bearer ' + JwtService.getToken()
         };
-        return HttpService.request('get', process.env.REACT_APP_API_BASEURL + "Word/getWordsByPageAndSearchQuery?page=" + page + "&itemsPerPage=" + itemsPerPage + "&searchQuery=" + searchQuery, null, headers)
+        return HttpService.request('get', process.env.REACT_APP_WORD_API_BASEURL + "Word/getWordsByPageAndSearchQuery?page=" + page + "&itemsPerPage=" + itemsPerPage + "&searchQuery=" + searchQuery, null, headers)
             .then(res => res.json());  
     }
     getWordsByCurrentUserAndPageAndSearchQuery(page, itemsPerPage, searchQuery) {
@@ -145,7 +145,7 @@ class WordService {
             'Access-Control-Allow-Origin': '*',
             'Authorization': 'Bearer ' + JwtService.getToken()
         };
-        return HttpService.request('get', process.env.REACT_APP_API_BASEURL + "Word/GetWordsByCurrentUserAndPageAndSearchQuery?page=" + page + "&itemsPerPage=" + itemsPerPage + "&searchQuery=" + searchQuery, null, headers)
+        return HttpService.request('get', process.env.REACT_APP_WORD_API_BASEURL + "Word/GetWordsByCurrentUserAndPageAndSearchQuery?page=" + page + "&itemsPerPage=" + itemsPerPage + "&searchQuery=" + searchQuery, null, headers)
             .then(res => res.json());  
     }
     getWordsCount() {
@@ -155,7 +155,7 @@ class WordService {
             'Access-Control-Allow-Origin': '*',
             'Authorization': 'Bearer ' + JwtService.getToken()
         };
-        return HttpService.request('get', process.env.REACT_APP_API_BASEURL + "Word/GetWordsCount", null, headers)
+        return HttpService.request('get', process.env.REACT_APP_WORD_API_BASEURL + "Word/GetWordsCount", null, headers)
             .then(res => res.json());  
     }
     getWordsByCurrentUserCount() {
@@ -165,7 +165,7 @@ class WordService {
             'Access-Control-Allow-Origin': '*',
             'Authorization': 'Bearer ' + JwtService.getToken()
         };
-        return HttpService.request('get', process.env.REACT_APP_API_BASEURL + "Word/GetWordsByCurrentUserCount", null, headers)
+        return HttpService.request('get', process.env.REACT_APP_WORD_API_BASEURL + "Word/GetWordsByCurrentUserCount", null, headers)
             .then(res => res.json());  
     }
     getWordsBySearchQueryCount(searchQuery) {
@@ -175,7 +175,7 @@ class WordService {
             'Access-Control-Allow-Origin': '*',
             'Authorization': 'Bearer ' + JwtService.getToken()
         };
-        return HttpService.request('get', process.env.REACT_APP_API_BASEURL + "Word/GetWordsBySearchQueryCount?searchQuery=" + searchQuery, null, headers)
+        return HttpService.request('get', process.env.REACT_APP_WORD_API_BASEURL + "Word/GetWordsBySearchQueryCount?searchQuery=" + searchQuery, null, headers)
             .then(res => res.json());  
     }
     getWordsByCurrentUserAndSearchQueryCount(searchQuery) {
@@ -185,7 +185,7 @@ class WordService {
             'Access-Control-Allow-Origin': '*',
             'Authorization': 'Bearer ' + JwtService.getToken()
         };
-        return HttpService.request('get', process.env.REACT_APP_API_BASEURL + "Word/GetWordsByCurrentUserAndSearchQueryCount?searchQuery=" + searchQuery, null, headers)
+        return HttpService.request('get', process.env.REACT_APP_WORD_API_BASEURL + "Word/GetWordsByCurrentUserAndSearchQueryCount?searchQuery=" + searchQuery, null, headers)
             .then(res => res.json());  
     }
     importWordsFromFile(file) {
@@ -198,7 +198,7 @@ class WordService {
             'Authorization': 'Bearer ' + JwtService.getToken()
         };
         let body = formData
-        return HttpService.request('post', process.env.REACT_APP_API_BASEURL + "Word/ImportWordsFromFile", body, headers);  
+        return HttpService.request('post', process.env.REACT_APP_WORD_API_BASEURL + "Word/ImportWordsFromFile", body, headers);  
     }
     downloadImportTemplate() {
         let headers = {
@@ -207,7 +207,7 @@ class WordService {
             'Access-Control-Allow-Origin': '*',
             'Authorization': 'Bearer ' + JwtService.getToken()
         };
-        return HttpService.request('get', process.env.REACT_APP_API_BASEURL + "Word/DownloadImportTemplate", null, headers);  
+        return HttpService.request('get', process.env.REACT_APP_WORD_API_BASEURL + "Word/DownloadImportTemplate", null, headers);  
     }
     
 }
